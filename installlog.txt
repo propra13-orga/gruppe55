@@ -1,0 +1,200 @@
+﻿Welcome to Git (version 1.8.1.2-preview20130201)
+
+
+Run 'git help git' to display the help index.
+Run 'git help <command>' to display help for specific commands.
+Urahara@BENIHIME ~
+$ git config --global user.name "mvmeegen"
+Urahara@BENIHIME ~
+$ git help
+usage: git [--version] [--exec-path[=<path>]] [--html-path] [--man-path] [--i
+-path]
+           [-p|--paginate|--no-pager] [--no-replace-objects] [--bare]
+           [--git-dir=<path>] [--work-tree=<path>] [--namespace=<name>]
+           [-c name=value] [--help]
+           <command> [<args>]
+
+The most commonly used git commands are:
+   add        Add file contents to the index
+   bisect     Find by binary search the change that introduced a bug
+   branch     List, create, or delete branches
+   checkout   Checkout a branch or paths to the working tree
+   clone      Clone a repository into a new directory
+   commit     Record changes to the repository
+   diff       Show changes between commits, commit and working tree, etc
+   fetch      Download objects and refs from another repository
+   grep       Print lines matching a pattern
+   init       Create an empty git repository or reinitialize an existing one
+   log        Show commit logs
+   merge      Join two or more development histories together
+   mv         Move or rename a file, a directory, or a symlink
+   pull       Fetch from and merge with another repository or a local branch
+   push       Update remote refs along with associated objects
+   rebase     Forward-port local commits to the updated upstream head
+   reset      Reset current HEAD to the specified state
+   rm         Remove files from the working tree and from the index
+   show       Show various types of objects
+   status     Show the working tree status
+   tag        Create, list, delete or verify a tag object signed with GPG
+
+See 'git help <command>' for more information on a specific command.
+Urahara@BENIHIME ~
+$ git config
+usage: git config [options]
+
+Config file location
+    --global              use global config file
+    --system              use system config file
+    --local               use repository config file
+    -f, --file <file>     use given config file
+
+Action
+    --get                 get value: name [value-regex]
+    --get-all             get all values: key [value-regex]
+    --get-regexp          get values for regexp: name-regex [value-regex]
+    --replace-all         replace all matching variables: name value [value_r
+x]
+    --add                 add a new variable: name value
+    --unset               remove a variable: name [value-regex]
+    --unset-all           remove all matches: name [value-regex]
+    --rename-section      rename section: old-name new-name
+    --remove-section      remove a section: name
+    -l, --list            list all
+    -e, --edit            open an editor
+    --get-color <slot>    find the color configured: [default]
+    --get-colorbool <slot>
+                          find the color setting: [stdout-is-tty]
+
+Type
+    --bool                value is "true" or "false"
+    --int                 value is decimal number
+    --bool-or-int         value is --bool or --int
+    --path                value is a path (file or directory name)
+
+Other
+    -z, --null            terminate values with NUL byte
+    --includes            respect include directives on lookup
+
+Urahara@BENIHIME ~
+$ git config --global user.email "markus.van.meegen@uni-duesseldorf.de"
+Urahara@BENIHIME ~
+$ cd D:\eclipse\Projekte\Gruppe55\src
+sh.exe": cd: D:eclipseProjekteGruppe55src: No such file or directory
+Urahara@BENIHIME ~
+$ D:\eclipse\Projekte\Gruppe55\src
+sh.exe": D:eclipseProjekteGruppe55src: command not found
+Urahara@BENIHIME ~
+$ cd D:
+Urahara@BENIHIME /d
+$ cd eclipse
+Urahara@BENIHIME /d/eclipse
+$ cd Projekte\Gruppe55\src
+sh.exe": cd: ProjekteGruppe55src: No such file or directory
+Urahara@BENIHIME /d/eclipse
+$ cd Projekte
+Urahara@BENIHIME /d/eclipse/Projekte
+$ cd Gruppe55
+Urahara@BENIHIME /d/eclipse/Projekte/Gruppe55 (master)
+$ d src
+sh.exe": d: command not found
+Urahara@BENIHIME /d/eclipse/Projekte/Gruppe55 (master)
+$ cd src
+Urahara@BENIHIME /d/eclipse/Projekte/Gruppe55/src (master)
+$ touch README.md
+Urahara@BENIHIME /d/eclipse/Projekte/Gruppe55/src (master)
+$ git add README.md
+Urahara@BENIHIME /d/eclipse/Projekte/Gruppe55/src (master)
+$ git clone https://github.com/propra13-orga/gruppe55.git
+Cloning into 'gruppe55'...
+remote: Counting objects: 3, done.
+remote: Total 3 (delta 0), reused 3 (delta 0)
+Unpacking objects: 100% (3/3), done.
+Urahara@BENIHIME /d/eclipse/Projekte/Gruppe55/src (master)
+$ cd ..
+Urahara@BENIHIME /d/eclipse/Projekte/Gruppe55 (master)
+$ cd ..
+Urahara@BENIHIME /d/eclipse/Projekte
+$ git clone https://github.com/propra13-orga/gruppe55.git
+fatal: destination path 'gruppe55' already exists and is not an empty directo
+
+Urahara@BENIHIME /d/eclipse/Projekte
+$ cd gruppe55
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55 (master)
+$ cd src
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55/src (master)
+$ git clone https://github.com/propra13-orga/gruppe55.git
+Cloning into 'gruppe55'...
+remote: Counting objects: 3, done.
+remote: Total 3 (delta 0), reused 3 (delta 0)
+Unpacking objects: 100% (3/3), done.
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55/src (master)
+$ git pull https://github.com/propra13-orga/gruppe55.git
+remote: Counting objects: 6, done.
+remote: Compressing objects: 100% (4/4), done.
+remote: Total 6 (delta 0), reused 6 (delta 0)
+Unpacking objects: 100% (6/6), done.
+From https://github.com/propra13-orga/gruppe55
+ * branch            HEAD       -> FETCH_HEAD
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55/src (master)
+$ cd ..
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55 (master)
+$ git add Readme
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55 (master)
+$ git commit -m "mvm test"
+# On branch master
+# Untracked files:
+#   (use "git add <file>..." to include in what will be committed)
+#
+#       .classpath
+#       Readme.txt
+#       src/
+nothing added to commit but untracked files present (use "git add" to track)
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55 (master)
+$ git add Readme.txt
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55 (master)
+$ git commit -m "mvm test"
+[master 5eb8d52] mvm test
+ 1 file changed, 3 insertions(+)
+ create mode 100644 Readme.txt
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55 (master)
+$ push -u origin master
+sh.exe": push: command not found
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55 (master)
+$ git push -u origin master
+fatal: 'origin' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55 (master)
+$ git push -u origin master
+fatal: 'origin' does not appear to be a git repository
+fatal: Could not read from remote repository.
+
+Please make sure you have the correct access rights
+and the repository exists.
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55 (master)
+$ git remote add origin https://github.com/propra13-orga/gruppe55.git
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55 (master)
+$
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55 (master)
+$
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55 (master)
+$ git push -u origin master           .com/propr
+Username for 'https://github.com': mvmeegen
+Password for 'https://mvmeegen@github.com':
+fatal: Authentication failed
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55 (master)
+$ git push -u origin master
+Username for 'https://github.com': mvmeegen
+Password for 'https://mvmeegen@github.com':
+Counting objects: 4, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 338 bytes, done.
+Total 3 (delta 0), reused 0 (delta 0)
+To https://github.com/propra13-orga/gruppe55.git
+   8b72507..5eb8d52  master -> master
+Branch master set up to track remote branch master from origin.
+Urahara@BENIHIME /d/eclipse/Projekte/gruppe55 (master)
+$
