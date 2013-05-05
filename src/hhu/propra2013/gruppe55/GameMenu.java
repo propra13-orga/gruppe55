@@ -7,17 +7,18 @@ import java.awt.event.*;
 public class GameMenu extends JFrame implements ActionListener{	//ActionListener implementiert
 
 	private static final long serialVersionUID = 1L;
-
+	
 	static GameWindow gw;										//Deklarationen
 	JButton start, ende;
 	
 	public static void main(String[] args) {
 		GameMenu gm = new GameMenu();							//Menü und Spielfenster konstruieren
 		gw = new GameWindow();
+		
 	}
 	
 	public GameMenu(){											//Konstruktor dieser Klasse
-		super("Spielmenü");										//Aufruf des JFrame-Konstruktors
+		super("Spielmenue");									//Aufruf des JFrame-Konstruktors
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new GridLayout(2,1));					//1,2 GridLayout
 		
@@ -32,6 +33,7 @@ public class GameMenu extends JFrame implements ActionListener{	//ActionListener
 		this.setSize(200,50);
 		this.setResizable(false);
 		this.setVisible(true);
+		this.setLocationRelativeTo(null); 						//im Bildschirm zentriert
 	}
 
 	@Override

@@ -6,17 +6,20 @@ import javax.swing.*;
 public class GameWindow extends JFrame implements KeyListener, ActionListener{	//Key&ActionListener einbinden
 	
 	private static final long serialVersionUID = 1L;
-	private Level01 lvl01;														//1. Level deklarieren
+	private Level01 lvl01; 														//1. Level deklarieren
+	public Spieler Spieler;
 	
 	public GameWindow(){														//Konstruktor dieser Klasse
 		super("Game");
+		
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.addKeyListener(this);												//KeyListener adden
 		lvl01 = new Level01();													//1. Level konstruieren & adden
 		this.getContentPane().add(lvl01);
 		this.pack();															//Fenstereigenschaften setzen
-		this.setSize(800, 800);
+		this.setSize(900, 900);
 		this.setResizable(false);
+		this.setLocationRelativeTo(null);										//Spielfeld zentriert
 	}
 
 	@Override
@@ -27,7 +30,7 @@ public class GameWindow extends JFrame implements KeyListener, ActionListener{	/
 		if(e.getKeyCode() == KeyEvent.VK_RIGHT){}								//Rechts gedrückt
 		else if(e.getKeyCode() == KeyEvent.VK_LEFT){}							//Links gedrückt
 		else if(e.getKeyCode() == KeyEvent.VK_UP){}								//Hoch gedrückt
-		else {}																	//Runter gedrückt
+		else {}																//Runter gedrückt
 		lvl01.repaint();														//Level neuzeichnen
 	}
 
@@ -35,6 +38,6 @@ public class GameWindow extends JFrame implements KeyListener, ActionListener{	/
 	public void keyReleased(KeyEvent e) {}
 
 	@Override
-	public void actionPerformed(ActionEvent e) {}								//ActionListenerfunktion
+	public void actionPerformed(ActionEvent arg0) {}								//ActionListenerfunktion
 
 }
