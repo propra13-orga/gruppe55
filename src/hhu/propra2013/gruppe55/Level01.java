@@ -7,14 +7,14 @@ public class Level01 extends JPanel{
 	
 	private static final long serialVersionUID = 1L;
 
-	private Spieler Spieler;
+	private Spieler spieler;
 	
 	
 	
 	public Level01(){									//Konstruktor dieser Klasse
 		super();
-		Spieler = new Spieler();
-		this.setSize(900, 900);
+		spieler = new Spieler();
+		this.setSize(800, 800);
 		this.setBackground(new Color(255,211,155));		//Hintergrundfarbe ("Boden")
 		
 	}
@@ -33,8 +33,7 @@ public class Level01 extends JPanel{
 		g2d.fillRect(0, 620, 450, 80);
 		g2d.fillRect(200, 200, 400, 80);
 		
-		
-		g2d.drawImage(Spieler.getImage(), Spieler.getx(), Spieler.gety(), this); // Spielfigur zeichnen
+		g2d.drawImage(spieler.getImage(), spieler.getx(), spieler.gety(), this); // Spielfigur zeichnen
 		
 	}
 }
