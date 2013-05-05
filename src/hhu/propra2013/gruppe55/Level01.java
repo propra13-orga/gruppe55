@@ -25,13 +25,13 @@ public class Level01 extends JPanel{
 		Graphics2D g2d = (Graphics2D) g;				//Graphics2D Objekt konstruieren	
 														//Level1 zeichnen
 		g2d.setColor(Color.BLACK);						//Wandfarbe
-		g2d.fillRect(0, 0, 900, 80);					//Obere Wand
-		g2d.fillRect(0, 795, 900, 80);					//Untere Wand
-		g2d.fillRect(820, 0, 80, 900);					//Rechte Wand
-		g2d.fillRect(0, 0, 80, 700);					//Linke Wand
-		g2d.fillRect(550, 200, 80, 600);				//"Labyrinth" 
-		g2d.fillRect(0, 620, 450, 80);
-		g2d.fillRect(200, 200, 400, 80);
+		g2d.fillRect(0, 0, 800, 50);					//Obere Wand
+		g2d.fillRect(0, 725, 800, 50);					//Untere Wand
+		g2d.fillRect(745, 0, 50, 800);					//Rechte Wand
+		g2d.fillRect(0, 0, 50, 580);					//Linke Wand
+		g2d.fillRect(550, 200, 50, 600);				//"Labyrinth" 
+		g2d.fillRect(0, 580, 450, 50);
+		g2d.fillRect(200, 200, 400, 50);
 		
 		g2d.drawImage(spieler.getImage(), spieler.getx(), spieler.gety(), this); // Spielfigur zeichnen
 		

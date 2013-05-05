@@ -16,8 +16,8 @@ public class Spieler {
 	
 	public Spieler() {
 		image = Toolkit.getDefaultToolkit().getImage("player.png");
-		x = 700;
-		y = 700;					
+		x = 650;
+		y = 650;					
 	}
 	
 	
