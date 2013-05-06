@@ -1,3 +1,4 @@
+// redundant
 package hhu.propra2013.gruppe55;
 
 import javax.swing.*;	//Imports

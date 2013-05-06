@@ -4,25 +4,55 @@ import java.awt.event.*;	//Imports
 
 import javax.swing.*;
 
-public class GameWindow extends JFrame implements KeyListener, ActionListener{	//Key&ActionListener einbinden
-	
+public class GameWindow extends JFrame /*implements ActionListener, KeyListener*/{	//Key&ActionListener einbinden
+// attributes
+	// frame properties
+	private String gameTitle	=	"SuperAwesomeGameYeah";	// TODO think of interesting title, though this is an interesting title indeed
+	private int width	=	13*32;	// width in pixels
+	private int height	=	10*32-5;	// height in pixels
+	// eclipse thinks this is necessary
 	private static final long serialVersionUID = 1L;
-	private Level01 lvl01; 														//1. Level deklarieren
-	
-	public GameWindow(){														//Konstruktor dieser Klasse
-		super("Game");
-		
+	// level management
+	private Level[] levels;			// Array that contains our levels for quick switching
+	private int maxLevels	=	1;	// number of levels in total
+	private int actLevel;			// index pointer to the actual level
+	//private Level01 lvl01; 														//1. Level deklarieren
+
+// constructor
+	public GameWindow(){
+		// set title, call super constructor of JFrame
+		super();	// why the hell does super(gameTitle); not work? =(
+		setTitle(gameTitle);
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		this.addKeyListener(this);												//KeyListener adden
-		lvl01 = new Level01();													//1. Level konstruieren & adden
-		this.getContentPane().add(lvl01);
+		
+		// load levels
+		levels	=	new Level[maxLevels];
+		for(int i=0; i<maxLevels; i++)
+			levels[i]	=	new Level(i);
+		
+		// set pointer to first level
+		actLevel	=	0;/**/
+		
+		// add first level
+		add(levels[actLevel]);
+		
+		// set frame properties
+		//this.addKeyListener(this);												//KeyListener adden
+		//lvl01 = new Level01();													//1. Level konstruieren & adden
+		//this.getContentPane().add(lvl01);
 		this.pack();															//Fenstereigenschaften setzen
-		this.setSize(800, 800);
+		this.setSize(width, height);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);										//Spielfeld zentriert
+		//setVisible(true);
 	}
 
+	
+	/*
 	@Override
+	public void actionPerformed(ActionEvent e) {								//ActionListenerfunktion
+		//
+	}
 	public void keyTyped(KeyEvent e) {}											//KeyListenerfunktionen
 
 	@Override
@@ -37,8 +67,5 @@ public class GameWindow extends JFrame implements KeyListener, ActionListener{	/
 	@Override
 	public void keyReleased(KeyEvent e) {}
 
-	@Override
-	public void actionPerformed(ActionEvent e) {								//ActionListenerfunktion
-	}
-
+	*/
 }

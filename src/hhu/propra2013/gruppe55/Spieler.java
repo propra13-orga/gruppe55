@@ -1,3 +1,4 @@
+// redundant
 package hhu.propra2013.gruppe55;
 
 import java.awt.*;
@@ -17,7 +18,7 @@ public class Spieler {
 	public Spieler() {
 		image = Toolkit.getDefaultToolkit().getImage("player.png");
 		x = 650;
-		y = 650;					
+		y = 650;
 	}
 	
 	
@@ -51,17 +52,5 @@ public class Spieler {
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {dy = 0;}
 		if (e.getKeyCode() == KeyEvent.VK_UP) {dy = 0;}
 	}
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
 	
 }

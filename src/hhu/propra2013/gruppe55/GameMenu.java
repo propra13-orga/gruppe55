@@ -14,7 +14,7 @@ public class GameMenu extends JFrame implements ActionListener{	//ActionListener
 	public static void main(String[] args) {
 		GameMenu gm = new GameMenu();							//Menue und Spielfenster konstruieren
 		gw = new GameWindow();
-	}
+	}/**/
 	
 	public GameMenu(){											//Konstruktor dieser Klasse
 		super("Spielmenue");									//Aufruf des JFrame-Konstruktors
@@ -29,7 +29,7 @@ public class GameMenu extends JFrame implements ActionListener{	//ActionListener
 		this.getContentPane().add(start);						//JButtons adden
 		this.getContentPane().add(ende);
 		this.pack();											//Fenstereigenschaften setzen
-		this.setSize(200,50);
+		this.setSize(400,300);
 		this.setResizable(false);
 		this.setVisible(true);
 		this.setLocationRelativeTo(null); 						//im Bildschirm zentriert
