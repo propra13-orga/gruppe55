@@ -1,7 +1,7 @@
 package hhu.propra2013.gruppe55;
 
 public abstract class LivingObject extends DungeonObject {
-// attributes
+
 	// hitpoint management
 	protected int hp, hpMax;	// actual and maximal hit points of this object
 	// movement
@@ -16,16 +16,14 @@ public abstract class LivingObject extends DungeonObject {
 		// modify state-array
 		state	=	new State[2];
 		// dead state
-		state[0]	=	new State(imgPath, false, true, false);
+		state[0] = new State(imgPath, false, true, false);
 		// alive
-		state[1]	=	new State(imgPath, true, false, true);
+		state[1] = new State(imgPath, true, false, true);
 		
 		// start as living thing
 		actState	=	1;
 		
 	}
-	
-// methods
 	
 	// getting a hit
 	public void getHit(){
@@ -53,7 +51,5 @@ public abstract class LivingObject extends DungeonObject {
 	}
 	
 	// read hit points externally
-	public int getHP(){
-		return hp;
-	}
+	public int getHP(){return hp;}
 }

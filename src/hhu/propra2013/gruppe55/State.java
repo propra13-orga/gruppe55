@@ -5,10 +5,10 @@ import java.awt.Image;
 import javax.swing.ImageIcon;
 
 public class State {
-// attributes
+
 	// image
 	public Image img;				// the image displayed while this state is active
-	// properties controlled by this state
+									// properties controlled by this state
 	public boolean moveable;		// allows movement?
 	public boolean massive;			// does it stop the player on moving through?
 	public boolean visible;			// img visible?

@@ -4,7 +4,6 @@ public class WallObject extends DungeonObject {
 
 	public WallObject(int x, int y) {
 		super(x, y);
-		// well, nothig to do here
 	}
 
 }

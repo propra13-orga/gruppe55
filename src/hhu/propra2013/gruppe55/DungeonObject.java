@@ -17,7 +17,7 @@ public abstract class DungeonObject {
 	protected State[] state;
 	protected int actState;
 	protected int width;	// breite
-	protected int height;	// höhe
+	protected int height;	// hï¿½he
 	
 // Konstruktor
 		// x, y: coordinates to spawn
@@ -35,17 +35,6 @@ public abstract class DungeonObject {
 	
 // Methoden
 	
-/*	// Bilder laden
-		// seperate Funktion, falls sie in unterklassen komplexer wird
-	protected void imgLoad(){
-		/*ImageIcon ic	=	new ImageIcon(imgPath);
-		img	=	ic.getImage(); *//*
-		state[actState]	=	new State(imgPath, false, true, true);
-		// Breite und Höhe bestimmen
-		width	=	state[actState].img.getWidth(null);
-		height	=	state[actState].img.getHeight(null);
-	}*/
-	
 	// spezielle Kollisionsbehandlung
 	protected void onCollision(DungeonObject d){
 		// standard for non dangerous objects
@@ -59,30 +48,20 @@ public abstract class DungeonObject {
 		// viable input?
 		if(s>=state.length)
 			return;
-		
 		actState	=	s;
-		
-		// breite und höhe bestimmen
+		// breite und Hoehe bestimmen
 		width	=	state[actState].img.getWidth(null);
 		height	=	state[actState].img.getHeight(null);
 	}
 
 // following methods are relevant for the level methods paint and collisionCheck
 	// x wert ausgeben
-	public int getX(){
-		return x;
-	}
+	public int getX(){return x;}
 	// y wert ausgeben
-	public int getY(){
-		return y;
-	}
+	public int getY(){return y;}
 	// bild ausgeben
-	public Image getImg(){
-		return state[actState].img;
-	}
+	public Image getImg(){return state[actState].img;}
 	// rahmen ausgeben
-	public Rectangle getBorder(){
-		return new Rectangle(x, y, width, height);
-	}
+	public Rectangle getBorder(){return new Rectangle(x, y, width, height);}
 	
 }

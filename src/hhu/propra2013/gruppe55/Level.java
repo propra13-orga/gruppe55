@@ -14,17 +14,17 @@ import javax.swing.JPanel;
 import javax.swing.Timer;
 
 public class Level extends JPanel implements ActionListener {
-// attributes
+
 	// Levelobjekte
-	private Player player;			// Spielerobjekt
+	private Player player;							// Spielerobjekt
 	private ArrayList<Creature> creatureList;		// liste der Gegner
-	private ArrayList<DungeonObject> staticList;	// liste der Wände/Gegenstände/etc
+	private ArrayList<DungeonObject> staticList;	// liste der Waende/Gegenstaende/etc
 	// actions timer
 	private Timer timer;
 	
 // constructor
 	public Level(int lvlNum) {
-		// TODO Konstruktor: Hier dann irgendwie später mal ne syntax, die das level aus ner datei läd
+		// TODO Konstruktor: Hier dann irgendwie spï¿½ter mal ne syntax, die das level aus ner datei lï¿½d
 		// vorerst fixes test level
 		
 		// Spieler initialisieren
@@ -110,7 +110,7 @@ public class Level extends JPanel implements ActionListener {
 // methods	
 	/*
 	 * Kollisionsabfrage zwischen den Dungeonobjekten aus staticList und creatureList
-	 * bei Spielerkollision wird .onCollision(player) des jeweiligen Listenelements aufgerufen für spezielle Kollisionsbehandlung
+	 * bei Spielerkollision wird .onCollision(player) des jeweiligen Listenelements aufgerufen fï¿½r spezielle Kollisionsbehandlung
 	 */
 	private void collisionCheck(){
 		// check staticList for player and creatures and creatures to player
@@ -133,10 +133,10 @@ public class Level extends JPanel implements ActionListener {
 	}
 	
 	/*
-	 * Zeichenmethode für das Level
+	 * Zeichenmethode fï¿½r das Level
 	 */
 	public void paint(Graphics g){
-		// aufruf ursprünglicher Funktion
+		// aufruf ursprï¿½nglicher Funktion
 		super.paint(g);
 		// wir arbeiten mit Java2d
 		Graphics2D g2d = (Graphics2D)g;
@@ -161,7 +161,7 @@ public class Level extends JPanel implements ActionListener {
 	 * (non-Javadoc)
 	 * @see java.awt.event.ActionListener#actionPerformed(java.awt.event.ActionEvent)
 	 * 
-	 * Wird vom timer aufgerufen. Lässt mögliche bewegungen berechnen, ruft die Kollisionsabfrage auf und zeichnet das Feld neu
+	 * Wird vom timer aufgerufen. Lï¿½sst mï¿½gliche bewegungen berechnen, ruft die Kollisionsabfrage auf und zeichnet das Feld neu
 	 */
 	public void actionPerformed(ActionEvent e) {
 		// Spielerbewegung

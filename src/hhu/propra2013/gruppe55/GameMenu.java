@@ -14,7 +14,7 @@ public class GameMenu extends JFrame implements ActionListener{	//ActionListener
 	public static void main(String[] args) {
 		GameMenu gm = new GameMenu();							//Menue und Spielfenster konstruieren
 		gw = new GameWindow();
-	}/**/
+	}
 	
 	public GameMenu(){											//Konstruktor dieser Klasse
 		super("Spielmenue");									//Aufruf des JFrame-Konstruktors

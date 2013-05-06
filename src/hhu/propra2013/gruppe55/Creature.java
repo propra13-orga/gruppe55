@@ -1,7 +1,5 @@
 package hhu.propra2013.gruppe55;
 
-import java.awt.event.KeyEvent;
-
 public class Creature extends LivingObject {
 // attributes
 	// images
@@ -27,11 +25,11 @@ public class Creature extends LivingObject {
 		dx=1;
 	}
     
-    // TODO: Methode für Bewegung überdenken
+    // TODO: Methode fï¿½r Bewegung ï¿½berdenken
     public void move(){
 		// bewegung errechnen
 		if(dx==1 && x>=sx+moveAreaX) // zu weit rechts
-			if(y>sy-moveAreaY){ // nach oben, wenn gewünscht
+			if(y>sy-moveAreaY){ // nach oben, wenn gewï¿½nscht
 				dx=0;
 				dy=-1;
 			}
@@ -59,7 +57,7 @@ public class Creature extends LivingObject {
 			else // wieder rauf
 				dy=-1;
     	
-		// bewegung ausführen
+		// bewegung ausfï¿½hren
 		super.move();
     }
     
