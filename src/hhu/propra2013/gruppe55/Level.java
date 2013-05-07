@@ -28,7 +28,7 @@ public class Level extends JPanel implements ActionListener {
 		// vorerst fixes test level
 		
 		// Spieler initialisieren
-		player	=	new Player(290, 220);
+		player	=	new Player(290, 215);
 		
 		// TODO Konstruktor: staticList und creatureList generieren
 
