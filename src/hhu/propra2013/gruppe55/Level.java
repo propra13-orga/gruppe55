@@ -28,13 +28,41 @@ public class Level extends JPanel implements ActionListener {
 		// vorerst fixes test level
 		
 		// Spieler initialisieren
-		player	=	new Player(290, 215);
+		//player	=	new Player(290, 215);
 		
 		// TODO Konstruktor: staticList und creatureList generieren
 
+		//1: Wall
+		//2: Creature
+		//3: Player
+		//4: Ziel
+		int[][] levelData = 
+			{{1,1,1,1,1,1,1,1,1,1,1,1,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,1,1,1,1,1,1,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,1,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,1,0,0,0,0,1},
+			 {1,2,0,0,0,0,0,1,0,0,0,0,1},
+			 {1,1,1,1,1,1,0,1,0,0,3,0,1},
+			 {4,0,0,0,0,0,0,1,0,0,0,0,1},
+			 {1,1,1,1,1,1,1,1,1,1,1,1,1}};
 		// generate staticList
-		staticList	=	new ArrayList<DungeonObject>(1);
-		staticList.add(new WallObject(0, 0));
+		staticList		=	new ArrayList<DungeonObject>(1);
+		creatureList	=	new ArrayList<Creature>(1);
+		//System.out.println(levelData[0].length);
+		for(int i=0;i<=levelData.length-1;i++){
+			for(int j=0;j<=levelData[0].length-1;j++){
+				if(levelData[i][j] == 1)
+					staticList.add(new WallObject(j*32, i*32));
+				if(levelData[i][j] == 2)
+					creatureList.add(new Creature(j*32+5, i*32-5));
+				if(levelData[i][j] == 3)
+					player	=	new Player(j*32-5, i*32+1);
+			}
+		}
+		
+		
+		/*staticList.add(new WallObject(0, 0));
 		staticList.add(new WallObject(32, 0));
 		staticList.add(new WallObject(64, 0));
 		staticList.add(new WallObject(96, 0));
@@ -93,7 +121,7 @@ public class Level extends JPanel implements ActionListener {
 		// generate creatureList
 		creatureList	=	new ArrayList<Creature>(1);
 		creatureList.add(new Creature(35, 150));
-		
+		*/
 		// panel properties
 		setFocusable(true);
 		setBackground(new Color(255,211,155));
