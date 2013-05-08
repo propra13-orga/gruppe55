@@ -13,9 +13,8 @@ public abstract class DungeonObject {
 	protected int y;	// aktuelle Y-Position des Objekts
 	// Grafik
 	protected String imgPath	=	"img/wall.png";	// pfad zur bilddatei
-	//protected Image img;	// bildobjekt
 	protected State[] state;
-	protected int actState;
+	protected int currState;
 	protected int width;	// breite
 	protected int height;	// h�he
 	
@@ -38,7 +37,7 @@ public abstract class DungeonObject {
 	// spezielle Kollisionsbehandlung
 	protected void onCollision(DungeonObject d){
 		// standard for non dangerous objects
-		if(this.state[actState].massive)
+		if(this.state[currState].massive)
 			if(d instanceof	LivingObject)
 				((LivingObject)d).setBack();
 	}
@@ -48,10 +47,17 @@ public abstract class DungeonObject {
 		// viable input?
 		if(s>=state.length)
 			return;
-		actState	=	s;
-		// breite und Hoehe bestimmen
-		width	=	state[actState].img.getWidth(null);
-		height	=	state[actState].img.getHeight(null);
+		// safe old image size for possible relocation of object
+		int oWidth	=	state[currState].img.getWidth(null);	// old width
+		int oHeight	=	state[currState].img.getHeight(null);	// old height
+		
+		// set new pointer
+		currState	=	s;
+		
+		// recalculate position in aspect of different image sizes
+		x	+=	(oWidth - state[currState].img.getWidth(null)) / 2;
+		y	+=	oHeight - state[currState].img.getHeight(null);
+		
 	}
 
 // following methods are relevant for the level methods paint and collisionCheck
@@ -60,8 +66,10 @@ public abstract class DungeonObject {
 	// y wert ausgeben
 	public int getY(){return y;}
 	// bild ausgeben
-	public Image getImg(){return state[actState].img;}
+	public Image getImg(){return state[currState].img;}
 	// rahmen ausgeben
-	public Rectangle getBorder(){return new Rectangle(x, y, width, height);}
+	public Rectangle getBorder(){
+		return new Rectangle(x, y, state[currState].img.getWidth(null), state[currState].img.getHeight(null));
+	}
 	
 }

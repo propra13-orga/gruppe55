@@ -21,7 +21,7 @@ public abstract class LivingObject extends DungeonObject {
 		state[1] = new State(imgPath, true, false, true);
 		
 		// start as living thing
-		actState	=	1;
+		currState	=	1;
 		
 	}
 	
@@ -30,13 +30,13 @@ public abstract class LivingObject extends DungeonObject {
 		if(hp>0)
 			hp-=1;
 		if(hp<=0)
-			actState	=	0; // dead
+			switchState(0); // dead
 	}
 	
 	// apply movement, actually pretty simple
 	public void move(){
 		// test if still alive
-		if(state[actState].moveable == false)
+		if(state[currState].moveable == false)
 			return;
 		// run movement method
 		
