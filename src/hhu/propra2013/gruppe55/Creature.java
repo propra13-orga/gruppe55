@@ -7,8 +7,8 @@ public class Creature extends LivingObject {
     private String ripPath	=	"img/dead.png";	// rip-image
     // coordinates
     private int sx, sy;			// Spawn coordinates
-    private int moveAreaX	=	150;		// maximal vertical movement to the right
-    private int moveAreaY	=	50;		// ... and upwards
+    private int moveAreaX	=	180;		// maximal vertical movement to the right
+    private int moveAreaY	=	120;		// ... and upwards
 	
 // constructor
     public Creature(int spawnX, int spawnY) {

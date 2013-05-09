@@ -35,17 +35,65 @@ public class Level extends JPanel implements ActionListener {
 		//1: Wall
 		//2: Creature
 		//3: Player
-		//4: Ziel
+		//4: Teleporter
+		//5: Falle
+		//6: Ziel
+		
 		int[][] levelData = 
-			{{1,1,1,1,1,1,1,1,1,1,1,1,1},
-			 {1,0,0,0,0,0,0,0,0,0,0,0,1},
-			 {1,0,1,1,1,1,1,1,0,0,0,0,1},
-			 {1,0,0,0,0,0,0,1,0,0,0,0,1},
-			 {1,0,0,0,0,0,0,1,0,0,0,0,1},
-			 {1,2,0,0,0,0,0,1,0,0,0,0,1},
-			 {1,1,1,1,1,1,0,1,0,0,3,0,1},
-			 {4,0,0,0,0,0,0,1,0,0,0,0,1},
-			 {1,1,1,1,1,1,1,1,1,1,1,1,1}};
+			{{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,5,0,0,0,0,0,5,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1},
+			 {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,1,1,1},
+			 {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,1},
+			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,0,3,0,0,1,0,0,1},
+			 {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
+			 {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
+			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
+		
+		/*int [][] levelData =
+			{{1,1,4,4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,5,0,5,0,5,0,5,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
+			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,0,0,1,1,0,5,0,5,0,5,0,1},
+			 {1,0,0,0,0,0,0,5,0,0,0,0,0,0,5,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,5,0,0,0,0,0,0,5,0,0,1,0,0,1,1,2,0,0,0,0,0,0,1},
+			 {1,0,0,0,5,0,0,0,0,0,5,0,0,0,0,0,0,1,0,0,1,1,5,0,5,0,5,0,5,1},
+			 {1,0,0,5,0,0,0,0,0,5,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,3,0},
+			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
+		*/
+		/*int [][] levelData =
+			{{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	    	 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,5,0,0,0,0,0,0,0,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,5,0,0,0,0,0,0,0,0,1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,5,0,0,0,5,0,0,0,0,0,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,1},
+			 {1,0,0,5,0,0,0,5,0,0,0,0,0,0,1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,5,0,0,0,5,5,5,5,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,5,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1},
+			 {1,0,0,0,5,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,5,5,5,5,5,5,5,5,5,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,5,0,0,0,0,0,0,0,0,0,0,0,1,0,6,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,5,0,3,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
+		*/
+		
 		// generate staticList
 		staticList		=	new ArrayList<DungeonObject>(1);
 		creatureList	=	new ArrayList<Creature>(1);
@@ -57,67 +105,13 @@ public class Level extends JPanel implements ActionListener {
 				if(levelData[i][j] == 2)
 					creatureList.add(new Creature(j*32+5, i*32-5));
 				if(levelData[i][j] == 3)
-					player	=	new Player(j*32-5, i*32+1);
+					player	=	new Player(j*32-5, i*32+1);  //	
 			}
+			
 		}
 		
 		
-		/*staticList.add(new WallObject(0, 0));
-		staticList.add(new WallObject(32, 0));
-		staticList.add(new WallObject(64, 0));
-		staticList.add(new WallObject(96, 0));
-		staticList.add(new WallObject(128, 0));
-		staticList.add(new WallObject(160, 0));
-		staticList.add(new WallObject(192, 0));
-		staticList.add(new WallObject(224, 0));
-		staticList.add(new WallObject(256, 0));
-		staticList.add(new WallObject(288, 0));
-		staticList.add(new WallObject(320, 0));
-		staticList.add(new WallObject(352, 0));
-		staticList.add(new WallObject(384, 0));
-		staticList.add(new WallObject(0, 32));
-		staticList.add(new WallObject(0, 64));
-		staticList.add(new WallObject(64, 64));
-		staticList.add(new WallObject(96, 64));
-		staticList.add(new WallObject(128, 64));
-		staticList.add(new WallObject(160, 64));
-		staticList.add(new WallObject(192, 64));
-		staticList.add(new WallObject(224, 64));
-		staticList.add(new WallObject(224, 96));
-		staticList.add(new WallObject(224, 128));
-		staticList.add(new WallObject(224, 160));
-		staticList.add(new WallObject(224, 192));
-		staticList.add(new WallObject(224, 224));
-		staticList.add(new WallObject(0, 96));
-		staticList.add(new WallObject(0, 128));
-		staticList.add(new WallObject(0, 160));
-		staticList.add(new WallObject(0, 192));
-		staticList.add(new WallObject(32, 192));
-		staticList.add(new WallObject(64, 192));
-		staticList.add(new WallObject(96, 192));
-		staticList.add(new WallObject(128, 192));
-		staticList.add(new WallObject(160, 192));
-		staticList.add(new WallObject(0, 256));
-		staticList.add(new WallObject(32, 256));
-		staticList.add(new WallObject(64, 256));
-		staticList.add(new WallObject(96, 256));
-		staticList.add(new WallObject(128, 256));
-		staticList.add(new WallObject(160, 256));
-		staticList.add(new WallObject(192, 256));
-		staticList.add(new WallObject(224, 256));
-		staticList.add(new WallObject(256, 256));
-		staticList.add(new WallObject(288, 256));
-		staticList.add(new WallObject(320, 256));
-		staticList.add(new WallObject(352, 256));
-		staticList.add(new WallObject(384, 256));
-		staticList.add(new WallObject(384, 32));
-		staticList.add(new WallObject(384, 64));
-		staticList.add(new WallObject(384, 96));
-		staticList.add(new WallObject(384, 128));
-		staticList.add(new WallObject(384, 160));
-		staticList.add(new WallObject(384, 192));
-		staticList.add(new WallObject(384, 224));
-		staticList.add(new WallObject(384, 256));
+		/*
 		// generate creatureList
 		creatureList	=	new ArrayList<Creature>(1);
 		creatureList.add(new Creature(35, 150));
@@ -220,7 +214,6 @@ public class Level extends JPanel implements ActionListener {
 			// Bewegungsbefehle an Spieler weiter leiten
 			if(k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN || k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT)
 				player.keyPressed(e);
-				
 		}
 		@Override
 		public void keyReleased(KeyEvent e) {

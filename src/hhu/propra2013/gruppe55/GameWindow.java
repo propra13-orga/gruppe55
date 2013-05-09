@@ -7,9 +7,10 @@ import javax.swing.*;
 public class GameWindow extends JFrame implements ActionListener, KeyListener{	//Key&ActionListener einbinden
 	private static final long serialVersionUID = 1L;
 	
-	// frame properties
-	private int width	=	13*32;		// width in pixels
-	private int height	=	10*32-5;	// height in pixels
+	// frame properties 16:9
+	// TO DO: Genaue Pixelberechnung ohne Rand - derzeit ~16:9
+	private int width	=	966;		// width in pixels 13*32
+	private int height	=	540;	    // height in pixels 10*32-5
 	// level management
 	private Level[] levels;				// Array that contains our levels for quick switching
 	private int maxLevels	=	1;		// number of levels in total
