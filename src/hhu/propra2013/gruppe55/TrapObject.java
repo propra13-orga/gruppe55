@@ -8,8 +8,7 @@ public class TrapObject extends DungeonObject {
 	
 	public TrapObject(int x, int y) {
 		super(x,y);
-		state[0].visible	=	false;
-		state[1].changeImg(imgPath);
+		state[0].changeImg(imgPath);
 	}
 
 }
