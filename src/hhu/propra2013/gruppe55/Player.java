@@ -26,6 +26,13 @@ public class Player extends LivingObject {
     	this.x	=	x;
     	this.y	=	y;
     }
+    
+    // method to revive player after death
+    public void revive(){
+    	hp	=	hpMax;
+    	switchState(1);
+    	// at this point of game development no more code needed here
+    }
 
 // following methods allow keyboard control of player
 	public void keyPressed(KeyEvent e) {

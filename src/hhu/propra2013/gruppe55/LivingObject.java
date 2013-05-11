@@ -23,6 +23,10 @@ public abstract class LivingObject extends DungeonObject {
 		// start as living thing
 		currState	=	1;
 		
+		// set hp
+		hpMax	=	1;
+		hp		=	hpMax;
+		
 	}
 	
 	// getting a hit

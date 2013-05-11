@@ -9,7 +9,7 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 	
 	// frame properties 16:9
 	// TO DO: Genaue Pixelberechnung ohne Rand - derzeit ~16:9
-	private int width	=	966;		// width in pixels 13*32
+	private int width	=	960;		// width in pixels 13*32
 	private int height	=	540;	    // height in pixels 10*32-5
 	// level management
 	private Level[] levels;				// Array that contains our levels for quick switching

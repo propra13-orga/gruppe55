@@ -22,8 +22,8 @@ public class LevelEditor extends JFrame implements ActionListener
 	/**
 	 * 
 	 */
-	public static int mapLaenge = 20;
-	public static int mapBreite = 10;
+	public static int mapLaenge = 30;
+	public static int mapBreite = 16;
 	final static int imgSize = 32;
 
 	public static int toolType = 0;

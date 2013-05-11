@@ -8,8 +8,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.awt.Image;
 import java.util.ArrayList;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -23,6 +25,14 @@ public class Level extends JPanel implements ActionListener {
 	private ArrayList<ArrayList<Teleporter>> teleportList;	// list of all teleports (for a couple of reasons not in staticList)
 	// actions timer
 	private Timer timer;
+	// variables for important game events
+	private boolean lose	=	false;	// true on player dead
+	private boolean clear	=	false;	// true if player cleared the level
+	private String gameoverPath	=	"img/gameover.png";	// image to show on player death
+	private Image gameoverImg	=	(new ImageIcon(gameoverPath)).getImage();	// the preloaded image
+	// variables important in case of reload
+	private int playerSpawnX, playerSpawnY;		// coordinates of player's first appearance
+	
 	
 // constructor
 	public Level(int lvlNum) {
@@ -110,8 +120,11 @@ public class Level extends JPanel implements ActionListener {
 						staticList.get(r).add(new WallObject(j*32, i*32));
 					else if(levelData[r][i][j] == 2)
 						creatureList.get(r).add(new Creature(j*32+5, i*32-5));
-					else if(levelData[r][i][j] == 3)
-						player	=	new Player(j*32-5, i*32+1);  
+					else if(levelData[r][i][j] == 3){
+						playerSpawnX	=	j*32-5;
+						playerSpawnY	=	i*32-5;
+						player	=	new Player(playerSpawnX, playerSpawnY);
+					}
 					else if(levelData[r][i][j] == 5)
 						staticList.get(r).add(new TrapObject(j*32, i*32)); //
 				}
@@ -189,6 +202,17 @@ public class Level extends JPanel implements ActionListener {
 		
 	}
 	
+	// method to reload the level and to begin it from start
+	public void reload(){
+		// revive player
+		player.revive();
+		player.teleport(playerSpawnX, playerSpawnY);
+		// set room to first room
+		room	=	0;
+		// of course set lose=false
+		lose	=	false;
+	}
+	
 	/*
 	 * Zeichenmethode f�r das Level
 	 */
@@ -208,6 +232,10 @@ public class Level extends JPanel implements ActionListener {
 		// Spieler zeichnen
 		g2d.drawImage(player.getImg(), player.getX(), player.getY(), this);
 		
+		// draw game over screen on demand
+		if(lose)
+			g2d.drawImage(gameoverImg, 32*10, 32*10, this);
+		
 		// blubb
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();
@@ -221,6 +249,10 @@ public class Level extends JPanel implements ActionListener {
 	 * Wird vom timer aufgerufen. L�sst m�gliche bewegungen berechnen, ruft die Kollisionsabfrage auf und zeichnet das Feld neu
 	 */
 	public void actionPerformed(ActionEvent e) {
+		// check if player is still alive
+		if(player.getHP()<=0)
+			lose	=	true;	// he did not deserve any better...
+		
 		// Spielerbewegung
 		player.move();
 		
@@ -249,6 +281,13 @@ public class Level extends JPanel implements ActionListener {
 			// Bewegungsbefehle an Spieler weiter leiten
 			if(k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN || k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT)
 				player.keyPressed(e);
+			
+			// Space-Taste abfragen
+			if(k == KeyEvent.VK_SPACE)
+				// on player death
+				if(lose)
+					reload();
+				// TODO: player attack
 		}
 		@Override
 		public void keyReleased(KeyEvent e) {
