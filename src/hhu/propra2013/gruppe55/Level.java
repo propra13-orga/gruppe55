@@ -97,6 +97,7 @@ public class Level extends JPanel implements ActionListener {
 		// generate staticList
 		staticList		=	new ArrayList<DungeonObject>(1);
 		creatureList	=	new ArrayList<Creature>(1);
+		
 		//System.out.println(levelData[0].length);
 		for(int i=0;i<=levelData.length-1;i++){
 			for(int j=0;j<=levelData[0].length-1;j++){
@@ -105,7 +106,9 @@ public class Level extends JPanel implements ActionListener {
 				if(levelData[i][j] == 2)
 					creatureList.add(new Creature(j*32+5, i*32-5));
 				if(levelData[i][j] == 3)
-					player	=	new Player(j*32-5, i*32+1);  //	
+					player	=	new Player(j*32-5, i*32+1);  
+				if(levelData[i][j] == 5)
+					staticList.add(new TrapObject(j*32, i*32)); //
 			}
 			
 		}
