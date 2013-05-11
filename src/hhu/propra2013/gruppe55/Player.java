@@ -15,9 +15,17 @@ public class Player extends LivingObject {
 		// set states
 		state[0].changeImg(ripPath);
 		state[1].changeImg(imgPath);
+		
+		// activate 1st state
+		switchState(1);
 
 	}
-
+    
+    // method to teleport the player to specific coordinates
+    public void teleport(int x, int y){
+    	this.x	=	x;
+    	this.y	=	y;
+    }
 
 // following methods allow keyboard control of player
 	public void keyPressed(KeyEvent e) {

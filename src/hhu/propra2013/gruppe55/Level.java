@@ -16,147 +16,126 @@ import javax.swing.Timer;
 public class Level extends JPanel implements ActionListener {
 
 	// Levelobjekte
-	private Player player;							// Spielerobjekt
-	private ArrayList<Creature> creatureList;		// liste der Gegner
-	private ArrayList<DungeonObject> staticList;	// liste der Waende/Gegenstaende/etc
-	private int levelselect;						// Levelauswahl
+	private Player player;				// Spielerobjekt
+	private int room;					// pointer to current room
+	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
+	private ArrayList<ArrayList<DungeonObject>> staticList;	// liste der Waende/Gegenstaende/etc
+	private ArrayList<ArrayList<Teleporter>> teleportList;	// list of all teleports (for a couple of reasons not in staticList)
 	// actions timer
 	private Timer timer;
 	
 // constructor
 	public Level(int lvlNum) {
-		// TODO Konstruktor: Hier dann irgendwie sp�ter mal ne syntax, die das level aus ner datei l�d
+		// TODO Konstruktor: Hier dann irgendwie spaeter mal ne syntax, die das level aus ner datei l�d
+		
+		// set pointer to first room
+		room	=	0;
 		// vorerst fixes test level
-		
-		// Spieler initialisieren
-		//player	=	new Player(290, 215);
-		
-		// TODO Konstruktor: staticList und creatureList generieren
-
-		//1: Wall
-		//2: Creature
-		//3: Player
-		//4: Teleporter
-		//5: Falle
-		//6: Ziel
-		
-
-		int[][] levelData1 =
+			//1: Wall
+			//2: Creature
+			//3: Player
+			//4: Teleporter
+			//5: Falle
+			//6: Ziel
+		int[][][] levelData = { /* 30*16 Grid */
 			{{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,5,0,0,0,0,0,5,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1},
-			{1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,1,1,1},
-			{1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,1},
-			{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,0,3,0,0,1,0,0,1},
-			{4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
-			{4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
-			{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
-
-		int [][] levelData2 =
-			{{1,1,4,4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,5,0,5,0,5,0,5,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
-			{1,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
-			{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,0,0,1,1,0,5,0,5,0,5,0,1},
-			{1,0,0,0,0,0,0,5,0,0,0,0,0,0,5,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,5,0,0,0,0,0,0,5,0,0,1,0,0,1,1,2,0,0,0,0,0,0,1},
-			{1,0,0,0,5,0,0,0,0,0,5,0,0,0,0,0,0,1,0,0,1,1,5,0,5,0,5,0,5,1},
-			{1,0,0,5,0,0,0,0,0,5,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
-			{1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,3,0},
-			{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
-			
-		int [][] levelData3 =
-			{{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,5,0,0,0,0,0,0,0,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,5,0,0,0,0,0,0,0,0,1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,5,0,0,0,5,0,0,0,0,0,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,1},
-			{1,0,0,5,0,0,0,5,0,0,0,0,0,0,1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,0,5,0,0,0,5,5,5,5,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,1},
-			{1,0,0,0,0,5,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1},
-			{1,0,0,0,5,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,0,5,5,5,5,5,5,5,5,5,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,0,5,0,0,0,0,0,0,0,0,0,0,0,1,0,6,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,5,0,3,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			{1,1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}};
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,5,0,0,0,0,0,5,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1},
+			 {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,1,1,1},
+			 {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,1},
+			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,0,3,0,0,1,0,0,1},
+			 {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
+			 {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
+			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+			},
+			{
+			 {1,1,4,4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,5,0,5,0,5,0,5,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
+			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,0,0,1,1,0,5,0,5,0,5,0,1},
+			 {1,0,0,0,0,0,0,5,0,0,0,0,0,0,5,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,5,0,0,0,0,0,0,5,0,0,1,0,0,1,1,2,0,0,0,0,0,0,1},
+			 {1,0,0,0,5,0,0,0,0,0,5,0,0,0,0,0,0,1,0,0,1,1,5,0,5,0,5,0,5,1},
+			 {1,0,0,5,0,0,0,0,0,5,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0},
+			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+			},
+			{
+			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+	    	 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,5,0,0,0,0,0,0,0,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,5,0,0,0,0,0,0,0,0,1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,5,0,0,0,5,0,0,0,0,0,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,1},
+			 {1,0,0,5,0,0,0,5,0,0,0,0,0,0,1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,0,5,0,0,0,5,5,5,5,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,1},
+			 {1,0,0,0,0,5,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1},
+			 {1,0,0,0,5,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,0,5,5,5,5,5,5,5,5,5,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,0,5,0,0,0,0,0,0,0,0,0,0,0,1,0,6,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,5,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
+			 {1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
+			}};
 		
-
-			// generate staticList
-			staticList	=	new ArrayList<DungeonObject>(1);
-			creatureList	=	new ArrayList<Creature>(1);
-			levelselect = 3;
-
-			//System.out.println(levelData[0].length);
-			
-			if(levelselect == 1)
-				for(int i=0;i<=levelData1.length-1;i++){
-					for(int j=0;j<=levelData1[0].length-1;j++){
-						if(levelData1[i][j] == 1)
-							staticList.add(new WallObject(j*32, i*32));
-						if(levelData1[i][j] == 2)
-							creatureList.add(new Creature(j*32+5, i*32-5));
-						if(levelData1[i][j] == 3)
-							player	=	new Player(j*32-5, i*32+1);
-						if(levelData1[i][j] == 5)
-							staticList.add(new TrapObject(j*32, i*32)); 
-						if(levelData1[i][j] == 6)
-							staticList.add(new GoalObject(j*32, i*32));
+		// generate ArrayLists
+		staticList		=	new ArrayList<ArrayList<DungeonObject>>(0);
+		creatureList	=	new ArrayList<ArrayList<LivingObject>>(0);
+		teleportList	=	new ArrayList<ArrayList<Teleporter>>(0);
+		
+		
+		// loop that generates the level
+		for(int r=0; r<levelData.length;r++){
+			// initialize new room dimension in the array lists
+			staticList.add(new ArrayList<DungeonObject>(0));
+			creatureList.add(new ArrayList<LivingObject>(0));
+			// create the objects
+			for(int i=0;i<=levelData[0].length-1;i++){
+				for(int j=0;j<=levelData[0][0].length-1;j++){
+					if(levelData[r][i][j] == 1)
+						staticList.get(r).add(new WallObject(j*32, i*32));
+					else if(levelData[r][i][j] == 2)
+						creatureList.get(r).add(new Creature(j*32+5, i*32-5));
+					else if(levelData[r][i][j] == 3)
+						player	=	new Player(j*32-5, i*32+1);  
+					else if(levelData[r][i][j] == 5)
+						staticList.get(r).add(new TrapObject(j*32, i*32)); //
 				}
-
 			}
-			if(levelselect == 2)
-				for(int i=0;i<=levelData2.length-1;i++){
-					for(int j=0;j<=levelData2[0].length-1;j++){
-						if(levelData2[i][j] == 1)
-							staticList.add(new WallObject(j*32, i*32));
-						if(levelData2[i][j] == 2)
-							creatureList.add(new Creature(j*32+5, i*32-5));
-						if(levelData2[i][j] == 3)
-							player	=	new Player(j*32-5, i*32+1);
-						if(levelData2[i][j] == 5)
-							staticList.add(new TrapObject(j*32, i*32)); 
-						if(levelData2[i][j] == 6)
-							staticList.add(new GoalObject(j*32, i*32));
-					}
-
-				}
-			if(levelselect == 3)
-				for(int i=0;i<=levelData3.length-1;i++){
-					for(int j=0;j<=levelData3[0].length-1;j++){
-						if(levelData3[i][j] == 1)
-							staticList.add(new WallObject(j*32, i*32));
-						if(levelData3[i][j] == 2)
-							creatureList.add(new Creature(j*32+5, i*32-5));
-						if(levelData3[i][j] == 3)
-							player	=	new Player(j*32-5, i*32+1);
-						if(levelData3[i][j] == 5)
-							staticList.add(new TrapObject(j*32, i*32)); 
-						if(levelData3[i][j] == 6)
-							staticList.add(new GoalObject(j*32, i*32));
-					}
-
-				}
+		}
+		// that's a loop, that loops a loops looping loop. yo dawg, i heard u like loops...
 		
-		/*
-		// generate creatureList
-		creatureList	=	new ArrayList<Creature>(1);
-		creatureList.add(new Creature(35, 150));
-		*/
+		// setting up the teleporters manually
+		teleportList.add(new ArrayList<Teleporter>(0));	// room 0
+		teleportList.add(new ArrayList<Teleporter>(0));	// room 1
+		teleportList.add(new ArrayList<Teleporter>(0));	// room 2
+		// ports 0 -> 1
+		teleportList.get(0).add(new Teleporter(32*-1, 32*13, 1, 29*32, 13*32));
+		teleportList.get(0).add(new Teleporter(32*-1, 32*14, 1, 29*32, 14*32));
+		// ports 1 -> 0
+		teleportList.get(1).add(new Teleporter(30*32, 13*32, 0, 0*32, 13*32));
+		teleportList.get(1).add(new Teleporter(30*32, 14*32, 0, 0*32, 14*32));
+		// ports 1 -> 2
+		teleportList.get(1).add(new Teleporter(2*32, -1*32, 2, 2*32, 15*32));
+		teleportList.get(1).add(new Teleporter(3*32, -1*32, 2, 3*32, 15*32));
+		// ports 2 -> 1
+		teleportList.get(2).add(new Teleporter(2*32, 16*32, 1, 2*32, 0*32));
+		teleportList.get(2).add(new Teleporter(3*32, 16*32, 1, 3*32, 0*32));
+		
 		// panel properties
 		setFocusable(true);
 		setBackground(new Color(255,211,155));
@@ -176,19 +155,34 @@ public class Level extends JPanel implements ActionListener {
 	 * bei Spielerkollision wird .onCollision(player) des jeweiligen Listenelements aufgerufen f�r spezielle Kollisionsbehandlung
 	 */
 	private void collisionCheck(){
+		// first of all check if player needs a teleport
+		for(int i=0; i<teleportList.get(room).size(); i++)
+			// if player meets teleport
+			if(teleportList.get(room).get(i).getBorder().intersects(player.getBorder())){
+				// get port details
+				int[] portData	=	teleportList.get(room).get(i).getTeleport();
+				// teleport player
+				player.teleport(portData[1], portData[2]);
+				// set new room
+				room	=	portData[0];
+				// ensure this loop ends (no more loop needed, but could f**k up what we want
+				break;
+			}
+				
+		
 		// check staticList for player and creatures and creatures to player
-		for(int i=0; i<staticList.size(); i++){
+		for(int i=0; i<staticList.get(room).size(); i++){
 			// check static first with player
-			if(staticList.get(i).getBorder().intersects(player.getBorder()))
-				staticList.get(i).onCollision(player);
+			if(staticList.get(room).get(i).getBorder().intersects(player.getBorder()))
+				staticList.get(room).get(i).onCollision(player);
 			// now check wall with creatures an creatures with player
-			for(int j=0; j<creatureList.size(); j++){
+			for(int j=0; j<creatureList.get(room).size(); j++){
 				// first wall to creatures
-				if(staticList.get(i).getBorder().intersects(creatureList.get(j).getBorder()))
-					staticList.get(i).onCollision(creatureList.get(j));
+				if(staticList.get(room).get(i).getBorder().intersects(creatureList.get(room).get(j).getBorder()))
+					staticList.get(room).get(i).onCollision(creatureList.get(room).get(j));
 				// second creatures to player
-				if(creatureList.get(j).getBorder().intersects(player.getBorder()))
-					creatureList.get(j).onCollision(player);
+				if(creatureList.get(room).get(j).getBorder().intersects(player.getBorder()))
+					creatureList.get(room).get(j).onCollision(player);
 				// done, what a loop!
 			}
 		}
@@ -205,17 +199,17 @@ public class Level extends JPanel implements ActionListener {
 		Graphics2D g2d = (Graphics2D)g;
 		
 		// paint static objects
-		for(int i=0; i<staticList.size(); i++)
-			g2d.drawImage(staticList.get(i).getImg(), staticList.get(i).getX(), staticList.get(i).getY(), this);
+		for(int i=0; i<staticList.get(room).size(); i++)
+			g2d.drawImage(staticList.get(room).get(i).getImg(), staticList.get(room).get(i).getX(), staticList.get(room).get(i).getY(), this);
 		// paint creatures
-		for(int i=0; i<creatureList.size(); i++)
-			g2d.drawImage(creatureList.get(i).getImg(), creatureList.get(i).getX(), creatureList.get(i).getY(), this);
+		for(int i=0; i<creatureList.get(room).size(); i++)
+			g2d.drawImage(creatureList.get(room).get(i).getImg(), creatureList.get(room).get(i).getX(), creatureList.get(room).get(i).getY(), this);
 		
 		// Spieler zeichnen
 		g2d.drawImage(player.getImg(), player.getX(), player.getY(), this);
 		
 		// blubb
-        Toolkit.getDefaultToolkit().sync();
+        Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();
 	}
 
@@ -231,8 +225,8 @@ public class Level extends JPanel implements ActionListener {
 		player.move();
 		
 		// kreaturenbewegung
-		for(int i=0; i<creatureList.size(); i++)
-			creatureList.get(i).move();
+		for(int i=0; i<creatureList.get(room).size(); i++)
+			creatureList.get(room).get(i).move();
 		
 		// Kollisionsabfrage
 		collisionCheck();
