@@ -1,3 +1,14 @@
-﻿Erste Test-Readme
-
-mvm test
+To-Do-List
+-Bestehendes Konzept optimieren
+ -(Markus, Janik)Level als 2-dim. Arrays z.B. lvl01[Raum Nr.][Wandobjekte]
+ -()Paintmethoden in entspr. Klassen auslagern, Übergabe des Graphics2D Objektes des Panels
+ -()Abhängigkeiten von LivingObject aufheben
+-Neue, geplante Aspekte
+ -()Flüssiger Bildlauf
+ -(Markus, Janik)Verknüpfung v. Räumen & Verbindung d. 1. Levels zum 1. Meilenstein (3 Räume mit Ende)
+ -()Boden als eine große Grafik, Objekte überlagern diese
+ -()Individuelle Shapes für wichtige Collisionboxes (z.B. Spiele, Monster, Fallen, etc)
+ -()Stats (HP, Rüstung, Angriff, etc)
+ -()Klasse zur Text-/Dialogdarstellung
+ -()Fernkampfwaffen/Projektile
+ -()Animation

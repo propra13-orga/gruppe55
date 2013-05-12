@@ -15,7 +15,9 @@ import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
-public class Level extends JPanel implements ActionListener {
+import java.io.*;
+
+public class TestLevel extends JPanel implements ActionListener {
 
 	// Levelobjekte
 	private Player player;				// Spielerobjekt
@@ -32,11 +34,39 @@ public class Level extends JPanel implements ActionListener {
 	private Image gameoverImg	=	(new ImageIcon(gameoverPath)).getImage();	// the preloaded image
 	// variables important in case of reload
 	private int playerSpawnX, playerSpawnY;		// coordinates of player's first appearance
+	private int centerX, centerY;
 	
 	
 // constructor
-	public Level(int lvlNum) {
+	public TestLevel(int lvlNum, int x, int y) {
 		// TODO Konstruktor: Hier dann irgendwie spaeter mal ne syntax, die das level aus ner datei l�d
+		
+		centerX = x;
+		centerY = y;
+		
+		String line;
+		String lineints[];
+		int[][][] lvlData = null;
+		
+		try {
+			FileReader fread = new FileReader("lvl/testlvl.txt");
+			BufferedReader in = new BufferedReader(fread);
+			
+			for(int i=0; (line = in.readLine()) != null; i++){
+				if(i==0){
+					String w[] = new String[3];
+					w = line.split(",");
+					lvlData = new int[Integer.parseInt(w[0])][Integer.parseInt(w[1])][Integer.parseInt(w[2])];
+				}
+				else{
+					lineints = (String[])line.split(",");
+					for(int j=0; j<=lineints.length-1; j++){
+							lvlData[0][j][i] = Integer.parseInt(lineints[j]);
+					}
+				}
+			}
+			in.close();
+		} catch (IOException e) {e.printStackTrace();}
 		
 		// set pointer to first room
 		room	=	0;
@@ -47,108 +77,40 @@ public class Level extends JPanel implements ActionListener {
 			//4: Teleporter
 			//5: Falle
 			//6: Ziel
-		int[][][] levelData = { /* 30*16 Grid */
-			{{1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,5,0,0,0,0,0,5,0,0,0,0,0,1},
-			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,5,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1},
-			 {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,1,1,1,1},
-			 {1,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,0,0,1},
-			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,1},
-			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,0,3,0,0,1,0,0,1},
-			 {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
-			 {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
-			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-			},
-			{
-			 {1,1,4,4,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,5,0,5,0,5,0,5,1},
-			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
-			 {1,0,0,2,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
-			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,0,0,1,1,0,5,0,5,0,5,0,1},
-			 {1,0,0,0,0,0,0,5,0,0,0,0,0,0,5,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,0,0,0,5,0,0,0,0,0,0,5,0,0,1,0,0,1,1,2,0,0,0,0,0,0,1},
-			 {1,0,0,0,5,0,0,0,0,0,5,0,0,0,0,0,0,1,0,0,1,1,5,0,5,0,5,0,5,1},
-			 {1,0,0,5,0,0,0,0,0,5,0,0,0,0,0,0,0,1,0,0,1,1,0,0,0,0,0,0,0,1},
-			 {1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,1,1,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0},
-			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,1,0,0,0,0,0,0,0,0},
-			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-			},
-			{
-			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1},
-			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-	    	 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			 {1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,0,0,5,0,0,0,0,0,0,0,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,0,5,0,0,0,0,0,0,0,0,1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,5,0,0,0,5,0,0,0,0,0,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,1},
-			 {1,0,0,5,0,0,0,5,0,0,0,0,0,0,1,0,0,0,0,2,0,0,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,0,0,5,0,0,0,5,5,5,5,1,0,0,2,0,0,0,2,0,0,0,0,0,0,0,1},
-			 {1,0,0,0,0,5,0,0,0,0,0,0,0,0,1,1,1,1,1,1,1,1,0,0,1,1,1,1,1,1},
-			 {1,0,0,0,5,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			 {1,0,0,5,5,5,5,5,5,5,5,5,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			 {1,0,5,0,0,0,0,0,0,0,0,0,0,0,1,0,6,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			 {1,5,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1},
-			 {1,1,0,0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
-			}};
-		
+
 		// generate ArrayLists
 		staticList		=	new ArrayList<ArrayList<DungeonObject>>(0);
 		creatureList	=	new ArrayList<ArrayList<LivingObject>>(0);
 		teleportList	=	new ArrayList<ArrayList<Teleporter>>(0);
-		
+				
 		
 		// loop that generates the level
-		for(int r=0; r<levelData.length;r++){
+		for(int r=0; r<lvlData.length;r++){
 			// initialize new room dimension in the array lists
 			staticList.add(new ArrayList<DungeonObject>(0));
 			creatureList.add(new ArrayList<LivingObject>(0));
+			teleportList.add(new ArrayList<Teleporter>(0));
 			// create the objects
-			for(int i=0;i<=levelData[0].length-1;i++){
-				for(int j=0;j<=levelData[0][0].length-1;j++){
-					if(levelData[r][i][j] == 1)
-						staticList.get(r).add(new WallObject(j*32, i*32));
-					else if(levelData[r][i][j] == 2)
-						creatureList.get(r).add(new Creature(j*32+5, i*32-5));
-					else if(levelData[r][i][j] == 3){
-						playerSpawnX	=	j*32-5;
-						playerSpawnY	=	i*32-5;
+			for(int i=0;i<=lvlData[0].length-1;i++){
+				for(int j=0;j<=lvlData[0][0].length-1;j++){
+					if(lvlData[r][i][j] == 1)
+						staticList.get(r).add(new WallObject(i*32, j*32));
+					else if(lvlData[r][i][j] == 2)
+						creatureList.get(r).add(new Creature(i*32+5, j*32-5));
+					else if(lvlData[r][i][j] == 3){
+						playerSpawnX	=	i*32-5;
+						playerSpawnY	=	j*32-5;
 						player	=	new Player(playerSpawnX, playerSpawnY);
 					}
-					else if(levelData[r][i][j] == 5)
-						staticList.get(r).add(new TrapObject(j*32, i*32)); //
+					else if(lvlData[r][i][j] == 5)
+						staticList.get(r).add(new TrapObject(j*32, i*32));
+					else if(lvlData[r][i][j] == 5)
+						teleportList.get(r).add(new Teleporter(j*32, i*32, 1, 2*32, 0*32));
 				}
 			}
 		}
 		// that's a loop, that loops a loops looping loop. yo dawg, i heard u like loops...
-		
-		// setting up the teleporters manually
-		teleportList.add(new ArrayList<Teleporter>(0));	// room 0
-		teleportList.add(new ArrayList<Teleporter>(0));	// room 1
-		teleportList.add(new ArrayList<Teleporter>(0));	// room 2
-		// ports 0 -> 1
-		teleportList.get(0).add(new Teleporter(32*-1, 32*13, 1, 29*32, 13*32));
-		teleportList.get(0).add(new Teleporter(32*-1, 32*14, 1, 29*32, 14*32));
-		// ports 1 -> 0
-		teleportList.get(1).add(new Teleporter(30*32, 13*32, 0, 0*32, 13*32));
-		teleportList.get(1).add(new Teleporter(30*32, 14*32, 0, 0*32, 14*32));
-		// ports 1 -> 2
-		teleportList.get(1).add(new Teleporter(2*32, -1*32, 2, 2*32, 15*32));
-		teleportList.get(1).add(new Teleporter(3*32, -1*32, 2, 3*32, 15*32));
-		// ports 2 -> 1
-		teleportList.get(2).add(new Teleporter(2*32, 16*32, 1, 2*32, 0*32));
-		teleportList.get(2).add(new Teleporter(3*32, 16*32, 1, 3*32, 0*32));
-		
+
 		// panel properties
 		setFocusable(true);
 		setBackground(new Color(255,211,155));
@@ -209,6 +171,9 @@ public class Level extends JPanel implements ActionListener {
 		player.teleport(playerSpawnX, playerSpawnY);
 		// set room to first room
 		room	=	0;
+		//Fallen zurücksetzen
+		for(int i=0; i<staticList.get(room).size(); i++)
+			staticList.get(room).get(i).switchState(0);
 		// of course set lose=false
 		loose	=	false;
 	}
@@ -224,13 +189,13 @@ public class Level extends JPanel implements ActionListener {
 		
 		// paint static objects
 		for(int i=0; i<staticList.get(room).size(); i++)
-			g2d.drawImage(staticList.get(room).get(i).getImg(), staticList.get(room).get(i).getX(), staticList.get(room).get(i).getY(), this);
+			g2d.drawImage(staticList.get(room).get(i).getImg(), staticList.get(room).get(i).getX()-(player.getX()-centerX), staticList.get(room).get(i).getY()-(player.getY()-centerY), this);
 		// paint creatures
 		for(int i=0; i<creatureList.get(room).size(); i++)
-			g2d.drawImage(creatureList.get(room).get(i).getImg(), creatureList.get(room).get(i).getX(), creatureList.get(room).get(i).getY(), this);
+			g2d.drawImage(creatureList.get(room).get(i).getImg(), creatureList.get(room).get(i).getX()-(player.getX()-centerX), creatureList.get(room).get(i).getY()-(player.getY()-centerY), this);
 		
 		// Spieler zeichnen
-		g2d.drawImage(player.getImg(), player.getX(), player.getY(), this);
+		g2d.drawImage(player.getImg(), centerX, centerY, this);
 		
 		// draw game over screen on demand
 		if(loose)
