@@ -9,7 +9,9 @@ public class GameMenu extends JFrame implements ActionListener{	//ActionListener
 	private static final long serialVersionUID = 1L;
 	
 	static GameWindow gw;										//Deklarationen
-	JButton start, ende;
+	private JPanel jp;
+	private JComboBox cb;
+	private JButton start, ende;
 	
 	public static void main(String[] args) {
 		GameMenu gm = new GameMenu();							//Menue und Spielfenster konstruieren
@@ -21,15 +23,23 @@ public class GameMenu extends JFrame implements ActionListener{	//ActionListener
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new GridLayout(2,1));					//1,2 GridLayout
 		
-		start = new JButton("Spiel starten");					//Jbuttons konstruieren
-			start.addActionListener(this);
+		jp = new JPanel();
+			jp.setLayout(new GridLayout(2,1));
+			start = new JButton("Spiel starten");					//Jbuttons konstruieren
+				start.addActionListener(this);
+			cb = new JComboBox();
+				cb.addItem("Level01");
+				cb.addItem("TestLevel");
+				cb.setSelectedIndex(0);
+			jp.add(cb);
+			jp.add(start);
 		ende = new JButton("Spiel beenden");
 			ende.addActionListener(this);
 			
-		this.getContentPane().add(start);						//JButtons adden
+		this.getContentPane().add(jp);						//JButtons adden
 		this.getContentPane().add(ende);
 		this.pack();											//Fenstereigenschaften setzen
-		this.setSize(400,300);
+		this.setSize(400,200);
 		this.setResizable(false);
 		this.setVisible(true);
 		this.setLocationRelativeTo(null); 						//im Bildschirm zentriert
@@ -37,7 +47,8 @@ public class GameMenu extends JFrame implements ActionListener{	//ActionListener
 
 	@Override
 	public void actionPerformed(ActionEvent e) {				//ActionListenerfunktion
-		if(e.getSource() == start){								//Wenn start gedrückt, Menü unsichtbar machen & Spiel sichtbar machen
+		if(e.getSource() == start){							//Wenn start gedrückt, Menü unsichtbar machen & Spiel sichtbar machen
+			gw.setLvl(cb.getSelectedIndex());
 			this.setVisible(false);
 			gw.setVisible(true);}
 		else{System.exit(1);}									//Wenn ende gedrückt, Programm beenden

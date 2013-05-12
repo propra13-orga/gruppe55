@@ -11,7 +11,6 @@ public class TrapObject extends DungeonObject {
 	
 	public TrapObject(int x, int y) {
 		super(x,y);
-		
 		// set state
 		state	=	new State[2];
 		state[0]	=	new State(imgPath,false, false, true);	// trap itself

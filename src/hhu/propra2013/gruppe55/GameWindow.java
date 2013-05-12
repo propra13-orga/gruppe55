@@ -12,7 +12,9 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 	private int width	=	960;		// width in pixels 13*32
 	private int height	=	540;	    // height in pixels 10*32-5
 	// level management
-	private TestLevel[] levels;				// Array that contains our levels for quick switching
+//	private TestLevel[] levels;				// Array that contains our levels for quick switching
+	private Level lvl;					// Ur-Level
+	private TestLevel testlvl;			// Neues TEstLevel
 	private int maxLevels	=	1;		// number of levels in total
 	private int curLvl;					// index pointer to the current level
 
@@ -22,15 +24,18 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		// load levels
-		levels	=	new TestLevel[maxLevels];
-		for(int i=0; i<maxLevels; i++)
-			levels[i]	=	new TestLevel(i, ((width/2)-26), ((height/2)-25));
-		
-		// set pointer to first level
-		curLvl	=	0;
-		
+//		levels	=	new TestLevel[maxLevels];
+//		for(int i=0; i<maxLevels; i++)
+//			levels[i]	=	new TestLevel(i, ((width/2)-26), ((height/2)-25));
+//		
+//		// set pointer to first level
+//		curLvl	=	0;
+//		
 		// add first level
-		add(levels[curLvl]);
+//		add(levels[curLvl]);
+		
+		testlvl = new TestLevel((width/2)-26, (height/2)-25);
+		lvl = new Level(0);
 		
 		// set frame properties
 		//this.addKeyListener(this);											//KeyListener adden
@@ -39,6 +44,16 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 		this.setLocationRelativeTo(null);										//Spielfeld zentriert
 	}
 
+	public void setLvl(int lvl){
+		if(lvl==0){
+			this.getContentPane().remove(testlvl);
+			this.getContentPane().add(this.lvl);
+		}
+		else{
+			this.getContentPane().remove(this.lvl);
+			this.getContentPane().add(testlvl);
+		}
+	}
 	
 	@Override
 	public void actionPerformed(ActionEvent e) {								//ActionListenerfunktion
