@@ -2,7 +2,7 @@ package hhu.propra2013.gruppe55;
 
 public class GoalObject extends DungeonObject {
 
-	 private String imgPath	=	"img/Goal.png";  // Goal-image
+	 private String imgPath	=	"img/goal.png";  // Goal-image
 		
 	public GoalObject(int x, int y) {
 		super(x,y);
