@@ -7,6 +7,8 @@ public class Player extends LivingObject {
 	// images
 	private String imgPath	=	"img/player.png";  // player-image
 	private String ripPath	=	"img/dead.png";	// rip-image
+	// Variable zur Zielabfrage
+	protected int goal;
 
 	// constructor
     public Player(int spawnX, int spawnY) {
@@ -15,6 +17,8 @@ public class Player extends LivingObject {
 		// set states
 		state[0].changeImg(ripPath);
 		state[1].changeImg(imgPath);
+		state[2].changeImg(imgPath);
+		goal = 0;
 		
 		// activate 1st state
 		switchState(1);
@@ -32,6 +36,15 @@ public class Player extends LivingObject {
     	hp	=	hpMax;
     	switchState(1);
     	// at this point of game development no more code needed here
+    }
+    // spieler berührt das ziel und gewinnt das spiel
+    public void reachgoal(){ 
+    	goal +=1; 
+    	switchState(2); // Spieler wird unbeweglich
+    }
+    // Wert der goal variable wird uebergeben
+    public int getgoal(){
+    	return goal;
     }
 
 // following methods allow keyboard control of player

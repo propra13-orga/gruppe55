@@ -10,4 +10,8 @@ public class GoalObject extends DungeonObject {
 		state[0].massive=false;					  // Ziel wird begehbar
 	}
 	
+	public void onCollision(DungeonObject d){	 // Spieler trifft auf das Ziel
+    	if(d instanceof	Player)
+			((Player)d).reachgoal();
+	}
 }

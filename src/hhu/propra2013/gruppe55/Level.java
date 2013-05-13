@@ -28,10 +28,13 @@ public class Level extends JPanel implements ActionListener {
 	// variables for important game events
 	private boolean loose	=	false;	// true on player dead
 	private boolean clear	=	false;	// true if player cleared the level
+	private String youwinPath = "img/youwin.png";
 	private String gameoverPath	=	"img/gameover.png";	// image to show on player death
 	private Image gameoverImg	=	(new ImageIcon(gameoverPath)).getImage();	// the preloaded image
+	private Image youwinImg	=	(new ImageIcon(youwinPath)).getImage();
 	// variables important in case of reload
 	private int playerSpawnX, playerSpawnY;		// coordinates of player's first appearance
+	
 	
 	
 // constructor
@@ -61,7 +64,7 @@ public class Level extends JPanel implements ActionListener {
 			 {1,0,0,0,0,0,0,2,0,0,0,0,0,0,0,0,1,0,0,0,0,1,1,1,1,1,1,0,0,1},
 			 {1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,1},
 			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0,0,0,0,1,0,3,0,0,1,0,0,1},
-			 {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
+			 {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,5,0,0,1},
 			 {4,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0,0,0,0,0,0,0,1},
 			 {1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1}
 			},
@@ -126,7 +129,9 @@ public class Level extends JPanel implements ActionListener {
 						player	=	new Player(playerSpawnX, playerSpawnY);
 					}
 					else if(levelData[r][i][j] == 5)
-						staticList.get(r).add(new TrapObject(j*32, i*32)); //
+						staticList.get(r).add(new TrapObject(j*32, i*32));
+					else if(levelData[r][i][j] == 6)
+						staticList.get(r).add(new GoalObject(j*32, i*32)); //
 				}
 			}
 		}
@@ -235,6 +240,8 @@ public class Level extends JPanel implements ActionListener {
 		// draw game over screen on demand
 		if(loose)
 			g2d.drawImage(gameoverImg, 32*10, 32*10, this);
+		if(clear)
+			g2d.drawImage(youwinImg, 32*10, 32*10, this);
 		
 		// blubb
         Toolkit.getDefaultToolkit().sync();/**/
@@ -249,7 +256,9 @@ public class Level extends JPanel implements ActionListener {
 		// check if player is still alive
 		if(player.getHP()<=0)
 			loose	=	true;	// he did not deserve any better...
-		
+		if(player.getgoal()>1)
+			clear = true;		// yay! 
+			
 		// Spielerbewegung
 		player.move();
 		
@@ -278,13 +287,15 @@ public class Level extends JPanel implements ActionListener {
 			// Bewegungsbefehle an Spieler weiter leiten
 			if(k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN || k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT)
 				player.keyPressed(e);
-			
 			// Space-Taste abfragen
 			if(k == KeyEvent.VK_SPACE)
 				// on player death
 				if(loose)
 					reload();
-				// TODO: player attack
+				// on win
+				else if(clear)
+					GameMenu.gw.setVisible(false);
+				// TODO: player attack						
 		}
 		@Override
 		public void keyReleased(KeyEvent e) {

@@ -8,25 +8,27 @@ public abstract class LivingObject extends DungeonObject {
 	protected int dx, dy;		// direction coordinates (dx: -1, move left; 1 move right;; dy: -1, move up, 1, move down
 	
 	
+	
 // constructor
 		// x,y: coordinates to spawn
 	public LivingObject(int x, int y){
 		super(x, y);
 		
 		// modify state-array
-		state	=	new State[2];
+		state	=	new State[3];
 		// dead state
 		state[0] = new State(imgPath, false, true, false);
 		// alive
 		state[1] = new State(imgPath, true, false, true);
+		// game won
+		state[2] = new State(imgPath, false, true, false);
 		
 		// start as living thing
 		currState	=	1;
 		
 		// set hp
 		hpMax	=	1;
-		hp		=	hpMax;
-		
+		hp		=	hpMax;		
 	}
 	
 	// getting a hit
