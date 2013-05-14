@@ -31,7 +31,9 @@ public class TestLevel extends JPanel implements ActionListener {
 	private boolean loose	=	false;	// true on player dead
 	private boolean clear	=	false;	// true if player cleared the level
 	private String gameoverPath	=	"img/gameover.png";	// image to show on player death
+	private String youwinPath = "img/youwin.png"; // image to show on game win
 	private Image gameoverImg	=	(new ImageIcon(gameoverPath)).getImage();	// the preloaded image
+	private Image youwinImg	=	(new ImageIcon(youwinPath)).getImage();  //s.o.
 	// variables important in case of reload
 	private int playerSpawnX, playerSpawnY;		// coordinates of player's first appearance
 	private int centerX, centerY;				//Fenstermittelpunkt
@@ -108,6 +110,8 @@ public class TestLevel extends JPanel implements ActionListener {
 						staticList.get(r).add(new TrapObject(i*32, j*32));
 					else if(lvlData[r][i][j] == 5)
 						teleportList.get(r).add(new Teleporter(i*32, j*32, 1, 2*32, 0*32));
+					else if(lvlData[r][i][j] == 6)
+						staticList.get(r).add(new GoalObject(i*32, j*32));
 				}
 			}
 		}
@@ -202,10 +206,11 @@ public class TestLevel extends JPanel implements ActionListener {
 		// Spieler zeichnen
 		g2d.drawImage(player.getImg(), centerX, centerY, this);
 		
-		// draw game over screen on demand
+		// draw game over/win screen on demand
 		if(loose)
 			g2d.drawImage(gameoverImg, 32*10, 32*10, this);
-		
+		else if(clear)
+			g2d.drawImage(youwinImg, 32*10, 32*10, this);
 		// blubb
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();
@@ -219,6 +224,8 @@ public class TestLevel extends JPanel implements ActionListener {
 		// check if player is still alive
 		if(player.getHP()<=0)
 			loose	=	true;	// he did not deserve any better...
+		if(player.getgoal()>1)
+			clear = true;		// yay! 
 		
 		// Spielerbewegung
 		player.move();
@@ -254,6 +261,9 @@ public class TestLevel extends JPanel implements ActionListener {
 				// on player death
 				if(loose)
 					reload();
+				else if(clear){
+					System.exit(1);
+				}
 				// TODO: player attack
 		}
 		@Override

@@ -294,7 +294,7 @@ public class Level extends JPanel implements ActionListener {
 					reload();
 				// on win
 				else if(clear)
-					GameMenu.gw.setVisible(false);
+					System.exit(1);
 				// TODO: player attack						
 		}
 		@Override
