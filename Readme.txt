@@ -1,6 +1,5 @@
 To-Do-List
 -Bestehendes Konzept optimieren
- - Goal einfügen
  - Paintmethoden in entspr. Klassen auslagern, Übergabe des Graphics2D Objektes des Panels
 Geplante Aspekte
  - Boden als eine große Grafik, Objekte überlagern diese
