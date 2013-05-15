@@ -19,6 +19,7 @@ public class Player extends LivingObject {
 		state[0].changeImg(ripPath);
 		state[1].changeImg(imgPath);
 		state[2].changeImg(imgPath);
+		state[1].defineOffset(15,3,15,12); // Hitbox des Spielers angepasst
 		goal = 0;
 		
 		// activate 1st state

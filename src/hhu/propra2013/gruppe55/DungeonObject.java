@@ -69,7 +69,8 @@ public abstract class DungeonObject {
 	public Image getImg(){return state[currState].img;}
 	// rahmen ausgeben
 	public Rectangle getBorder(){
-		return new Rectangle(x, y, state[currState].img.getWidth(null), state[currState].img.getHeight(null));
+		int[] offset= state[currState].getOffset();
+		return new Rectangle(x + offset[1], y + offset[0], state[currState].img.getWidth(null) - offset[3] , state[currState].img.getHeight(null)-offset[2]);
 	}
 	
 }
