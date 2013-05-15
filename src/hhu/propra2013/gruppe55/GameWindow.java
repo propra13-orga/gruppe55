@@ -23,17 +23,6 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 		super("SuperAwesomeGameYeah");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
-		// load levels
-//		levels	=	new TestLevel[maxLevels];
-//		for(int i=0; i<maxLevels; i++)
-//			levels[i]	=	new TestLevel(i, ((width/2)-26), ((height/2)-25));
-//		
-//		// set pointer to first level
-//		curLvl	=	0;
-//		
-		// add first level
-//		add(levels[curLvl]);
-		
 		testlvl = new TestLevel((width/2)-26, (height/2)-25);
 		lvl = new Level(0);
 		

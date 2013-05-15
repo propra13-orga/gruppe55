@@ -1,9 +1,11 @@
 package hhu.propra2013.gruppe55;
 
+import java.awt.Graphics2D;
+
 public abstract class LivingObject extends DungeonObject {
 
 	// hitpoint management
-	protected int hp, hpMax;	// actual and maximal hit points of this object
+    protected int hp, hpMax,  verteidigung, angriff, mana, manaMax, ausdauer, ausdauerMax;	// Statuswerte
 	// movement
 	protected int dx, dy;		// direction coordinates (dx: -1, move left; 1 move right;; dy: -1, move up, 1, move down
 	
@@ -11,7 +13,7 @@ public abstract class LivingObject extends DungeonObject {
 	
 // constructor
 		// x,y: coordinates to spawn
-	public LivingObject(int x, int y){
+	public LivingObject(int x, int y, int h, int angr, int vert, int ausd, int man){
 		super(x, y);
 		
 		// modify state-array
@@ -26,9 +28,12 @@ public abstract class LivingObject extends DungeonObject {
 		// start as living thing
 		currState	=	1;
 		
-		// set hp
-		hpMax	=	1;
-		hp		=	hpMax;		
+		// set stats
+		hp = hpMax = h;
+		verteidigung = vert;
+		angriff = angr;
+		mana = manaMax = man;
+		ausdauer = ausdauerMax = ausd;
 	}
 	
 	// getting a hit
@@ -56,6 +61,15 @@ public abstract class LivingObject extends DungeonObject {
 		y-=dy;
 	}
 	
-	// read hit points externally
-	public int getHP(){return hp;}
+	public void draw(Graphics2D g2d, int x, int y){}
+	
+	// Get Stats
+    public int getHP(){return(hp);}
+    public int getHPMax(){return(hpMax);}
+    public int getAngr(){return(angriff);}
+    public int getVert(){return(verteidigung);}
+    public int getMana(){return(mana);}
+    public int getManaMax(){return(manaMax);}
+    public int getAusd(){return(ausdauer);}
+    public int getAusdMax(){return(ausdauerMax);}
 }

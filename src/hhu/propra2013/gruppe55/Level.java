@@ -122,11 +122,11 @@ public class Level extends JPanel implements ActionListener {
 					if(levelData[r][i][j] == 1)
 						staticList.get(r).add(new WallObject(j*32, i*32));
 					else if(levelData[r][i][j] == 2)
-						creatureList.get(r).add(new Creature(j*32+5, i*32-5));
+						creatureList.get(r).add(new Creature(j*32+5, i*32-5, 100, 25, 0, 100, 0));
 					else if(levelData[r][i][j] == 3){
 						playerSpawnX	=	j*32-5;
 						playerSpawnY	=	i*32-5;
-						player	=	new Player(playerSpawnX, playerSpawnY);
+						player	=	new Player(playerSpawnX, playerSpawnY, 100, 25, 0, 100, 0);
 					}
 					else if(levelData[r][i][j] == 5)
 						staticList.get(r).add(new TrapObject(j*32, i*32));

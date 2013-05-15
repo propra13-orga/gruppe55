@@ -1,5 +1,8 @@
 package hhu.propra2013.gruppe55;
 
+import java.awt.Color;
+import java.awt.Graphics2D;
+
 public class Creature extends LivingObject {
 // attributes
 	// images
@@ -9,18 +12,17 @@ public class Creature extends LivingObject {
     private int sx, sy;			// Spawn coordinates
     private int moveAreaX	=	180;		// maximal vertical movement to the right
     private int moveAreaY	=	120;		// ... and upwards
+    
 	
 // constructor
-    public Creature(int spawnX, int spawnY) {
-		super(spawnX, spawnY);
+    public Creature(int spawnX, int spawnY, int h, int angr, int vert, int ausd, int man) {
+		super(spawnX, spawnY, h, angr, vert, ausd, man);
 		// set states
 		state[0].visible	=	false;
 		state[1].changeImg(imgPath);
 		sx	=	spawnX;
 		sy	=	spawnY;
-		// set hit points
-		hpMax	=	1;
-		hp		=	hpMax;
+		
 		// initiate movement
 		dx=1;
 	}
@@ -59,6 +61,21 @@ public class Creature extends LivingObject {
     	
 		// bewegung ausf�hren
 		super.move();
+    }
+    
+    //Return stats
+    
+    @Override
+    public void draw(Graphics2D g2d, int x, int y){
+    	//HP-Leiste & Monster malen
+    	g2d.drawImage(this.getImg(), x, y, null);
+    	g2d.setColor(Color.WHITE);
+    	g2d.fillRect(x, y-8, 24, 5);
+    	g2d.setColor(Color.BLACK);
+    	g2d.drawRect(x, y-8, 24, 5);
+    	g2d.setColor(Color.RED);
+    	g2d.fillRect(x+1, y-7, (int)(24*((double)hp/hpMax)), 4);
+    	g2d.setColor(Color.BLACK);
     }
     
     public void onCollision(DungeonObject d){

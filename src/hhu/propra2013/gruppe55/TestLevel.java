@@ -21,6 +21,7 @@ public class TestLevel extends JPanel implements ActionListener {
 
 	// Levelobjekte
 	private Player player;				// Spielerobjekt
+	private HUD hud;					//HUD
 	private int room;					// pointer to current room
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
 	private ArrayList<ArrayList<DungeonObject>> staticList;	// liste der Waende/Gegenstaende/etc
@@ -100,11 +101,11 @@ public class TestLevel extends JPanel implements ActionListener {
 					if(lvlData[r][i][j] == 1)
 						staticList.get(r).add(new WallObject(i*32, j*32));
 					else if(lvlData[r][i][j] == 2)
-						creatureList.get(r).add(new Creature(i*32+5, j*32-5));
+						creatureList.get(r).add(new Creature(i*32+5, j*32-5, 100, 10, 0, 100, 0));
 					else if(lvlData[r][i][j] == 3){
 						playerSpawnX	=	i*32-5;
 						playerSpawnY	=	j*32-5;
-						player	=	new Player(playerSpawnX, playerSpawnY);
+						player	=	new Player(playerSpawnX, playerSpawnY, 100, 25, 0, 100, 100);
 					}
 					else if(lvlData[r][i][j] == 5)
 						staticList.get(r).add(new TrapObject(i*32, j*32));
@@ -117,6 +118,9 @@ public class TestLevel extends JPanel implements ActionListener {
 		}
 		// that's a loop, that loops a loops looping loop. yo dawg, i heard u like loops...
 
+		//Konstruiere HUD
+		hud = new HUD();
+		
 		// panel properties
 		setFocusable(true);
 		setBackground(new Color(255,211,155));
@@ -196,15 +200,22 @@ public class TestLevel extends JPanel implements ActionListener {
 		// wir arbeiten mit Java2d
 		Graphics2D g2d = (Graphics2D)g;
 		
+		//Offset fü den Bildlauf vorberechnen
+		int offsetX = player.getX()-centerX;
+		int offsetY = player.getY()-centerY;
+		
 		// paint static objects
 		for(int i=0; i<staticList.get(room).size(); i++)
-			g2d.drawImage(staticList.get(room).get(i).getImg(), staticList.get(room).get(i).getX()-(player.getX()-centerX), staticList.get(room).get(i).getY()-(player.getY()-centerY), this);
+			g2d.drawImage(staticList.get(room).get(i).getImg(), staticList.get(room).get(i).getX()-offsetX, staticList.get(room).get(i).getY()-offsetY, this);
 		// paint creatures
 		for(int i=0; i<creatureList.get(room).size(); i++)
-			g2d.drawImage(creatureList.get(room).get(i).getImg(), creatureList.get(room).get(i).getX()-(player.getX()-centerX), creatureList.get(room).get(i).getY()-(player.getY()-centerY), this);
-		
+			creatureList.get(room).get(i).draw(g2d, creatureList.get(room).get(i).getX()-offsetX, creatureList.get(room).get(i).getY()-offsetY);
+			
 		// Spieler zeichnen
-		g2d.drawImage(player.getImg(), centerX, centerY, this);
+		player.draw(g2d, centerX, centerY);
+		
+		//Draw HUD
+		hud.draw(g2d, player.getHP(), player.getHPMax(), player.getAusd(), player.getAusdMax(), player.getMana(), player.getManaMax());
 		
 		// draw game over/win screen on demand
 		if(loose)

@@ -1,5 +1,6 @@
 package hhu.propra2013.gruppe55;
 
+import java.awt.Graphics2D;
 import java.awt.event.*;
 
 public class Player extends LivingObject {
@@ -11,8 +12,8 @@ public class Player extends LivingObject {
 	protected int goal;
 
 	// constructor
-    public Player(int spawnX, int spawnY) {
-		super(spawnX, spawnY);
+    public Player(int spawnX, int spawnY, int h, int angr, int vert, int ausd, int man) {
+		super(spawnX, spawnY, h, angr, vert, ausd, man);
 
 		// set states
 		state[0].changeImg(ripPath);
@@ -37,7 +38,7 @@ public class Player extends LivingObject {
     	switchState(1);
     	// at this point of game development no more code needed here
     }
-    // spieler berührt das ziel und gewinnt das spiel
+    // spieler berï¿½hrt das ziel und gewinnt das spiel
     public void reachgoal(){ 
     	goal +=1; 
     	switchState(2); // Spieler wird unbeweglich
@@ -45,6 +46,11 @@ public class Player extends LivingObject {
     // Wert der goal variable wird uebergeben
     public int getgoal(){
     	return goal;
+    }
+    
+    //Drawing the Player
+    public void draw(Graphics2D g2d, int x, int y){
+    	g2d.drawImage(this.getImg(), x, y, null);
     }
 
 // following methods allow keyboard control of player
