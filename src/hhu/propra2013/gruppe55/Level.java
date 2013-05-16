@@ -11,7 +11,6 @@ public class Level extends JPanel implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	
 	// Levelobjekte
-	private HUD hud;
 	private Player player;				// Spielerobjekt
 	private int room;					// pointer to current room
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
@@ -143,9 +142,6 @@ public class Level extends JPanel implements ActionListener {
 		teleportList.get(2).add(new Teleporter(2*32, 16*32, 1, 2*32, 0*32));
 		teleportList.get(2).add(new Teleporter(3*32, 16*32, 1, 3*32, 0*32));
 		
-		//HUD
-		hud = new HUD();
-		
 		// panel properties
 		setFocusable(true);
 		setBackground(new Color(255,211,155));
@@ -234,8 +230,6 @@ public class Level extends JPanel implements ActionListener {
 			g2d.drawImage(Ressources.win, 32*10, 32*10, this);
 		if(clear)
 			g2d.drawImage(Ressources.gameover, 32*10, 32*10, this);
-		
-		hud.draw(g2d, player.getHP(), player.getHPMax(), player.getAusd(), player.getAusdMax(), player.getMana(), player.getManaMax());
 		
 		// blubb
         Toolkit.getDefaultToolkit().sync();/**/
