@@ -1,18 +1,8 @@
 package hhu.propra2013.gruppe55;
 
 import java.awt.*;
-import javax.swing.*;
 
 public class HUD {
-	
-	private int width, height; //Fensterdimensionen
-	private String HUDPath = "img/HUD.png";	//Bildpfad
-	private Image hud;						//Image
-	
-	//Konstruktor
-	public HUD(){
-		hud = (new ImageIcon(HUDPath).getImage());	//Overlay-Bild laden
-	}
 	
 	
 	public void draw(Graphics g2d, int hp, int hpMax, int ausd, int ausdMax, int mana, int manaMax){
@@ -32,7 +22,7 @@ public class HUD {
 		g2d.setColor(Color.BLUE);
 		g2d.fillRect(5, 38, (int)(305*((double)mana/manaMax)), 10);
 		g2d.setColor(Color.BLACK);
-		g2d.drawImage(hud, 0, 0, null);
+		g2d.drawImage(Ressources.hud, 0, 0, null);
 	}
 
 }

@@ -5,20 +5,17 @@ import java.awt.event.*;
 
 public class Player extends LivingObject {
 
-	// images
-	private String imgPath	=	"img/player.png";  // player-image
-	private String ripPath	=	"img/dead.png";	// rip-image
 	// Variable zur Zielabfrage
 	protected int goal;
 
 	// constructor
     public Player(int spawnX, int spawnY, int h, int angr, int vert, int ausd, int man) {
 		super(spawnX, spawnY, h, angr, vert, ausd, man);
-
+		
 		// set states
-		state[0].changeImg(ripPath);
-		state[1].changeImg(imgPath);
-		state[2].changeImg(imgPath);
+		state[0].changeImg(Ressources.dead);
+		state[1].changeImg(Ressources.player);
+		state[2].changeImg(Ressources.player);
 		state[1].defineOffset(15,3,15,12); // Hitbox des Spielers angepasst
 		goal = 0;
 		

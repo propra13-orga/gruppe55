@@ -1,24 +1,15 @@
 package hhu.propra2013.gruppe55;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.Image;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
-
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.Timer;
-
+import javax.swing.*;
 import java.io.*;
 
 public class TestLevel extends JPanel implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
+	
 	// Levelobjekte
 	private Player player;				// Spielerobjekt
 	private HUD hud;					//HUD
@@ -29,28 +20,17 @@ public class TestLevel extends JPanel implements ActionListener {
 	// actions timer
 	private Timer timer;
 	// variables for important game events
-	private boolean lose	=	false;	// true on player dead
-	private boolean clear	=	false;	// true if player cleared the level
-	private String gameoverPath	=	"img/gameover.png";	// image to show on player death
-	private String youwinPath = "img/youwin.png"; // image to show on game win
-	private Image gameoverImg	=	(new ImageIcon(gameoverPath)).getImage();	// the preloaded image
-	private Image youwinImg	=	(new ImageIcon(youwinPath)).getImage();  //s.o.
+	private boolean lose, clear;	// true on player's dead or win
 	// variables important in case of reload
 	private int playerSpawnX, playerSpawnY;		// coordinates of player's first appearance
 	private int centerX, centerY;				//Fenstermittelpunkt
 	
-	private Runtime rt;
-	private Image wall = (new ImageIcon("img/wall.png")).getImage();
-	
 	
 // constructor
-	public TestLevel(int x, int y) {
-		// TODO Konstruktor: Hier dann irgendwie spaeter mal ne syntax, die das level aus ner datei l�d
+	public TestLevel(int x, int y) {		
 		// Mittelpunkt des Fensters
 		centerX = x;
 		centerY = y;
-		
-		rt = Runtime.getRuntime();
 		
 		String line;
 		String lineints[];
@@ -216,7 +196,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		
 		// paint static objects
 		for(int i=0; i<staticList.get(room).size(); i++)
-			g2d.drawImage(wall, staticList.get(room).get(i).getX()-offsetX, staticList.get(room).get(i).getY()-offsetY, this);
+				staticList.get(room).get(i).draw(g2d, staticList.get(room).get(i).getX()-offsetX, staticList.get(room).get(i).getY()-offsetY);
 		// paint creatures
 		for(int i=0; i<creatureList.get(room).size(); i++)
 			creatureList.get(room).get(i).draw(g2d, creatureList.get(room).get(i).getX()-offsetX, creatureList.get(room).get(i).getY()-offsetY);
@@ -228,9 +208,9 @@ public class TestLevel extends JPanel implements ActionListener {
 		
 		// draw game over/win screen on demand
 		if(lose)
-			g2d.drawImage(gameoverImg, 32*10, 32*10, this);
+			g2d.drawImage(Ressources.gameover, 32*10, 32*10, this);
 		else if(clear)
-			g2d.drawImage(youwinImg, 32*10, 32*10, this);
+			g2d.drawImage(Ressources.win, 32*10, 32*10, this);
 		// blubb
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();
@@ -259,7 +239,6 @@ public class TestLevel extends JPanel implements ActionListener {
 		
 		// neuzeichnen
 		repaint();
-		System.out.println("T: " + rt.maxMemory() + " - U:" + (rt.maxMemory()-rt.freeMemory()) + " - F: " + rt.freeMemory());
 	}
 	
 	

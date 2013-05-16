@@ -5,9 +5,6 @@ import java.awt.Graphics2D;
 
 public class Creature extends LivingObject {
 // attributes
-	// images
-    private String imgPath	=	"img/creature.png";  // player-image
-    private String ripPath	=	"img/dead.png";	// rip-image
     // coordinates
     private int sx, sy;			// Spawn coordinates
     private int moveAreaX	=	180;		// maximal vertical movement to the right
@@ -17,9 +14,10 @@ public class Creature extends LivingObject {
 // constructor
     public Creature(int spawnX, int spawnY, int h, int angr, int vert, int ausd, int man) {
 		super(spawnX, spawnY, h, angr, vert, ausd, man);
+		
 		// set states
 		state[0].visible	=	false;
-		state[1].changeImg(imgPath);
+		state[1].changeImg(Ressources.creature);
 		sx	=	spawnX;
 		sy	=	spawnY;
 		

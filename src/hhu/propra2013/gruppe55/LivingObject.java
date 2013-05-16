@@ -4,6 +4,7 @@ import java.awt.Graphics2D;
 
 public abstract class LivingObject extends DungeonObject {
 
+	Ressources res;
 	// hitpoint management
     protected int hp, hpMax,  verteidigung, angriff, mana, manaMax, ausdauer, ausdauerMax;	// Statuswerte
 	// movement
@@ -19,11 +20,11 @@ public abstract class LivingObject extends DungeonObject {
 		// modify state-array
 		state	=	new State[3];
 		// dead state
-		state[0] = new State(imgPath, false, true, false);
+		state[0] = new State(Ressources.potionused, false, true, false);
 		// alive
-		state[1] = new State(imgPath, true, false, true);
+		state[1] = new State(Ressources.potionused, true, false, true);
 		// game won
-		state[2] = new State(imgPath, false, true, false);
+		state[2] = new State(Ressources.potionused, false, true, false);
 		
 		// start as living thing
 		currState	=	1;

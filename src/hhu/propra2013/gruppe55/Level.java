@@ -1,22 +1,15 @@
 package hhu.propra2013.gruppe55;
 
-import java.awt.Color;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Toolkit;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.KeyEvent;
-import java.awt.event.KeyListener;
-import java.awt.Image;
+import java.awt.*;
+import java.awt.event.*;
 import java.util.ArrayList;
 
-import javax.swing.ImageIcon;
-import javax.swing.JPanel;
-import javax.swing.Timer;
+import javax.swing.*;
 
 public class Level extends JPanel implements ActionListener {
 
+	private static final long serialVersionUID = 1L;
+	
 	// Levelobjekte
 	private Player player;				// Spielerobjekt
 	private int room;					// pointer to current room
@@ -28,18 +21,12 @@ public class Level extends JPanel implements ActionListener {
 	// variables for important game events
 	private boolean loose	=	false;	// true on player dead
 	private boolean clear	=	false;	// true if player cleared the level
-	private String youwinPath = "img/youwin.png";
-	private String gameoverPath	=	"img/gameover.png";	// image to show on player death
-	private Image gameoverImg	=	(new ImageIcon(gameoverPath)).getImage();	// the preloaded image
-	private Image youwinImg	=	(new ImageIcon(youwinPath)).getImage();
 	// variables important in case of reload
 	private int playerSpawnX, playerSpawnY;		// coordinates of player's first appearance
 	
 	
 // constructor
 	public Level(int lvlNum) {
-		// TODO Konstruktor: Hier dann irgendwie spaeter mal ne syntax, die das level aus ner datei l�d
-		
 		// set pointer to first room
 		room	=	0;
 		// vorerst fixes test level
@@ -230,19 +217,19 @@ public class Level extends JPanel implements ActionListener {
 		
 		// paint static objects
 		for(int i=0; i<staticList.get(room).size(); i++)
-			g2d.drawImage(staticList.get(room).get(i).getImg(), staticList.get(room).get(i).getX(), staticList.get(room).get(i).getY(), this);
+			staticList.get(room).get(i).draw(g2d, staticList.get(room).get(i).getX(), staticList.get(room).get(i).getY());
 		// paint creatures
 		for(int i=0; i<creatureList.get(room).size(); i++)
-			g2d.drawImage(creatureList.get(room).get(i).getImg(), creatureList.get(room).get(i).getX(), creatureList.get(room).get(i).getY(), this);
+			creatureList.get(room).get(i).draw(g2d, creatureList.get(room).get(i).getX(), creatureList.get(room).get(i).getY());
 		
 		// Spieler zeichnen
-		g2d.drawImage(player.getImg(), player.getX(), player.getY(), this);
+		player.draw(g2d, player.getX(), player.getY());
 		
 		// draw game over screen on demand
 		if(loose)
-			g2d.drawImage(gameoverImg, 32*10, 32*10, this);
+			g2d.drawImage(Ressources.win, 32*10, 32*10, this);
 		if(clear)
-			g2d.drawImage(youwinImg, 32*10, 32*10, this);
+			g2d.drawImage(Ressources.gameover, 32*10, 32*10, this);
 		
 		// blubb
         Toolkit.getDefaultToolkit().sync();/**/

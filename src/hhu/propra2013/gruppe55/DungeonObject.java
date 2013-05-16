@@ -1,10 +1,8 @@
 package hhu.propra2013.gruppe55;
 
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
-import java.awt.Toolkit;
-
-import javax.swing.ImageIcon;
 
 public abstract class DungeonObject {
 // Attribute
@@ -12,7 +10,6 @@ public abstract class DungeonObject {
 	protected int x;	// aktuelle X-Position des Objekts
 	protected int y;	// aktuelle Y-Position des Objekts
 	// Grafik
-	protected String imgPath = "img/wall.png";	// pfad zur bilddatei
 	protected State[] state;
 	protected int currState;
 	protected int width;	// breite
@@ -24,11 +21,11 @@ public abstract class DungeonObject {
 		// Koordinaten
 		this.x	=	x;
 		this.y	=	y;
-		// Status-Array deklarieren
+//		// Status-Array deklarieren
 		state	=	new State[1];
-		// Status definieren
-		state[0]	=	new State(imgPath, false, true, true);
-		// pointer setzen
+//		// Status definieren
+		state[0]	=	new State(Ressources.potionused, false, true, true);
+//		// pointer setzen
 		switchState(0);
 	}
 	
@@ -59,6 +56,8 @@ public abstract class DungeonObject {
 		y	+=	oHeight - state[currState].img.getHeight(null);
 		
 	}
+	
+	public void draw(Graphics2D g2d, int x, int y){}
 
 // following methods are relevant for the level methods paint and collisionCheck
 	// x wert ausgeben

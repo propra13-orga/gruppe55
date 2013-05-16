@@ -2,8 +2,6 @@ package hhu.propra2013.gruppe55;
 
 import java.awt.Image;
 
-import javax.swing.ImageIcon;
-
 public class State {
 
 	// image
@@ -15,8 +13,8 @@ public class State {
 	public int[] offset = {0,0,0,0}; // Offset to create individual hitboxes
 	
 // constructor
-	public State(String imgPath, boolean moveable, boolean massive, boolean visible) {
-		img	=	(new ImageIcon(imgPath)).getImage();
+	public State(Image image, boolean moveable, boolean massive, boolean visible) {
+		img	= image;
 		this.moveable	=	moveable;
 		this.massive	=	massive;
 		this.visible	=	visible;
@@ -25,8 +23,8 @@ public class State {
 // methods
 	
 	// change the grafic
-	public void changeImg(String imgPath){
-		img	=	(new ImageIcon(imgPath)).getImage();
+	public void changeImg(Image image){
+		img	= image;
 	}
 	// change movement
 	public void changeMoveable(boolean b){
