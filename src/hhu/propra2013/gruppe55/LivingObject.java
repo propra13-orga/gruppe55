@@ -44,6 +44,12 @@ public abstract class LivingObject extends DungeonObject {
 			switchState(0); // dead
 	}
 	
+	public void getHealed(){
+		hp+=25;
+		if(hp>hpMax)
+			hp = hpMax;
+	}
+	
 	// apply movement, actually pretty simple
 	public void move(){
 		// test if still alive

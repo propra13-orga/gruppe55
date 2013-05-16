@@ -29,7 +29,7 @@ public class TestLevel extends JPanel implements ActionListener {
 	// actions timer
 	private Timer timer;
 	// variables for important game events
-	private boolean loose	=	false;	// true on player dead
+	private boolean lose	=	false;	// true on player dead
 	private boolean clear	=	false;	// true if player cleared the level
 	private String gameoverPath	=	"img/gameover.png";	// image to show on player death
 	private String youwinPath = "img/youwin.png"; // image to show on game win
@@ -89,6 +89,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		//4: Teleporter
 		//5: Falle
 		//6: Ziel
+		//7: Potion
 		// loop that generates the level
 		for(int r=0; r<lvlData.length;r++){
 			// initialize new room dimension in the array lists
@@ -113,6 +114,8 @@ public class TestLevel extends JPanel implements ActionListener {
 						teleportList.get(r).add(new Teleporter(i*32, j*32, 1, 2*32, 0*32));
 					else if(lvlData[r][i][j] == 6)
 						staticList.get(r).add(new GoalObject(i*32, j*32));
+					else if(lvlData[r][i][j] == 7)
+						staticList.get(r).add(new PotionObject(i*32, j*32)); 
 				}
 			}
 		}
@@ -188,7 +191,7 @@ public class TestLevel extends JPanel implements ActionListener {
 				staticList.get(room).get(i).switchState(0);
 		}
 		// of course set lose=false
-		loose	=	false;
+		lose	=	false;
 	}
 	
 	/*
@@ -210,7 +213,6 @@ public class TestLevel extends JPanel implements ActionListener {
 		// paint creatures
 		for(int i=0; i<creatureList.get(room).size(); i++)
 			creatureList.get(room).get(i).draw(g2d, creatureList.get(room).get(i).getX()-offsetX, creatureList.get(room).get(i).getY()-offsetY);
-			
 		// Spieler zeichnen
 		player.draw(g2d, centerX, centerY);
 		
@@ -218,7 +220,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		hud.draw(g2d, player.getHP(), player.getHPMax(), player.getAusd(), player.getAusdMax(), player.getMana(), player.getManaMax());
 		
 		// draw game over/win screen on demand
-		if(loose)
+		if(lose)
 			g2d.drawImage(gameoverImg, 32*10, 32*10, this);
 		else if(clear)
 			g2d.drawImage(youwinImg, 32*10, 32*10, this);
@@ -234,7 +236,7 @@ public class TestLevel extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// check if player is still alive
 		if(player.getHP()<=0)
-			loose	=	true;	// he did not deserve any better...
+			lose	=	true;	// he did not deserve any better...
 		if(player.getgoal()>1)
 			clear = true;		// yay! 
 		
@@ -264,13 +266,13 @@ public class TestLevel extends JPanel implements ActionListener {
 		public void keyPressed(KeyEvent e) {
 			int k	=	e.getKeyCode();
 			// Bewegungsbefehle an Spieler weiter leiten
-			if(k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN || k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT)
+			if(!lose && (k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN || k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT))
 				player.keyPressed(e);
 			
 			// Space-Taste abfragen
 			if(k == KeyEvent.VK_SPACE)
 				// on player death
-				if(loose)
+				if(lose)
 					reload();
 				else if(clear){
 					System.exit(1);
