@@ -39,6 +39,9 @@ public class TestLevel extends JPanel implements ActionListener {
 	private int playerSpawnX, playerSpawnY;		// coordinates of player's first appearance
 	private int centerX, centerY;				//Fenstermittelpunkt
 	
+	private Runtime rt;
+	private Image wall = (new ImageIcon("img/wall.png")).getImage();
+	
 	
 // constructor
 	public TestLevel(int x, int y) {
@@ -46,6 +49,8 @@ public class TestLevel extends JPanel implements ActionListener {
 		// Mittelpunkt des Fensters
 		centerX = x;
 		centerY = y;
+		
+		rt = Runtime.getRuntime();
 		
 		String line;
 		String lineints[];
@@ -204,9 +209,11 @@ public class TestLevel extends JPanel implements ActionListener {
 		int offsetX = player.getX()-centerX;
 		int offsetY = player.getY()-centerY;
 		
+		//staticList.get(room).get(i).getImg()
+		
 		// paint static objects
 		for(int i=0; i<staticList.get(room).size(); i++)
-			g2d.drawImage(staticList.get(room).get(i).getImg(), staticList.get(room).get(i).getX()-offsetX, staticList.get(room).get(i).getY()-offsetY, this);
+			g2d.drawImage(wall, staticList.get(room).get(i).getX()-offsetX, staticList.get(room).get(i).getY()-offsetY, this);
 		// paint creatures
 		for(int i=0; i<creatureList.get(room).size(); i++)
 			creatureList.get(room).get(i).draw(g2d, creatureList.get(room).get(i).getX()-offsetX, creatureList.get(room).get(i).getY()-offsetY);
@@ -250,6 +257,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		
 		// neuzeichnen
 		repaint();
+		System.out.println("T: " + rt.maxMemory() + " - U:" + (rt.maxMemory()-rt.freeMemory()) + " - F: " + rt.freeMemory());
 	}
 	
 	

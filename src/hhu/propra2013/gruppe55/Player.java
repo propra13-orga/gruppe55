@@ -36,6 +36,8 @@ public class Player extends LivingObject {
     // method to revive player after death
     public void revive(){
     	hp	=	hpMax;
+    	ausdauer = ausdauerMax;
+    	mana = manaMax;
     	switchState(1);
     	// at this point of game development no more code needed here
     }

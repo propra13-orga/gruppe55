@@ -36,7 +36,6 @@ public class Level extends JPanel implements ActionListener {
 	private int playerSpawnX, playerSpawnY;		// coordinates of player's first appearance
 	
 	
-	
 // constructor
 	public Level(int lvlNum) {
 		// TODO Konstruktor: Hier dann irgendwie spaeter mal ne syntax, die das level aus ner datei l�d

@@ -12,7 +12,7 @@ public abstract class DungeonObject {
 	protected int x;	// aktuelle X-Position des Objekts
 	protected int y;	// aktuelle Y-Position des Objekts
 	// Grafik
-	protected String imgPath	=	"img/wall.png";	// pfad zur bilddatei
+	protected String imgPath = "img/wall.png";	// pfad zur bilddatei
 	protected State[] state;
 	protected int currState;
 	protected int width;	// breite
