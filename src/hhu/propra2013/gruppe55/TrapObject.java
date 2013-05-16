@@ -25,11 +25,5 @@ public class TrapObject extends DungeonObject {
 				((Player)d).getHit();
 	    	// set to activated
 	    	switchState(1);
-	} 
-	
-	/* public Rectangle getBorder(){
-		// modified to match image
-		return new Rectangle(x, y+7, state[currState].img.getWidth(null), state[currState].img.getHeight(null)-7);
-	}*/
-	  
+	}   
 }
