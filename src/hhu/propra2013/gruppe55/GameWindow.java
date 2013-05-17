@@ -23,6 +23,9 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 		super("SuperAwesomeGameYeah");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		// init images
+		Ressources.init();
+		
 		testlvl = new TestLevel((width/2)-26, (height/2)-25);
 		lvl = new Level(0);
 		

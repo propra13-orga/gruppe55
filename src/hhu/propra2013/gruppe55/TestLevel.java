@@ -196,15 +196,15 @@ public class TestLevel extends JPanel implements ActionListener {
 		
 		// paint static objects
 		for(int i=0; i<staticList.get(room).size(); i++)
-				staticList.get(room).get(i).draw(g2d, staticList.get(room).get(i).getX()-offsetX, staticList.get(room).get(i).getY()-offsetY);
+				staticList.get(room).get(i).draw(g2d, offsetX, offsetY);
 		// paint creatures
 		for(int i=0; i<creatureList.get(room).size(); i++)
-			creatureList.get(room).get(i).draw(g2d, creatureList.get(room).get(i).getX()-offsetX, creatureList.get(room).get(i).getY()-offsetY);
+			creatureList.get(room).get(i).draw(g2d, offsetX, offsetY);
 		// Spieler zeichnen
 		player.draw(g2d, centerX, centerY);
 		
 		//Draw HUD
-		hud.draw(g2d, player.getHP(), player.getHPMax(), player.getAusd(), player.getAusdMax(), player.getMana(), player.getManaMax());
+		hud.draw(g2d, player.getHP(), player.getHPMax(), player.getEnergy(), player.getEnergyMax(), player.getMana(), player.getManaMax());
 		
 		// draw game over/win screen on demand
 		if(lose)

@@ -217,19 +217,19 @@ public class Level extends JPanel implements ActionListener {
 		
 		// paint static objects
 		for(int i=0; i<staticList.get(room).size(); i++)
-			staticList.get(room).get(i).draw(g2d, staticList.get(room).get(i).getX(), staticList.get(room).get(i).getY());
+			staticList.get(room).get(i).draw(g2d, 0, 0);
 		// paint creatures
 		for(int i=0; i<creatureList.get(room).size(); i++)
-			creatureList.get(room).get(i).draw(g2d, creatureList.get(room).get(i).getX(), creatureList.get(room).get(i).getY());
+			creatureList.get(room).get(i).draw(g2d, 0, 0);
 		
 		// Spieler zeichnen
 		player.draw(g2d, player.getX(), player.getY());
 		
 		// draw game over screen on demand
 		if(loose)
-			g2d.drawImage(Ressources.win, 32*10, 32*10, this);
-		if(clear)
 			g2d.drawImage(Ressources.gameover, 32*10, 32*10, this);
+		if(clear)
+			g2d.drawImage(Ressources.win, 32*10, 32*10, this);
 		
 		// blubb
         Toolkit.getDefaultToolkit().sync();/**/

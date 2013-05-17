@@ -5,7 +5,7 @@ import java.awt.Image;
 public class State {
 
 	// image
-	public Image img;				// the image displayed while this state is active
+	public String img;				// the image from Resources class displayed while this state is active
 									// properties controlled by this state
 	public boolean moveable;		// allows movement?
 	public boolean massive;			// does it stop the player on moving through?
@@ -13,8 +13,8 @@ public class State {
 	public int[] offset = {0,0,0,0}; // Offset to create individual hitboxes
 	
 // constructor
-	public State(Image image, boolean moveable, boolean massive, boolean visible) {
-		img	= image;
+	public State(String resourceImg, boolean moveable, boolean massive, boolean visible) {
+		img	= resourceImg;
 		this.moveable	=	moveable;
 		this.massive	=	massive;
 		this.visible	=	visible;
@@ -23,7 +23,7 @@ public class State {
 // methods
 	
 	// change the grafic
-	public void changeImg(Image image){
+	public void changeImg(String image){
 		img	= image;
 	}
 	// change movement

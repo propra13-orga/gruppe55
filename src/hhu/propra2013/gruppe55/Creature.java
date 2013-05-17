@@ -17,7 +17,7 @@ public class Creature extends LivingObject {
 		
 		// set states
 		state[0].visible	=	false;
-		state[1].changeImg(Ressources.creature);
+		state[1].changeImg("creature");
 		sx	=	spawnX;
 		sy	=	spawnY;
 		
@@ -64,16 +64,17 @@ public class Creature extends LivingObject {
     //Return stats
     
     @Override
-    public void draw(Graphics2D g2d, int x, int y){
-    	//HP-Leiste & Monster malen
-    	g2d.drawImage(this.getImg(), x, y, null);
+    public void draw(Graphics2D g2d, int offsetX, int offsetY){
+    	//HP-Leiste
     	g2d.setColor(Color.WHITE);
-    	g2d.fillRect(x, y-8, 24, 5);
+    	g2d.fillRect(x-offsetX, y-offsetY-8, 24, 5);
     	g2d.setColor(Color.BLACK);
-    	g2d.drawRect(x, y-8, 24, 5);
+    	g2d.drawRect(x-offsetX, y-offsetY-8, 24, 5);
     	g2d.setColor(Color.RED);
-    	g2d.fillRect(x+1, y-7, (int)(24*((double)hp/hpMax)), 4);
+    	g2d.fillRect(x+1-offsetX, y-offsetY-7, (int)(24*((double)hp/hpMax)), 4);
     	g2d.setColor(Color.BLACK);
+    	// draw the creature
+    	super.draw(g2d, offsetX, offsetY);
     }
     
     public void onCollision(DungeonObject d){

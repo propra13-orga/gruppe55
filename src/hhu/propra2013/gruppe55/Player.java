@@ -9,14 +9,14 @@ public class Player extends LivingObject {
 	protected int goal;
 
 	// constructor
-    public Player(int spawnX, int spawnY, int h, int angr, int vert, int ausd, int man) {
-		super(spawnX, spawnY, h, angr, vert, ausd, man);
+    public Player(int spawnX, int spawnY, int h, int atk, int def, int energy, int mana) {
+		super(spawnX, spawnY, h, atk, def, energy, mana);
 		
 		// set states
-		state[0].changeImg(Ressources.dead);
-		state[1].changeImg(Ressources.player);
-		state[2].changeImg(Ressources.player);
-		state[1].defineOffset(15,3,15,12); // Hitbox des Spielers angepasst
+		state[0].changeImg("dead");
+		state[1].changeImg("player");
+		state[2].changeImg("player");
+		state[1].defineOffset(15,3,0,5); // Hitbox des Spielers angepasst
 		goal = 0;
 		
 		// activate 1st state
@@ -30,10 +30,14 @@ public class Player extends LivingObject {
     	this.y	=	y;
     }
     
+    public void draw(Graphics2D g2d, int x, int y){
+    	g2d.drawImage(Ressources.lib.get(state[currState].img), x,  y,  null);
+    }
+    
     // method to revive player after death
     public void revive(){
     	hp	=	hpMax;
-    	ausdauer = ausdauerMax;
+    	energy = energyMax;
     	mana = manaMax;
     	switchState(1);
     	// at this point of game development no more code needed here
@@ -46,11 +50,6 @@ public class Player extends LivingObject {
     // Wert der goal variable wird uebergeben
     public int getgoal(){
     	return goal;
-    }
-    
-    //Drawing the Player
-    public void draw(Graphics2D g2d, int x, int y){
-    	g2d.drawImage(this.getImg(), x, y, null);
     }
 
 // following methods allow keyboard control of player

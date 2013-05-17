@@ -24,7 +24,7 @@ public abstract class DungeonObject {
 //		// Status-Array deklarieren
 		state	=	new State[1];
 //		// Status definieren
-		state[0]	=	new State(Ressources.potionused, false, true, true);
+		state[0]	=	new State("potionused", false, true, true);
 //		// pointer setzen
 		switchState(0);
 	}
@@ -45,19 +45,22 @@ public abstract class DungeonObject {
 		if(s>=state.length)
 			return;
 		// safe old image size for possible relocation of object
-		int oWidth	=	state[currState].img.getWidth(null);	// old width
-		int oHeight	=	state[currState].img.getHeight(null);	// old height
+		int oWidth	=	Ressources.lib.get(state[currState].img).getWidth(null);	// old width
+		int oHeight	=	Ressources.lib.get(state[currState].img).getHeight(null);	// old height
 		
 		// set new pointer
 		currState	=	s;
 		
 		// recalculate position in aspect of different image sizes
-		x	+=	(oWidth - state[currState].img.getWidth(null)) / 2;
-		y	+=	oHeight - state[currState].img.getHeight(null);
+		x	+=	(oWidth - Ressources.lib.get(state[currState].img).getWidth(null)) / 2;
+		y	+=	oHeight - Ressources.lib.get(state[currState].img).getHeight(null);
 		
 	}
 	
-	public void draw(Graphics2D g2d, int x, int y){}
+	public void draw(Graphics2D g2d, int offsetX, int offsetY){
+		if(state[currState].visible)
+			g2d.drawImage(Ressources.lib.get(state[currState].img), x-offsetX, y-offsetY, null);
+	}
 
 // following methods are relevant for the level methods paint and collisionCheck
 	// x wert ausgeben
@@ -65,11 +68,16 @@ public abstract class DungeonObject {
 	// y wert ausgeben
 	public int getY(){return y;}
 	// bild ausgeben
-	public Image getImg(){return state[currState].img;}
+	public String getImg(){return state[currState].img;}
 	// rahmen ausgeben
 	public Rectangle getBorder(){
-		int[] offset= state[currState].getOffset();
-		return new Rectangle(x + offset[1], y + offset[0], state[currState].img.getWidth(null) - offset[3], state[currState].img.getHeight(null)-offset[2]);
+		if(state[currState].visible){
+			int[] offset= state[currState].getOffset();
+			return new Rectangle(x + offset[1], y + offset[0], Ressources.lib.get(state[currState].img).getWidth(null) -offset[1]-offset[3], Ressources.lib.get(state[currState].img).getHeight(null)-offset[0]-offset[2]);
+		}
+		
+		// else
+		return new Rectangle(0,0,0,0);
 	}
 	
 }

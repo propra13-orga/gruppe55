@@ -1,6 +1,9 @@
 package hhu.propra2013.gruppe55;
 
 import java.awt.*;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.swing.*;
 
 public class Ressources {
@@ -20,6 +23,8 @@ public class Ressources {
 	static Image trapact = (new ImageIcon("img/trapActivated.png")).getImage();
 	static Image wall = (new ImageIcon("img/wall.png")).getImage();
 	static Image win = (new ImageIcon("img/youwin.png")).getImage();
+	
+	public static Map<String, Image> lib;		// image library
 	
 	public Ressources(){
 		//Bildpfade
@@ -48,5 +53,29 @@ public class Ressources {
 		trapact = (new ImageIcon(trapactPath)).getImage();
 		wall = (new ImageIcon(wallPath)).getImage();
 		win = (new ImageIcon(winPath)).getImage();
+		
+
+	}
+	
+	public static void init(){
+		// initialize map
+		lib	=	new HashMap<String,Image>();
+		// player images
+		lib.put("player", player);
+		lib.put("dead",  dead);
+		// mobs
+		lib.put("creature", creature);
+		// level design objects
+		lib.put("trap", trap);
+		lib.put("trapact",trapact);
+		lib.put("goal", goal);
+		lib.put("wall",wall);
+		lib.put("potion",potion);
+		lib.put("potionused",potionused);
+		// level win/lose
+		lib.put("win",win);
+		lib.put("gameover",gameover);
+		// hud
+		lib.put("hud",hud);
 	}
 }
