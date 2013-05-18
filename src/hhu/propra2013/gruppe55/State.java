@@ -4,15 +4,15 @@ import java.awt.Image;
 
 public class State {
 
-	// image
-	public String img;				// the image from Resources class displayed while this state is active
-									// properties controlled by this state
-	public boolean moveable;		// allows movement?
-	public boolean massive;			// does it stop the player on moving through?
-	public boolean visible;			// img visible?
-	public int[] offset = {0,0,0,0}; // Offset to create individual hitboxes
+	// Bilder
+	public String img;				// Das Bild aus der Ressources Klasse, dass beim jeweiligen State gezeigt wird
+	// Eigenschaften des States
+	public boolean moveable;		// ist das Objekt beweglich?
+	public boolean massive;			// kann der Spieler hindurch gehen?
+	public boolean visible;			// ist das Objekt sichtbar?
+	public int[] offset = {0,0,0,0}; // Offset um individuelle Hitboxen zu generieren
 	
-// constructor
+// Konstruktor
 	public State(String resourceImg, boolean moveable, boolean massive, boolean visible) {
 		img	= resourceImg;
 		this.moveable	=	moveable;
@@ -20,21 +20,21 @@ public class State {
 		this.visible	=	visible;
 	}
 	
-// methods
+// Methoden
 	
-	// change the grafic
+	// Aendern des Bildes des Objektes
 	public void changeImg(String image){
 		img	= image;
 	}
-	// change movement
+	// Aendern der beweglichkeit des Objektes
 	public void changeMoveable(boolean b){
 		moveable	=	b;
 	}
-	// change massive
+	// Aendern der Begehbarkeit des Objekts
 	public void changeMassive(boolean b){
 		massive	=	b;
 	}
-	// change movement
+	// Aendern der Sichtbarkeit des Objekts
 	public void changeVisibility(boolean b){
 		visible	=	b;
 	}

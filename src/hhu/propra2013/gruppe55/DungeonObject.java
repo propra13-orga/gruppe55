@@ -13,10 +13,10 @@ public abstract class DungeonObject {
 	protected State[] state;
 	protected int currState;
 	protected int width;	// breite
-	protected int height;	// hï¿½he
+	protected int height;	// hoehe
 	
 // Konstruktor
-		// x, y: coordinates to spawn
+		// x, y: Koordinaten zum Erscheinen
 	public DungeonObject(int x, int y){
 		// Koordinaten
 		this.x	=	x;
@@ -24,7 +24,7 @@ public abstract class DungeonObject {
 //		// Status-Array deklarieren
 		state	=	new State[1];
 //		// Status definieren
-		state[0]	=	new State("potionused", false, true, true);
+		state[0]	=	new State("potionused", false, true, true); 
 //		// pointer setzen
 		switchState(0);
 	}
@@ -33,25 +33,25 @@ public abstract class DungeonObject {
 	
 	// spezielle Kollisionsbehandlung
 	protected void onCollision(DungeonObject d){
-		// standard for non dangerous objects
+		// standart fuer ungefaehrliche Objekte
 		if(this.state[currState].massive)
 			if(d instanceof	LivingObject)
 				((LivingObject)d).setBack();
 	}
 	
-	// switch state
+	// Methode zum Wechseln der States
 	protected void switchState(int s){
-		// viable input?
+		// Abfrage ob die Eingabe valid ist
 		if(s>=state.length)
 			return;
-		// safe old image size for possible relocation of object
-		int oWidth	=	Ressources.lib.get(state[currState].img).getWidth(null);	// old width
-		int oHeight	=	Ressources.lib.get(state[currState].img).getHeight(null);	// old height
+		// Speichern des alten Bildes um es ggfs. an einen anderen Ort zu verschieben
+		int oWidth	=	Ressources.lib.get(state[currState].img).getWidth(null);	// alte Breite
+		int oHeight	=	Ressources.lib.get(state[currState].img).getHeight(null);	// alte Hoehe
 		
-		// set new pointer
+		// neuen pointer setzen
 		currState	=	s;
 		
-		// recalculate position in aspect of different image sizes
+		// Neuberechnung der Position in Abhängigkeit zur groesse des Bildes
 		x	+=	(oWidth - Ressources.lib.get(state[currState].img).getWidth(null)) / 2;
 		y	+=	oHeight - Ressources.lib.get(state[currState].img).getHeight(null);
 		
@@ -62,7 +62,8 @@ public abstract class DungeonObject {
 			g2d.drawImage(Ressources.lib.get(state[currState].img), x-offsetX, y-offsetY, null);
 	}
 
-// following methods are relevant for the level methods paint and collisionCheck
+// Die folgenden Methoden werden fuer die Level-methoden "paint" und "collisionCheck" benoetigt:
+	
 	// x wert ausgeben
 	public int getX(){return x;}
 	// y wert ausgeben
@@ -74,8 +75,7 @@ public abstract class DungeonObject {
 		if(state[currState].visible){
 			int[] offset= state[currState].getOffset();
 			return new Rectangle(x + offset[1], y + offset[0], Ressources.lib.get(state[currState].img).getWidth(null) -offset[1]-offset[3], Ressources.lib.get(state[currState].img).getHeight(null)-offset[0]-offset[2]);
-		}
-		
+		}		
 		// else
 		return new Rectangle(0,0,0,0);
 	}
