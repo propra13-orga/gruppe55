@@ -6,7 +6,7 @@ import java.awt.event.*;
 public class Player extends LivingObject {
 
 	// Variable zur Zielabfrage
-	protected int goal;
+	protected boolean goal;
 
 	// constructor
     public Player(int spawnX, int spawnY, int h, int atk, int def, int energy, int mana) {
@@ -17,7 +17,7 @@ public class Player extends LivingObject {
 		state[1].changeImg("player");
 		state[2].changeImg("player");
 		state[1].defineOffset(15,3,0,5); // Hitbox des Spielers angepasst
-		goal = 0;
+		goal = false;
 		
 		// activate 1st state
 		switchState(1);
@@ -44,11 +44,11 @@ public class Player extends LivingObject {
     }
     // spieler ber�hrt das ziel und gewinnt das spiel
     public void reachgoal(){ 
-    	goal +=1; 
+    	goal = true; 
     	switchState(2); // Spieler wird unbeweglich
     }
     // Wert der goal variable wird uebergeben
-    public int getgoal(){
+    public boolean getgoal(){
     	return goal;
     }
 

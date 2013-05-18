@@ -24,13 +24,18 @@ public class TestLevel extends JPanel implements ActionListener {
 	// variables important in case of reload
 	private int playerSpawnX, playerSpawnY;		// coordinates of player's first appearance
 	private int centerX, centerY;				//Fenstermittelpunkt
+	private GameMenu gm;
+	private GameWindow gw;
 	
 	
 // constructor
-	public TestLevel(int x, int y) {		
+	public TestLevel(GameMenu gm, GameWindow gw, int x, int y) {		
 		// Mittelpunkt des Fensters
 		centerX = x;
 		centerY = y;
+		
+		this.gm = gm;
+		this.gw = gw;
 		
 		String line;
 		String lineints[];
@@ -168,6 +173,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		// revive player
 		player.revive();
 		player.teleport(playerSpawnX, playerSpawnY);
+		player.goal = false;
 		// set room to first room
 		room	=	0;
 		//Fallen zurücksetzen
@@ -177,6 +183,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		}
 		// of course set lose=false
 		lose	=	false;
+		clear = false;
 	}
 	
 	/*
@@ -224,7 +231,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		// check if player is still alive
 		if(player.getHP()<=0)
 			lose	=	true;	// he did not deserve any better...
-		if(player.getgoal()>1)
+		if(player.getgoal() == true)
 			clear = true;		// yay! 
 		
 		// Spielerbewegung
@@ -259,10 +266,15 @@ public class TestLevel extends JPanel implements ActionListener {
 			// Space-Taste abfragen
 			if(k == KeyEvent.VK_SPACE)
 				// on player death
-				if(lose)
+				if(lose){
+					gw.setVisible(false);
+					gm.setVisible(true);
 					reload();
+				}
 				else if(clear){
-					System.exit(1);
+					gw.setVisible(false);
+					gm.setVisible(true);
+					reload();
 				}
 				// TODO: player attack
 		}

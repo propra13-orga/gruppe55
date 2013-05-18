@@ -19,14 +19,18 @@ public class Level extends JPanel implements ActionListener {
 	// actions timer
 	private Timer timer;
 	// variables for important game events
-	private boolean loose	=	false;	// true on player dead
+	private boolean lose	=	false;	// true on player dead
 	private boolean clear	=	false;	// true if player cleared the level
 	// variables important in case of reload
 	private int playerSpawnX, playerSpawnY;		// coordinates of player's first appearance
+	private GameMenu gm;
+	private GameWindow gw;
 	
 	
 // constructor
-	public Level(int lvlNum) {
+	public Level(GameMenu gm, GameWindow gw) {
+		this.gm = gm;
+		this.gw = gw;
 		// set pointer to first room
 		room	=	0;
 		// vorerst fixes test level
@@ -200,10 +204,17 @@ public class Level extends JPanel implements ActionListener {
 		// revive player
 		player.revive();
 		player.teleport(playerSpawnX, playerSpawnY);
+		player.goal = false;
 		// set room to first room
 		room	=	0;
 		// of course set lose=false
-		loose	=	false;
+		lose	=	false;
+		clear = false;
+		//Fallen zurücksetzen
+		for(int r=0; r<staticList.size(); r++){
+			for(int i=0; i<staticList.get(room).size(); i++)
+				staticList.get(room).get(i).switchState(0);
+		}
 	}
 	
 	/*
@@ -226,7 +237,7 @@ public class Level extends JPanel implements ActionListener {
 		player.draw(g2d, player.getX(), player.getY());
 		
 		// draw game over screen on demand
-		if(loose)
+		if(lose)
 			g2d.drawImage(Ressources.gameover, 32*10, 32*10, this);
 		if(clear)
 			g2d.drawImage(Ressources.win, 32*10, 32*10, this);
@@ -243,8 +254,8 @@ public class Level extends JPanel implements ActionListener {
 	public void actionPerformed(ActionEvent e) {
 		// check if player is still alive
 		if(player.getHP()<=0)
-			loose	=	true;	// he did not deserve any better...
-		if(player.getgoal()>1)
+			lose	=	true;	// he did not deserve any better...
+		if(player.getgoal() == true)
 			clear = true;		// yay! 
 			
 		// Spielerbewegung
@@ -278,13 +289,19 @@ public class Level extends JPanel implements ActionListener {
 			// Space-Taste abfragen
 			if(k == KeyEvent.VK_SPACE)
 				// on player death
-				if(loose)
+				if(lose){
+					gw.setVisible(false);
+					gm.setVisible(true);
 					reload();
-				// on win
-				else if(clear)
-					System.exit(1);
-				// TODO: player attack						
+				}
+				else if(clear){
+					gw.setVisible(false);
+					gm.setVisible(true);
+					reload();
+				}
 		}
+				// TODO: player attack
+		
 		@Override
 		public void keyReleased(KeyEvent e) {
 			int k	=	e.getKeyCode();

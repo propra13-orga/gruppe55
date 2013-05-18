@@ -17,19 +17,22 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 	private TestLevel testlvl;			// Neues TEstLevel
 	private int maxLevels	=	1;		// number of levels in total
 	private int curLvl;					// index pointer to the current level
+	private GameMenu gm;
 
 // constructor
-	public GameWindow(){
+	public GameWindow(GameMenu gm){
 		super("SuperAwesomeGameYeah");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
+		this.gm = gm;	//Hauptmenue übergeben
 		
 		// init images
 		Ressources.init();
 		
-		testlvl = new TestLevel((width/2)-26, (height/2)-25);
-		lvl = new Level(0);
+		testlvl = new TestLevel(gm, this, (width/2)-26, (height/2)-25);
+		lvl = new Level(gm, this);
 		
-		// set frame properties
+		//set frame properties
 		//this.addKeyListener(this);											//KeyListener adden
 		this.setSize(width, height);
 		this.setResizable(false);
