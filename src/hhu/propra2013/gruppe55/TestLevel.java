@@ -15,20 +15,20 @@ public class TestLevel extends JPanel implements ActionListener {
 	private HUD hud;					//HUD
 	private int room;					// pointer to current room
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
-	private ArrayList<ArrayList<DungeonObject>> staticList;	// liste der Waende/Gegenstaende/etc
-	private ArrayList<ArrayList<Teleporter>> teleportList;	// list of all teleports (for a couple of reasons not in staticList)
-	// actions timer
+	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Waende/Gegenstaende/etc
+	private ArrayList<ArrayList<Teleporter>> teleportList;		// Liste aller Teleporter 
+	// Timer fuer die Aktionen
 	private Timer timer;
-	// variables for important game events
-	private boolean lose, clear;	// true on player's dead or win
-	// variables important in case of reload
-	private int playerSpawnX, playerSpawnY;		// coordinates of player's first appearance
-	private int centerX, centerY;				//Fenstermittelpunkt
+	// Spieleventvariablen
+	private boolean lose, clear;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
+	// Wichtige variablen fuer das neu Laden eines Levels
+	private int playerSpawnX, playerSpawnY;		// Koordinaten des ersten Spielererscheinungspunkts
+	private int centerX, centerY;				// Fenstermittelpunkt
 	private GameMenu gm;
 	private GameWindow gw;
 	
 	
-// constructor
+// Konstruktor
 	public TestLevel(GameMenu gm, GameWindow gw, int x, int y) {		
 		// Mittelpunkt des Fensters
 		centerX = x;
@@ -41,7 +41,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		String lineints[];
 		int[][][] lvlData = null;
 		
-		// Parser für Leveldateien
+		// Parser fuer Leveldateien
 		try {
 			//.txt einlesen
 			FileReader fread = new FileReader("lvl/testlvl.txt");
@@ -65,10 +65,10 @@ public class TestLevel extends JPanel implements ActionListener {
 			in.close();
 		} catch (IOException e) {e.printStackTrace();}
 		
-		// set pointer to first room
+		// Zeiger wird auf den ersten Raum gesetzt
 		room	=	0;
 
-		// generate ArrayLists
+		// ArrayLists generieren
 		staticList		=	new ArrayList<ArrayList<DungeonObject>>(0);
 		creatureList	=	new ArrayList<ArrayList<LivingObject>>(0);
 		teleportList	=	new ArrayList<ArrayList<Teleporter>>(0);
@@ -80,145 +80,145 @@ public class TestLevel extends JPanel implements ActionListener {
 		//5: Falle
 		//6: Ziel
 		//7: Potion
-		// loop that generates the level
+		
+		// Schleife die das Level generiert
 		for(int r=0; r<lvlData.length;r++){
-			// initialize new room dimension in the array lists
+			// Dimension des neuen Raumes in der Arraylist initialisieren
 			staticList.add(new ArrayList<DungeonObject>(0));
 			creatureList.add(new ArrayList<LivingObject>(0));
 			teleportList.add(new ArrayList<Teleporter>(0));
-			// create the objects
+			// Objekte generieren
 			for(int i=0;i<=lvlData[0].length-1;i++){
 				for(int j=0;j<=lvlData[0][0].length-1;j++){
 					if(lvlData[r][i][j] == 1)
-						staticList.get(r).add(new WallObject(i*32, j*32));
+						staticList.get(r).add(new WallObject(i*32, j*32));		// bei 1 wird ein Wandobjekt generiert
 					else if(lvlData[r][i][j] == 2)
-						creatureList.get(r).add(new Creature(i*32+5, j*32-5, 100, 10, 0, 100, 0));
+						creatureList.get(r).add(new Creature(i*32+5, j*32-5, 100, 10, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
 					else if(lvlData[r][i][j] == 3){
 						playerSpawnX	=	i*32-5;
 						playerSpawnY	=	j*32-5;
-						player	=	new Player(playerSpawnX, playerSpawnY, 100, 25, 0, 100, 100);
+						player	=	new Player(playerSpawnX, playerSpawnY, 100, 25, 0, 100, 100);		// bei 3 wird ein Spielerobjekt generiert
 					}
 					else if(lvlData[r][i][j] == 5)
-						staticList.get(r).add(new TrapObject(i*32, j*32));
-					else if(lvlData[r][i][j] == 5)
-						teleportList.get(r).add(new Teleporter(i*32, j*32, 1, 2*32, 0*32));
+						staticList.get(r).add(new TrapObject(i*32, j*32));		// bei 5 wird ein Fallenobjekt generiert
+					else if(lvlData[r][i][j] == 4)
+						teleportList.get(r).add(new Teleporter(i*32, j*32, 1, 2*32, 0*32));		
 					else if(lvlData[r][i][j] == 6)
-						staticList.get(r).add(new GoalObject(i*32, j*32));
+						staticList.get(r).add(new GoalObject(i*32, j*32));		// bei 6 wird ein Zielobjekt generiert
 					else if(lvlData[r][i][j] == 7)
-						staticList.get(r).add(new PotionObject(i*32, j*32)); 
+						staticList.get(r).add(new PotionObject(i*32, j*32)); 	// bei 7 wird ein Potionobjekt generiert
 				}
 			}
 		}
-		// that's a loop, that loops a loops looping loop. yo dawg, i heard u like loops...
 
 		//Konstruiere HUD
 		hud = new HUD();
 		
-		// panel properties
+		// Eigenschaften des Panels
 		setFocusable(true);
 		setBackground(new Color(255,211,155));
 		setDoubleBuffered(true);
 		
-		// add KeyListener 
+		// Hinzufuegen des KeyListener 
 		addKeyListener(new KeyControll());
 		
-		// start timer
+		// Aktionstimer wird gesetzt und gestartet
 		timer	=	new Timer(5, this);
 		timer.start();
 	}
 
-// methods	
+// Methoden
 	/*
 	 * Kollisionsabfrage zwischen den Dungeonobjekten aus staticList und creatureList
-	 * bei Spielerkollision wird .onCollision(player) des jeweiligen Listenelements aufgerufen f�r spezielle Kollisionsbehandlung
+	 * bei Spielerkollision wird .onCollision(player) des jeweiligen Listenelements aufgerufen fuer spezielle Kollisionsbehandlung
 	 */
 	private void collisionCheck(){
-		// first of all check if player needs a teleport
+		// Ueberpruefen ob der Spieler in einen anderen Raum teleportiert werden soll
 		for(int i=0; i<teleportList.get(room).size(); i++)
-			// if player meets teleport
+			// trifft der Spieler auf einen Teleporter
 			if(teleportList.get(room).get(i).getBorder().intersects(player.getBorder())){
-				// get port details
+				// Teleportinformationen abfragen
 				int[] portData	=	teleportList.get(room).get(i).getTeleport();
-				// teleport player
+				// Spieler teleportieren
 				player.teleport(portData[1], portData[2]);
-				// set new room
+				// Raumzeiger umsetzen
 				room	=	portData[0];
-				// ensure this loop ends (no more loop needed, but could f**k up what we want
+				// Schleife beenden
 				break;
 			}
 				
 		
-		// check staticList for player and creatures and creatures to player
+		// staticlist f�r den Spieler und das Monster ueberpruefen (erst Spieler -> Monster dann Monster -> Spieler)
 		for(int i=0; i<staticList.get(room).size(); i++){
-			// check static first with player
+			//  ueberpruefe static mit Spieler
 			if(staticList.get(room).get(i).getBorder().intersects(player.getBorder())){
 				staticList.get(room).get(i).onCollision(player);
 			}
-			// now check wall with creatures an creatures with player
+			//nun ueberpruefe Wand und Monster sowie Monster und Spieler
 			for(int j=0; j<creatureList.get(room).size(); j++){
-				// first wall to creatures
+				// zuerst Wand -> Monster
 				if(staticList.get(room).get(i).getBorder().intersects(creatureList.get(room).get(j).getBorder()))
 					staticList.get(room).get(i).onCollision(creatureList.get(room).get(j));
-				// second creatures to player
+				// dann Monster -> Spieler
 				if(creatureList.get(room).get(j).getBorder().intersects(player.getBorder()))
 					creatureList.get(room).get(j).onCollision(player);
-				// done, what a loop!
+				// Ende der Kollisionsabfrage
 			}
 		}
 		
 	}
 	
-	// method to reload the level and to begin it from start
+	//Methode um das Level neu zu laden und das Spiel von vorne zu beginnen
 	public void reload(){
-		// revive player
+		// den Spieler wiederbeleben
 		player.revive();
 		player.teleport(playerSpawnX, playerSpawnY);
 		player.goal = false;
-		// set room to first room
+		// Raumzeiger wieder auf den ersten Raum setzen
 		room	=	0;
-		//Fallen zurücksetzen
+		//Fallen zuruecksetzen
 		for(int r=0; r<staticList.size(); r++){
 			for(int i=0; i<staticList.get(room).size(); i++)
 				staticList.get(room).get(i).switchState(0);
 		}
-		// of course set lose=false
+		// Endebedingungen auf false setzen
 		lose	=	false;
 		clear = false;
 	}
 	
 	/*
-	 * Zeichenmethode f�r das Level
+	 * Zeichenmethode fuer das Level
 	 */
 	public void paint(Graphics g){
-		// aufruf urspr�nglicher Funktion
+		// aufruf urspruenglicher Funktion
 		super.paint(g);
 		// wir arbeiten mit Java2d
 		Graphics2D g2d = (Graphics2D)g;
 		
-		//Offset fü den Bildlauf vorberechnen
+		//Offset fuer den Bildlauf vorberechnen
 		int offsetX = player.getX()-centerX;
 		int offsetY = player.getY()-centerY;
 		
 		//staticList.get(room).get(i).getImg()
 		
-		// paint static objects
+		// alle objekte der staticlist zeichnen (Waende, Fallen,...)
 		for(int i=0; i<staticList.get(room).size(); i++)
 				staticList.get(room).get(i).draw(g2d, offsetX, offsetY);
-		// paint creatures
+		// Monster zeichnen
 		for(int i=0; i<creatureList.get(room).size(); i++)
 			creatureList.get(room).get(i).draw(g2d, offsetX, offsetY);
 		// Spieler zeichnen
 		player.draw(g2d, centerX, centerY);
 		
-		//Draw HUD
+		// HUD zeichnen
 		hud.draw(g2d, player.getHP(), player.getHPMax(), player.getEnergy(), player.getEnergyMax(), player.getMana(), player.getManaMax());
 		
-		// draw game over/win screen on demand
+		// Gameover / Win Bildschirm zeichnen
 		if(lose)
 			g2d.drawImage(Ressources.gameover, 32*10, 32*10, this);
 		else if(clear)
 			g2d.drawImage(Ressources.win, 32*10, 32*10, this);
-		// blubb
+		
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();
 	}
@@ -228,11 +228,11 @@ public class TestLevel extends JPanel implements ActionListener {
 	 * Wird vom timer aufgerufen. Laesst moegliche Bewegungen berechnen, ruft die Kollisionsabfrage auf und zeichnet das Feld neu
 	 */
 	public void actionPerformed(ActionEvent e) {
-		// check if player is still alive
+		// ueberpruefen ob der Spieler lebt
 		if(player.getHP()<=0)
-			lose	=	true;	// he did not deserve any better...
+			lose	=	true;	// wird gesetzt wenn der Spieler stirbt
 		if(player.getgoal() == true)
-			clear = true;		// yay! 
+			clear = true;		// wird gesetzt wenn der Spieler das Level erfolgreich abschliesst 
 		
 		// Spielerbewegung
 		player.move();
@@ -251,8 +251,8 @@ public class TestLevel extends JPanel implements ActionListener {
 	
 // KEY LISTENER UNIT
 	/*
-	 * Controlls the KeyEventHandling of the Level
-	 * player KeyListener would be an option, but in case of extra functions (press 'p' for pause, 'm' for menu) this helps a lot
+	 * Kontrolliert das KeyEventHandling des Levels
+	 * Der Keylistener innerhalb der Playerklasse waere eine Option fuer Funktionen, wie "Press 'p' for pause etc)
 	 */
 	private class KeyControll implements KeyListener{
 	
@@ -262,18 +262,18 @@ public class TestLevel extends JPanel implements ActionListener {
 			// Bewegungsbefehle an Spieler weiter leiten
 			if(!lose && (k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN || k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT))
 				player.keyPressed(e);
-			
-			// Space-Taste abfragen
-			if(k == KeyEvent.VK_SPACE)
-				// on player death
-				if(lose){
+			// Enter-Taste abfragen
+			if(k == KeyEvent.VK_ENTER)
+				// Option: Bei Sieg oder Niederlage -> zurueck zum Menue
+				if(lose || clear){
 					gw.setVisible(false);
 					gm.setVisible(true);
 					reload();
 				}
-				else if(clear){
-					gw.setVisible(false);
-					gm.setVisible(true);
+			// Space-Taste abfragen
+			if(k == KeyEvent.VK_SPACE)
+				//  Option: Bei Sieg oder Niederlage -> zurueck zum Menue
+				if(lose || clear){
 					reload();
 				}
 				// TODO: player attack

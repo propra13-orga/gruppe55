@@ -8,23 +8,23 @@ public class Player extends LivingObject {
 	// Variable zur Zielabfrage
 	protected boolean goal;
 
-	// constructor
+	// Konstruktor
     public Player(int spawnX, int spawnY, int h, int atk, int def, int energy, int mana) {
 		super(spawnX, spawnY, h, atk, def, energy, mana);
 		
-		// set states
-		state[0].changeImg("dead");
-		state[1].changeImg("player");
-		state[2].changeImg("player");
-		state[1].defineOffset(15,3,0,5); // Hitbox des Spielers angepasst
+		// States definieren
+		state[0].changeImg("dead");			// Aussehen bei Tod
+		state[1].changeImg("player");		// Aussehen bei Leben  
+		state[2].changeImg("player");		// Aussehen bei abgeschlossenem Level
+		state[1].defineOffset(15,3,0,5); 	// Hitbox des Spielers angepasst
 		goal = false;
 		
-		// activate 1st state
+		// 1. State aktivieren (lebendig)
 		switchState(1);
 
 	}
     
-    // method to teleport the player to specific coordinates
+    // Methode um den Spieler an eine bestimmte Stelle zu teleportieren
     public void teleport(int x, int y){
     	this.x	=	x;
     	this.y	=	y;
@@ -34,15 +34,15 @@ public class Player extends LivingObject {
     	g2d.drawImage(Ressources.lib.get(state[currState].img), x,  y,  null);
     }
     
-    // method to revive player after death
+    // Methode um den Spieler "wiederzubeleben"
     public void revive(){
     	hp	=	hpMax;
     	energy = energyMax;
     	mana = manaMax;
     	switchState(1);
-    	// at this point of game development no more code needed here
+    	// derzeit wird hier kein weiterer Code benoetigt (das kann sich im Laufe des Projekts aendern)
     }
-    // spieler ber�hrt das ziel und gewinnt das spiel
+    // Spieler beruehrt das ziel und gewinnt das spiel
     public void reachgoal(){ 
     	goal = true; 
     	switchState(2); // Spieler wird unbeweglich
@@ -52,7 +52,7 @@ public class Player extends LivingObject {
     	return goal;
     }
 
-// following methods allow keyboard control of player
+// Methoden zur Steuerung des Spielers per Keyboard
 	public void keyPressed(KeyEvent e) {
 		if (e.getKeyCode() == KeyEvent.VK_LEFT) {dx = -1;}
 		if (e.getKeyCode() == KeyEvent.VK_RIGHT) {dx = +1;}

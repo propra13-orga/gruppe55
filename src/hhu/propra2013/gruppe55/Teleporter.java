@@ -1,29 +1,29 @@
 package hhu.propra2013.gruppe55;
 
 public class Teleporter extends DungeonObject {
-// ATTRIBUTES
-	private int dx, dy;	// destination coordinates
-	private int room;	// destination room
+// Attribute
+	private int dx, dy;	// Zielkoordinaten
+	private int room;	// Zielraum
 	
 	
-// CONSTRUCTOR
-	// x, y: self explaining
-	// room: destination room
-	// dx, dy: destination coordinates
+// Konstruktor
+	// x, y: Selbsterklärend
+	// room: Zielraum
+	// dx, dy: Zielkoordinaten
+	
 	public Teleporter(int x, int y, int room, int dx, int dy) {
 		super(x, y);
 		
 		state[0].massive	=	false;
 		
-		// set destination and it's coordinates
+		// Zielraum und Zielkoordinaten werden gesetzt
 		this.room	=	room;
 		this.dx		=	dx;
 		this.dy		=	dy;
 	}
 	
-	// returns port data for further "calculation"
+	// gibt Teleportationsdaten zureuck fuer weitere Berechnungen
 	public int[] getTeleport(){
-		// this is pretty self explaining
 		return (new int[] {room, dx, dy});
 	}
 }

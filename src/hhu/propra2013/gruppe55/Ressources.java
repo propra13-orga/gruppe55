@@ -8,10 +8,12 @@ import javax.swing.*;
 
 public class Ressources {
 	
+// 	Klasse zum statischen Laden der Bilddateien, damit diese nicht bei jedem Aufruf extra geladen werden müssen	
+	
 //	static Image creature, dead, gameover, goal, hud, player, potion, potionused, trap, trapact, wall, win;
-	private String creaturePath, deadPath, gameoverPath, goalPath, hudPath, playerPath, potionPath, potionusedPath, trapPath, trapactPath, wallPath, winPath;
+	private String creaturePath, deadPath, gameoverPath, goalPath, hudPath, playerPath, potionPath, potionusedPath, trapPath, trapactPath, wallPath, winPath, bkgPath;
 
-	static Image creature = (new ImageIcon("img/creature.png")).getImage();
+	static Image creature = (new ImageIcon("img/creature.png")).getImage(); 
 	static Image dead = (new ImageIcon("img/dead.png")).getImage();
 	static Image gameover = (new ImageIcon("img/gameover.png")).getImage();
 	static Image goal = (new ImageIcon("img/goal.png")).getImage();
@@ -40,6 +42,7 @@ public class Ressources {
 		trapactPath = "img/trapActivated.png";
 		wallPath = "img/wall.png";
 		winPath = "img/youwin.png";
+		
 		// Bilder laden
 		creature = (new ImageIcon(creaturePath)).getImage();
 		dead = (new ImageIcon(deadPath)).getImage();
@@ -58,24 +61,24 @@ public class Ressources {
 	}
 	
 	public static void init(){
-		// initialize map
+		// map initialisieren
 		lib	=	new HashMap<String,Image>();
-		// player images
+		// Bilder des Spielers
 		lib.put("player", player);
 		lib.put("dead",  dead);
-		// mobs
+		// Bilder der Monster
 		lib.put("creature", creature);
-		// level design objects
+		// Bilder des Leveldesings
 		lib.put("trap", trap);
 		lib.put("trapact",trapact);
 		lib.put("goal", goal);
 		lib.put("wall",wall);
 		lib.put("potion",potion);
 		lib.put("potionused",potionused);
-		// level win/lose
+		// Gameover/win Bilder
 		lib.put("win",win);
 		lib.put("gameover",gameover);
-		// hud
+		// HUD
 		lib.put("hud",hud);
 	}
 }

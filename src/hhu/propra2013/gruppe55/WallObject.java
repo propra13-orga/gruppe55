@@ -2,7 +2,7 @@ package hhu.propra2013.gruppe55;
 
 public class WallObject extends DungeonObject {
 
-	// this WallObject seems pretty empty. This is because everything is already in DungeonObject implemented
+	// Diese Klasse scheint leer zu sein. Alle wichtigen Methoden und Attribute sind im DungeonObject implementiert
 	public WallObject(int x, int y) {
 		super(x, y);
 

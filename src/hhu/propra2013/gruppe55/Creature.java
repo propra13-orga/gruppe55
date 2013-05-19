@@ -4,36 +4,35 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class Creature extends LivingObject {
-// attributes
-    // coordinates
-    private int sx, sy;			// Spawn coordinates
-    private int moveAreaX	=	180;		// maximal vertical movement to the right
-    private int moveAreaY	=	120;		// ... and upwards
-    
-	
-// constructor
+// Attribute der Monster
+    // Deklaration der Koordinaten 
+    private int sx, sy;			// Erscheinungskoordinaten
+    private int moveAreaX	=	180;		// maximale vertikale Bewegung nach rechts
+    private int moveAreaY	=	120;		// ... und nach oben
+    	
+// Konstruktor
     public Creature(int spawnX, int spawnY, int h, int angr, int vert, int ausd, int man) {
 		super(spawnX, spawnY, h, angr, vert, ausd, man);
 		
-		// set states
-		state[0].visible	=	false;
-		state[1].changeImg("creature");
-		sx	=	spawnX;
+		// States setzen
+		state[0].visible	=	false; 		// totes Monster wird unsichtbar
+		state[1].changeImg("creature"); 	// Bild der Lebendigen Kreatur laden
+		sx	=	spawnX;						// Erscheinungskoordinaten
 		sy	=	spawnY;
 		
-		// initiate movement
+		// Bewegung initiieren
 		dx=1;
 	}
     
-    // TODO: Methode fï¿½r Bewegung ï¿½berdenken
+    // TODO: Methode fuer Bewegung überdenken
     public void move(){
 		// bewegung errechnen
 		if(dx==1 && x>=sx+moveAreaX) // zu weit rechts
-			if(y>sy-moveAreaY){ // nach oben, wenn gewï¿½nscht
+			if(y>sy-moveAreaY){ // nach oben, wenn gewuennscht
 				dx=0;
 				dy=-1;
 			}
-			else // wieder nach links sonst
+			else // ansonsten wieder nach links
 				dx=-1;
 		else if(dx==-1 && sx>=x) // zu weit links
 			if(y<sy){ // nach unten
@@ -57,15 +56,14 @@ public class Creature extends LivingObject {
 			else // wieder rauf
 				dy=-1;
     	
-		// bewegung ausfï¿½hren
+		// bewegung ausfuehren
 		super.move();
     }
     
-    //Return stats
     
     @Override
     public void draw(Graphics2D g2d, int offsetX, int offsetY){
-    	//HP-Leiste
+    	// Zeichnen der HP-Leiste ueber den Koepfen der Kreaturen
     	g2d.setColor(Color.WHITE);
     	g2d.fillRect(x-offsetX, y-offsetY-8, 24, 5);
     	g2d.setColor(Color.BLACK);
@@ -73,16 +71,16 @@ public class Creature extends LivingObject {
     	g2d.setColor(Color.RED);
     	g2d.fillRect(x+1-offsetX, y-offsetY-7, (int)(24*((double)hp/hpMax)), 4);
     	g2d.setColor(Color.BLACK);
-    	// draw the creature
+    	// Zeichnen der Monster
     	super.draw(g2d, offsetX, offsetY);
     }
     
     public void onCollision(DungeonObject d){
-		// hurt the player, yay!
+		// Dem Spieler Schaden zufuegen
     	if(d instanceof	Player)
 			((Player)d).getHit();
     	
-    	// massive check in super.onCollision
+    	// Test auf Massive-Attribut in super.onCollision
 		super.onCollision(d);
     }
 }

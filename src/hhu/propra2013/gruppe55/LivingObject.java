@@ -5,32 +5,32 @@ import java.awt.Graphics2D;
 public abstract class LivingObject extends DungeonObject {
 
 	Ressources res;
-	// hitpoint management
+	// Lebenspunkte Management
     protected int hp, hpMax,  def, atk, mana, manaMax, energy, energyMax;	// Statuswerte
-	// movement
+	// Bewegung
 	protected int dx, dy;		// direction coordinates (dx: -1, move left; 1 move right;; dy: -1, move up, 1, move down
 	protected double speed=1.00;	// speed of object (1.00 normal speed -> 1px/actionPerfordmed
 	
 	
 	
-// constructor
-		// x,y: coordinates to spawn
+// Konstruktor
+		// x,y: Koordinaten zum Erscheinen
 	public LivingObject(int x, int y, int h, int atk, int def, int energy, int mana){
 		super(x, y);
 		
-		// modify state-array
+		// Array um den Status zu aendern
 		state	=	new State[3];
-		// dead state
+		// Tod-Status
 		state[0] = new State("potionused", false, true, false);
-		// alive
+		// Leben-Status
 		state[1] = new State("potionused", true, false, true);
-		// game won
+		// Spiel gewonnen
 		state[2] = new State("potionused", false, true, false);
 		
-		// start as living thing
+		// starten als lebendiges Objekt
 		currState	=	1;
 		
-		// set stats
+		// Statuswerte setzen
 		hp = hpMax = h;
 		this.atk	=	atk;
 		this.def	=	def;
@@ -38,38 +38,39 @@ public abstract class LivingObject extends DungeonObject {
 		this.energy = energyMax = energy;
 	}
 	
-	// getting a hit
+	// Schaden bei Treffer
 	public void getHit(){
 		if(hp>0)
 			hp-=1;
 		if(hp<=0)
-			switchState(0); // dead
+			switchState(0); // Wechsel auf tot
 	}
 	
-	public void getHealed(){
+	// Heilung bei Aufnahme einer Potion
+	public void getHealed(){ 
 		hp+=25;
 		if(hp>hpMax)
 			hp = hpMax;
 	}
 	
-	// apply movement, actually pretty simple
+	// Methode zur Bewegeung
 	public void move(){
-		// test if still alive
+		// Test ob das Objekt lebendig ist
 		if(state[currState].moveable == false)
 			return;
-		// run movement method
+		// Bewegungmethode ausfuehren
 		
 		x+=dx;
 		y+=dy;
 	}
 	
-	// walls do not like you, they push you back a few pixels
+	// Waende haben Pushback (man wird einige Pixel zurueckgesetz)
 	public void setBack(){
 		x-=dx;
 		y-=dy;
 	}
 	
-	// Get Stats
+	// Methoden um Statuswerte zu uebergeben
     public int getHP(){return(hp);}
     public int getHPMax(){return(hpMax);}
     public int getAtk(){return(atk);}
