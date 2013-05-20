@@ -35,8 +35,11 @@ public abstract class DungeonObject {
 	protected void onCollision(DungeonObject d){
 		// standart fuer ungefaehrliche Objekte
 		if(this.state[currState].massive)
-			if(d instanceof	LivingObject)
-				((LivingObject)d).setBack();
+			if(d instanceof	LivingObject){
+				// solange Kollision wird das Objekt zurückgeschoben
+				while(getBorder().intersects(d.getBorder()))
+					((LivingObject)d).setBack();
+			}
 	}
 	
 	// Methode zum Wechseln der States

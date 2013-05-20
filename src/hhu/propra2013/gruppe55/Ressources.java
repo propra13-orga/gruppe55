@@ -11,7 +11,7 @@ public class Ressources {
 // 	Klasse zum statischen Laden der Bilddateien, damit diese nicht bei jedem Aufruf extra geladen werden müssen	
 	
 //	static Image creature, dead, gameover, goal, hud, player, potion, potionused, trap, trapact, wall, win;
-	private String creaturePath, deadPath, gameoverPath, goalPath, hudPath, playerPath, potionPath, potionusedPath, trapPath, trapactPath, wallPath, winPath, bkgPath;
+	private String creaturePath, deadPath, gameoverPath, goalPath, hudPath, playerPath, potionPath, potionusedPath, trapPath, trapactPath, wallPath, winPath, bksPath;
 
 	static Image creature = (new ImageIcon("img/creature.png")).getImage(); 
 	static Image dead = (new ImageIcon("img/dead.png")).getImage();
@@ -25,6 +25,7 @@ public class Ressources {
 	static Image trapact = (new ImageIcon("img/trapActivated.png")).getImage();
 	static Image wall = (new ImageIcon("img/wall.png")).getImage();
 	static Image win = (new ImageIcon("img/youwin.png")).getImage();
+	static Image bks = (new ImageIcon("img/bks.png")).getImage();
 	
 	public static Map<String, Image> lib;		// image library
 	
@@ -42,6 +43,7 @@ public class Ressources {
 		trapactPath = "img/trapActivated.png";
 		wallPath = "img/wall.png";
 		winPath = "img/youwin.png";
+		bksPath = "img/bks.png";
 		
 		// Bilder laden
 		creature = (new ImageIcon(creaturePath)).getImage();
@@ -56,6 +58,7 @@ public class Ressources {
 		trapact = (new ImageIcon(trapactPath)).getImage();
 		wall = (new ImageIcon(wallPath)).getImage();
 		win = (new ImageIcon(winPath)).getImage();
+		bks = (new ImageIcon(bksPath)).getImage();
 		
 
 	}
@@ -80,5 +83,7 @@ public class Ressources {
 		lib.put("gameover",gameover);
 		// HUD
 		lib.put("hud",hud);
+		// Hintergrund
+		lib.put("bks", bks);
 	}
 }

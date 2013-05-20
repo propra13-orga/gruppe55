@@ -158,7 +158,7 @@ public class Level extends JPanel implements ActionListener {
 		addKeyListener(new KeyControll());
 		
 		// Aktionstimer wird gesetzt und gestartet
-		timer	=	new Timer(5, this);
+		timer	=	new Timer(1000/65, this);
 		timer.start();
 	}
 
@@ -229,6 +229,7 @@ public class Level extends JPanel implements ActionListener {
 		super.paint(g);
 		// wir arbeiten mit Java2d
 		Graphics2D g2d = (Graphics2D)g;
+		g2d.drawImage(Ressources.bks,0,0,this);
 		
 		// alle objekte der staticlist zeichnen (Waende, Fallen,...)
 		for(int i=0; i<staticList.get(room).size(); i++)

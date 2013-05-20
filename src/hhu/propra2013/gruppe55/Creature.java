@@ -63,6 +63,9 @@ public class Creature extends LivingObject {
     
     @Override
     public void draw(Graphics2D g2d, int offsetX, int offsetY){
+    	// Nichts zeichnen, wenn Kreatur unsichtbar
+    	if(!state[currState].visible)
+    		return;
     	// Zeichnen der HP-Leiste ueber den Koepfen der Kreaturen
     	g2d.setColor(Color.WHITE);
     	g2d.fillRect(x-offsetX, y-offsetY-8, 24, 5);
