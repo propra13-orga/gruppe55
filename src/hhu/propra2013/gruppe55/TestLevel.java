@@ -27,6 +27,8 @@ public class TestLevel extends JPanel implements ActionListener {
 	private GameMenu gm;
 	private GameWindow gw;
 	
+	private Cursor curs;
+	
 	
 // Konstruktor
 	public TestLevel(GameMenu gm, GameWindow gw, int x, int y) {		
@@ -119,6 +121,9 @@ public class TestLevel extends JPanel implements ActionListener {
 		setBackground(new Color(255,211,155));
 		setDoubleBuffered(true);
 		
+		curs = this.getToolkit().createCustomCursor(new ImageIcon("").getImage(), new Point(0,0), "bla");
+		setCursor(curs);
+		
 		// Hinzufuegen des KeyListener 
 		addKeyListener(new KeyControll());
 		
@@ -148,7 +153,7 @@ public class TestLevel extends JPanel implements ActionListener {
 			}
 				
 		
-		// staticlist für den Spieler und das Monster ueberpruefen (erst Spieler -> Monster dann Monster -> Spieler)
+		// staticlist fï¿½r den Spieler und das Monster ueberpruefen (erst Spieler -> Monster dann Monster -> Spieler)
 		for(int i=0; i<staticList.get(room).size(); i++){
 			//  ueberpruefe static mit Spieler
 			if(staticList.get(room).get(i).getBorder().intersects(player.getBorder())){
@@ -276,6 +281,9 @@ public class TestLevel extends JPanel implements ActionListener {
 				if(lose || clear){
 					reload();
 				}
+			if(k == KeyEvent.VK_ESCAPE){
+				System.exit(1);
+			}
 				// TODO: player attack
 		}
 		@Override

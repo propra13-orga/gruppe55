@@ -23,8 +23,9 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 	public GameWindow(GameMenu gm){
 		super("SuperAwesomeGameYeah");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setUndecorated(true);
 		
-		this.gm = gm;	//Hauptmenue übergeben
+		this.gm = gm;	//Hauptmenue ï¿½bergeben
 		
 		// Bilder initialisieren
 		Ressources.init();
