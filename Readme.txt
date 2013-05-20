@@ -8,6 +8,20 @@ Geplante Aspekte
 
 Changelog:
 
+
+MvMeegen - 20.05.13
+
+/img:
+
+ - Hintergrund entworfen
+
+/src:
+ Level:
+  - Hintergrundmalfunktion eingefuegt. Hintergrund fuer das Scrollinglvl muss noch implementiert werden
+ Ressources:
+  - Pfade fuer das Bild erstellt und eingebunden
+
+
 MvMeegen - 18.05.13
 
 /img:
