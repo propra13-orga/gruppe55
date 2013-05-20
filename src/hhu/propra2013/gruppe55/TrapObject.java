@@ -15,9 +15,9 @@ public class TrapObject extends DungeonObject {
 	}
 	
 	public void onCollision(DungeonObject d){	 // Tod bei Kollision
-			// Dem Spieler Schaden zufuegen
-	    	if(d instanceof	Player)
-				((Player)d).getHit();
+			// Dem Spieler oder Monstern Schaden zufuegen
+	    	if(d instanceof	LivingObject)
+				((LivingObject)d).getHit();
 	    	// Statewechsel zur ausgeloesten Falle
 	    	switchState(1);
 	} 

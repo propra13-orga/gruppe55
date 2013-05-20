@@ -9,7 +9,7 @@ public abstract class LivingObject extends DungeonObject {
     protected int hp, hpMax,  def, atk, mana, manaMax, energy, energyMax;	// Statuswerte
 	// Bewegung
 	protected int dx, dy;		// direction coordinates (dx: -1, move left; 1 move right;; dy: -1, move up, 1, move down
-	protected double speed=1.00;	// speed of object (1.00 normal speed -> 1px/actionPerfordmed
+	protected int speed=2;		// speed of object (2 normal speed -> 2px/actionPerfordmed
 	
 	
 	
@@ -60,8 +60,8 @@ public abstract class LivingObject extends DungeonObject {
 			return;
 		// Bewegungmethode ausfuehren
 		
-		x+=dx;
-		y+=dy;
+		x+=speed*dx;
+		y+=speed*dy;
 	}
 	
 	// Waende haben Pushback (man wird einige Pixel zurueckgesetz)

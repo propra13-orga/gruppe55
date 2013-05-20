@@ -123,7 +123,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		addKeyListener(new KeyControll());
 		
 		// Aktionstimer wird gesetzt und gestartet
-		timer	=	new Timer(5, this);
+		timer	=	new Timer(1000/60, this);
 		timer.start();
 	}
 
