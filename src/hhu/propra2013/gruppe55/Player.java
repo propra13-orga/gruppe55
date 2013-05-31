@@ -106,21 +106,14 @@ public class Player extends LivingObject {
     	// noch lebendig?
     	if(currState<=0) return;	// Tote brauchen keine Waffen
     	
-    	// Waffe angelegt?
-    	if(weapons[currEquipped]!=null){
-    		// Mit Offset zeichnen (Haupthand)
-    		weapons[currEquipped].draw(g2d, x+handOffsets[currState-1][0], y+handOffsets[currState-1][1]);
-    	}
-    	
     	// Waffe(n) zeichnen
-    	for(int i=0; i<2-currEquipped; i++){	// 2 Durchläufe bei Nahkampf, einer bei Fernkampf
-    		// Waffe angelegt?
-    		if(!(weapons[currEquipped+i]==null))
-    			// Wenn ja, Waffe zeichnen!
-    			weapons[currEquipped+i].draw(g2d, this.x+handOffsets[currState-1+i][0],this.y+handOffsets[currState-1+i][1]);
-    	}
-    	
-    	
+    	for(int i=0; i<2-currEquipped; i++){ // 2 Durchläufe bei Nahkampf, einer bei Fernkampf
+
+    	// Waffe angelegt?
+    	if(!(weapons[currEquipped+i]==null))
+    		// Wenn ja, Waffe zeichnen!
+    		weapons[currEquipped+i].draw(g2d, x+handOffsets[currState-1+i][0],y+handOffsets[currState-1+i][1]);
+        }
     }
     
     // Methode um den Spieler "wiederzubeleben"
