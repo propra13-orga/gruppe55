@@ -6,8 +6,8 @@ public class PotionObject extends DungeonObject {
 		super(x,y);
 		// States der Potion definieren
 		state	=	new State[2];
-		state[0]	=	new State("potion",false, false, true);			// Die Potion
-		state[1]	=	new State("potionused", false, false, true);	// Verschwundene Potion
+		state[0]	=	new State(Data.potionused,false, false, true);			// Die Potion
+		state[1]	=	new State(Data.potionused, false, false, true);	// Verschwundene Potion
 		state[1].defineOffset(0,0,32,32);
 		
 	}

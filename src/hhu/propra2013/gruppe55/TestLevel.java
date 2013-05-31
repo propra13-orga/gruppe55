@@ -93,11 +93,11 @@ public class TestLevel extends JPanel implements ActionListener {
 					if(lvlData[r][i][j] == 1)
 						staticList.get(r).add(new WallObject(i*32, j*32));		// bei 1 wird ein Wandobjekt generiert
 					else if(lvlData[r][i][j] == 2)
-						creatureList.get(r).add(new Creature(i*32+5, j*32-5, 100, 10, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
+						creatureList.get(r).add(new Creature(i*32+5, j*32-5, 3, 10, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
 					else if(lvlData[r][i][j] == 3){
 						playerSpawnX	=	i*32-5;
 						playerSpawnY	=	j*32-5;
-						player	=	new Player(playerSpawnX, playerSpawnY, 100, 25, 0, 100, 100);		// bei 3 wird ein Spielerobjekt generiert
+						player	=	new Player(playerSpawnX, playerSpawnY, 5, 25, 0, 100, 100);		// bei 3 wird ein Spielerobjekt generiert
 					}
 					else if(lvlData[r][i][j] == 5)
 						staticList.get(r).add(new TrapObject(i*32, j*32));		// bei 5 wird ein Fallenobjekt generiert
@@ -166,6 +166,16 @@ public class TestLevel extends JPanel implements ActionListener {
 			}
 		}
 		
+		// Spielerangriff
+		if(player.getAttackState() && player.getWeapSet() == 0)
+			for(int i=0; i<creatureList.get(room).size(); i++){
+				// Monsterkollision mit der Waffe
+				System.out.println("lol");
+				if(creatureList.get(room).get(i).getBorder().intersects(player.weapons[0].getBorder())){
+					creatureList.get(room).get(i).getHit();
+				}
+			}
+		
 	}
 	
 	//Methode um das Level neu zu laden und das Spiel von vorne zu beginnen
@@ -215,9 +225,9 @@ public class TestLevel extends JPanel implements ActionListener {
 		
 		// Gameover / Win Bildschirm zeichnen
 		if(lose)
-			g2d.drawImage(Ressources.gameover, 32*10, 32*10, this);
+			g2d.drawImage(Data.gameover, 32*10, 32*10, this);
 		else if(clear)
-			g2d.drawImage(Ressources.win, 32*10, 32*10, this);
+			g2d.drawImage(Data.win, 32*10, 32*10, this);
 		
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();
@@ -272,11 +282,14 @@ public class TestLevel extends JPanel implements ActionListener {
 				}
 			// Space-Taste abfragen
 			if(k == KeyEvent.VK_SPACE)
-				//  Option: Bei Sieg oder Niederlage -> zurueck zum Menue
+				// Option: Bei Sieg oder Niederlage -> erneut beginnen
 				if(lose || clear){
 					reload();
 				}
-				// TODO: player attack
+				else{	// let's fetz
+					// Spieler Angreifen lassen
+					player.attack();
+				}
 		}
 		@Override
 		public void keyReleased(KeyEvent e) {

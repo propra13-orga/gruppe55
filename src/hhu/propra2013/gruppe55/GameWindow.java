@@ -26,9 +26,6 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 		
 		this.gm = gm;	//Hauptmenue übergeben
 		
-		// Bilder initialisieren
-		Ressources.init();
-		
 		testlvl = new TestLevel(gm, this, (width/2)-26, (height/2)-25);
 		lvl = new Level(gm, this);
 		

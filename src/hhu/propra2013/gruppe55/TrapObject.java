@@ -8,9 +8,9 @@ public class TrapObject extends DungeonObject {
 		super(x,y);
 		// States definieren
 		state	=	new State[2];
-		state[0]	=	new State("trap",false, false, true);		// Die nicht ausgeloeste Falle
+		state[0]	=	new State(Data.trap,false, false, true);		// Die nicht ausgeloeste Falle
 		state[0].defineOffset(7,0,0,0);								// Hitbox der nicht ausgeloesten Falle
-		state[1]	=	new State("trapact", false, false, true);	// Die ausgeloeste Falle
+		state[1]	=	new State(Data.trapact, false, false, true);	// Die ausgeloeste Falle
 		
 	}
 	

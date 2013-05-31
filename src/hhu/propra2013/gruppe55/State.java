@@ -5,7 +5,7 @@ import java.awt.Image;
 public class State {
 
 	// Bilder
-	public String img;				// Das Bild aus der Ressources Klasse, dass beim jeweiligen State gezeigt wird
+	public Image img;				// Das Bild aus der Ressources Klasse, dass beim jeweiligen State gezeigt wird
 	// Eigenschaften des States
 	public boolean moveable;		// ist das Objekt beweglich?
 	public boolean massive;			// kann der Spieler hindurch gehen?
@@ -13,7 +13,7 @@ public class State {
 	public int[] offset = {0,0,0,0}; // Offset um individuelle Hitboxen zu generieren
 	
 // Konstruktor
-	public State(String resourceImg, boolean moveable, boolean massive, boolean visible) {
+	public State(Image resourceImg, boolean moveable, boolean massive, boolean visible) {
 		img	= resourceImg;
 		this.moveable	=	moveable;
 		this.massive	=	massive;
@@ -23,7 +23,7 @@ public class State {
 // Methoden
 	
 	// Aendern des Bildes des Objektes
-	public void changeImg(String image){
+	public void changeImg(Image image){
 		img	= image;
 	}
 	// Aendern der beweglichkeit des Objektes

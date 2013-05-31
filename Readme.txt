@@ -9,7 +9,30 @@ Geplante Aspekte
 Changelog:
 
 
-MvMeegen - 20.05.13
+31.05.13 - jdnklau
+
+LivingObject
+	- kurz unverwundbar nach Treffer
+Player
+	- besitzt nun ein Attribut Weapon[] weapons mit 3 Einträgen (Haupthand, Nebenhand, Bogen)
+	- Attribut attacking hinzugefuegt, falls der Spieler gerade im Angriff steckt
+	- Methode draw auf Waffen hingehend erweitert
+	- Methode attack() hinzugefuegt
+	- Attribut zur "Adressierung" der Haende
+Ressources
+	- heißt jetzt Data
+	- Die HashMap "lib" hab ich wieder heraus genommen. Alex' erste Implementierung hat bereits das 
+	  gewuenschte Ergebnis erreicht; ein Denkfehler meinerseits dass ich sie als implementierungsnoetig
+	  empfand
+Weapon
+	- neu hinzugefügte Klasse
+	- so gut es geht kommentiert, schaut sie euch an!
+Level
+	- Der KeyListener leitet nun Angriffsbefehle an den Spieler weiter
+	
+
+
+20.05.13 - MvMeegen
 
 /img:
 

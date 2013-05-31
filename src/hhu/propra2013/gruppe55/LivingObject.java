@@ -3,13 +3,14 @@ package hhu.propra2013.gruppe55;
 import java.awt.Graphics2D;
 
 public abstract class LivingObject extends DungeonObject {
-
-	Ressources res;
 	// Lebenspunkte Management
     protected int hp, hpMax,  def, atk, mana, manaMax, energy, energyMax;	// Statuswerte
+	// Variablen fuer Handhabung von Unverwundbarkeit
+	private boolean invulnerable	=	false;		// Unverwundbarkeitszustand des Objekts
+	private int invulTime			=	500;		// Dauer der Unverwundbarkeit in Millisekunden
 	// Bewegung
 	protected int dx, dy;		// direction coordinates (dx: -1, move left; 1 move right;; dy: -1, move up, 1, move down
-	protected int speed=2;		// speed of object (2 normal speed -> 2px/actionPerfordmed
+	protected int speed=3;		// speed of object (2 normal speed -> 2px/actionPerfordmed)
 	
 	
 	
@@ -21,11 +22,11 @@ public abstract class LivingObject extends DungeonObject {
 		// Array um den Status zu aendern
 		state	=	new State[3];
 		// Tod-Status
-		state[0] = new State("potionused", false, true, false);
+		state[0] = new State(Data.potionused, false, true, false);
 		// Leben-Status
-		state[1] = new State("potionused", true, false, true);
-		// Spiel gewonnen
-		state[2] = new State("potionused", false, true, false);
+		state[1] = new State(Data.potionused, true, false, true);
+		// Extra-Status
+		state[2] = new State(Data.potionused, false, false, false);
 		
 		// starten als lebendiges Objekt
 		currState	=	1;
@@ -40,6 +41,15 @@ public abstract class LivingObject extends DungeonObject {
 	
 	// Schaden bei Treffer
 	public void getHit(){
+    	// Nichts tun bei Unverwundbarkeit
+    	if(invulnerable)
+    		return;
+    	
+    	// Setze Unverwundbarkeit
+    	invulnerable	=	true;
+    	setInvulnerability(invulTime);
+	    
+	    // Schaden berechnen
 		if(hp>0)
 			hp-=1;
 		if(hp<=0)
@@ -52,6 +62,23 @@ public abstract class LivingObject extends DungeonObject {
 		if(hp>hpMax)
 			hp = hpMax;
 	}
+    
+    // Methode zum Unverwundbar machen des Objekts
+    public void setInvulnerability(final int sleepTime){
+    	// Erstelle neuen Thread
+    	new Thread() {
+			@Override
+			public void run() {
+				// nach sleepTime Millisekunden unverwundbarkeit zurücksetzen
+				try {
+					Thread.sleep(sleepTime);
+				} catch (InterruptedException e) {
+					e.printStackTrace();
+				}
+				invulnerable = false;
+			}
+		}.start();
+    }
 	
 	// Methode zur Bewegeung
 	public void move(){
