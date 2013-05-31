@@ -277,6 +277,9 @@ public class TestLevel extends JPanel implements ActionListener {
 					reload();
 				}
 				// TODO: player attack
+			if(k == KeyEvent.VK_ESCAPE){
+				System.exit(1);
+			}
 		}
 		@Override
 		public void keyReleased(KeyEvent e) {

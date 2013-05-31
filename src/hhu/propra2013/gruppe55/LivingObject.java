@@ -9,7 +9,7 @@ public abstract class LivingObject extends DungeonObject {
     protected int hp, hpMax,  def, atk, mana, manaMax, energy, energyMax;	// Statuswerte
 	// Bewegung
 	protected int dx, dy;		// direction coordinates (dx: -1, move left; 1 move right;; dy: -1, move up, 1, move down
-	protected int speed=2;		// speed of object (2 normal speed -> 2px/actionPerfordmed
+	protected int speed=5;		// speed of object (2 normal speed -> 2px/actionPerfordmed
 	
 	
 	

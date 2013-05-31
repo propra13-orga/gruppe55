@@ -9,8 +9,8 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 	
 	// Frameeigenschaften - 16:9
 	// TO DO: Genaue Pixelberechnung ohne Rand - derzeit ~16:9
-	private int width	=	960;		// Breite in Pixeln 13*32
-	private int height	=	540;	    // Hoehe in Pixeln 10*32-5
+	private int width	=	1920;		// Breite in Pixeln 13*32
+	private int height	=	1080;	    // Hoehe in Pixeln 10*32-5
 	// level management
 	private TestLevel[] levels;			// Array in dem die Level gespeichert werden
 	private Level lvl;					// Ur-Level
@@ -35,6 +35,7 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 		// Eigenschaften des Frames setzen
 		// this.addKeyListener(this);											// KeyListener adden
 		this.setSize(width, height);
+		this.setUndecorated(true);
 		this.setResizable(false);
 		this.setLocationRelativeTo(null);										// Spielfeld zentriert
 	}
