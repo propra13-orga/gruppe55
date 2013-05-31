@@ -257,6 +257,12 @@ public class TestLevel extends JPanel implements ActionListener {
 		repaint();
 	}
 	
+	//Mittelpunkt für den Offset setzen
+	public void setCenter(int x, int y){
+		this.centerX = x;
+		this.centerY = y;
+	}
+	
 	
 // KEY LISTENER UNIT
 	/*
@@ -275,7 +281,7 @@ public class TestLevel extends JPanel implements ActionListener {
 			if(k == KeyEvent.VK_ENTER)
 				// Option: Bei Sieg oder Niederlage -> zurueck zum Menue
 				if(lose || clear){
-					gw.setVisible(false);
+					gw.dispose();
 					gm.setVisible(true);
 					reload();
 				}
@@ -289,6 +295,7 @@ public class TestLevel extends JPanel implements ActionListener {
 					// Spieler Angreifen lassen
 					player.attack();
 				}
+			else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){System.exit(1);}	
 		}
 		@Override
 		public void keyReleased(KeyEvent e) {
