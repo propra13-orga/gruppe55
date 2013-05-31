@@ -16,7 +16,7 @@ public class Creature extends LivingObject {
 		
 		// States setzen
 		state[0].visible	=	false; 		// totes Monster wird unsichtbar
-		state[1].changeImg("creature"); 	// Bild der Lebendigen Kreatur laden
+		state[1].changeImg(Data.creature); 	// Bild der Lebendigen Kreatur laden
 		sx	=	spawnX;						// Erscheinungskoordinaten
 		sy	=	spawnY;
 		

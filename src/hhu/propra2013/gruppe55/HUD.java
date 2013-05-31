@@ -23,7 +23,7 @@ public class HUD {
 		g2d.setColor(Color.BLUE);
 		g2d.fillRect(5, 38, (int)(305*((double)mana/manaMax)), 10);
 		g2d.setColor(Color.BLACK);
-		g2d.drawImage(Ressources.hud, 0, 0, null);
+		g2d.drawImage(Data.hud, 0, 0, null);
 	}
 
 }

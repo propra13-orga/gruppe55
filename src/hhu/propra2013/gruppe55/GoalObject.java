@@ -4,7 +4,7 @@ public class GoalObject extends DungeonObject {
 		
 	public GoalObject(int x, int y) {
 		super(x,y);
-		state[0].changeImg("goal");			  // Aussehen des Ziels
+		state[0].changeImg(Data.goal);			  // Aussehen des Ziels
 		state[0].massive=false;				  // Ziel wird begehbar
 	}
 	
