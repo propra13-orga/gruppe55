@@ -117,7 +117,7 @@ public class Player extends LivingObject {
     		// Waffe angelegt?
     		if(!(weapons[currEquipped+i]==null))
     			// Wenn ja, Waffe zeichnen!
-    			weapons[currEquipped+i].draw(g2d, x+handOffsets[currState-1+i][0],y+handOffsets[currState-1+i][1]);
+    			weapons[currEquipped+i].draw(g2d, this.x+handOffsets[currState-1+i][0],this.y+handOffsets[currState-1+i][1]);
     	}
     	
     	
