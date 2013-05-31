@@ -295,7 +295,11 @@ public class TestLevel extends JPanel implements ActionListener {
 					// Spieler Angreifen lassen
 					player.attack();
 				}
-			else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){System.exit(1);}	
+			else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){System.exit(1);}
+			else if(e.getKeyCode() == KeyEvent.VK_F){
+				if(gw.isUndecorated()){gw.toggleFullscreen(0);}
+				else{gw.toggleFullscreen(1);}
+			}
 		}
 		@Override
 		public void keyReleased(KeyEvent e) {

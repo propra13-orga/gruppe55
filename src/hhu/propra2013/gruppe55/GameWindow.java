@@ -52,20 +52,24 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 	//Fullscreen einstellen (nur ScrollingLvl)
 	public void toggleFullscreen(int i){
 		if(i == 0){
+			this.dispose();
 			width = 960;
 			height = 540;
 			this.setSize(width, height);
 			this.setUndecorated(false);
 			testlvl.setCenter((width/2)-26, (height/2)-25);
 			this.setLocationRelativeTo(null);
+			this.setVisible(true);
 		}
 		else if(i == 1){
+			this.dispose();
 			width = Toolkit.getDefaultToolkit().getScreenSize().width;
 			height = Toolkit.getDefaultToolkit().getScreenSize().height;
 			this.setSize(width, height);
 			this.setUndecorated(true);
 			testlvl.setCenter((width/2)-26, (height/2)-25);
-			this.setLocationRelativeTo(null);
+			this.setLocation(0, 0);
+			this.setVisible(true);
 		}
 	}
 	
