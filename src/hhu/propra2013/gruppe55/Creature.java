@@ -6,9 +6,9 @@ import java.awt.Graphics2D;
 public class Creature extends LivingObject {
 // Attribute der Monster
     // Deklaration der Koordinaten 
-    private int sx, sy;			// Erscheinungskoordinaten
-    private int moveAreaX	=	180;		// maximale vertikale Bewegung nach rechts
-    private int moveAreaY	=	120;		// ... und nach oben
+    protected int sx, sy;			// Erscheinungskoordinaten
+    protected int moveAreaX	=	180;		// maximale vertikale Bewegung nach rechts
+    protected int moveAreaY	=	120;		// ... und nach oben
     	
 // Konstruktor
     public Creature(int spawnX, int spawnY, int h, int angr, int vert, int ausd, int man) {
@@ -81,7 +81,7 @@ public class Creature extends LivingObject {
     public void onCollision(DungeonObject d){
 		// Dem Spieler Schaden zufuegen
     	if(d instanceof	Player)
-			((Player)d).getHit();
+			dealDamage((Player)d);
     	
     	// Test auf Massive-Attribut in super.onCollision
 		super.onCollision(d);

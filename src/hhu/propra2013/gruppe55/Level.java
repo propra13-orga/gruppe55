@@ -115,11 +115,11 @@ public class Level extends JPanel implements ActionListener {
 					if(levelData[r][i][j] == 1)
 						staticList.get(r).add(new WallObject(j*32, i*32));		// bei 1 wird ein Wandobjekt generiert
 					else if(levelData[r][i][j] == 2)
-						creatureList.get(r).add(new Creature(j*32+5, i*32-5, 3, 25, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
+						creatureList.get(r).add(new Creature(j*32+5, i*32-5, 3, 1, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
 					else if(levelData[r][i][j] == 3){
 						playerSpawnX	=	j*32-5;
 						playerSpawnY	=	i*32-5;
-						player	=	new Player(playerSpawnX, playerSpawnY, 5, 25, 0, 100, 100);		// bei 3 wird ein Spielerobjekt generiert
+						player	=	new Player(playerSpawnX, playerSpawnY, 5, 0, 0, 100, 100);		// bei 3 wird ein Spielerobjekt generiert
 					}
 					else if(levelData[r][i][j] == 5)
 						staticList.get(r).add(new TrapObject(j*32, i*32));		// bei 5 wird ein Fallenobjekt generiert
@@ -207,7 +207,7 @@ public class Level extends JPanel implements ActionListener {
 			for(int i=0; i<creatureList.get(room).size(); i++){
 				// Monsterkollision mit der Waffe
 				if(creatureList.get(room).get(i).getBorder().intersects(player.weapons[0].getBorder())){
-					creatureList.get(room).get(i).getHit();
+					player.dealDamage(creatureList.get(room).get(i));
 				}
 			}
 	}

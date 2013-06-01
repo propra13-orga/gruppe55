@@ -1,8 +1,8 @@
 package hhu.propra2013.gruppe55;
 
-
-
 public class TrapObject extends DungeonObject {
+// Attribute
+	protected int trapDmg	=	1;	// Schaden, den diese Falle auslöst
 
 	public TrapObject(int x, int y) {
 		super(x,y);
@@ -17,7 +17,7 @@ public class TrapObject extends DungeonObject {
 	public void onCollision(DungeonObject d){	 // Tod bei Kollision
 			// Dem Spieler oder Monstern Schaden zufuegen
 	    	if(d instanceof	LivingObject)
-				((LivingObject)d).getHit();
+				((LivingObject)d).getHit(trapDmg);
 	    	// Statewechsel zur ausgeloesten Falle
 	    	switchState(1);
 	} 

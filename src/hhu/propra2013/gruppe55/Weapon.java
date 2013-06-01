@@ -6,15 +6,15 @@ import java.awt.Rectangle;
 public class Weapon extends DungeonObject {
 // Attribute
 	// Spezifikation der Waffe
-	private int type	=	0;		// Waffentyp (0=Schwert)
-	private String name	=	"Simples Schwert";	// Waffenname
+	protected int type	=	0;		// Waffentyp (0=Schwert)
+	protected String name	=	"Simples Schwert";	// Waffenname
 	// Angriffswerte
-	private int atkTime	=	400;	// Angriffszeit in Millisekunden
-	private int minDmg	=	1;		// Mindestschaden
-	private int maxDmg	=	3;		// Maximalschaden
-	private boolean attacking	=	false;	// Waehrend des Angriffs true
+	protected int atkTime	=	400;	// Angriffszeit in Millisekunden
+	protected int minDmg	=	1;		// Mindestschaden
+	protected int maxDmg	=	3;		// Maximalschaden
+	protected boolean attacking	=	false;	// Waehrend des Angriffs true
 	// Offsetwerte zum zeichnen
-	private int[] weapOffsets	=	new int[6];	// Die Offsets wie die Waffe in der Spielerhand gehalten wird	
+	protected int[] weapOffsets	=	new int[6];	// Die Offsets wie die Waffe in der Spielerhand gehalten wird	
 	// Statuswerte die durch die Waffe erhoeht werden
 	// TODO: Statuswerte
 
@@ -67,11 +67,11 @@ public class Weapon extends DungeonObject {
 		switchState(1);
 	}
 	
-	public int getminDmg(){
+	public int getMinDmg(){
 		return minDmg;
 	}
 	
-	public int getmaxDmg(){
+	public int getMaxDmg(){
 		return maxDmg;
 	}
 	
