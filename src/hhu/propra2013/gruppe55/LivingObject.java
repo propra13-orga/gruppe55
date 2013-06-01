@@ -58,9 +58,15 @@ public abstract class LivingObject extends DungeonObject {
 	
 	// Heilung bei Aufnahme einer Potion
 	public void getHealed(){ 
-		hp+=25;
+		hp+=2;
 		if(hp>hpMax)
 			hp = hpMax;
+	}
+	
+	public void fillmana(){ 
+		mana+=10;
+		if(mana>manaMax)
+			mana = manaMax;
 	}
     
     // Methode zum Unverwundbar machen des Objekts
