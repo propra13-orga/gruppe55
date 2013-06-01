@@ -29,6 +29,8 @@ public class Data {
 	// Nutzbare Items
 	static Image potion = genImg("potion.png");		// Trank
 	static Image potionused = genImg("potionused.png");	// (Platzhalter)
+	static Image mpotion = genImg("mpotion.png");		// Manatrank
+	static Image treasure = genImg("treasure.png");		// Schaetze 
 	// Fallen
 	static Image trap = genImg("trap.png");			// Speerfalle
 	static Image trapact = genImg("trapActivated.png");	// aktivierte Speerfalle

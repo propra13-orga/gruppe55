@@ -67,6 +67,14 @@ public class Weapon extends DungeonObject {
 		switchState(1);
 	}
 	
+	public int getminDmg(){
+		return minDmg;
+	}
+	
+	public int getmaxDmg(){
+		return maxDmg;
+	}
+	
 	// Hitbox
 	public Rectangle getBorder(){
 		// bei Angriff macht die Hitbox Sinn!

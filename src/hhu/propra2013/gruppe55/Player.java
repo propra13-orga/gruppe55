@@ -14,7 +14,9 @@ public class Player extends LivingObject {
 	private int currEquipped	=	0;			// Zeige auf aktuell ausgerüstetes Waffenset (0= Nahkampf; 1= Fernkampf)
 	private boolean attacking	=	false;		// Waehrend einer Attacke true
 	private int[][] handOffsets	=	new int[2][4];	// Offsets fuer die Positionen der Spielerhaende
-
+	private int dmg, critval, minDmg, maxDmg, gold;
+	private boolean crit;
+	
 	// Konstruktor
     public Player(int spawnX, int spawnY, int h, int atk, int def, int energy, int mana) {
 		super(spawnX, spawnY, h, atk, def, energy, mana);
@@ -49,8 +51,9 @@ public class Player extends LivingObject {
 		handOffsets[1][1]	=	25;	// Y-Offset der Haupthand
 		handOffsets[1][2]	=	22;	// X-Offset der Nebenhand
 		handOffsets[1][3]	=	16;	// Y-Offset der Nebenhand
-		
-
+		// Die Schadenswerte der ausgewaehlten Waffe einlesen
+		minDmg = weapons[currEquipped].getminDmg(); // minimaler Schaden
+		maxDmg = weapons[currEquipped].getmaxDmg(); // maximaler Schaden
 	}
     
     // Methode zum Agriff
@@ -88,6 +91,35 @@ public class Player extends LivingObject {
     		}
     	}.start();
     }
+    
+    // Berechnung des Schadens bei Treffer (noch nicht vollstaendig - siehe Readme!)
+    
+    // Funktion um den Critwert zu berechnen
+	public int critcalc(int low, int high) {
+		return (int) (Math.random() * (high - low) + low);
+	}
+	// Funktion um den Schadenswert zu berechnen
+	public int dmgcalc(int low, int high) {
+		if(crit==true){														// Wenn der Treffer kritisch ist...
+			return (int) (Math.random() * (high - low) + low) + 2*atk;}		// ... dann Randomzahl von mindmg bis maxdmg(-1) + 2*atk vom Spieler
+		else 																// Wenn der Treffer nicht kritisch ist...
+			return (int) (Math.random() * (high - low) + low) + atk;		// ... dann Randomzahl von mindmg bis maxdmg(-1) + atk vom Spieler
+		}
+    // Funktion die den Schaden mit jeweiliger Waffe ausrechnet
+	public void damage(){
+		critval = critcalc(1,11);											// Berechnung des Critwerts 1-10
+		if(critval <=3)														// Wenn der gerollte Wert <= 3 dann wird crit wahr
+			crit = true;
+		else 
+			crit = false;													// Ansonsten crit = False
+		dmg = dmgcalc(minDmg, maxDmg);										// Aufrufen der Schadensfunktion mit den Werten der jeweiligen Waffen
+		
+	}
+    
+	public int getdmg(){
+		return dmg;
+	}
+    
     
     // Methode um den Spieler an eine bestimmte Stelle zu teleportieren
     public void teleport(int x, int y){
@@ -133,9 +165,18 @@ public class Player extends LivingObject {
     	return goal;
     }
     
-    // Abfragedes Angriffsstatus
+    // Abfrage des Angriffsstatus
     public boolean getAttackState(){
     	return attacking;
+    }
+    
+    // Abfrage des aktuellen ATK-Werts des Spielers
+    public int getatk(){
+    	return atk;
+    }
+    // Platzhalterfunktion die das Gold des Spielers erhoehen soll, wenn er Schaetze einsammelt
+    public void getmoney(){
+    	gold+=10;					// derzeit einfach nur bei Einsammeln -> Gold + 10
     }
     
     // Abfrage des aktuellen Waffensets
