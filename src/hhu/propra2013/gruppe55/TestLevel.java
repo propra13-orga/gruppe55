@@ -47,6 +47,8 @@ public class TestLevel extends JPanel implements ActionListener {
 			FileReader fread = new FileReader("lvl/testlvl.txt");
 			BufferedReader in = new BufferedReader(fread);
 			
+			int k = 0; //Für 3. Arraydimension wird eigene Variable benötigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
+			
 			for(int i=0; (line = in.readLine()) != null; i++){
 				if(i==0){
 					// Mit 1. Line Array initialisieren
@@ -58,13 +60,23 @@ public class TestLevel extends JPanel implements ActionListener {
 					// Lines mit Strings in LevelData-Array als int konvertieren
 					lineints = (String[])line.split(",");
 					for(int j=0; j<=lineints.length-1; j++){
-							lvlData[0][j][i] = Integer.parseInt(lineints[j]);
+							lvlData[0][j][k] = Integer.parseInt(lineints[j]);
 					}
+					k++;
 				}
 			}
 			in.close();
 		} catch (IOException e) {e.printStackTrace();}
 		
+/**		for(int j = 0; j <= lvlData[0][0].length-1; j++){
+			String bla = new String();
+			for(int i = 0; i <= lvlData[0].length-1; i++){
+				bla += lvlData[0][i][j];
+			}
+			System.out.println(bla);
+		}
+*/
+	
 		// Zeiger wird auf den ersten Raum gesetzt
 		room	=	0;
 
@@ -72,7 +84,8 @@ public class TestLevel extends JPanel implements ActionListener {
 		staticList		=	new ArrayList<ArrayList<DungeonObject>>(0);
 		creatureList	=	new ArrayList<ArrayList<LivingObject>>(0);
 		teleportList	=	new ArrayList<ArrayList<Teleporter>>(0);
-				
+		
+		//0: Background		
 		//1: Wall
 		//2: Creature
 		//3: Player
@@ -90,23 +103,38 @@ public class TestLevel extends JPanel implements ActionListener {
 			// Objekte generieren
 			for(int i=0;i<=lvlData[0].length-1;i++){
 				for(int j=0;j<=lvlData[0][0].length-1;j++){
-					if(lvlData[r][i][j] == 1)
+					if(lvlData[r][i][j] == 0){
+						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+					}
+					else if(lvlData[r][i][j] == 1){
 						staticList.get(r).add(new WallObject(i*32, j*32));		// bei 1 wird ein Wandobjekt generiert
-					else if(lvlData[r][i][j] == 2)
+					}
+					else if(lvlData[r][i][j] == 2){
 						creatureList.get(r).add(new Creature(i*32+5, j*32-5, 3, 10, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
+						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+					}
 					else if(lvlData[r][i][j] == 3){
 						playerSpawnX	=	i*32-5;
 						playerSpawnY	=	j*32-5;
 						player	=	new Player(playerSpawnX, playerSpawnY, 5, 25, 0, 100, 100);		// bei 3 wird ein Spielerobjekt generiert
+						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 					}
-					else if(lvlData[r][i][j] == 5)
+					else if(lvlData[r][i][j] == 5){
+						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new TrapObject(i*32, j*32));		// bei 5 wird ein Fallenobjekt generiert
-					else if(lvlData[r][i][j] == 4)
-						teleportList.get(r).add(new Teleporter(i*32, j*32, 1, 2*32, 0*32));		
-					else if(lvlData[r][i][j] == 6)
+					}
+					else if(lvlData[r][i][j] == 4){
+						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						teleportList.get(r).add(new Teleporter(i*32, j*32, 1, 2*32, 0*32));
+					}
+					else if(lvlData[r][i][j] == 6){
+						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new GoalObject(i*32, j*32));		// bei 6 wird ein Zielobjekt generiert
-					else if(lvlData[r][i][j] == 7)
+					}
+					else if(lvlData[r][i][j] == 7){
+						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new PotionObject(i*32, j*32)); 	// bei 7 wird ein Potionobjekt generiert
+					}
 				}
 			}
 		}
@@ -116,7 +144,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		
 		// Eigenschaften des Panels
 		setFocusable(true);
-		setBackground(new Color(255,211,155));
+		setBackground(Color.BLACK);
 		setDoubleBuffered(true);
 		
 		// Hinzufuegen des KeyListener 
@@ -203,6 +231,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		super.paint(g);
 		// wir arbeiten mit Java2d
 		Graphics2D g2d = (Graphics2D)g;
+		g2d.translate(0, 110);
 		
 		//Offset fuer den Bildlauf vorberechnen
 		int offsetX = player.getX()-centerX;
@@ -220,13 +249,13 @@ public class TestLevel extends JPanel implements ActionListener {
 		player.draw(g2d, centerX, centerY);
 		
 		// HUD zeichnen
-		hud.draw(g2d, player.getHP(), player.getHPMax(), player.getEnergy(), player.getEnergyMax(), player.getMana(), player.getManaMax());
+		hud.draw(g2d, gw.fullscreen, player.getHP(), player.getHPMax(), player.getEnergy(), player.getEnergyMax(), player.getMana(), player.getManaMax(), player.getMoney(), player.getWeapSet());
 		
 		// Gameover / Win Bildschirm zeichnen
 		if(lose)
-			g2d.drawImage(Data.gameover, 32*10, 32*10, this);
+			g2d.drawImage(Data.gameover, centerX-186, centerY-82, this);
 		else if(clear)
-			g2d.drawImage(Data.win, 32*10, 32*10, this);
+			g2d.drawImage(Data.win, centerX-186, centerY-82, this);
 		
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();
@@ -240,7 +269,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		// ueberpruefen ob der Spieler lebt
 		if(player.getHP()<=0)
 			lose	=	true;	// wird gesetzt wenn der Spieler stirbt
-		if(player.getgoal() == true)
+		if(player.getGoal() == true)
 			clear = true;		// wird gesetzt wenn der Spieler das Level erfolgreich abschliesst 
 		
 		// Spielerbewegung

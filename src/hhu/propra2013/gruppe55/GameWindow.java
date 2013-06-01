@@ -12,6 +12,7 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 	// TO DO: Genaue Pixelberechnung ohne Rand - derzeit ~16:9
 	private int width	=	Toolkit.getDefaultToolkit().getScreenSize().width;		// Breite in Pixeln 13*32
 	private int height	=	Toolkit.getDefaultToolkit().getScreenSize().height;	    // Hoehe in Pixeln 10*32-5
+	static boolean fullscreen;														// Ob fullscreen oder nicht
 	// level management
 	private TestLevel[] levels;			// Array in dem die Level gespeichert werden
 	private Level lvl;					// Ur-Level
@@ -53,8 +54,9 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 	public void toggleFullscreen(int i){
 		if(i == 0){
 			this.dispose();
-			width = 960;
-			height = 540;
+			width = 966;
+			height = 650;
+			fullscreen = false;
 			this.setSize(width, height);
 			this.setUndecorated(false);
 			testlvl.setCenter((width/2)-26, (height/2)-25);
@@ -65,6 +67,7 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 			this.dispose();
 			width = Toolkit.getDefaultToolkit().getScreenSize().width;
 			height = Toolkit.getDefaultToolkit().getScreenSize().height;
+			fullscreen = true;
 			this.setSize(width, height);
 			this.setUndecorated(true);
 			testlvl.setCenter((width/2)-26, (height/2)-25);

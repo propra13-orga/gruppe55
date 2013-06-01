@@ -157,11 +157,11 @@ public class Player extends LivingObject {
     	// derzeit wird hier kein weiterer Code benoetigt (das kann sich im Laufe des Projekts aendern)
     }
     // Spieler beruehrt das ziel und gewinnt das spiel
-    public void reachgoal(){ 
+    public void reachGoal(){ 
     	goal = true;
     }
     // Wert der goal variable wird uebergeben
-    public boolean getgoal(){
+    public boolean getGoal(){
     	return goal;
     }
     
@@ -171,12 +171,17 @@ public class Player extends LivingObject {
     }
     
     // Abfrage des aktuellen ATK-Werts des Spielers
-    public int getatk(){
+    public int getAtk(){
     	return atk;
     }
-    // Platzhalterfunktion die das Gold des Spielers erhoehen soll, wenn er Schaetze einsammelt
-    public void getmoney(){
-    	gold+=10;					// derzeit einfach nur bei Einsammeln -> Gold + 10
+    // Player wird vom gebenden Objekt Geld hinzugefügt
+    public void giveMoney(int value){
+    	gold+=value;
+    }
+    
+    //Geld des Spielers abgfragen
+    public int getMoney(){
+    	return(gold);
     }
     
     // Abfrage des aktuellen Waffensets

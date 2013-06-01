@@ -17,7 +17,7 @@ public class TreasureObject extends DungeonObject {
 	public void onCollision(DungeonObject d){	 // Goldstand erhoehen bei Kollision
 		// der Spieler erhaelt Gold
     	if(d instanceof	Player)
-			((Player)d).getmoney();
+			((Player)d).giveMoney(10);
     	// Wechsel des Status auf eingesammeltes Gold
     	switchState(1);
 	}

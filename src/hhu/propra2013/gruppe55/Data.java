@@ -22,9 +22,11 @@ public class Data {
 	static Image win = genImg("youwin.png");		// Siegbild
 	static Image gameover = genImg("gameover.png");	// Game Over
 	static Image hud = genImg("HUD.png");			// HUD
+	static Image hud_selector = genImg("HUD_Selector.png");			//HUD_Selector
 	static Image bks = genImg("bks.png");			// Hintergrund
 	// Umgebung des Levels
 	static Image wall = genImg("wall.png");			// Wand
+	static Image grass = genImg("grass.png");		//Grass
 	static Image goal = genImg("goal.png");			// Zielobjekt
 	// Nutzbare Items
 	static Image potion = genImg("potion.png");		// Trank

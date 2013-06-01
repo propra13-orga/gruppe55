@@ -10,6 +10,6 @@ public class GoalObject extends DungeonObject {
 	
 	public void onCollision(DungeonObject d){	 // Spieler trifft auf das Ziel
     	if(d instanceof	Player)
-			((Player)d).reachgoal();			// Funktion um Goal zu setzen (= Level abschliessen)
+			((Player)d).reachGoal();			// Funktion um Goal zu setzen (= Level abschliessen)
 	}
 }

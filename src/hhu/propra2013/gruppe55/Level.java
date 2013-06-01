@@ -268,7 +268,7 @@ public class Level extends JPanel implements ActionListener {
 		// ueberpruefen ob der Spieler lebt
 		if(player.getHP()<=0)
 			lose	=	true;	// wird gesetzt wenn der Spieler stirbt
-		if(player.getgoal() == true)
+		if(player.getGoal() == true)
 			clear = true;		// wird gesetzt wenn der Spieler das Level erfolgreich abschliesst
 			
 		// Spielerbewegung
