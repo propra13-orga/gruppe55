@@ -6,6 +6,11 @@ Geplante Aspekte
  - Animation
  - Kampfsystem
 
+Known Issues:
+- Rollfunktion muss vernuenftig die Werte zur Schadensberechnung uebergeben (siehe Unterpunkt "Player")
+- Monster sind im Scrollinglvl nicht angreifbar
+- Nach Beruehren des Ziels im Scrollinglvl kann man sich dennoch weiterhin bewegen
+
 Changelog:
 
 01.06.13 - van Meegen
