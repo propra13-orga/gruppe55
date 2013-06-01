@@ -1,4 +1,5 @@
 ﻿To-Do-List
+ - realisierte Stat-Uebergabe von ATK/DEF von den Waffen an den Spieler
 Geplante Aspekte
  - Boden als eine große Grafik, Objekte überlagern diese
  - Klasse zur Text-/Dialogdarstellung
@@ -7,11 +8,22 @@ Geplante Aspekte
  - Kampfsystem
 
 Known Issues:
-- Rollfunktion muss vernuenftig die Werte zur Schadensberechnung uebergeben (siehe Unterpunkt "Player")
 - Monster sind im Scrollinglvl nicht angreifbar
 - Nach Beruehren des Ziels im Scrollinglvl kann man sich dennoch weiterhin bewegen
 
 Changelog:
+
+01.06.13 - jdnklau
+LivingObject
+	- getHit und getHealed erwarten nun Schadens bzw. Heilwerte
+	- getHit beachtet nun die DEF des Objekts
+	- es gibt nun eine methode "public void dealDamage", die als Parameter das zu schaedigende LivingObject erwartet
+TrapObject
+	- besitzt nun ein Attribut trapDmg, das (wie koennte es anders sein?) den von der Falle verursachten Schaden repraesentiert
+Player
+	- Schadensberechnungen von Markus' Push wieder herausgenommen. Sie sind jetzt schlanker im LivingObject implementiert
+	- Methode swapWeapons um zwischen den Waffensets wechseln zu koennen
+
 
 01.06.13 - van Meegen
 

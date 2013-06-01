@@ -14,8 +14,8 @@ public class Player extends LivingObject {
 	private int currEquipped	=	0;			// Zeige auf aktuell ausgerüstetes Waffenset (0= Nahkampf; 1= Fernkampf)
 	private boolean attacking	=	false;		// Waehrend einer Attacke true
 	private int[][] handOffsets	=	new int[2][4];	// Offsets fuer die Positionen der Spielerhaende
-	private int dmg, critval, minDmg, maxDmg, gold;
-	private boolean crit;
+	// Besitztuemer des Spielers
+	private int gold	=	0;			// Vermoegen
 	
 	// Konstruktor
     public Player(int spawnX, int spawnY, int h, int atk, int def, int energy, int mana) {
@@ -41,6 +41,11 @@ public class Player extends LivingObject {
 		weapons[1]	=	null;	// Nebenhand
 		weapons[2]	=	null;	// Fernkampfwaffe
 		
+		// Schadenswerte uebernehmen
+    	minDmg	=	weapons[0].getMinDmg();
+    	maxDmg	=	weapons[0].getMaxDmg();
+		
+		
 		// Haende setzen fuer state[1] (ignoriere 0, tote Spieler haben keine Waffen!)
 		handOffsets[0][0]	=	2;	// X-Offset der Haupthand
 		handOffsets[0][1]	=	18;	// Y-Offset der Haupthand
@@ -51,9 +56,6 @@ public class Player extends LivingObject {
 		handOffsets[1][1]	=	25;	// Y-Offset der Haupthand
 		handOffsets[1][2]	=	22;	// X-Offset der Nebenhand
 		handOffsets[1][3]	=	16;	// Y-Offset der Nebenhand
-		// Die Schadenswerte der ausgewaehlten Waffe einlesen
-		minDmg = weapons[currEquipped].getminDmg(); // minimaler Schaden
-		maxDmg = weapons[currEquipped].getmaxDmg(); // maximaler Schaden
 	}
     
     // Methode zum Agriff
@@ -90,36 +92,7 @@ public class Player extends LivingObject {
     			attacking	=	false;
     		}
     	}.start();
-    }
-    
-    // Berechnung des Schadens bei Treffer (noch nicht vollstaendig - siehe Readme!)
-    
-    // Funktion um den Critwert zu berechnen
-	public int critcalc(int low, int high) {
-		return (int) (Math.random() * (high - low) + low);
-	}
-	// Funktion um den Schadenswert zu berechnen
-	public int dmgcalc(int low, int high) {
-		if(crit==true){														// Wenn der Treffer kritisch ist...
-			return (int) (Math.random() * (high - low) + low) + 2*atk;}		// ... dann Randomzahl von mindmg bis maxdmg(-1) + 2*atk vom Spieler
-		else 																// Wenn der Treffer nicht kritisch ist...
-			return (int) (Math.random() * (high - low) + low) + atk;		// ... dann Randomzahl von mindmg bis maxdmg(-1) + atk vom Spieler
-		}
-    // Funktion die den Schaden mit jeweiliger Waffe ausrechnet
-	public void damage(){
-		critval = critcalc(1,11);											// Berechnung des Critwerts 1-10
-		if(critval <=3)														// Wenn der gerollte Wert <= 3 dann wird crit wahr
-			crit = true;
-		else 
-			crit = false;													// Ansonsten crit = False
-		dmg = dmgcalc(minDmg, maxDmg);										// Aufrufen der Schadensfunktion mit den Werten der jeweiligen Waffen
-		
-	}
-    
-	public int getdmg(){
-		return dmg;
-	}
-    
+    } 
     
     // Methode um den Spieler an eine bestimmte Stelle zu teleportieren
     public void teleport(int x, int y){
@@ -182,6 +155,29 @@ public class Player extends LivingObject {
     // Abfrage des aktuellen Waffensets
     public int getWeapSet(){
     	return currEquipped;
+    }
+    
+    // Waffenset wechseln
+    public void swapWeapons(){
+    	// Gibt es eine Waffe, auf die gewechselt wird?
+    	switch(currEquipped){
+    	case	0:	// keine Fernkampfwaffe
+    		if(weapons[2]==null)
+    			return;
+    		break;
+    	case	1:	// keine Nahkampfwaffen
+    	default:
+    		if(weapons[0]==null && weapons[1]==null)
+    			return;
+    		break;
+    	}
+    	
+    	// Zeiger umlenken
+    	currEquipped	=	(currEquipped+1)%2;		// Aus 1 wird 0, aus 0 wird 1
+    	
+    	// Schadenswerte uebernehmen
+    	minDmg	=	weapons[currEquipped].getMinDmg();
+    	maxDmg	=	weapons[currEquipped].getMaxDmg();
     }
 
 // Methoden zur Steuerung des Spielers per Keyboard

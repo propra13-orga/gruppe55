@@ -171,7 +171,7 @@ public class TestLevel extends JPanel implements ActionListener {
 			for(int i=0; i<creatureList.get(room).size(); i++){
 				// Monsterkollision mit der Waffe
 				if(creatureList.get(room).get(i).getBorder().intersects(player.weapons[0].getBorder())){
-					creatureList.get(room).get(i).getHit();
+					player.dealDamage(creatureList.get(room).get(i));
 				}
 			}
 		
