@@ -9,9 +9,15 @@ Geplante Aspekte
 
 Known Issues:
 - Monster sind im Scrollinglvl nicht angreifbar
-- Nach Beruehren des Ziels im Scrollinglvl kann man sich dennoch weiterhin bewegen
+
 
 Changelog:
+
+02.06.13 - van Meegen
+/src:
+Testlevel:
+	- Diesmal WIRKLICH Manapotion und Schatz ins Level eingefuegt (das hat letztes mal irgendwie nicht geklappt x.x)
+	- Spieler ist nach clearen des Levels wieder unbeweglich
 
 01.06.13 - jdnklau
 LivingObject
