@@ -8,6 +8,42 @@ Geplante Aspekte
 
 Changelog:
 
+01.06.13 - van Meegen
+
+/img:
+	- Manapotionbild hinzugefuegt
+	- vorlaeufiges Schatzbild hinzugefuegt 
+
+/src:
+	- Klasse Ressources geloescht (wurde von Data ersetzt aber war immer noch im Git)
+
+Player:
+	- Uebergabe der Waffenschadenswerte an den Spieler
+	- Berechnung von kritischem und nicht kritischem Treffer anhand der Stärke des Spielers (atk) und dem min. bzw max. Waffenschaden
+      Problem: Derzeit waere es nur moeglich die Werte dann ans LivingObject zu uebergeben, wenn diese static sind, was entgegen dem Sinn der Rechnung steht.
+      		   Die Berechnung an sich funktioniert aber der Schaden ist immer noch einfach 1 solange wir die Uebergabe nicht realisiert haben.
+    - Goldattribut hinzugefuegt und eine Platzhalterfunktion die den Goldstand erhoeht
+
+Weapon:
+	- Funktionen ergaenzt um den Min- bzw Maxschaden der Waffen zu uebergeben
+
+LivingObject:
+	- fillmana() als Funktion fuer die Manatränke hinzugefuegt
+
+MPotionObject:
+	- Klasse fuer Manatraenke erstellt 
+
+TreasureObject:
+	- Klasse fuer Schatze erstellt.
+
+Data:
+	- Bilder fuer Schatz und Manatrank eingebunden
+	
+/lvl:
+	- Testlvl leicht angepasst. Test der beiden neuen Objekte.
+
+
+
 
 31.05.13 - jdnklau
 
