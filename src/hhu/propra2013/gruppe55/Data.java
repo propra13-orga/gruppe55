@@ -40,7 +40,21 @@ public class Data {
 // Waffen
 	// simples Schwert
 	static Image basicsword = genImg("weapons/basicsword/front.png");	// Frontansicht
-	static Image basicsword_f_atk = genImg("weapons/basicsword/front_atk.png");	// Frontansicht beim Angriff
+	static Image basicsword_f_atk = genImg("weapons/basicsword/front_atk.png");	// Schwertansicht beim Angriff nach vorn
+	static Image basicsword_l_atk = genImg("weapons/basicsword/left_atk.png");	// Schwertansicht beim Angriff nach links
+	static Image basicsword_r_atk = genImg("weapons/basicsword/right_atk.png");	// Schwertansicht beim Angriff nach rechts
+	static Image basicsword_u_atk = genImg("weapons/basicsword/up_atk.png");	// Schwertansicht beim Angriff nach oben
+	static Image basicsword_icon = genImg("weapons/basicsword/icon.png");	// Icon fuer das HUD
+	// simpler Bogen
+	static Image basicbow = genImg("weapons/basicbow/front.png"); // Frontansicht
+	static Image basicbow_f_atk = genImg("weapons/basicbow/front_atk.png"); // Bogenansicht beim Angriff nach vorn
+	static Image basicbow_l_atk = genImg("weapons/basicbow/left_atk.png"); // Bogenansicht beim Angriff nach links
+	static Image basicbow_r_atk = genImg("weapons/basicbow/right_atk.png"); // Bogenansicht beim Angriff nach rechts
+	static Image basicbow_u_atk = genImg("weapons/basicbow/up_atk.png"); // Bogenansicht beim Angriff nach unten
+	static Image basicbow_icon = genImg("weapons/basicbow/icon.png"); // Icon fuer das HUD
+	// simples Schild
+	static Image basicshield_f = genImg("weapons/basicshield/front.png"); // Frontsansicht
+	static Image basicshield_b = genImg("weapons/basicshield/front.png"); // Ruecksansicht
 	
 	// Methode zum Bilder generieren (nicht nötig, spart aber Tipparbeit oben)
 	private static Image genImg(String image){
