@@ -242,10 +242,10 @@ public class Level extends JPanel implements ActionListener {
 		
 		// alle objekte der staticlist zeichnen (Waende, Fallen,...)
 		for(int i=0; i<staticList.get(room).size(); i++)
-			staticList.get(room).get(i).draw(g2d, 0, 0);
+			staticList.get(room).get(i).draw(g2d);
 		// Monster zeichnen
 		for(int i=0; i<creatureList.get(room).size(); i++)
-			creatureList.get(room).get(i).draw(g2d, 0, 0);
+			creatureList.get(room).get(i).draw(g2d);
 		
 		// Spieler zeichnen
 		player.draw(g2d, player.getX(), player.getY());

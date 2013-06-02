@@ -62,20 +62,20 @@ public class Creature extends LivingObject {
     
     
     @Override
-    public void draw(Graphics2D g2d, int offsetX, int offsetY){
+    public void draw(Graphics2D g2d){
     	// Nichts zeichnen, wenn Kreatur unsichtbar
     	if(!state[currState].visible)
     		return;
     	// Zeichnen der HP-Leiste ueber den Koepfen der Kreaturen
     	g2d.setColor(Color.WHITE);
-    	g2d.fillRect(x-offsetX, y-offsetY-8, 24, 5);
+    	g2d.fillRect(x, y-8, 24, 5);
     	g2d.setColor(Color.BLACK);
-    	g2d.drawRect(x-offsetX, y-offsetY-8, 24, 5);
+    	g2d.drawRect(x, y-8, 24, 5);
     	g2d.setColor(Color.RED);
-    	g2d.fillRect(x+1-offsetX, y-offsetY-7, (int)(24*((double)hp/hpMax)), 4);
+    	g2d.fillRect(x+1, y-7, (int)(24*((double)hp/hpMax)), 4);
     	g2d.setColor(Color.BLACK);
     	// Zeichnen der Monster
-    	super.draw(g2d, offsetX, offsetY);
+    	super.draw(g2d);
     }
     
     public void onCollision(DungeonObject d){

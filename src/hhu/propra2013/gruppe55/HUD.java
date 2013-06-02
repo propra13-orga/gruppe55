@@ -26,7 +26,7 @@ public class HUD {
 			g2d.fillRect(20, -54, 355, 30);
 			g2d.setColor(Color.BLUE);
 			g2d.fillRect(20, -54, (int)(355*((double)mana/manaMax)), 30);
-			g2d.drawImage(Data.hud, 0, -110, null);
+			g2d.drawImage(Data.hud, 0, 0, null);
 			// Draw HUD-Values
 			g2d.setColor(Color.WHITE);
 			g2d.setFont(font);
@@ -45,7 +45,7 @@ public class HUD {
 			}
 		}
 		else{
-			fullScreenOffset = (Toolkit.getDefaultToolkit().getScreenSize().width/2)-480;
+			fullScreenOffset = (Toolkit.getDefaultToolkit().getScreenSize().width/2);
 			g2d.setColor(Color.BLACK);
 			// Zeichnen des Lebenspunktebalkens
 			g2d.fillRect(20+fullScreenOffset, -90, 355, 30);
