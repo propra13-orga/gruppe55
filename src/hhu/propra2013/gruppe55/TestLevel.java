@@ -110,13 +110,13 @@ public class TestLevel extends JPanel implements ActionListener {
 						staticList.get(r).add(new WallObject(i*32, j*32));		// bei 1 wird ein Wandobjekt generiert
 					}
 					else if(lvlData[r][i][j] == 2){
-						creatureList.get(r).add(new Creature(i*32+5, j*32-5, 3, 10, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
+						creatureList.get(r).add(new Creature(i*32+5, j*32-5, 3, 1, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
 						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 					}
 					else if(lvlData[r][i][j] == 3){
 						playerSpawnX	=	i*32-5;
 						playerSpawnY	=	j*32-5;
-						player	=	new Player(playerSpawnX, playerSpawnY, 5, 25, 0, 100, 100);		// bei 3 wird ein Spielerobjekt generiert
+						player	=	new Player(playerSpawnX, playerSpawnY, 5, 0, 0, 100, 100);		// bei 3 wird ein Spielerobjekt generiert
 						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 					}
 					else if(lvlData[r][i][j] == 5){
@@ -134,6 +134,14 @@ public class TestLevel extends JPanel implements ActionListener {
 					else if(lvlData[r][i][j] == 7){
 						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new PotionObject(i*32, j*32)); 	// bei 7 wird ein Potionobjekt generiert
+					}
+					else if(lvlData[r][i][j] == 8){
+						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						staticList.get(r).add(new MPotionObject(i*32, j*32)); 	// bei 8 wird ein Manapotionobject generiert
+					}
+					else if(lvlData[r][i][j] == 9){
+						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						staticList.get(r).add(new TreasureObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
 					}
 				}
 			}
@@ -199,11 +207,10 @@ public class TestLevel extends JPanel implements ActionListener {
 			for(int i=0; i<creatureList.get(room).size(); i++){
 				// Monsterkollision mit der Waffe
 				if(creatureList.get(room).get(i).getBorder().intersects(player.weapons[0].getBorder())){
-					creatureList.get(room).get(i).getHit();
+					player.dealDamage(creatureList.get(room).get(i));
 				}
 			}
-		
-	}
+		}
 	
 	//Methode um das Level neu zu laden und das Spiel von vorne zu beginnen
 	public void reload(){
@@ -304,7 +311,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		public void keyPressed(KeyEvent e) {
 			int k	=	e.getKeyCode();
 			// Bewegungsbefehle an Spieler weiter leiten
-			if(!lose && (k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN || k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT))
+			if(!lose && !clear && (k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN || k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT))
 				player.keyPressed(e);
 			// Enter-Taste abfragen
 			if(k == KeyEvent.VK_ENTER)

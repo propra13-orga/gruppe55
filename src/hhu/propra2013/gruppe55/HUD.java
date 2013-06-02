@@ -47,8 +47,6 @@ public class HUD {
 		else{
 			fullScreenOffset = (Toolkit.getDefaultToolkit().getScreenSize().width/2)-480;
 			g2d.setColor(Color.BLACK);
-			// Zeichnen des HUD-Bereiches
-			g2d.fillRect(0,  -110, Toolkit.getDefaultToolkit().getScreenSize().width, 110);
 			// Zeichnen des Lebenspunktebalkens
 			g2d.fillRect(20+fullScreenOffset, -90, 355, 30);
 			g2d.setColor(Color.RED);

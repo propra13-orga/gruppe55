@@ -147,12 +147,12 @@ public class Player extends LivingObject {
     public int getAtk(){
     	return atk;
     }
-    // Player wird vom gebenden Objekt Geld hinzugefügt
-    public void giveMoney(int value){
-    	gold+=value;
+    // Player Gold hinzufügen
+    public void giveMoney(int m){
+    	gold+=m;
     }
     
-    //Geld des Spielers abgfragen
+    // Player Geld abfragen
     public int getMoney(){
     	return(gold);
     }
