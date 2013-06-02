@@ -244,8 +244,6 @@ public class TestLevel extends JPanel implements ActionListener {
 		int offsetX = player.getX()-centerX;
 		int offsetY = player.getY()-centerY;
 		
-		//staticList.get(room).get(i).getImg()
-		
 		// alle objekte der staticlist zeichnen (Waende, Fallen,...)
 		for(int i=0; i<staticList.get(room).size(); i++)
 				staticList.get(room).get(i).draw(g2d, offsetX, offsetY);
