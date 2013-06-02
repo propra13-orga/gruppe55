@@ -15,6 +15,17 @@ Changelog:
 
 02.06.13 - van Meegen
 /src:
+Data:
+	- Bildpfade fuer Schwert, Schild und Bogen erstellt
+
+/img:
+	- Angriffsrichtungen fuer das Schwert erstellt
+	- Schild Front- und Rueckseite
+	- Bogen + Angriffsrichtungen
+	- HUD Icons fuer Schwert und Bogen
+
+02.06.13 - van Meegen
+/src:
 Testlevel:
 	- Diesmal WIRKLICH Manapotion und Schatz ins Level eingefuegt (das hat letztes mal irgendwie nicht geklappt x.x)
 	- Spieler ist nach clearen des Levels wieder unbeweglich

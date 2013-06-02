@@ -18,24 +18,24 @@ public class HUD {
 		if(!full){
 			// Zeichnen des Lebenspunktebalkens
 			g2d.setColor(Color.BLACK);
-			g2d.fillRect(20, -90, 355, 30);
+			g2d.fillRect(20, -90+110, 355, 30);
 			g2d.setColor(Color.RED);
-			g2d.fillRect(20, -90, (int)(355*((double)hp/hpMax)), 30);
+			g2d.fillRect(20, -90+110, (int)(355*((double)hp/hpMax)), 30);
 			// Zeichnen des Manabalkens
 			g2d.setColor(Color.BLACK);
-			g2d.fillRect(20, -54, 355, 30);
+			g2d.fillRect(20, -54+110, 355, 30);
 			g2d.setColor(Color.BLUE);
-			g2d.fillRect(20, -54, (int)(355*((double)mana/manaMax)), 30);
+			g2d.fillRect(20, -54+110, (int)(355*((double)mana/manaMax)), 30);
 			g2d.drawImage(Data.hud, 0, 0, null);
 			// Draw HUD-Values
 			g2d.setColor(Color.WHITE);
 			g2d.setFont(font);
-			g2d.drawString("" + hp + "/" + hpMax, 292, -66);
-			g2d.drawString("" + mana + "/" + manaMax, 292, -29);
-			g2d.drawString("" + money, 745, -35);
+			g2d.drawString("" + hp + "/" + hpMax, 292, -66+110);
+			g2d.drawString("" + mana + "/" + manaMax, 292, -29+110);
+			g2d.drawString("" + money, 745, -35+110);
 			// Draw Weapon-Set-Selector
 			if(equip == 0){
-				g2d.drawImage(Data.hud_selector, 445, -51, null);
+				g2d.drawImage(Data.hud_selector, 445, -51+110, null);
 			}
 			else if(equip == 1){
 				g2d.drawImage(Data.hud_selector, 551, -51, null);
@@ -45,33 +45,33 @@ public class HUD {
 			}
 		}
 		else{
-			fullScreenOffset = (Toolkit.getDefaultToolkit().getScreenSize().width/2);
+			fullScreenOffset = (Toolkit.getDefaultToolkit().getScreenSize().width/2)-480;
 			g2d.setColor(Color.BLACK);
 			// Zeichnen des Lebenspunktebalkens
-			g2d.fillRect(20+fullScreenOffset, -90, 355, 30);
+			g2d.fillRect(20+fullScreenOffset, -90+110, 355, 30);
 			g2d.setColor(Color.RED);
-			g2d.fillRect(20+fullScreenOffset, -90, (int)(355*((double)hp/hpMax)), 30);
+			g2d.fillRect(20+fullScreenOffset, -90+110, (int)(355*((double)hp/hpMax)), 30);
 			// Zeichnen des Manabalkens
 			g2d.setColor(Color.BLACK);
-			g2d.fillRect(20+fullScreenOffset, -54, 355, 30);
+			g2d.fillRect(20+fullScreenOffset, -54+110, 355, 30);
 			g2d.setColor(Color.BLUE);
-			g2d.fillRect(20+fullScreenOffset, -54, (int)(355*((double)mana/manaMax)), 30);
-			g2d.drawImage(Data.hud, 0+fullScreenOffset, -110, null);
+			g2d.fillRect(20+fullScreenOffset, -54+110, (int)(355*((double)mana/manaMax)), 30);
+			g2d.drawImage(Data.hud, 0+fullScreenOffset, -110+110, null);
 			// Draw HUD-Values
 			g2d.setColor(Color.WHITE);
 			g2d.setFont(font);
-			g2d.drawString("" + hp + "/" + hpMax, 292+fullScreenOffset, -66);
-			g2d.drawString("" + mana + "/" + manaMax, 292+fullScreenOffset, -29);
-			g2d.drawString("" + money, 745+fullScreenOffset, -35);
+			g2d.drawString("" + hp + "/" + hpMax, 292+fullScreenOffset, -66+110);
+			g2d.drawString("" + mana + "/" + manaMax, 292+fullScreenOffset, -29+110);
+			g2d.drawString("" + money, 745+fullScreenOffset, -35+110);
 			// Draw Weapon-Set-Selector
 			if(equip == 0){
-				g2d.drawImage(Data.hud_selector, 445+fullScreenOffset, -51, null);
+				g2d.drawImage(Data.hud_selector, 445+fullScreenOffset, -51+110, null);
 			}
 			else if(equip == 1){
-				g2d.drawImage(Data.hud_selector, 551+fullScreenOffset, -51, null);
+				g2d.drawImage(Data.hud_selector, 551+fullScreenOffset, -51+110, null);
 			}
 			else if(equip == 2){
-				g2d.drawImage(Data.hud_selector, 658+fullScreenOffset, -51, null);
+				g2d.drawImage(Data.hud_selector, 658+fullScreenOffset, -51+110, null);
 			}
 		}
 	}

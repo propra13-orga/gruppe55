@@ -101,7 +101,7 @@ public class Player extends LivingObject {
     }
     
     // Methode zum Spieler-Zeichnen
-    public void draw(Graphics2D g2d, int x, int y){
+    public void draw(Graphics2D g2d){
     	// Sichtbar?
     	if(!state[currState].visible) return;
     	
@@ -113,11 +113,10 @@ public class Player extends LivingObject {
     	
     	// Waffe(n) zeichnen
     	for(int i=0; i<2-currEquipped; i++){ // 2 Durchläufe bei Nahkampf, einer bei Fernkampf
-
-    	// Waffe angelegt?
-    	if(!(weapons[currEquipped+i]==null))
-    		// Wenn ja, Waffe zeichnen!
-    		weapons[currEquipped+i].draw(g2d, x+handOffsets[currState-1+i][0],y+handOffsets[currState-1+i][1]);
+	    	// Waffe angelegt?
+	    	if(!(weapons[currEquipped+i]==null))
+	    		// Wenn ja, Waffe zeichnen!
+	    		weapons[currEquipped+i].draw(g2d, x+handOffsets[currState-1+i][0],y+handOffsets[currState-1+i][1]);
         }
     }
     

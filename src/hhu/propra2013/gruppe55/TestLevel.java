@@ -251,6 +251,9 @@ public class TestLevel extends JPanel implements ActionListener {
 		// Spieler zeichnen
 		player.draw(g2d);
 		
+		// Fuer folgende Texturen das Koordinatensystem wieder begradigen
+		g2d.translate(-(gw.getWidth()/2-player.getTX()), -(gw.getHeight()/2-player.getTY()));
+		
 		// HUD zeichnen
 		hud.draw(g2d, gw.fullscreen, player.getHP(), player.getHPMax(), player.getEnergy(), player.getEnergyMax(), player.getMana(), player.getManaMax(), player.getMoney(), player.getWeapSet());
 		

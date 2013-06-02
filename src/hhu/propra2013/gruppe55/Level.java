@@ -248,7 +248,7 @@ public class Level extends JPanel implements ActionListener {
 			creatureList.get(room).get(i).draw(g2d);
 		
 		// Spieler zeichnen
-		player.draw(g2d, player.getX(), player.getY());
+		player.draw(g2d);
 		
 		// Gameover / Win Bildschirm zeichnen
 		if(lose)
