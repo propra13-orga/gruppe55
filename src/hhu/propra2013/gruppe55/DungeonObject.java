@@ -60,9 +60,9 @@ public abstract class DungeonObject {
 		
 	}
 	
-	public void draw(Graphics2D g2d, int offsetX, int offsetY){
+	public void draw(Graphics2D g2d){
 		if(state[currState].visible)
-			g2d.drawImage(state[currState].img, x-offsetX, y-offsetY, null);
+			g2d.drawImage(state[currState].img, x, y, null);
 	}
 
 // Die folgenden Methoden werden fuer die Level-methoden "paint" und "collisionCheck" benoetigt:

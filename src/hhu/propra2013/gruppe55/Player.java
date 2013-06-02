@@ -184,6 +184,14 @@ public class Player extends LivingObject {
     	minDmg	=	weapons[currEquipped].getMinDmg();
     	maxDmg	=	weapons[currEquipped].getMaxDmg();
     }
+    
+    // Methoden fuer die X und Y-Koordinaten
+    public int getTX(){
+    	return x-state[currState].img.getWidth(null)/2;
+    }
+    public int getTY(){
+    	return y-state[currState].img.getHeight(null)/2;
+    }
 
 // Methoden zur Steuerung des Spielers per Keyboard
 	public void keyPressed(KeyEvent e) {
@@ -198,5 +206,6 @@ public class Player extends LivingObject {
 		if (e.getKeyCode() == KeyEvent.VK_DOWN) {dy = 0;}
 		if (e.getKeyCode() == KeyEvent.VK_UP) {dy = 0;}
 	}
+	
 
 }

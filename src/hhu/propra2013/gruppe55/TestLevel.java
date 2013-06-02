@@ -103,10 +103,10 @@ public class TestLevel extends JPanel implements ActionListener {
 			// Objekte generieren
 			for(int i=0;i<=lvlData[0].length-1;i++){
 				for(int j=0;j<=lvlData[0][0].length-1;j++){
-					if(lvlData[r][i][j] == 0){
+					/*if(lvlData[r][i][j] == 0){
 						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 					}
-					else if(lvlData[r][i][j] == 1){
+					else */if(lvlData[r][i][j] == 1){
 						staticList.get(r).add(new WallObject(i*32, j*32));		// bei 1 wird ein Wandobjekt generiert
 					}
 					else if(lvlData[r][i][j] == 2){
@@ -238,32 +238,28 @@ public class TestLevel extends JPanel implements ActionListener {
 		super.paint(g);
 		// wir arbeiten mit Java2d
 		Graphics2D g2d = (Graphics2D)g;
-		g2d.translate(0, 110);
-		
-		//Offset fuer den Bildlauf vorberechnen
-		int offsetX = player.getX()-centerX;
-		int offsetY = player.getY()-centerY;
-		
-		//staticList.get(room).get(i).getImg()
+		// Koordinatensystem an Spieler anpassen
+		g2d.translate(gw.getWidth()/2-player.getTX(), gw.getHeight()/2-player.getTY());
 		
 		// alle objekte der staticlist zeichnen (Waende, Fallen,...)
 		for(int i=0; i<staticList.get(room).size(); i++)
-				staticList.get(room).get(i).draw(g2d, offsetX, offsetY);
+			staticList.get(room).get(i).draw(g2d);
 		// Monster zeichnen
 		for(int i=0; i<creatureList.get(room).size(); i++)
-			creatureList.get(room).get(i).draw(g2d, offsetX, offsetY);
+			creatureList.get(room).get(i).draw(g2d);
+		
 		// Spieler zeichnen
-		player.draw(g2d, centerX, centerY);
+		player.draw(g2d);
 		
 		// HUD zeichnen
 		hud.draw(g2d, gw.fullscreen, player.getHP(), player.getHPMax(), player.getEnergy(), player.getEnergyMax(), player.getMana(), player.getManaMax(), player.getMoney(), player.getWeapSet());
 		
 		// Gameover / Win Bildschirm zeichnen
 		if(lose)
-			g2d.drawImage(Data.gameover, centerX-186, centerY-82, this);
-		else if(clear)
-			g2d.drawImage(Data.win, centerX-186, centerY-82, this);
-		
+			g2d.drawImage(Data.gameover, 32*10, 32*10, this);
+		if(clear)
+			g2d.drawImage(Data.win, 32*10, 32*10, this);
+	
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();
 	}

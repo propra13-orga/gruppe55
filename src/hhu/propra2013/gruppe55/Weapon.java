@@ -50,7 +50,7 @@ public class Weapon extends DungeonObject {
 		//x, y Werte setzen
 		this.x	=	(x-(weapOffsets[currState*2+0]));
 		this.y	=	(y-(weapOffsets[currState*2+1]));
-		super.draw(g2d, 0, 0);
+		super.draw(g2d);
 	}
 	
 	// Angriffsmodus setzen
