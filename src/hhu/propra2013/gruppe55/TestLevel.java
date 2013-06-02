@@ -103,10 +103,10 @@ public class TestLevel extends JPanel implements ActionListener {
 			// Objekte generieren
 			for(int i=0;i<=lvlData[0].length-1;i++){
 				for(int j=0;j<=lvlData[0][0].length-1;j++){
-					/*if(lvlData[r][i][j] == 0){
+					if(lvlData[r][i][j] == 0){
 						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 					}
-					else */if(lvlData[r][i][j] == 1){
+					else if(lvlData[r][i][j] == 1){
 						staticList.get(r).add(new WallObject(i*32, j*32));		// bei 1 wird ein Wandobjekt generiert
 					}
 					else if(lvlData[r][i][j] == 2){
