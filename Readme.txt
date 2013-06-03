@@ -8,10 +8,17 @@ Geplante Aspekte
  - Kampfsystem
 
 Known Issues:
-- Monster sind im Scrollinglvl nicht angreifbar
+- wenn man waehrend man gegen die Wand ueber dem Gem laueft stirbt wird der Grabstein nach unten geportet
+- Bodentexturen muessen generiert werden ohne viel Speicheraufwand
 
 
 Changelog:
+
+03.06.13 - van Meegen
+/src:
+Testlevel:
+	- alte Bodenfarbe wieder hergestellt und Grasobjektgenerierung auskommentiert (Performanceprobleme)
+
 
 02.06.13 - van Meegen
 /src:
