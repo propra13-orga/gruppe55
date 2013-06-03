@@ -91,8 +91,13 @@ public class Player extends LivingObject {
     			
     			// Angriff abbrechen
     			weapons[aw].stopAttack();
-    			switchState(1);
     			attacking	=	false;
+    			
+    			// Bild aendern
+    			if(hp<=0)
+    				switchState(0);	// Totenbild
+    			else
+    				switchState(1);	// ansonsten normal
     		}
     	}.start();
     } 
