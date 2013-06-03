@@ -67,16 +67,7 @@ public class TestLevel extends JPanel implements ActionListener {
 			}
 			in.close();
 		} catch (IOException e) {e.printStackTrace();}
-		
-/**		for(int j = 0; j <= lvlData[0][0].length-1; j++){
-			String bla = new String();
-			for(int i = 0; i <= lvlData[0].length-1; i++){
-				bla += lvlData[0][i][j];
-			}
-			System.out.println(bla);
-		}
-*/
-	
+			
 		// Zeiger wird auf den ersten Raum gesetzt
 		room	=	0;
 
@@ -93,6 +84,8 @@ public class TestLevel extends JPanel implements ActionListener {
 		//5: Falle
 		//6: Ziel
 		//7: Potion
+		//8: Manapotion
+		//9: Schatz
 		
 		// Schleife die das Level generiert
 		for(int r=0; r<lvlData.length;r++){
@@ -104,43 +97,43 @@ public class TestLevel extends JPanel implements ActionListener {
 			for(int i=0;i<=lvlData[0].length-1;i++){
 				for(int j=0;j<=lvlData[0][0].length-1;j++){
 					/*if(lvlData[r][i][j] == 0){
-						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert (derzeit auskommentiert, da zu Speicherintensiv)
 					}
 					else */if(lvlData[r][i][j] == 1){
 						staticList.get(r).add(new WallObject(i*32, j*32));		// bei 1 wird ein Wandobjekt generiert
 					}
 					else if(lvlData[r][i][j] == 2){
 						creatureList.get(r).add(new Creature(i*32+5, j*32-5, 3, 1, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
-						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 					}
 					else if(lvlData[r][i][j] == 3){
 						playerSpawnX	=	i*32-5;
 						playerSpawnY	=	j*32-5;
 						player	=	new Player(playerSpawnX, playerSpawnY, 5, 0, 0, 100, 100);		// bei 3 wird ein Spielerobjekt generiert
-						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 					}
 					else if(lvlData[r][i][j] == 5){
-						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new TrapObject(i*32, j*32));		// bei 5 wird ein Fallenobjekt generiert
 					}
 					else if(lvlData[r][i][j] == 4){
-						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						teleportList.get(r).add(new Teleporter(i*32, j*32, 1, 2*32, 0*32));
 					}
 					else if(lvlData[r][i][j] == 6){
-						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new GoalObject(i*32, j*32));		// bei 6 wird ein Zielobjekt generiert
 					}
 					else if(lvlData[r][i][j] == 7){
-						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new PotionObject(i*32, j*32)); 	// bei 7 wird ein Potionobjekt generiert
 					}
 					else if(lvlData[r][i][j] == 8){
-						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new MPotionObject(i*32, j*32)); 	// bei 8 wird ein Manapotionobject generiert
 					}
 					else if(lvlData[r][i][j] == 9){
-						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new TreasureObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
 					}
 				}
@@ -152,7 +145,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		
 		// Eigenschaften des Panels
 		setFocusable(true);
-		setBackground(Color.BLACK);
+		setBackground(new Color(255,211,155));
 		setDoubleBuffered(true);
 		
 		// Hinzufuegen des KeyListener 
