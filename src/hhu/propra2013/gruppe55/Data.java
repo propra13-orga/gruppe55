@@ -21,8 +21,6 @@ public class Data {
 	// Levelrelevantes
 	static Image win = genImg("youwin.png");		// Siegbild
 	static Image gameover = genImg("gameover.png");	// Game Over
-	static Image hud = genImg("HUD.png");			// HUD
-	static Image hud_selector = genImg("HUD_Selector.png");			//HUD_Selector
 	static Image bks = genImg("bks.png");			// Hintergrund
 	// Umgebung des Levels
 	static Image wall = genImg("wall.png");			// Wand
@@ -36,6 +34,15 @@ public class Data {
 	// Fallen
 	static Image trap = genImg("trap.png");			// Speerfalle
 	static Image trapact = genImg("trapActivated.png");	// aktivierte Speerfalle
+	// HUD
+	static Image hud = genImg("HUD.png");			// HUD
+	static Image hud_selector = genImg("HUD_Selector.png");			//HUD_Selector
+	static Image hud_Bottle_HP_Full = genImg("HUD_Bottle_HP_Full.png");			//HUD_Selector
+	static Image hud_Bottle_HP_Half = genImg("HUD_Bottle_HP_Half.png");			//HUD_Selector
+	static Image hud_Bottle_HP_Empty = genImg("HUD_Bottle_HP_Empty.png");			//HUD_Selector
+	static Image hud_Crystal_Full = genImg("HUD_Crystal_MP_Full.png");			//HUD_Selector
+	static Image hud_Crystal_Empty = genImg("HUD_Crystal_MP_Empty.png");			//HUD_Selector
+	
 	
 // Waffen
 	// simples Schwert

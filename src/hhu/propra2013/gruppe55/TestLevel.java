@@ -116,7 +116,7 @@ public class TestLevel extends JPanel implements ActionListener {
 					else if(lvlData[r][i][j] == 3){
 						playerSpawnX	=	i*32-5;
 						playerSpawnY	=	j*32-5;
-						player	=	new Player(playerSpawnX, playerSpawnY, 5, 0, 0, 100, 100);		// bei 3 wird ein Spielerobjekt generiert
+						player	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1);		// bei 3 wird ein Spielerobjekt generiert
 						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 					}
 					else if(lvlData[r][i][j] == 5){
@@ -255,7 +255,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		g2d.translate(-(gw.getWidth()/2-player.getTX()), -(gw.getHeight()/2-player.getTY()));
 		
 		// HUD zeichnen
-		hud.draw(g2d, gw.fullscreen, player.getHP(), player.getHPMax(), player.getEnergy(), player.getEnergyMax(), player.getMana(), player.getManaMax(), player.getMoney(), player.getWeapSet());
+		hud.draw(g2d, gw.fullscreen, player);
 		
 		// Gameover / Win Bildschirm zeichnen
 		if(lose)
