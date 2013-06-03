@@ -30,19 +30,19 @@ public class HUD {
 		// HP-Container zeichnen
 		while(i > 0){
 			if(value > 1){
-				g2d.drawImage(Data.hud_Bottle_HP_Full, posX+fullScreenOffset, 15, null);
+				g2d.drawImage(Data.hud_Tear_HP_Full, posX+fullScreenOffset, 15, null);
 				value -= 2;
 				i -= 2;
 				posX += 30;
 			}
 			else if(value == 1){
-				g2d.drawImage(Data.hud_Bottle_HP_Half, posX+fullScreenOffset, 15, null);
+				g2d.drawImage(Data.hud_Tear_HP_Half, posX+fullScreenOffset, 15, null);
 				value -= 1;
 				i -= 2;
 				posX += 30;
 			}
 			else if(i > 1){
-				g2d.drawImage(Data.hud_Bottle_HP_Empty, posX+fullScreenOffset, 15, null);
+				g2d.drawImage(Data.hud_Tear_HP_Empty, posX+fullScreenOffset, 15, null);
 				i -= 2;
 				posX += 30;
 			}
@@ -67,14 +67,20 @@ public class HUD {
 			}
 		}
 
+		// Weaponicons zeichnen
+		g2d.drawImage(Data.basicsword_icon, 430+fullScreenOffset, 20, null);
+		g2d.drawImage(Data.basicbow_icon, 530+fullScreenOffset, 20, null);
+		
+		// HP/Mana/GEld-Werte schreiben
 		g2d.setColor(Color.WHITE);
 		g2d.setFont(font);
-		g2d.drawString("" + p.getHP() + "/" + p.getHPMax(), 315+fullScreenOffset, -66+110);
-		g2d.drawString("" + p.getMana() + "/" + p.getManaMax(), 315+fullScreenOffset, -29+110);
-		g2d.drawString("" + p.getMoney(), 745+fullScreenOffset, -35+110);
+		g2d.drawString("" + p.getHP() + "/" + p.getHPMax(), 315+fullScreenOffset, 44);
+		g2d.drawString("" + p.getMana() + "/" + p.getManaMax(), 315+fullScreenOffset, 81);
+		g2d.drawString("" + p.getMoney(), 745+fullScreenOffset, 75);
+		
 		// Draw Weapon-Set-Selector
 		if(p.getWeapSet() == 0){
-			g2d.drawImage(Data.hud_selector, 445+fullScreenOffset, -51+110, null);
+			g2d.drawImage(Data.hud_selector, 445+fullScreenOffset, 59, null);
 		}
 		else if(p.getWeapSet() == 1){
 			g2d.drawImage(Data.hud_selector, 551+fullScreenOffset, -51, null);
@@ -82,5 +88,17 @@ public class HUD {
 		else if(p.getWeapSet() == 2){
 			g2d.drawImage(Data.hud_selector, 658+fullScreenOffset, -51, null);
 		}
+		
+		// Lives zeichnen
+		g2d.drawImage(Data.player, 820+fullScreenOffset, 14, null);
+		g2d.drawString("x " + p.getLives(), 850+fullScreenOffset, 44);
+		// Pfeile zeichnen
+		g2d.drawImage(Data.arrow_f, 900+fullScreenOffset, 24, null);
+		g2d.drawString("x 0", 920+fullScreenOffset, 44);
+		// Tränke zeichnen
+		g2d.drawImage(Data.potion, 820+fullScreenOffset, 54, null);
+		g2d.drawString("x 0", 850+fullScreenOffset, 84);
+		g2d.drawImage(Data.mpotion, 890+fullScreenOffset, 54, null);
+		g2d.drawString("x 0", 920+fullScreenOffset, 84);
 	}
 }

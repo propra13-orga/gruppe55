@@ -119,7 +119,7 @@ public class Level extends JPanel implements ActionListener {
 					else if(levelData[r][i][j] == 3){
 						playerSpawnX	=	j*32-5;
 						playerSpawnY	=	i*32-5;
-						player	=	new Player(playerSpawnX, playerSpawnY, 5, 0, 0, 100, 100);		// bei 3 wird ein Spielerobjekt generiert
+						player	=	new Player(playerSpawnX, playerSpawnY, 5, 0, 0, 100, 100, 3);		// bei 3 wird ein Spielerobjekt generiert
 					}
 					else if(levelData[r][i][j] == 5)
 						staticList.get(r).add(new TrapObject(j*32, i*32));		// bei 5 wird ein Fallenobjekt generiert

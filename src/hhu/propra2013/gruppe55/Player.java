@@ -16,10 +16,13 @@ public class Player extends LivingObject {
 	private int[][] handOffsets	=	new int[2][4];	// Offsets fuer die Positionen der Spielerhaende
 	// Besitztuemer des Spielers
 	private int gold	=	0;			// Vermoegen
+	private int lives;					// Spielerleben
 	
 	// Konstruktor
-    public Player(int spawnX, int spawnY, int h, int atk, int def, int energy, int mana) {
+    public Player(int spawnX, int spawnY, int h, int atk, int def, int energy, int mana, int l) {
 		super(spawnX, spawnY, h, atk, def, energy, mana);
+		
+		lives = l;
 		
 		// States definieren
 		state[0].changeImg(Data.dead);			// Aussehen bei Tod
@@ -159,6 +162,11 @@ public class Player extends LivingObject {
     // Abfrage des aktuellen Waffensets
     public int getWeapSet(){
     	return currEquipped;
+    }
+    
+    // Abfrage des Spielerleben
+    public int getLives(){
+    	return(lives);
     }
     
     // Waffenset wechseln

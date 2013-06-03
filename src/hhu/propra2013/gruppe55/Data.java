@@ -37,9 +37,9 @@ public class Data {
 	// HUD
 	static Image hud = genImg("HUD.png");			// HUD
 	static Image hud_selector = genImg("HUD_Selector.png");			//HUD_Selector
-	static Image hud_Bottle_HP_Full = genImg("HUD_Bottle_HP_Full.png");			//HUD_Selector
-	static Image hud_Bottle_HP_Half = genImg("HUD_Bottle_HP_Half.png");			//HUD_Selector
-	static Image hud_Bottle_HP_Empty = genImg("HUD_Bottle_HP_Empty.png");			//HUD_Selector
+	static Image hud_Tear_HP_Full = genImg("HUD_Tear_HP_Full.png");			//HUD_Selector
+	static Image hud_Tear_HP_Half = genImg("HUD_Tear_HP_Half.png");			//HUD_Selector
+	static Image hud_Tear_HP_Empty = genImg("HUD_Tear_HP_Empty.png");			//HUD_Selector
 	static Image hud_Crystal_Full = genImg("HUD_Crystal_MP_Full.png");			//HUD_Selector
 	static Image hud_Crystal_Empty = genImg("HUD_Crystal_MP_Empty.png");			//HUD_Selector
 	
@@ -62,6 +62,8 @@ public class Data {
 	// simples Schild
 	static Image basicshield_f = genImg("weapons/basicshield/front.png"); // Frontsansicht
 	static Image basicshield_b = genImg("weapons/basicshield/front.png"); // Ruecksansicht
+	// Projektile
+	static Image arrow_f = genImg("weapons/basicbow/arrow_front.png");	//Pfeil front
 	
 	// Methode zum Bilder generieren (nicht nötig, spart aber Tipparbeit oben)
 	private static Image genImg(String image){
