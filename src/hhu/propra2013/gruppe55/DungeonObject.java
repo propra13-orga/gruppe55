@@ -10,7 +10,7 @@ public abstract class DungeonObject {
 	protected int x;	// aktuelle X-Position des Objekts
 	protected int y;	// aktuelle Y-Position des Objekts
 	// Grafik
-	protected State[] state;
+	protected  State[] state;
 	protected int currState;
 	protected int width;	// breite
 	protected int height;	// hoehe
@@ -24,7 +24,7 @@ public abstract class DungeonObject {
 //		// Status-Array deklarieren
 		state	=	new State[1];
 //		// Status definieren
-		state[0]	=	new State("potionused", false, true, true); 
+		state[0]	=	new State(Data.potionused, false, true, true); 
 //		// pointer setzen
 		switchState(0);
 	}
@@ -48,21 +48,21 @@ public abstract class DungeonObject {
 		if(s>=state.length)
 			return;
 		// Speichern des alten Bildes um es ggfs. an einen anderen Ort zu verschieben
-		int oWidth	=	Ressources.lib.get(state[currState].img).getWidth(null);	// alte Breite
-		int oHeight	=	Ressources.lib.get(state[currState].img).getHeight(null);	// alte Hoehe
+		int oWidth	=	state[currState].img.getWidth(null);	// alte Breite
+		int oHeight	=	state[currState].img.getHeight(null);	// alte Hoehe
 		
 		// neuen pointer setzen
 		currState	=	s;
 		
 		// Neuberechnung der Position in Abhängigkeit zur groesse des Bildes
-		x	+=	(oWidth - Ressources.lib.get(state[currState].img).getWidth(null)) / 2;
-		y	+=	oHeight - Ressources.lib.get(state[currState].img).getHeight(null);
+		x	+=	(oWidth - state[currState].img.getWidth(null)) / 2;
+		y	+=	oHeight - state[currState].img.getHeight(null);
 		
 	}
 	
-	public void draw(Graphics2D g2d, int offsetX, int offsetY){
+	public void draw(Graphics2D g2d){
 		if(state[currState].visible)
-			g2d.drawImage(Ressources.lib.get(state[currState].img), x-offsetX, y-offsetY, null);
+			g2d.drawImage(state[currState].img, x, y, null);
 	}
 
 // Die folgenden Methoden werden fuer die Level-methoden "paint" und "collisionCheck" benoetigt:
@@ -72,12 +72,12 @@ public abstract class DungeonObject {
 	// y wert ausgeben
 	public int getY(){return y;}
 	// bild ausgeben
-	public String getImg(){return state[currState].img;}
+	public Image getImg(){return state[currState].img;}
 	// rahmen ausgeben
 	public Rectangle getBorder(){
 		if(state[currState].visible){
 			int[] offset= state[currState].getOffset();
-			return new Rectangle(x + offset[1], y + offset[0], Ressources.lib.get(state[currState].img).getWidth(null) -offset[1]-offset[3], Ressources.lib.get(state[currState].img).getHeight(null)-offset[0]-offset[2]);
+			return new Rectangle(x + offset[1], y + offset[0], state[currState].img.getWidth(null) -offset[1]-offset[3], state[currState].img.getHeight(null)-offset[0]-offset[2]);
 		}		
 		// else
 		return new Rectangle(0,0,0,0);

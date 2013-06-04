@@ -27,8 +27,6 @@ public class TestLevel extends JPanel implements ActionListener {
 	private GameMenu gm;
 	private GameWindow gw;
 	
-	private Cursor curs;
-	
 	
 // Konstruktor
 	public TestLevel(GameMenu gm, GameWindow gw, int x, int y) {		
@@ -49,6 +47,8 @@ public class TestLevel extends JPanel implements ActionListener {
 			FileReader fread = new FileReader("lvl/testlvl.txt");
 			BufferedReader in = new BufferedReader(fread);
 			
+			int k = 0; //Für 3. Arraydimension wird eigene Variable benötigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
+			
 			for(int i=0; (line = in.readLine()) != null; i++){
 				if(i==0){
 					// Mit 1. Line Array initialisieren
@@ -60,13 +60,14 @@ public class TestLevel extends JPanel implements ActionListener {
 					// Lines mit Strings in LevelData-Array als int konvertieren
 					lineints = (String[])line.split(",");
 					for(int j=0; j<=lineints.length-1; j++){
-							lvlData[0][j][i] = Integer.parseInt(lineints[j]);
+							lvlData[0][j][k] = Integer.parseInt(lineints[j]);
 					}
+					k++;
 				}
 			}
 			in.close();
 		} catch (IOException e) {e.printStackTrace();}
-		
+			
 		// Zeiger wird auf den ersten Raum gesetzt
 		room	=	0;
 
@@ -74,7 +75,8 @@ public class TestLevel extends JPanel implements ActionListener {
 		staticList		=	new ArrayList<ArrayList<DungeonObject>>(0);
 		creatureList	=	new ArrayList<ArrayList<LivingObject>>(0);
 		teleportList	=	new ArrayList<ArrayList<Teleporter>>(0);
-				
+		
+		//0: Background		
 		//1: Wall
 		//2: Creature
 		//3: Player
@@ -82,6 +84,8 @@ public class TestLevel extends JPanel implements ActionListener {
 		//5: Falle
 		//6: Ziel
 		//7: Potion
+		//8: Manapotion
+		//9: Schatz
 		
 		// Schleife die das Level generiert
 		for(int r=0; r<lvlData.length;r++){
@@ -92,23 +96,46 @@ public class TestLevel extends JPanel implements ActionListener {
 			// Objekte generieren
 			for(int i=0;i<=lvlData[0].length-1;i++){
 				for(int j=0;j<=lvlData[0][0].length-1;j++){
-					if(lvlData[r][i][j] == 1)
+					/*if(lvlData[r][i][j] == 0){
+						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert (derzeit auskommentiert, da zu Speicherintensiv)
+					}
+					else */if(lvlData[r][i][j] == 1){
 						staticList.get(r).add(new WallObject(i*32, j*32));		// bei 1 wird ein Wandobjekt generiert
-					else if(lvlData[r][i][j] == 2)
-						creatureList.get(r).add(new Creature(i*32+5, j*32-5, 100, 10, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
+					}
+					else if(lvlData[r][i][j] == 2){
+						creatureList.get(r).add(new Creature(i*32+5, j*32-5, 3, 1, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+					}
 					else if(lvlData[r][i][j] == 3){
 						playerSpawnX	=	i*32-5;
 						playerSpawnY	=	j*32-5;
-						player	=	new Player(playerSpawnX, playerSpawnY, 100, 25, 0, 100, 100);		// bei 3 wird ein Spielerobjekt generiert
+						player	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1, 3);		// bei 3 wird ein Spielerobjekt generiert
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 					}
-					else if(lvlData[r][i][j] == 5)
+					else if(lvlData[r][i][j] == 5){
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new TrapObject(i*32, j*32));		// bei 5 wird ein Fallenobjekt generiert
-					else if(lvlData[r][i][j] == 4)
-						teleportList.get(r).add(new Teleporter(i*32, j*32, 1, 2*32, 0*32));		
-					else if(lvlData[r][i][j] == 6)
+					}
+					else if(lvlData[r][i][j] == 4){
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						teleportList.get(r).add(new Teleporter(i*32, j*32, 1, 2*32, 0*32));
+					}
+					else if(lvlData[r][i][j] == 6){
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new GoalObject(i*32, j*32));		// bei 6 wird ein Zielobjekt generiert
-					else if(lvlData[r][i][j] == 7)
+					}
+					else if(lvlData[r][i][j] == 7){
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new PotionObject(i*32, j*32)); 	// bei 7 wird ein Potionobjekt generiert
+					}
+					else if(lvlData[r][i][j] == 8){
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						staticList.get(r).add(new MPotionObject(i*32, j*32)); 	// bei 8 wird ein Manapotionobject generiert
+					}
+					else if(lvlData[r][i][j] == 9){
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						staticList.get(r).add(new TreasureObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
+					}
 				}
 			}
 		}
@@ -120,9 +147,6 @@ public class TestLevel extends JPanel implements ActionListener {
 		setFocusable(true);
 		setBackground(new Color(255,211,155));
 		setDoubleBuffered(true);
-		
-		curs = this.getToolkit().createCustomCursor(new ImageIcon("").getImage(), new Point(0,0), "bla");
-		setCursor(curs);
 		
 		// Hinzufuegen des KeyListener 
 		addKeyListener(new KeyControll());
@@ -153,7 +177,7 @@ public class TestLevel extends JPanel implements ActionListener {
 			}
 				
 		
-		// staticlist fï¿½r den Spieler und das Monster ueberpruefen (erst Spieler -> Monster dann Monster -> Spieler)
+		// staticlist für den Spieler und das Monster ueberpruefen (erst Spieler -> Monster dann Monster -> Spieler)
 		for(int i=0; i<staticList.get(room).size(); i++){
 			//  ueberpruefe static mit Spieler
 			if(staticList.get(room).get(i).getBorder().intersects(player.getBorder())){
@@ -171,7 +195,15 @@ public class TestLevel extends JPanel implements ActionListener {
 			}
 		}
 		
-	}
+		// Spielerangriff
+		if(player.getAttackState() && player.getWeapSet() == 0)
+			for(int i=0; i<creatureList.get(room).size(); i++){
+				// Monsterkollision mit der Waffe
+				if(creatureList.get(room).get(i).getBorder().intersects(player.weapons[0].getBorder())){
+					player.dealDamage(creatureList.get(room).get(i));
+				}
+			}
+		}
 	
 	//Methode um das Level neu zu laden und das Spiel von vorne zu beginnen
 	public void reload(){
@@ -199,31 +231,31 @@ public class TestLevel extends JPanel implements ActionListener {
 		super.paint(g);
 		// wir arbeiten mit Java2d
 		Graphics2D g2d = (Graphics2D)g;
-		
-		//Offset fuer den Bildlauf vorberechnen
-		int offsetX = player.getX()-centerX;
-		int offsetY = player.getY()-centerY;
-		
-		//staticList.get(room).get(i).getImg()
+		// Koordinatensystem an Spieler anpassen
+		g2d.translate(gw.getWidth()/2-player.getTX(), gw.getHeight()/2-player.getTY());
 		
 		// alle objekte der staticlist zeichnen (Waende, Fallen,...)
 		for(int i=0; i<staticList.get(room).size(); i++)
-				staticList.get(room).get(i).draw(g2d, offsetX, offsetY);
+			staticList.get(room).get(i).draw(g2d);
 		// Monster zeichnen
 		for(int i=0; i<creatureList.get(room).size(); i++)
-			creatureList.get(room).get(i).draw(g2d, offsetX, offsetY);
+			creatureList.get(room).get(i).draw(g2d);
+		
 		// Spieler zeichnen
-		player.draw(g2d, centerX, centerY);
+		player.draw(g2d);
+		
+		// Fuer folgende Texturen das Koordinatensystem wieder begradigen
+		g2d.translate(-(gw.getWidth()/2-player.getTX()), -(gw.getHeight()/2-player.getTY()));
 		
 		// HUD zeichnen
-		hud.draw(g2d, player.getHP(), player.getHPMax(), player.getEnergy(), player.getEnergyMax(), player.getMana(), player.getManaMax());
+		hud.draw(g2d, gw.fullscreen, player);
 		
 		// Gameover / Win Bildschirm zeichnen
 		if(lose)
-			g2d.drawImage(Ressources.gameover, 32*10, 32*10, this);
-		else if(clear)
-			g2d.drawImage(Ressources.win, 32*10, 32*10, this);
-		
+			g2d.drawImage(Data.gameover, 32*10, 32*10, this);
+		if(clear)
+			g2d.drawImage(Data.win, 32*10, 32*10, this);
+	
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();
 	}
@@ -236,7 +268,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		// ueberpruefen ob der Spieler lebt
 		if(player.getHP()<=0)
 			lose	=	true;	// wird gesetzt wenn der Spieler stirbt
-		if(player.getgoal() == true)
+		if(player.getGoal() == true)
 			clear = true;		// wird gesetzt wenn der Spieler das Level erfolgreich abschliesst 
 		
 		// Spielerbewegung
@@ -253,6 +285,12 @@ public class TestLevel extends JPanel implements ActionListener {
 		repaint();
 	}
 	
+	//Mittelpunkt für den Offset setzen
+	public void setCenter(int x, int y){
+		this.centerX = x;
+		this.centerY = y;
+	}
+	
 	
 // KEY LISTENER UNIT
 	/*
@@ -265,26 +303,31 @@ public class TestLevel extends JPanel implements ActionListener {
 		public void keyPressed(KeyEvent e) {
 			int k	=	e.getKeyCode();
 			// Bewegungsbefehle an Spieler weiter leiten
-			if(!lose && (k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN || k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT))
+			if(!lose && !clear && (k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN || k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT))
 				player.keyPressed(e);
 			// Enter-Taste abfragen
 			if(k == KeyEvent.VK_ENTER)
 				// Option: Bei Sieg oder Niederlage -> zurueck zum Menue
 				if(lose || clear){
-					gw.setVisible(false);
+					gw.dispose();
 					gm.setVisible(true);
 					reload();
 				}
 			// Space-Taste abfragen
 			if(k == KeyEvent.VK_SPACE)
-				//  Option: Bei Sieg oder Niederlage -> zurueck zum Menue
+				// Option: Bei Sieg oder Niederlage -> erneut beginnen
 				if(lose || clear){
 					reload();
 				}
-			if(k == KeyEvent.VK_ESCAPE){
-				System.exit(1);
+				else{	// let's fetz
+					// Spieler Angreifen lassen
+					player.attack();
+				}
+			else if(e.getKeyCode() == KeyEvent.VK_ESCAPE){System.exit(1);}
+			else if(e.getKeyCode() == KeyEvent.VK_F){
+				if(gw.isUndecorated()){gw.toggleFullscreen(0);}
+				else{gw.toggleFullscreen(1);}
 			}
-				// TODO: player attack
 		}
 		@Override
 		public void keyReleased(KeyEvent e) {

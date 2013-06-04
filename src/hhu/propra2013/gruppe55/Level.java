@@ -12,6 +12,7 @@ public class Level extends JPanel implements ActionListener {
 	
 	// Levelobjekte
 	private Player player;				// Spielerobjekt
+	private Weapon[] pWeaps;			// Referenzen auf die Waffen des Spielers
 	private int room;					// Zeiger auf den aktuellen Raum
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// Liste der Gegner
 	private ArrayList<ArrayList<DungeonObject>> staticList;	// Liste der Waende/Gegenstaende/etc
@@ -114,11 +115,11 @@ public class Level extends JPanel implements ActionListener {
 					if(levelData[r][i][j] == 1)
 						staticList.get(r).add(new WallObject(j*32, i*32));		// bei 1 wird ein Wandobjekt generiert
 					else if(levelData[r][i][j] == 2)
-						creatureList.get(r).add(new Creature(j*32+5, i*32-5, 100, 25, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
+						creatureList.get(r).add(new Creature(j*32+5, i*32-5, 3, 1, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
 					else if(levelData[r][i][j] == 3){
 						playerSpawnX	=	j*32-5;
 						playerSpawnY	=	i*32-5;
-						player	=	new Player(playerSpawnX, playerSpawnY, 100, 25, 0, 100, 100);		// bei 3 wird ein Spielerobjekt generiert
+						player	=	new Player(playerSpawnX, playerSpawnY, 5, 0, 0, 100, 100, 3);		// bei 3 wird ein Spielerobjekt generiert
 					}
 					else if(levelData[r][i][j] == 5)
 						staticList.get(r).add(new TrapObject(j*32, i*32));		// bei 5 wird ein Fallenobjekt generiert
@@ -201,6 +202,14 @@ public class Level extends JPanel implements ActionListener {
 			}
 		}
 		
+		// Spielerangriff
+		if(player.getAttackState() && player.getWeapSet() == 0)
+			for(int i=0; i<creatureList.get(room).size(); i++){
+				// Monsterkollision mit der Waffe
+				if(creatureList.get(room).get(i).getBorder().intersects(player.weapons[0].getBorder())){
+					player.dealDamage(creatureList.get(room).get(i));
+				}
+			}
 	}
 	
 	// Methode um das Level neu zu laden und das Spiel von vorne zu beginnen
@@ -229,23 +238,23 @@ public class Level extends JPanel implements ActionListener {
 		super.paint(g);
 		// wir arbeiten mit Java2d
 		Graphics2D g2d = (Graphics2D)g;
-		g2d.drawImage(Ressources.bks,0,0,this);
+		g2d.drawImage(Data.bks,0,0,this);
 		
 		// alle objekte der staticlist zeichnen (Waende, Fallen,...)
 		for(int i=0; i<staticList.get(room).size(); i++)
-			staticList.get(room).get(i).draw(g2d, 0, 0);
+			staticList.get(room).get(i).draw(g2d);
 		// Monster zeichnen
 		for(int i=0; i<creatureList.get(room).size(); i++)
-			creatureList.get(room).get(i).draw(g2d, 0, 0);
+			creatureList.get(room).get(i).draw(g2d);
 		
 		// Spieler zeichnen
-		player.draw(g2d, player.getX(), player.getY());
+		player.draw(g2d);
 		
 		// Gameover / Win Bildschirm zeichnen
 		if(lose)
-			g2d.drawImage(Ressources.gameover, 32*10, 32*10, this);
+			g2d.drawImage(Data.gameover, 32*10, 32*10, this);
 		if(clear)
-			g2d.drawImage(Ressources.win, 32*10, 32*10, this);
+			g2d.drawImage(Data.win, 32*10, 32*10, this);
 	
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();
@@ -259,7 +268,7 @@ public class Level extends JPanel implements ActionListener {
 		// ueberpruefen ob der Spieler lebt
 		if(player.getHP()<=0)
 			lose	=	true;	// wird gesetzt wenn der Spieler stirbt
-		if(player.getgoal() == true)
+		if(player.getGoal() == true)
 			clear = true;		// wird gesetzt wenn der Spieler das Level erfolgreich abschliesst
 			
 		// Spielerbewegung
@@ -304,8 +313,11 @@ public class Level extends JPanel implements ActionListener {
 				if(lose || clear){
 					reload();
 				}
+				else{	// let's fetz
+					// Spieler Angreifen lassen
+					player.attack();
+				}
 		}
-				// TODO: player attack
 		
 		@Override
 		public void keyReleased(KeyEvent e) {

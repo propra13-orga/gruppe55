@@ -9,9 +9,10 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 	private static final long serialVersionUID = 1L;
 	//Deklarationen
 	static GameWindow gw;										// Spielfenster
-	private JPanel jp;											// JPanel
+	private JPanel jp, settings;											// JPanel
 	private JComboBox cb;										// Combobox im Jpanel
 	private JButton start, ende;								
+	private JCheckBox fullscreen;
 	
 	public static void main(String[] args) {
 		GameMenu gm = new GameMenu();							// Menue und Spielfenster konstruieren
@@ -23,15 +24,22 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new GridLayout(2,1));					// 1,2 GridLayout
 		
-		jp = new JPanel();										
-			jp.setLayout(new GridLayout(2,1));
-			start = new JButton("Spiel starten");				// Jbuttons konstruieren
-				start.addActionListener(this);
+		settings = new JPanel();
+			settings.setLayout(new GridLayout(1,2));
 			cb = new JComboBox();
 				cb.addItem("Level01");
 				cb.addItem("ScrollingLevel");
 				cb.setSelectedIndex(0);
-			jp.add(cb);
+			settings.add(cb);
+			fullscreen = new JCheckBox();
+				fullscreen.setText("Fullscreen");
+			settings.add(fullscreen);
+		
+		jp = new JPanel();										
+			jp.setLayout(new GridLayout(2,1));
+			start = new JButton("Spiel starten");				// Jbuttons konstruieren
+				start.addActionListener(this);
+			jp.add(settings);
 			jp.add(start);
 		ende = new JButton("Spiel beenden");
 			ende.addActionListener(this);
@@ -48,6 +56,12 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 	@Override
 	public void actionPerformed(ActionEvent e) {			//ActionListenerfunktion
 		if(e.getSource() == start){							//Wenn start gedrueckt, Menue unsichtbar machen & Spiel sichtbar machen
+			if(fullscreen.isSelected()){
+				gw.toggleFullscreen(1);
+			}
+			else{
+				gw.toggleFullscreen(0);
+			}
 			gw.setLvl(cb.getSelectedIndex());
 			this.setVisible(false);
 			gw.setVisible(true);}
