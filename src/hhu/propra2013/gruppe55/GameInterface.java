@@ -14,7 +14,7 @@ public class GameInterface {
 
 	//Interface-Konstruktor
 	public GameInterface(TestLevel t){
-		font = new Font("Comic Sans MS", Font.BOLD, 20);	//Font setzen
+		font = new Font("Viner Hand ITC", Font.BOLD, 20);	//Font setzen
 		currLvl = t;										//Level uebergeben
 		hud = new HUD();									//HUD konstruieren
 	}
@@ -69,7 +69,7 @@ class HUD {
 	private Font font;
 	
 	public HUD(){
-		font = new Font("Comic Sans MS", Font.PLAIN, 13);
+		font = new Font("Viner Hand ITC", Font.PLAIN, 13);
 	}
 	
 	// Zeichnen des HUD

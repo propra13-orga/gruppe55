@@ -144,6 +144,10 @@ public class TestLevel extends JPanel implements ActionListener {
 		iFace = new GameInterface(this);
 		iFace.setDialog(Data_String.example, 0);
 		
+		//Cursor unsichtbar machen
+		this.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(Data_Img.potionused, new Point(0,0), "Invisible Cursor"));
+		
+		
 		// Eigenschaften des Panels
 		setFocusable(true);
 		setBackground(new Color(255,211,155));
