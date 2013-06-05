@@ -24,9 +24,9 @@ public class Weapon extends DungeonObject {
 		
 		// States setzen
 		state	=	new State[3];
-		state[0]	=	new State(Data.basicsword, false, false, true);
-		state[1]	=	new State(Data.basicsword, false, false, true);
-		state[2]	=	new State(Data.basicsword_f_atk, Data.basicsword_l_atk, Data.basicsword_r_atk, Data.basicsword_u_atk, false, false, true);
+		state[0]	=	new State(Data_Img.basicsword, false, false, true);
+		state[1]	=	new State(Data_Img.basicsword, false, false, true);
+		state[2]	=	new State(Data_Img.basicsword_f_atk, Data_Img.basicsword_l_atk, Data_Img.basicsword_r_atk, Data_Img.basicsword_u_atk, false, false, true);
 		
 		switchState(1);
 		

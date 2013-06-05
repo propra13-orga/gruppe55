@@ -21,7 +21,7 @@ public class HUD {
 			fullScreenOffset = 0;
 		}
 		
-		g2d.drawImage(Data.hud, 0+fullScreenOffset, 0, null);
+		g2d.drawImage(Data_Img.hud, 0+fullScreenOffset, 0, null);
 		
 		int posX = 10;
 		int value = p.getHP();
@@ -30,19 +30,19 @@ public class HUD {
 		// HP-Container zeichnen
 		while(i > 0){
 			if(value > 1){
-				g2d.drawImage(Data.hud_Tear_HP_Full, posX+fullScreenOffset, 15, null);
+				g2d.drawImage(Data_Img.hud_Tear_HP_Full, posX+fullScreenOffset, 15, null);
 				value -= 2;
 				i -= 2;
 				posX += 30;
 			}
 			else if(value == 1){
-				g2d.drawImage(Data.hud_Tear_HP_Half, posX+fullScreenOffset, 15, null);
+				g2d.drawImage(Data_Img.hud_Tear_HP_Half, posX+fullScreenOffset, 15, null);
 				value -= 1;
 				i -= 2;
 				posX += 30;
 			}
 			else if(i > 1){
-				g2d.drawImage(Data.hud_Tear_HP_Empty, posX+fullScreenOffset, 15, null);
+				g2d.drawImage(Data_Img.hud_Tear_HP_Empty, posX+fullScreenOffset, 15, null);
 				i -= 2;
 				posX += 30;
 			}
@@ -55,21 +55,21 @@ public class HUD {
 		// MP-Container zeichnen
 		while(i > 0){
 			if(value >= 1){
-				g2d.drawImage(Data.hud_Crystal_Full, posX+fullScreenOffset, 60, null);
+				g2d.drawImage(Data_Img.hud_Crystal_Full, posX+fullScreenOffset, 60, null);
 				value--;
 				i--;
 				posX += 30;
 			}
 			else{
-				g2d.drawImage(Data.hud_Crystal_Empty, posX+fullScreenOffset, 60, null);
+				g2d.drawImage(Data_Img.hud_Crystal_Empty, posX+fullScreenOffset, 60, null);
 				i--;
 				posX += 30;
 			}
 		}
 
 		// Weaponicons zeichnen
-		g2d.drawImage(Data.basicsword_icon, 430+fullScreenOffset, 20, null);
-		g2d.drawImage(Data.basicbow_icon, 530+fullScreenOffset, 20, null);
+		g2d.drawImage(Data_Img.basicsword_icon, 430+fullScreenOffset, 20, null);
+		g2d.drawImage(Data_Img.basicbow_icon, 530+fullScreenOffset, 20, null);
 		
 		// HP/Mana/GEld-Werte schreiben
 		g2d.setColor(Color.WHITE);
@@ -80,25 +80,25 @@ public class HUD {
 		
 		// Draw Weapon-Set-Selector
 		if(p.getWeapSet() == 0){
-			g2d.drawImage(Data.hud_selector, 445+fullScreenOffset, 59, null);
+			g2d.drawImage(Data_Img.hud_selector, 445+fullScreenOffset, 59, null);
 		}
 		else if(p.getWeapSet() == 1){
-			g2d.drawImage(Data.hud_selector, 551+fullScreenOffset, -51, null);
+			g2d.drawImage(Data_Img.hud_selector, 551+fullScreenOffset, -51, null);
 		}
 		else if(p.getWeapSet() == 2){
-			g2d.drawImage(Data.hud_selector, 658+fullScreenOffset, -51, null);
+			g2d.drawImage(Data_Img.hud_selector, 658+fullScreenOffset, -51, null);
 		}
 		
 		// Lives zeichnen
-		g2d.drawImage(Data.player_f, 820+fullScreenOffset, 14, null);
+		g2d.drawImage(Data_Img.player_f, 820+fullScreenOffset, 14, null);
 		g2d.drawString("x " + p.getLives(), 850+fullScreenOffset, 44);
 		// Pfeile zeichnen
-		g2d.drawImage(Data.arrow_f, 900+fullScreenOffset, 24, null);
+		g2d.drawImage(Data_Img.arrow_f, 900+fullScreenOffset, 24, null);
 		g2d.drawString("x 0", 920+fullScreenOffset, 44);
 		// Tränke zeichnen
-		g2d.drawImage(Data.potion, 820+fullScreenOffset, 54, null);
+		g2d.drawImage(Data_Img.potion, 820+fullScreenOffset, 54, null);
 		g2d.drawString("x 0", 850+fullScreenOffset, 84);
-		g2d.drawImage(Data.mpotion, 890+fullScreenOffset, 54, null);
+		g2d.drawImage(Data_Img.mpotion, 890+fullScreenOffset, 54, null);
 		g2d.drawString("x 0", 920+fullScreenOffset, 84);
 	}
 }

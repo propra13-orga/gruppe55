@@ -59,7 +59,6 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 			fullscreen = false;
 			this.setSize(width, height);
 			this.setUndecorated(false);
-			testlvl.setCenter((width/2)-26, (height/2)-25);
 			this.setLocationRelativeTo(null);
 			this.setVisible(true);
 		}
@@ -70,7 +69,6 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 			fullscreen = true;
 			this.setSize(width, height);
 			this.setUndecorated(true);
-			testlvl.setCenter((width/2)-26, (height/2)-25);
 			this.setLocation(0, 0);
 			this.setVisible(true);
 		}

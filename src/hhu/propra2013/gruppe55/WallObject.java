@@ -11,7 +11,7 @@ public class WallObject extends DungeonObject {
 		// Status-Array deklarieren
 		state	=	new State[1];
 		// Status definieren
-		state[0]	=	new State(Data.wall, false, true, true);
+		state[0]	=	new State(Data_Img.wall, false, true, true);
 		// pointer setzen
 		switchState(0);
 	}

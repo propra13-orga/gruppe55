@@ -25,11 +25,11 @@ public abstract class LivingObject extends DungeonObject {
 		// Array um den Status zu aendern
 		state	=	new State[3];
 		// Tod-Status
-		state[0] = new State(Data.potionused, false, true, false);
+		state[0] = new State(Data_Img.potionused, false, true, false);
 		// Leben-Status
-		state[1] = new State(Data.potionused, true, false, true);
+		state[1] = new State(Data_Img.potionused, true, false, true);
 		// Extra-Status
-		state[2] = new State(Data.potionused, false, false, false);
+		state[2] = new State(Data_Img.potionused, false, false, false);
 		
 		// starten als lebendiges Objekt
 		currState	=	1;

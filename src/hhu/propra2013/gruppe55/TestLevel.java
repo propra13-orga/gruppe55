@@ -12,7 +12,7 @@ public class TestLevel extends JPanel implements ActionListener {
 	
 	// Levelobjekte
 	private Player player;				// Spielerobjekt
-	private HUD hud;					//HUD
+	private Interface iFace;					//HUD
 	private int room;					// pointer to current room
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
 	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Waende/Gegenstaende/etc
@@ -23,7 +23,6 @@ public class TestLevel extends JPanel implements ActionListener {
 	private boolean lose, clear;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
 	// Wichtige variablen fuer das neu Laden eines Levels
 	private int playerSpawnX, playerSpawnY;		// Koordinaten des ersten Spielererscheinungspunkts
-	private int centerX, centerY;				// Fenstermittelpunkt
 	private GameMenu gm;
 	private GameWindow gw;
 	
@@ -31,8 +30,6 @@ public class TestLevel extends JPanel implements ActionListener {
 // Konstruktor
 	public TestLevel(GameMenu gm, GameWindow gw, int x, int y) {		
 		// Mittelpunkt des Fensters
-		centerX = x;
-		centerY = y;
 		
 		this.gm = gm;
 		this.gw = gw;
@@ -141,7 +138,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		}
 
 		//Konstruiere HUD
-		hud = new HUD();
+		iFace = new Interface();
 		
 		// Eigenschaften des Panels
 		setFocusable(true);
@@ -248,13 +245,13 @@ public class TestLevel extends JPanel implements ActionListener {
 		g2d.translate(-(gw.getWidth()/2-player.getTX()), -(gw.getHeight()/2-player.getTY()));
 		
 		// HUD zeichnen
-		hud.draw(g2d, gw.fullscreen, player);
+		iFace.paint(g2d, player, gw.fullscreen);
 		
 		// Gameover / Win Bildschirm zeichnen
 		if(lose)
-			g2d.drawImage(Data.gameover, 32*10, 32*10, this);
+			g2d.drawImage(Data_Img.gameover, 32*10, 32*10, this);
 		if(clear)
-			g2d.drawImage(Data.win, 32*10, 32*10, this);
+			g2d.drawImage(Data_Img.win, 32*10, 32*10, this);
 	
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();
@@ -283,12 +280,6 @@ public class TestLevel extends JPanel implements ActionListener {
 		
 		// neuzeichnen
 		repaint();
-	}
-	
-	//Mittelpunkt für den Offset setzen
-	public void setCenter(int x, int y){
-		this.centerX = x;
-		this.centerY = y;
 	}
 	
 	

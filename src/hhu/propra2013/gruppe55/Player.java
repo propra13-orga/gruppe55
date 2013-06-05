@@ -25,17 +25,17 @@ public class Player extends LivingObject {
 		lives = l;
 		
 		// States definieren
-		state[0].changeImg(Data.dead);			// Aussehen bei Tod
+		state[0].changeImg(Data_Img.dead);			// Aussehen bei Tod
 		state[0].changeVisibility(true);		// sichtbar machen
 		state[0].defineOffset(0,0,32,32, 0);	// Grabsteinhitbox auf 0 setzen
 		// Lebendig
-		state[1]	=	new State(Data.player_f, Data.player_l, Data.player_r, Data.player_b, true, false, true);
+		state[1]	=	new State(Data_Img.player_f, Data_Img.player_l, Data_Img.player_r, Data_Img.player_b, true, false, true);
 		state[1].defineOffset(15,5,0,5, 0); 	// Hitbox vorne
 		state[1].defineOffset(15,5,0,5, 1); 	// Hitbox links
 		state[1].defineOffset(15,5,0,5, 2); 	// Hitbox rechts
 		state[1].defineOffset(15,5,0,5, 3); 	// Hitbox hinten
 		// Angriff
-		state[2]	=	new State(Data.player_f_atk, Data.player_l_atk, Data.player_r_atk, Data.player_b_atk, true, false, true);
+		state[2]	=	new State(Data_Img.player_f_atk, Data_Img.player_l_atk, Data_Img.player_r_atk, Data_Img.player_b_atk, true, false, true);
 		state[2].defineOffset(15,5,0,5, 0); 	// Hitbox vorne
 		state[2].defineOffset(15,5,0,5, 1); 	// Hitbox links
 		state[2].defineOffset(15,5,0,5, 2); 	// Hitbox rechts

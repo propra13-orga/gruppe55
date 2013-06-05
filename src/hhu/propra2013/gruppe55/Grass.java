@@ -11,7 +11,7 @@ public class Grass extends DungeonObject {
 		// Status-Array deklarieren
 		state	=	new State[1];
 		// Status definieren
-		state[0]	=	new State(Data.grass, false, false, true);
+		state[0]	=	new State(Data_Img.grass, false, false, true);
 		// pointer setzen
 		switchState(0);
 	}

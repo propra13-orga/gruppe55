@@ -238,7 +238,7 @@ public class Level extends JPanel implements ActionListener {
 		super.paint(g);
 		// wir arbeiten mit Java2d
 		Graphics2D g2d = (Graphics2D)g;
-		g2d.drawImage(Data.bks,0,0,this);
+		g2d.drawImage(Data_Img.bks,0,0,this);
 		
 		// alle objekte der staticlist zeichnen (Waende, Fallen,...)
 		for(int i=0; i<staticList.get(room).size(); i++)
@@ -252,9 +252,9 @@ public class Level extends JPanel implements ActionListener {
 		
 		// Gameover / Win Bildschirm zeichnen
 		if(lose)
-			g2d.drawImage(Data.gameover, 32*10, 32*10, this);
+			g2d.drawImage(Data_Img.gameover, 32*10, 32*10, this);
 		if(clear)
-			g2d.drawImage(Data.win, 32*10, 32*10, this);
+			g2d.drawImage(Data_Img.win, 32*10, 32*10, this);
 	
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();

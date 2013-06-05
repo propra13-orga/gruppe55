@@ -25,7 +25,7 @@ public abstract class DungeonObject {
 		// Status-Array deklarieren
 		state	=	new State[1];
 		// Status definieren
-		state[0]	=	new State(Data.potionused, false, true, true); 
+		state[0]	=	new State(Data_Img.potionused, false, true, true); 
 		// pointer setzen
 		switchState(0);
 	}
