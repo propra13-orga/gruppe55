@@ -12,7 +12,7 @@ public class TestLevel extends JPanel implements ActionListener {
 	
 	// Levelobjekte
 	private Player player;				// Spielerobjekt
-	private HUD hud;					//HUD
+	private GameInterface iFace;					//GameInterface
 	private int room;					// pointer to current room
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
 	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Waende/Gegenstaende/etc
@@ -23,17 +23,16 @@ public class TestLevel extends JPanel implements ActionListener {
 	private boolean lose, clear;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
 	// Wichtige variablen fuer das neu Laden eines Levels
 	private int playerSpawnX, playerSpawnY;		// Koordinaten des ersten Spielererscheinungspunkts
-	private int centerX, centerY;				// Fenstermittelpunkt
 	private GameMenu gm;
 	private GameWindow gw;
 	private boolean freeze	=	false;		// friert das Level ein
+	private int openedInterface;			// Welches Interface aufgerufen ist
+	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
 	
 	
 // Konstruktor
 	public TestLevel(GameMenu gm, GameWindow gw, int x, int y) {		
 		// Mittelpunkt des Fensters
-		centerX = x;
-		centerY = y;
 		
 		this.gm = gm;
 		this.gw = gw;
@@ -141,8 +140,9 @@ public class TestLevel extends JPanel implements ActionListener {
 			}
 		}
 
-		//Konstruiere HUD
-		hud = new HUD();
+		//Konstruiere Interface
+		iFace = new GameInterface(this);
+		iFace.setDialog(Data_String.example, 0);
 		
 		// Eigenschaften des Panels
 		setFocusable(true);
@@ -155,6 +155,10 @@ public class TestLevel extends JPanel implements ActionListener {
 		// Aktionstimer wird gesetzt und gestartet
 		timer	=	new Timer(1000/60, this);
 		timer.start();
+		
+		//Testdialog anzeigen
+		freeze = true;
+		dialog = true;
 	}
 
 // Methoden
@@ -248,15 +252,15 @@ public class TestLevel extends JPanel implements ActionListener {
 		// Fuer folgende Texturen das Koordinatensystem wieder begradigen
 		g2d.translate(-(gw.getWidth()/2-player.getTX()), -(gw.getHeight()/2-player.getTY()));
 		
-		// HUD zeichnen
-		hud.draw(g2d, gw.fullscreen, player);
+		// Interface zeichnen
+		iFace.paint(g2d, player, gw.fullscreen);
 		
 		// Gameover / Win Bildschirm zeichnen
 		if(lose)
-			g2d.drawImage(Data.gameover, 32*10, 32*10, this);
+			g2d.drawImage(Data_Img.gameover, 32*10, 32*10, this);
 		if(clear)
-			g2d.drawImage(Data.win, 32*10, 32*10, this);
-	
+			g2d.drawImage(Data_Img.win, 32*10, 32*10, this);
+		
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();
 	}
@@ -289,16 +293,29 @@ public class TestLevel extends JPanel implements ActionListener {
 		repaint();
 	}
 	
+	//GameFreeze togglen
 	public void toggleFreeze(){
 		freeze	=	!freeze;
 	}
 	
-	//Mittelpunkt für den Offset setzen
-	public void setCenter(int x, int y){
-		this.centerX = x;
-		this.centerY = y;
+	//Dialog anzeigen ja/nein
+	public void setDialog(boolean d){
+		dialog = d;
 	}
 	
+	//Dialogstatus abfragen
+	public boolean getDialog(){
+		return(dialog);
+	}
+	
+	//Zu zeichnendes Interface ausgeben
+	public int getOpenedInterface(){
+		return(openedInterface);
+	}
+	
+	public GameInterface getInterface(){
+		return(iFace);
+	}
 	
 // KEY LISTENER UNIT
 	/*
@@ -320,6 +337,10 @@ public class TestLevel extends JPanel implements ActionListener {
 					gw.dispose();
 					gm.setVisible(true);
 					reload();
+				}
+				//Dialog weiterschalten
+				else if(dialog){
+					iFace.next();
 				}
 			// Space-Taste abfragen
 			if(k == KeyEvent.VK_SPACE)

@@ -18,6 +18,7 @@ public class TreasureObject extends DungeonObject {
 		// der Spieler erhaelt Gold
     	if(d instanceof	Player)
 			((Player)d).giveMoney(10);
+    	
     	// Wechsel des Status auf eingesammeltes Gold
     	switchState(1);
 	}

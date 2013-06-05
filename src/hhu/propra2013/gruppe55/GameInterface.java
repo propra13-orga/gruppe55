@@ -2,7 +2,68 @@ package hhu.propra2013.gruppe55;
 
 import java.awt.*;
 
-public class HUD {
+public class GameInterface {
+	
+	private Font font;				//TextFont
+	private FontMetrics fMetr;		//FontMetrics für Graphics2D
+	private HUD hud;				//HUD
+	private TestLevel currLvl;		//Aktuelles Level
+	private String[] currDialog;	//Anzuzeigender Dialog
+	private int dialogCounter;		//Anzuzeigende Dialogzeile
+
+
+	//Interface-Konstruktor
+	public GameInterface(TestLevel t){
+		font = new Font("Comic Sans MS", Font.BOLD, 20);	//Font setzen
+		currLvl = t;										//Level uebergeben
+		hud = new HUD();									//HUD konstruieren
+	}
+	
+	//Interface zeichnen
+	public void paint(Graphics2D g2d, Player p, boolean full){		
+		hud.draw(g2d, full, p);					//Draw HUD
+		
+		//Wenn Dialog angezeigt werden soll, diesen zeichnen
+		if(currLvl.getDialog()){
+			g2d.setFont(font);					//Graphics2D Font setzen
+			fMetr = g2d.getFontMetrics(font);	//FontMetrics erzeugen
+			
+			g2d.drawImage(Data_Img.dialogBox, (currLvl.getWidth()/2)-250, currLvl.getHeight()-80, null);	//DialogBox zeichnen
+			g2d.drawString(currDialog[dialogCounter], (currLvl.getWidth()/2)-(fMetr.stringWidth(currDialog[dialogCounter])/2), (currLvl.getHeight()-40));	//Dialogzeile zeichnen
+		}
+	}
+	
+	//Anzuzeigenden Dialog und Startzeile uebergeben (Mehrere Zeilen)
+	public void setDialog(String[] str, int count){
+		currDialog = str;
+		dialogCounter = count;
+	}
+	
+	//Anzuzeigenden Dialog und Startzeile uebergeben (Einzelne Zeilen)
+	public void setDialog(String str){
+		currDialog = new String[1];
+		currDialog[0] = str;
+		dialogCounter = -1;
+	}
+	
+	//Nächste Dialogzeile anzeigen, wenn letzte Zeile ausgewählt, Dialog beenden
+	public void next(){
+		if(dialogCounter == currDialog.length-1){
+			currLvl.toggleFreeze();
+			currLvl.setDialog(false);
+			currDialog = null;
+			dialogCounter = 0;
+		}
+		else{
+			dialogCounter++;
+		}
+	}
+}
+
+
+//HUD
+
+class HUD {
 	
 	private int fullScreenOffset;
 	private Font font;
@@ -102,3 +163,4 @@ public class HUD {
 		g2d.drawString("x 0", 920+fullScreenOffset, 84);
 	}
 }
+

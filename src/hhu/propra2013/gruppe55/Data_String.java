@@ -8,7 +8,6 @@ public class Data_String {
 	
 	// Example-Dialog
 	static String[] example = genDialog("example");		// der Spieler von vorne
-
 	
 	// Methode zum generieren der Dialog String-Arrays aus .txt
 	private static String[] genDialog(String file){

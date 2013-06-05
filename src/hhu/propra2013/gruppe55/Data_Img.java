@@ -40,7 +40,7 @@ public class Data_Img {
 	// Fallen
 	static Image trap = genImg("trap.png");			// Speerfalle
 	static Image trapact = genImg("trapActivated.png");	// aktivierte Speerfalle
-	// HUD
+	// Interface
 	static Image hud = genImg("HUD.png");			// HUD
 	static Image hud_selector = genImg("HUD_Selector.png");			//HUD_Selector
 	static Image hud_Tear_HP_Full = genImg("HUD_Tear_HP_Full.png");			//HUD_Selector
@@ -48,6 +48,7 @@ public class Data_Img {
 	static Image hud_Tear_HP_Empty = genImg("HUD_Tear_HP_Empty.png");			//HUD_Selector
 	static Image hud_Crystal_Full = genImg("HUD_Crystal_MP_Full.png");			//HUD_Selector
 	static Image hud_Crystal_Empty = genImg("HUD_Crystal_MP_Empty.png");			//HUD_Selector
+	static Image dialogBox = genImg("DialogBox.png");	//DialogBox
 	
 	
 // Waffen
