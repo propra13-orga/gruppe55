@@ -12,10 +12,16 @@ public class Data {
 	
 // Spieler
 	// Standartansichten
-	static Image player = genImg("player/front.png");		// der Spieler von vorne
+	static Image player_f = genImg("player/front.png");		// der Spieler von vorne
+	static Image player_l = genImg("player/left.png");		// der Spieler von links
+	static Image player_r = genImg("player/right.png");		// der Spieler von rechts
+	static Image player_b = genImg("player/back.png");		// der Spieler von hinten
 	static Image dead = genImg("dead.png");			// Toter Spieler ist tot
 	// Ansichten beim Angriff
 	static Image player_f_atk = genImg("player/front_atk.png");	// Angriff, Frontperspektive
+	static Image player_l_atk = genImg("player/left_atk.png");		// Angriff, links
+	static Image player_r_atk = genImg("player/right_atk.png");		// Angriff, rechts
+	static Image player_b_atk = genImg("player/back_atk.png");		// Angriff, hinten
 // Monster
 	static Image creature = genImg("creature.png");	// Standart-Kreatur
 	// Levelrelevantes

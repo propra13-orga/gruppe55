@@ -90,7 +90,7 @@ public class HUD {
 		}
 		
 		// Lives zeichnen
-		g2d.drawImage(Data.player, 820+fullScreenOffset, 14, null);
+		g2d.drawImage(Data.player_f, 820+fullScreenOffset, 14, null);
 		g2d.drawString("x " + p.getLives(), 850+fullScreenOffset, 44);
 		// Pfeile zeichnen
 		g2d.drawImage(Data.arrow_f, 900+fullScreenOffset, 24, null);

@@ -8,11 +8,23 @@ Geplante Aspekte
  - Kampfsystem
 
 Known Issues:
-- wenn man waehrend man gegen die Wand ueber dem Gem laueft stirbt wird der Grabstein nach unten geportet
+- FIXED? wenn man waehrend man gegen die Wand ueber dem Gem laueft stirbt wird der Grabstein nach unten geportet
 - Bodentexturen muessen generiert werden ohne viel Speicheraufwand
 
 
 Changelog:
+
+05.06.13 - jdnklau
+
+State
+	- besitzt nun Attribute und Methoden fuer richtungsspezifische Grafiken!
+	- defineOffset, changeImg erwarten nun zusaetzlich einen int-Parameter dafuer, fuer welche
+	  Richtung die Aenderung vorgenommen werden soll
+	- Ein zweiter Konstruktor wurde hinzugefuegt, der 4 statt einem Bild erwartet fuer die entsprechenden Richtungen
+	- die Richtungen sind 0:vorne, 1:links, 2:rechts, 3:hinten
+LivingObject
+	- aendert nun in move die Richtung aller States auf die neuste Richtung
+
 
 03.06.13 - van Meegen
 /src:

@@ -10,7 +10,7 @@ public class TreasureObject extends DungeonObject {
 		state	=	new State[2];
 		state[0]	=	new State(Data.treasure,false, false, true);			// Der Schatz (Derzeit ein Fillerbild - generic gem)
 		state[1]	=	new State(Data.treasure, false, false, false);			// Aufgesammelter Schatz
-		state[1].defineOffset(0,0,32,32);
+		state[1].defineOffset(0,0,32,32,0);
 		
 	}
 	
