@@ -14,6 +14,12 @@ Known Issues:
 
 Changelog:
 
+05.06.13 - jdnklau
+Weapon:
+	- einen Pixel beim Offset fuer den Angriff nach Links nach unten verschoben
+TestLevel:
+	- freeze-State
+
 05.06.13 - van Meegen
 /src:
 Player:

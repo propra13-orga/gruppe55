@@ -12,7 +12,7 @@ public class TestLevel extends JPanel implements ActionListener {
 	
 	// Levelobjekte
 	private Player player;				// Spielerobjekt
-	private Interface iFace;					//HUD
+	private HUD hud;					//HUD
 	private int room;					// pointer to current room
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
 	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Waende/Gegenstaende/etc
@@ -23,13 +23,17 @@ public class TestLevel extends JPanel implements ActionListener {
 	private boolean lose, clear;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
 	// Wichtige variablen fuer das neu Laden eines Levels
 	private int playerSpawnX, playerSpawnY;		// Koordinaten des ersten Spielererscheinungspunkts
+	private int centerX, centerY;				// Fenstermittelpunkt
 	private GameMenu gm;
 	private GameWindow gw;
+	private boolean freeze	=	false;		// friert das Level ein
 	
 	
 // Konstruktor
 	public TestLevel(GameMenu gm, GameWindow gw, int x, int y) {		
 		// Mittelpunkt des Fensters
+		centerX = x;
+		centerY = y;
 		
 		this.gm = gm;
 		this.gw = gw;
@@ -138,7 +142,7 @@ public class TestLevel extends JPanel implements ActionListener {
 		}
 
 		//Konstruiere HUD
-		iFace = new Interface();
+		hud = new HUD();
 		
 		// Eigenschaften des Panels
 		setFocusable(true);
@@ -245,13 +249,13 @@ public class TestLevel extends JPanel implements ActionListener {
 		g2d.translate(-(gw.getWidth()/2-player.getTX()), -(gw.getHeight()/2-player.getTY()));
 		
 		// HUD zeichnen
-		iFace.paint(g2d, player, gw.fullscreen);
+		hud.draw(g2d, gw.fullscreen, player);
 		
 		// Gameover / Win Bildschirm zeichnen
 		if(lose)
-			g2d.drawImage(Data_Img.gameover, 32*10, 32*10, this);
+			g2d.drawImage(Data.gameover, 32*10, 32*10, this);
 		if(clear)
-			g2d.drawImage(Data_Img.win, 32*10, 32*10, this);
+			g2d.drawImage(Data.win, 32*10, 32*10, this);
 	
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();
@@ -262,24 +266,37 @@ public class TestLevel extends JPanel implements ActionListener {
 	 * Wird vom timer aufgerufen. Laesst moegliche Bewegungen berechnen, ruft die Kollisionsabfrage auf und zeichnet das Feld neu
 	 */
 	public void actionPerformed(ActionEvent e) {
-		// ueberpruefen ob der Spieler lebt
-		if(player.getHP()<=0)
-			lose	=	true;	// wird gesetzt wenn der Spieler stirbt
-		if(player.getGoal() == true)
-			clear = true;		// wird gesetzt wenn der Spieler das Level erfolgreich abschliesst 
-		
-		// Spielerbewegung
-		player.move();
-		
-		// kreaturenbewegung
-		for(int i=0; i<creatureList.get(room).size(); i++)
-			creatureList.get(room).get(i).move();
-		
-		// Kollisionsabfrage
-		collisionCheck();
+		// Level gefroren?
+		if(!freeze){
+			// ueberpruefen ob der Spieler lebt
+			if(player.getHP()<=0)
+				lose	=	true;	// wird gesetzt wenn der Spieler stirbt
+			if(player.getGoal() == true)
+				clear = true;		// wird gesetzt wenn der Spieler das Level erfolgreich abschliesst 
+			
+			// Spielerbewegung
+			player.move();
+			
+			// kreaturenbewegung
+			for(int i=0; i<creatureList.get(room).size(); i++)
+				creatureList.get(room).get(i).move();
+			
+			// Kollisionsabfrage
+			collisionCheck();
+		}
 		
 		// neuzeichnen
 		repaint();
+	}
+	
+	public void toggleFreeze(){
+		freeze	=	!freeze;
+	}
+	
+	//Mittelpunkt für den Offset setzen
+	public void setCenter(int x, int y){
+		this.centerX = x;
+		this.centerY = y;
 	}
 	
 	
