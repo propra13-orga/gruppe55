@@ -26,6 +26,7 @@ public class TestLevel extends JPanel implements ActionListener {
 	private int centerX, centerY;				// Fenstermittelpunkt
 	private GameMenu gm;
 	private GameWindow gw;
+	private boolean freeze	=	false;		// friert das Level ein
 	
 	
 // Konstruktor
@@ -265,6 +266,9 @@ public class TestLevel extends JPanel implements ActionListener {
 	 * Wird vom timer aufgerufen. Laesst moegliche Bewegungen berechnen, ruft die Kollisionsabfrage auf und zeichnet das Feld neu
 	 */
 	public void actionPerformed(ActionEvent e) {
+		// Level gefroren?
+		if(freeze) return;
+		
 		// ueberpruefen ob der Spieler lebt
 		if(player.getHP()<=0)
 			lose	=	true;	// wird gesetzt wenn der Spieler stirbt
@@ -283,6 +287,10 @@ public class TestLevel extends JPanel implements ActionListener {
 		
 		// neuzeichnen
 		repaint();
+	}
+	
+	public void toggleFreeze(){
+		freeze	=	!freeze;
 	}
 	
 	//Mittelpunkt für den Offset setzen

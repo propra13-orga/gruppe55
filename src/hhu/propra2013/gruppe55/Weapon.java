@@ -43,7 +43,7 @@ public class Weapon extends DungeonObject {
 		weapOffsets[1][2]	=	3;	// X-offset von gehaltener Waffe
 		weapOffsets[1][3]	=	21;	// Y-Offset von gehaltener Waffe
 		weapOffsets[1][4]	=	23;	// X-Offset beim Angriff
-		weapOffsets[1][5]	=	3;	// Y-offset beim Angriff
+		weapOffsets[1][5]	=	2;	// Y-offset beim Angriff
 		// Offsets zeichnen - von rechts
 		weapOffsets[2][0]	=	0;	// X-Offset von lootbarer Waffe
 		weapOffsets[2][1]	=	0;	// Y-Offset von lootbarer Waffe
