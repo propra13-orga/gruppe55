@@ -54,7 +54,7 @@ public class Player extends LivingObject {
     	maxDmg	=	weapons[0].getMaxDmg();
 		
 		
-		// Haende setzen fuer state[1] (ignoriere 0, tote Spieler haben keine Waffen!)
+		// Haende setzen fuer state[1] = laufender Spieler (ignoriere 0, tote Spieler haben keine Waffen!)
     	// vorne
 		handOffsets[0][0][0]	=	2;	// X-Offset der Haupthand
 		handOffsets[0][0][1]	=	18;	// Y-Offset der Haupthand
@@ -75,13 +75,28 @@ public class Player extends LivingObject {
 		handOffsets[3][0][1]	=	18;	// Y-Offset der Haupthand
 		handOffsets[3][0][2]	=	3;	// X-Offset der Nebenhand
 		handOffsets[3][0][3]	=	18;	// Y-Offset der Nebenhand
-		// das Gleiche fuer state[2]
+		// das Gleiche fuer state[2] = angreifender Spieler
+		// vorne
 		handOffsets[0][1][0]	=	5;	// X-Offset der Haupthand
-		handOffsets[0][1][1]	=	25;	// Y-Offset der Haupthand
+		handOffsets[0][1][1]	=	22;	// Y-Offset der Haupthand
 		handOffsets[0][1][2]	=	22;	// X-Offset der Nebenhand
 		handOffsets[0][1][3]	=	16;	// Y-Offset der Nebenhand
-		// MARKUS
-		// Y U NO OFFSET HERE?
+		// links
+		handOffsets[1][1][0]	=	2;	// X-Offset der Haupthand
+		handOffsets[1][1][1]	=	17;	// Y-Offset der Haupthand
+		handOffsets[1][1][2]	=	14;	// X-Offset der Nebenhand
+		handOffsets[1][1][3]	=	19;	// Y-Offset der Nebenhand
+    	// rechts
+		handOffsets[2][1][0]	=	24;	// X-Offset der Haupthand
+		handOffsets[2][1][1]	=	17;	// Y-Offset der Haupthand
+		handOffsets[2][1][2]	=	19;	// X-Offset der Nebenhand
+		handOffsets[2][1][3]	=	18;	// Y-Offset der Nebenhand
+    	// hinten
+		handOffsets[3][1][0]	=	18;	// X-Offset der Haupthand
+		handOffsets[3][1][1]	=	14;	// Y-Offset der Haupthand
+		handOffsets[3][1][2]	=	4;	// X-Offset der Nebenhand
+		handOffsets[3][1][3]	=	20;	// Y-Offset der Nebenhand
+
 	}
     
     // Methode zum Agriff

@@ -26,40 +26,38 @@ public class Weapon extends DungeonObject {
 		state	=	new State[3];
 		state[0]	=	new State(Data.basicsword, false, false, true);
 		state[1]	=	new State(Data.basicsword, false, false, true);
-		state[2]	=	new State(Data.basicsword_f_atk, false, false, true);
+		state[2]	=	new State(Data.basicsword_f_atk, Data.basicsword_l_atk, Data.basicsword_r_atk, Data.basicsword_u_atk, false, false, true);
+		
 		switchState(1);
 		
-		// MARKUS
-		// Y U NO OFFSET HERE?
-
 		// Offsets zeichnen - von vorne
 		weapOffsets[0][0]	=	0;	// X-Offset von lootbarer Waffe
 		weapOffsets[0][1]	=	0;	// Y-Offset von lootbarer Waffe
 		weapOffsets[0][2]	=	3;	// X-offset von gehaltener Waffe
 		weapOffsets[0][3]	=	21;	// Y-Offset von gehaltener Waffe
 		weapOffsets[0][4]	=	3;	// X-Offset beim Angriff
-		weapOffsets[0][5]	=	0;	// Y-offset beim Angriff
+		weapOffsets[0][5]	=	-3;	// Y-offset beim Angriff
 		// Offsets zeichnen - von links
 		weapOffsets[1][0]	=	0;	// X-Offset von lootbarer Waffe
 		weapOffsets[1][1]	=	0;	// Y-Offset von lootbarer Waffe
 		weapOffsets[1][2]	=	3;	// X-offset von gehaltener Waffe
 		weapOffsets[1][3]	=	21;	// Y-Offset von gehaltener Waffe
-		weapOffsets[1][4]	=	3;	// X-Offset beim Angriff
-		weapOffsets[1][5]	=	0;	// Y-offset beim Angriff
+		weapOffsets[1][4]	=	23;	// X-Offset beim Angriff
+		weapOffsets[1][5]	=	3;	// Y-offset beim Angriff
 		// Offsets zeichnen - von rechts
 		weapOffsets[2][0]	=	0;	// X-Offset von lootbarer Waffe
 		weapOffsets[2][1]	=	0;	// Y-Offset von lootbarer Waffe
 		weapOffsets[2][2]	=	3;	// X-offset von gehaltener Waffe
 		weapOffsets[2][3]	=	21;	// Y-Offset von gehaltener Waffe
-		weapOffsets[2][4]	=	3;	// X-Offset beim Angriff
-		weapOffsets[2][5]	=	0;	// Y-offset beim Angriff
+		weapOffsets[2][4]	=	-3;	// X-Offset beim Angriff
+		weapOffsets[2][5]	=	3;	// Y-offset beim Angriff
 		// Offsets zeichnen - von hinten
 		weapOffsets[3][0]	=	0;	// X-Offset von lootbarer Waffe
 		weapOffsets[3][1]	=	0;	// Y-Offset von lootbarer Waffe
 		weapOffsets[3][2]	=	3;	// X-offset von gehaltener Waffe
 		weapOffsets[3][3]	=	21;	// Y-Offset von gehaltener Waffe
 		weapOffsets[3][4]	=	3;	// X-Offset beim Angriff
-		weapOffsets[3][5]	=	0;	// Y-offset beim Angriff
+		weapOffsets[3][5]	=	27;	// Y-offset beim Angriff
 	}
 	
 	// Rueckgabe der Angriffsdauer

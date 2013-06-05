@@ -14,6 +14,14 @@ Known Issues:
 
 Changelog:
 
+05.06.13 - van Meegen
+/src:
+Player:
+	- Offsets fuer die Haende (nach oben, links und rechts) ausgerechnet und hinzugefuegt
+Weapon:
+	- Offsets fuers Schwert (nach oben, links und rechts) ausgerechnet und hinzugefuegt
+	- je nachdem in Welche Richtung man schlaegt wird nun auch das richtige Bild dazu angezeigt
+
 05.06.13 - jdnklau
 
 State
