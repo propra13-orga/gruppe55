@@ -267,23 +267,23 @@ public class TestLevel extends JPanel implements ActionListener {
 	 */
 	public void actionPerformed(ActionEvent e) {
 		// Level gefroren?
-		if(freeze) return;
-		
-		// ueberpruefen ob der Spieler lebt
-		if(player.getHP()<=0)
-			lose	=	true;	// wird gesetzt wenn der Spieler stirbt
-		if(player.getGoal() == true)
-			clear = true;		// wird gesetzt wenn der Spieler das Level erfolgreich abschliesst 
-		
-		// Spielerbewegung
-		player.move();
-		
-		// kreaturenbewegung
-		for(int i=0; i<creatureList.get(room).size(); i++)
-			creatureList.get(room).get(i).move();
-		
-		// Kollisionsabfrage
-		collisionCheck();
+		if(!freeze){
+			// ueberpruefen ob der Spieler lebt
+			if(player.getHP()<=0)
+				lose	=	true;	// wird gesetzt wenn der Spieler stirbt
+			if(player.getGoal() == true)
+				clear = true;		// wird gesetzt wenn der Spieler das Level erfolgreich abschliesst 
+			
+			// Spielerbewegung
+			player.move();
+			
+			// kreaturenbewegung
+			for(int i=0; i<creatureList.get(room).size(); i++)
+				creatureList.get(room).get(i).move();
+			
+			// Kollisionsabfrage
+			collisionCheck();
+		}
 		
 		// neuzeichnen
 		repaint();
