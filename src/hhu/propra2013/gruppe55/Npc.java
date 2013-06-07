@@ -24,11 +24,11 @@ public class Npc extends LivingObject {
 	
 	protected void onCollision(DungeonObject d){
 		// standart fuer ungefaehrliche Objekte
-			if(super.getBorder().intersects(d.getBorder())){
+			while(super.getBorder().intersects(d.getBorder())){
 				// solange Kollision wird das Objekt zurückgeschoben
-				super.onCollision(d);
+				((LivingObject)d).setBack();
 			}
-			System.out.println("blobb");
+			System.out.println("blobb"); // Anzeige zum Pruefen der Hitbox - kannst du spaeter loeschen
 	}
 
 }
