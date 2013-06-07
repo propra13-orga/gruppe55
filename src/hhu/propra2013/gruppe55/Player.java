@@ -6,7 +6,6 @@ import java.awt.event.*;
 public class Player extends LivingObject {
 
 	// Variable zur Zielabfrage
-	protected boolean goal	=	false;
 	// Variablen fuer Handhabung von Unverwundbarkeit
 	private int invulTime			=	500;		// Dauer der Unverwundbarkeit in Millisekunden
 	// Variablen fuer den Angriff
@@ -196,14 +195,6 @@ public class Player extends LivingObject {
     	mana = manaMax;
     	switchState(1);
     	// derzeit wird hier kein weiterer Code benoetigt (das kann sich im Laufe des Projekts aendern)
-    }
-    // Spieler beruehrt das ziel und gewinnt das spiel
-    public void reachGoal(){ 
-    	goal = true;
-    }
-    // Wert der goal variable wird uebergeben
-    public boolean getGoal(){
-    	return goal;
     }
     
     // Abfrage des Angriffsstatus

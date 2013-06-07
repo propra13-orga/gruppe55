@@ -10,9 +10,26 @@ Geplante Aspekte
 Known Issues:
 - FIXED? wenn man waehrend man gegen die Wand ueber dem Gem laueft stirbt wird der Grabstein nach unten geportet
 - Bodentexturen muessen generiert werden ohne viel Speicheraufwand
+- Level.java broken - Wozu auf Stand halten, wnen wir die sowieso rausschmeißen?
 
 
 Changelog:
+
+07.06.13 - jdnklau
+TestLevel:
+	- fuegt sich selbst nun jedem DungeonObject als Listener hinzu
+	- implementiert nun GameEventListener
+DungeonObject
+	- besitzt nun eine ArrayList aller Listener fuer eventuelle GameEvents
+Creature
+	- laesst nun einen Schatz liegen bei Tot
+Player
+	- besitzt nun keine Methoden und Attribute mehr um aus dem Spieler herauszulesen ob das Level beendet wurde
+GoalObject
+	- beendet das Level nun ueber ein GameEvent
+GameEventListener
+	- tolles neues Interface ueber das GameEvents geregelt werden
+	- Die GameEvents selbst werden in den DungeonObject Objekten gefeuert und vom Level gehoert
 
 05.06.13 - jdnklau
 Weapon:

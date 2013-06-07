@@ -60,6 +60,18 @@ public class Creature extends LivingObject {
 		super.move();
     }
     
+    public void getHit(int dmg){
+    	// Muttermethode aufrufen - wir wollen nur ein Detail ergaenzen
+    	super.getHit(dmg);
+    	
+    	// Unser Detail:
+    	if(hp<=0){
+    		for(GameEventListener gel : evtList){
+    			gel.newTreasure(x, y);
+    		}
+    	}
+    }
+    
     
     @Override
     public void draw(Graphics2D g2d){

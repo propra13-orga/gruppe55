@@ -3,6 +3,9 @@ package hhu.propra2013.gruppe55;
 import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.Rectangle;
+import java.util.ArrayList;
+
+import javax.swing.event.EventListenerList;
 
 public abstract class DungeonObject {
 // Attribute
@@ -15,6 +18,8 @@ public abstract class DungeonObject {
 	protected int width;	// breite
 	protected int height;	// hoehe
 	protected int direction	=	0;	// aktuelle Blickrichtung des Objekts
+	// Schnittstelle fuer GameEvents
+	protected ArrayList<GameEventListener> evtList	=	new ArrayList<GameEventListener>();
 	
 // Konstruktor
 		// x, y: Koordinaten zum Erscheinen
@@ -31,6 +36,11 @@ public abstract class DungeonObject {
 	}
 	
 // Methoden
+	
+	// Hinzufuegen des GameEventListeners
+	public void addGameListener(GameEventListener listener){
+		evtList.add(listener);
+	}
 	
 	// spezielle Kollisionsbehandlung
 	protected void onCollision(DungeonObject d){

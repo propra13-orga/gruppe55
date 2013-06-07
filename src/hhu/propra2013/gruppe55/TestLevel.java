@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import java.io.*;
 
-public class TestLevel extends JPanel implements ActionListener {
+public class TestLevel extends JPanel implements ActionListener, GameEventListener {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -139,6 +139,15 @@ public class TestLevel extends JPanel implements ActionListener {
 				}
 			}
 		}
+		
+		// GameEventListener hinzufuegen fuer Lebendige Objekte
+		for(int i=0; i<creatureList.size(); i++)
+			for(LivingObject l : creatureList.get(i))
+				l.addGameListener(this);
+		// GameEventListener hinzufuegen fuer statische Objekte
+		for(int i=0; i<staticList.size(); i++)
+			for(DungeonObject l : staticList.get(i))
+				l.addGameListener(this);
 
 		//Konstruiere Interface
 		iFace = new GameInterface(this);
@@ -219,7 +228,6 @@ public class TestLevel extends JPanel implements ActionListener {
 		// den Spieler wiederbeleben
 		player.revive();
 		player.teleport(playerSpawnX, playerSpawnY);
-		player.goal = false;
 		// Raumzeiger wieder auf den ersten Raum setzen
 		room	=	0;
 		//Fallen zuruecksetzen
@@ -279,8 +287,6 @@ public class TestLevel extends JPanel implements ActionListener {
 			// ueberpruefen ob der Spieler lebt
 			if(player.getHP()<=0)
 				lose	=	true;	// wird gesetzt wenn der Spieler stirbt
-			if(player.getGoal() == true)
-				clear = true;		// wird gesetzt wenn der Spieler das Level erfolgreich abschliesst 
 			
 			// Spielerbewegung
 			player.move();
@@ -319,6 +325,17 @@ public class TestLevel extends JPanel implements ActionListener {
 	
 	public GameInterface getInterface(){
 		return(iFace);
+	}
+
+// SPIELEREIGNISSE ABFANGEN
+	@Override
+	public void newTreasure(int x, int y) {
+		staticList.get(room).add(new TreasureObject(x, y));
+	}
+	@Override
+	public void levelCleared(){
+		clear=true;
+		System.out.println("you little Fucker!");
 	}
 	
 // KEY LISTENER UNIT
