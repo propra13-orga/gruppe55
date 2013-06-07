@@ -15,6 +15,15 @@ Known Issues:
 
 Changelog:
 
+08.06.13 - van Meegen - Update
+
+Die Npcs haben nun eine zweite größere Hitbox fuer die Interaktionen und eine kleine "wirkliche" Hitbox die ihrem Image entspricht.
+/src:
+Npc:
+	- Neues Offsetarray mit Getborder()-funktion fuer die Interaktionshitbox
+Shopkeeper:
+	- Bekommt die Hitbox per superfunktion von livingobject abgeleitet um eine kleinere Hitbox als die aus dem Npc zu generieren
+
 08.06.13 - van Meegen
 
 2 Neue Klassen hinzugefuegt. Npc und Shopkeeper, der sich aus Npc ableitet. Die Klassen sind derzeit noch leer, werden aber demnaechst befuellt)
