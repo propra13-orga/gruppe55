@@ -217,7 +217,7 @@ public class Level extends JPanel implements ActionListener {
 		// den Spieler wiederbeleben
 		player.revive();
 		player.teleport(playerSpawnX, playerSpawnY);
-		player.goal = false;
+//		player.goal = false;
 		// Raumzeiger wieder auf den ersten Raum setzen
 		room	=	0;
 		// Endebedingungen auf false setzen
@@ -268,7 +268,7 @@ public class Level extends JPanel implements ActionListener {
 		// ueberpruefen ob der Spieler lebt
 		if(player.getHP()<=0)
 			lose	=	true;	// wird gesetzt wenn der Spieler stirbt
-		if(player.getGoal() == true)
+//		if(player.getGoal() == true)
 			clear = true;		// wird gesetzt wenn der Spieler das Level erfolgreich abschliesst
 			
 		// Spielerbewegung

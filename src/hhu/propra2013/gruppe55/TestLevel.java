@@ -136,6 +136,9 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new TreasureObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
 					}
+					else if(lvlData[r][i][j] == 10){
+						creatureList.get(r).add(new Shopkeeper(32*i, 32*j, 3, 1, 0, 100, 0));
+					}
 				}
 			}
 		}

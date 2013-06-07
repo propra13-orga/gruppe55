@@ -10,10 +10,28 @@ Geplante Aspekte
 Known Issues:
 - FIXED? wenn man waehrend man gegen die Wand ueber dem Gem laueft stirbt wird der Grabstein nach unten geportet
 - Bodentexturen muessen generiert werden ohne viel Speicheraufwand
-- Level.java broken - Wozu auf Stand halten, wnen wir die sowieso rausschmeißen?
+- Level.java broken - Wozu auf Stand halten, wnen wir die sowieso rausschmeißen? (van Meegen: Kaputte Zeilen auskommentiert um Fehlergeschmeissen zu entfernen)
 
 
 Changelog:
+
+08.06.13 - van Meegen
+
+2 Neue Klassen hinzugefuegt. Npc und Shopkeeper, der sich aus Npc ableitet. Die Klassen sind derzeit noch leer, werden aber demnaechst befuellt)
+=> Hitbox und Interaktionshitbox
+=> diverse Funktionen die der Shopkeeper und weitere Npc's brauchen
+=> ????????
+=> Profit
+
+/src:
+Npc:
+	- Konstruktor hinzugefuegt
+	- Vorlaeufige Hitbox
+	- Klasse ist bisher noch leer wird aber demnaechst voller
+
+Shopkeeper:
+	- Konstruktor (ja ich weiss, maechtig!)
+	- Vorlaeufiges Bild
 
 07.06.13 - jdnklau
 TestLevel:
