@@ -24,6 +24,9 @@ public class Data_Img {
 	static Image player_b_atk = genImg("player/back_atk.png");		// Angriff, hinten
 // Monster
 	static Image creature = genImg("creature.png");	// Standart-Kreatur
+// Npc's
+	// Shopkeeper
+	static Image shopkeeper = genImg("enemies/evilwizard.png");
 	// Levelrelevantes
 	static Image win = genImg("youwin.png");		// Siegbild
 	static Image gameover = genImg("gameover.png");	// Game Over
