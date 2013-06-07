@@ -86,6 +86,7 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 		//7: Potion
 		//8: Manapotion
 		//9: Schatz
+		//10: Shopkeeper
 		
 		// Schleife die das Level generiert
 		for(int r=0; r<lvlData.length;r++){
@@ -338,7 +339,6 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 	@Override
 	public void levelCleared(){
 		clear=true;
-		System.out.println("you little Fucker!");
 	}
 	
 // KEY LISTENER UNIT

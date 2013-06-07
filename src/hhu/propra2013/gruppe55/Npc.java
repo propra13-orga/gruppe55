@@ -4,16 +4,31 @@ import java.awt.Rectangle;
 
 public class Npc extends LivingObject {	
 
-	// Diese Funktion sieht ziemlich leer aus, koennte sich aber fuellen je mehr Npc-Typen wir benoetigen
-	
+	// Interaktions-Hitbox-Offsets fuer Npc's 
+	protected int offset2[] = {-15,-15, -15, -15};
+	// Kontruktor fuer den Npc
 	public Npc(int spawnX, int spawnY, int h, int angr, int vert, int ausd, int man) {
 		super(spawnX, spawnY, h, angr, vert, ausd, man);
-		state[1].defineOffset(15, 5, 0, 5, 0);
 		state[1].massive = true;
-		
     }
+	// Neue Hitbox fuer den Npc (Bereich um ihn herum zum Interagieren)
+	public Rectangle getBorder(){
+		// Wenn der Npc da is...
+		if(state[currState].visible){
+			return new Rectangle(x + offset2[1], y + offset2[0], state[currState].getImg().getWidth(null) -offset2[1]-offset2[3], state[currState].getImg().getHeight(null)-offset2[0]-offset2[2]);
+		}		
+		   else
+		// ... und wenn er nicht da ist
+		return new Rectangle(0,0,0,0);
+	}
 	
-	// To DO - Funktionen fuer den NPC und 2. "Hitbox" fuer die Interaktionsflaeche!
-	
+	protected void onCollision(DungeonObject d){
+		// standart fuer ungefaehrliche Objekte
+			if(super.getBorder().intersects(d.getBorder())){
+				// solange Kollision wird das Objekt zurückgeschoben
+				super.onCollision(d);
+			}
+			System.out.println("blobb");
+	}
 
 }
