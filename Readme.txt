@@ -7,6 +7,10 @@ Geplante Aspekte
  - Animation
  - Kampfsystem
 
+IMPORTANT KNOWN ISSUE:
+
+- Der Shopkeeper kann nicht an einer Wand stehen, da bei jetziger Implementieren dann die Wand die ganze zeit den Shopkeeper wegen der Actionhitbox wegschieben moechte und das nicht geht!
+
 Known Issues:
 - FIXED? wenn man waehrend man gegen die Wand ueber dem Gem laueft stirbt wird der Grabstein nach unten geportet
 - Bodentexturen muessen generiert werden ohne viel Speicheraufwand
