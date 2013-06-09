@@ -15,10 +15,13 @@ Known Issues:
 - FIXED? wenn man waehrend man gegen die Wand ueber dem Gem laueft stirbt wird der Grabstein nach unten geportet
 - Bodentexturen muessen generiert werden ohne viel Speicheraufwand
 - Level.java broken - Wozu auf Stand halten, wnen wir die sowieso rausschmeißen? (van Meegen: Kaputte Zeilen auskommentiert um Fehlergeschmeissen zu entfernen)
+- Die Projektile kollidieren nicht
+	- muesste mit neuem Thread geloest werden, weil es ja auch gegen Waende Kollidieren soll. Nur haben wir 860 WandObjekte im Testlevel hieße min. 60*860=51600 extra Abfragen pro Sekunde (in wirklichkeit sogar wesentlich mehr!)
 
 
 Changelog:
 
+<<<<<<< HEAD
 09.06.13 - Sami Salem
 Neuer Leveleditor im package leveleditor2
  Features:
@@ -30,6 +33,24 @@ Neuer Leveleditor im package leveleditor2
 zum kompilieren müssen die jackson*.jar Dateien zum Buildpath hinzugefügt werden!
 in TestLevel.java kann man durch die Variable jsonParser = true/false festlegen wie geparst wird
  
+=======
+09.06.13 - jdnklau
+Player
+	- shoot-Methode die dann auch Pfeile verschiesst
+	- aus Testzwecken nun drei Schwerter, 2 fuer den Nah- eins fuer den Fernkampf zum Pfeile schiessen
+	- nun auch ein Attribut dass die Anzahl der Pfeile speichert
+	- getArrowsRemaining() liefert die Anzahl der verbleibenden Pfeile
+GameEventListener
+	- besitzt nun eine shootProjectile-Methode
+LivingObject
+	- erbt nun von MovingObject
+*neu* MovingObject
+	- *neu*
+*neu* Projectile
+	- Klasse fuer Projektile
+	- braucht x, y, Flugwinkel, Schaden
+
+>>>>>>> 52fec305f01390364bd2516d6b1f23ada0bdff6e
 
 08.06.13 - van Meegen - Update
 
