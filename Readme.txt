@@ -21,6 +21,10 @@ Known Issues:
 
 Changelog:
 
+09.06.13 - jdnklau
+TestLevel:
+	- JSON-Parser gefixed: nun werden alle Räume geladen und nicht nur einer -> Kein IndexOutOfBounds wenn man nen Teleporter tangiert
+
 09.06.13 - van Meegen
 
 /src:
