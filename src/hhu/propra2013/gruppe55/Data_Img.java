@@ -64,6 +64,7 @@ public class Data_Img {
 	static Image basicsword_icon = genImg("weapons/basicsword/icon.png");	// Icon fuer das HUD
 	// simpler Bogen
 	static Image basicbow = genImg("weapons/basicbow/front.png"); // Frontansicht
+	static Image basicbow_back = genImg("weapons/basicbow/back.png"); // Rückansicht
 	static Image basicbow_f_atk = genImg("weapons/basicbow/front_atk.png"); // Bogenansicht beim Angriff nach vorn
 	static Image basicbow_l_atk = genImg("weapons/basicbow/left_atk.png"); // Bogenansicht beim Angriff nach links
 	static Image basicbow_r_atk = genImg("weapons/basicbow/right_atk.png"); // Bogenansicht beim Angriff nach rechts
@@ -71,7 +72,7 @@ public class Data_Img {
 	static Image basicbow_icon = genImg("weapons/basicbow/icon.png"); // Icon fuer das HUD
 	// simples Schild
 	static Image basicshield_f = genImg("weapons/basicshield/front.png"); // Frontsansicht
-	static Image basicshield_b = genImg("weapons/basicshield/front.png"); // Ruecksansicht
+	static Image basicshield_b = genImg("weapons/basicshield/back.png"); // Ruecksansicht
 	// Projektile
 	static Image arrow_f = genImg("weapons/projectiles/arrow_front.png");	//Pfeil front
 	static Image arrow_l = genImg("weapons/projectiles/arrow_left.png");	//Pfeil links
