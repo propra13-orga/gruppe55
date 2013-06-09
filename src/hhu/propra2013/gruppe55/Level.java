@@ -34,7 +34,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	private boolean freeze	=	false;		// friert das Level ein
 	private int openedInterface;			// Welches Interface aufgerufen ist
 	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
-	private boolean jsonParser = false;		// Bis alles funktioniert per Default auf false gesetzt - auf true setzen um die Jsonlvl zu laden 
+	private boolean jsonParser = true;		// Bis alles funktioniert per Default auf false gesetzt - auf true setzen um die Jsonlvl zu laden 
 	private LevelData levelDataObj;
 	
 	
@@ -157,7 +157,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			//lade Leveldaten durch json Parser
 			levelDataObj = new LevelData();
 			try {
-				LevelReader levelReader = new LevelReader(new File("lvl/jsontestlevel1.txt"));
+				LevelReader levelReader = new LevelReader(new File("lvl/level1.txt"));
 				levelDataObj = levelReader.getLevelData();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -165,67 +165,70 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			}
 			
 
-		// Zeiger wird auf den ersten Raum gesetzt
-		room	=	0;
-
-		// ArrayLists generieren
-		staticList		=	new ArrayList<ArrayList<DungeonObject>>(0);
-		creatureList	=	new ArrayList<ArrayList<LivingObject>>(0);
-		teleportList	=	new ArrayList<ArrayList<Teleporter>>(0);
-		projectileList	=	new ArrayList<Projectile>(0);
-		
-		staticList.add(new ArrayList<DungeonObject>(0));
-		creatureList.add(new ArrayList<LivingObject>(0));
-		teleportList.add(new ArrayList<Teleporter>(0));
-		
-		//0: Background		
-		//1: Wall
-		//2: Creature
-		//3: Player
-		//4: Teleporter
-		//5: Falle
-		//6: Ziel
-		//7: Potion
-		//8: Manapotion
-		//9: Schatz
-		//10: Shopkeeper
-		
-		// Schleife die das Level generiert
-
+			// Zeiger wird auf den ersten Raum gesetzt
+			room  =  0;
 			
-			for(Map.Entry<String, ArrayList<Integer>> entry : levelDataObj.getlevelRoom(room).entrySet()){
-				ArrayList<Integer> tempParameterList = entry.getValue();
-				int xPos,yPos;
-				String[] tempStr = entry.getKey().split(",");
-				xPos = Integer.parseInt(tempStr[0]);
-				yPos = Integer.parseInt(tempStr[1]);
-				//Wall
-				if(tempParameterList.get(0) == 1){
-					//Texturparameter
-					if(tempParameterList.get(1) == 0){
-						staticList.get(room).add(new WallObject(xPos, yPos));
+			// ArrayLists generieren
+			staticList    =  new ArrayList<ArrayList<DungeonObject>>(0);
+			creatureList  =  new ArrayList<ArrayList<LivingObject>>(0);
+			teleportList  =  new ArrayList<ArrayList<Teleporter>>(0);
+			projectileList  =  new ArrayList<Projectile>(0);
+						
+
+			//0: Background    
+			//1: Wall
+			//2: Creature
+			//3: Player
+			//4: Teleporter
+			//5: Falle
+			//6: Ziel
+			//7: Potion
+			//8: Manapotion
+			//9: Schatz
+			//10: Shopkeeper
+			
+			// Schleife die das Level generiert
+			for(int r=0; r<levelDataObj.totalRooms();r++){
+				// Listen um eine Dimension erweitern
+				staticList.add(new ArrayList<DungeonObject>(0));
+				creatureList.add(new ArrayList<LivingObject>(0));
+				teleportList.add(new ArrayList<Teleporter>(0));
+				// Sami, y u no comment?
+				for(Map.Entry<String, ArrayList<Integer>> entry : levelDataObj.getlevelRoom(r).entrySet()){
+					ArrayList<Integer> tempParameterList = entry.getValue();
+					int xPos,yPos;
+					String[] tempStr = entry.getKey().split(",");
+					xPos = Integer.parseInt(tempStr[0]);
+					yPos = Integer.parseInt(tempStr[1]);
+					//Wall
+					if(tempParameterList.get(0) == 1){
+						//Texturparameter
+						if(tempParameterList.get(1) == 0){
+							staticList.get(r).add(new WallObject(xPos, yPos));
+						}
 					}
-				//Creature
-				}else if(tempParameterList.get(0) == 2){
-					creatureList.get(room).add(new Creature(xPos+5, yPos-5, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5)));		// bei 2 wird ein Monsterobjekt generiert
-				}else if(tempParameterList.get(0) == 3){
-					playerSpawnX = xPos;
-					playerSpawnY = yPos;
-					player	=	new Player(playerSpawnX-5, playerSpawnY-5, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));		
-				}else if(tempParameterList.get(0) == 4){
-					teleportList.get(room).add(new Teleporter(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));		
-				}else if(tempParameterList.get(0) == 5){
-					staticList.get(room).add(new TrapObject(xPos, yPos));		
-				}else if(tempParameterList.get(0) == 6){
-					staticList.get(room).add(new GoalObject(xPos, yPos));		
-				}else if(tempParameterList.get(0) == 7){
-					staticList.get(room).add(new PotionObject(xPos, yPos));		
-				}else if(tempParameterList.get(0) == 8){
-					staticList.get(room).add(new MPotionObject(xPos, yPos));		
-				}else if(tempParameterList.get(0) == 9){
-					staticList.get(room).add(new TreasureObject(xPos, yPos));		
-				}else if(tempParameterList.get(0) == 10){
-					creatureList.get(room).add(new Shopkeeper(xPos, yPos, 3, 1, 0, 100, 0));	//im Editor noch nicht implementiert	
+					//Creature
+					else if(tempParameterList.get(0) == 2){
+						creatureList.get(r).add(new Creature(xPos+5, yPos-5, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5)));    // bei 2 wird ein Monsterobjekt generiert
+					}else if(tempParameterList.get(0) == 3){
+						playerSpawnX = xPos;
+						playerSpawnY = yPos;
+						player  =  new Player(playerSpawnX-5, playerSpawnY-5, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));    
+					}else if(tempParameterList.get(0) == 4){
+						teleportList.get(r).add(new Teleporter(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));    
+					}else if(tempParameterList.get(0) == 5){
+						staticList.get(r).add(new TrapObject(xPos, yPos));    
+					}else if(tempParameterList.get(0) == 6){
+						staticList.get(r).add(new GoalObject(xPos, yPos));    
+					}else if(tempParameterList.get(0) == 7){
+						staticList.get(r).add(new PotionObject(xPos, yPos));    
+					}else if(tempParameterList.get(0) == 8){
+						staticList.get(r).add(new MPotionObject(xPos, yPos));    
+					}else if(tempParameterList.get(0) == 9){
+						staticList.get(r).add(new TreasureObject(xPos, yPos));    
+					}else if(tempParameterList.get(0) == 10){
+						creatureList.get(r).add(new Shopkeeper(xPos, yPos, 3, 1, 0, 100, 0));  //im Editor noch nicht implementiert  
+					}
 				}
 			}
 		}

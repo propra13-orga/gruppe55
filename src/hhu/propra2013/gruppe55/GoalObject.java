@@ -12,9 +12,9 @@ public class GoalObject extends DungeonObject {
     	super.onCollision(d);
     	// Event feuern - fuer den Spieler
     	if(d instanceof Player){
-			for(GameEventListener gel : evtList){
-				gel.levelCleared();
-			}
+    		for(GameEventListener gel : evtList){
+    			gel.levelCleared();
+    		}
     	}
 	}
 }
