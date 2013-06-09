@@ -349,7 +349,7 @@ public class LevelEditor extends JFrame implements ActionListener
 			wallParameterPanel.setVisible(false);
 		}
 		else if (ae.getSource() == this.setParametersButton){
-			if(toolType == 1 || toolType == 2){
+			if(toolType == 2 || toolType == 3){
 				health = Integer.parseInt(healthTxtField.getText());
 				angriff = Integer.parseInt(angriffTxtField.getText());
 				verteidigung = Integer.parseInt(verteidigungTxtField.getText());
