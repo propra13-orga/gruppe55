@@ -1,8 +1,13 @@
 package hhu.propra2013.gruppe55;
 
+import hhu.propra2013.leveleditor2.LevelData;
+import hhu.propra2013.leveleditor2.LevelReader;
+
 import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Map;
+
 import javax.swing.*;
 import java.io.*;
 
@@ -28,6 +33,8 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 	private boolean freeze	=	false;		// friert das Level ein
 	private int openedInterface;			// Welches Interface aufgerufen ist
 	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
+	private boolean jsonParser = true;
+	private LevelData levelDataObj;
 	
 	
 // Konstruktor
@@ -41,109 +48,163 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 		String lineints[];
 		int[][][] lvlData = null;
 		
-		// Parser fuer Leveldateien
-		try {
-			//.txt einlesen
-			FileReader fread = new FileReader("lvl/testlvl.txt");
-			BufferedReader in = new BufferedReader(fread);
-			
-			int k = 0; //Für 3. Arraydimension wird eigene Variable benötigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
-			
-			for(int i=0; (line = in.readLine()) != null; i++){
-				if(i==0){
-					// Mit 1. Line Array initialisieren
-					String w[] = new String[3];
-					w = line.split(",");
-					lvlData = new int[Integer.parseInt(w[0])][Integer.parseInt(w[1])][Integer.parseInt(w[2])];
-				}
-				else{
-					// Lines mit Strings in LevelData-Array als int konvertieren
-					lineints = (String[])line.split(",");
-					for(int j=0; j<=lineints.length-1; j++){
-							lvlData[0][j][k] = Integer.parseInt(lineints[j]);
+		if(!jsonParser){
+			// Parser fuer Leveldateien
+			try {
+				//.txt einlesen
+				FileReader fread = new FileReader("lvl/testlvl.txt");
+				BufferedReader in = new BufferedReader(fread);
+				
+				int k = 0; //Für 3. Arraydimension wird eigene Variable benötigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
+				
+				for(int i=0; (line = in.readLine()) != null; i++){
+					if(i==0){
+						// Mit 1. Line Array initialisieren
+						String w[] = new String[3];
+						w = line.split(",");
+						lvlData = new int[Integer.parseInt(w[0])][Integer.parseInt(w[1])][Integer.parseInt(w[2])];
 					}
-					k++;
+					else{
+						// Lines mit Strings in LevelData-Array als int konvertieren
+						lineints = (String[])line.split(",");
+						for(int j=0; j<=lineints.length-1; j++){
+								lvlData[0][j][k] = Integer.parseInt(lineints[j]);
+						}
+						k++;
+					}
+				}
+				in.close();
+			} catch (IOException e) {e.printStackTrace();}
+				
+			// Zeiger wird auf den ersten Raum gesetzt
+			room	=	0;
+	
+			// ArrayLists generieren
+			staticList		=	new ArrayList<ArrayList<DungeonObject>>(0);
+			creatureList	=	new ArrayList<ArrayList<LivingObject>>(0);
+			teleportList	=	new ArrayList<ArrayList<Teleporter>>(0);
+			
+			//0: Background		
+			//1: Wall
+			//2: Creature
+			//3: Player
+			//4: Teleporter
+			//5: Falle
+			//6: Ziel
+			//7: Potion
+			//8: Manapotion
+			//9: Schatz
+			//10: Shopkeeper
+			
+			// Schleife die das Level generiert
+			for(int r=0; r<lvlData.length;r++){
+				// Dimension des neuen Raumes in der Arraylist initialisieren
+				staticList.add(new ArrayList<DungeonObject>(0));
+				creatureList.add(new ArrayList<LivingObject>(0));
+				teleportList.add(new ArrayList<Teleporter>(0));
+				// Objekte generieren
+				for(int i=0;i<=lvlData[0].length-1;i++){
+					for(int j=0;j<=lvlData[0][0].length-1;j++){
+						/*if(lvlData[r][i][j] == 0){
+							staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert (derzeit auskommentiert, da zu Speicherintensiv)
+						}
+						else */if(lvlData[r][i][j] == 1){
+							staticList.get(r).add(new WallObject(i*32, j*32));		// bei 1 wird ein Wandobjekt generiert
+						}
+						else if(lvlData[r][i][j] == 2){
+							creatureList.get(r).add(new Creature(i*32+5, j*32-5, 3, 1, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						}
+						else if(lvlData[r][i][j] == 3){
+							playerSpawnX	=	i*32-5;
+							playerSpawnY	=	j*32-5;
+							player	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1, 3);		// bei 3 wird ein Spielerobjekt generiert
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						}
+						else if(lvlData[r][i][j] == 5){
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							staticList.get(r).add(new TrapObject(i*32, j*32));		// bei 5 wird ein Fallenobjekt generiert
+						}
+						else if(lvlData[r][i][j] == 4){
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							teleportList.get(r).add(new Teleporter(i*32, j*32, 1, 2*32, 0*32));
+						}
+						else if(lvlData[r][i][j] == 6){
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							staticList.get(r).add(new GoalObject(i*32, j*32));		// bei 6 wird ein Zielobjekt generiert
+						}
+						else if(lvlData[r][i][j] == 7){
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							staticList.get(r).add(new PotionObject(i*32, j*32)); 	// bei 7 wird ein Potionobjekt generiert
+						}
+						else if(lvlData[r][i][j] == 8){
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							staticList.get(r).add(new MPotionObject(i*32, j*32)); 	// bei 8 wird ein Manapotionobject generiert
+						}
+						else if(lvlData[r][i][j] == 9){
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							staticList.get(r).add(new TreasureObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
+						}
+						else if(lvlData[r][i][j] == 10){
+							creatureList.get(r).add(new Shopkeeper(32*i, 32*j, 3, 1, 0, 100, 0));
+						}
+					}
 				}
 			}
-			in.close();
-		} catch (IOException e) {e.printStackTrace();}
+		}else{
+			//lade Leveldaten durch json Parser
+			levelDataObj = new LevelData();
+			room = 0;
+			try {
+				LevelReader levelReader = new LevelReader(new File("lvl/jsontestlevel1.txt"));
+				levelDataObj = levelReader.getLevelData();
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
-		// Zeiger wird auf den ersten Raum gesetzt
-		room	=	0;
-
-		// ArrayLists generieren
-		staticList		=	new ArrayList<ArrayList<DungeonObject>>(0);
-		creatureList	=	new ArrayList<ArrayList<LivingObject>>(0);
-		teleportList	=	new ArrayList<ArrayList<Teleporter>>(0);
-		
-		//0: Background		
-		//1: Wall
-		//2: Creature
-		//3: Player
-		//4: Teleporter
-		//5: Falle
-		//6: Ziel
-		//7: Potion
-		//8: Manapotion
-		//9: Schatz
-		//10: Shopkeeper
-		
-		// Schleife die das Level generiert
-		for(int r=0; r<lvlData.length;r++){
-			// Dimension des neuen Raumes in der Arraylist initialisieren
+			staticList		=	new ArrayList<ArrayList<DungeonObject>>(0);
+			creatureList	=	new ArrayList<ArrayList<LivingObject>>(0);
+			teleportList	=	new ArrayList<ArrayList<Teleporter>>(0);
 			staticList.add(new ArrayList<DungeonObject>(0));
 			creatureList.add(new ArrayList<LivingObject>(0));
 			teleportList.add(new ArrayList<Teleporter>(0));
-			// Objekte generieren
-			for(int i=0;i<=lvlData[0].length-1;i++){
-				for(int j=0;j<=lvlData[0][0].length-1;j++){
-					/*if(lvlData[r][i][j] == 0){
-						staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert (derzeit auskommentiert, da zu Speicherintensiv)
+			
+			for(Map.Entry<String, ArrayList<Integer>> entry : levelDataObj.getlevelRoom(room).entrySet()){
+				ArrayList<Integer> tempParameterList = entry.getValue();
+				int xPos,yPos;
+				String[] tempStr = entry.getKey().split(",");
+				xPos = Integer.parseInt(tempStr[0]);
+				yPos = Integer.parseInt(tempStr[1]);
+				//Wall
+				if(tempParameterList.get(0) == 1){
+					//Texturparameter
+					if(tempParameterList.get(1) == 0){
+						staticList.get(room).add(new WallObject(xPos, yPos));
 					}
-					else */if(lvlData[r][i][j] == 1){
-						staticList.get(r).add(new WallObject(i*32, j*32));		// bei 1 wird ein Wandobjekt generiert
-					}
-					else if(lvlData[r][i][j] == 2){
-						creatureList.get(r).add(new Creature(i*32+5, j*32-5, 3, 1, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
-						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
-					}
-					else if(lvlData[r][i][j] == 3){
-						playerSpawnX	=	i*32-5;
-						playerSpawnY	=	j*32-5;
-						player	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1, 3);		// bei 3 wird ein Spielerobjekt generiert
-						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
-					}
-					else if(lvlData[r][i][j] == 5){
-						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
-						staticList.get(r).add(new TrapObject(i*32, j*32));		// bei 5 wird ein Fallenobjekt generiert
-					}
-					else if(lvlData[r][i][j] == 4){
-						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
-						teleportList.get(r).add(new Teleporter(i*32, j*32, 1, 2*32, 0*32));
-					}
-					else if(lvlData[r][i][j] == 6){
-						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
-						staticList.get(r).add(new GoalObject(i*32, j*32));		// bei 6 wird ein Zielobjekt generiert
-					}
-					else if(lvlData[r][i][j] == 7){
-						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
-						staticList.get(r).add(new PotionObject(i*32, j*32)); 	// bei 7 wird ein Potionobjekt generiert
-					}
-					else if(lvlData[r][i][j] == 8){
-						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
-						staticList.get(r).add(new MPotionObject(i*32, j*32)); 	// bei 8 wird ein Manapotionobject generiert
-					}
-					else if(lvlData[r][i][j] == 9){
-						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
-						staticList.get(r).add(new TreasureObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
-					}
-					else if(lvlData[r][i][j] == 10){
-						creatureList.get(r).add(new Shopkeeper(32*i, 32*j, 3, 1, 0, 100, 0));
-					}
+				//Creature
+				}else if(tempParameterList.get(0) == 2){
+					creatureList.get(room).add(new Creature(xPos+5, yPos-5, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5)));		// bei 2 wird ein Monsterobjekt generiert
+				}else if(tempParameterList.get(0) == 3){
+					player	=	new Player(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));		
+				}else if(tempParameterList.get(0) == 4){
+					teleportList.get(room).add(new Teleporter(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));		
+				}else if(tempParameterList.get(0) == 5){
+					staticList.get(room).add(new TrapObject(xPos, yPos));		
+				}else if(tempParameterList.get(0) == 6){
+					staticList.get(room).add(new GoalObject(xPos, yPos));		
+				}else if(tempParameterList.get(0) == 7){
+					staticList.get(room).add(new PotionObject(xPos, yPos));		
+				}else if(tempParameterList.get(0) == 8){
+					staticList.get(room).add(new MPotionObject(xPos, yPos));		
+				}else if(tempParameterList.get(0) == 9){
+					staticList.get(room).add(new TreasureObject(xPos, yPos));		
+				}else if(tempParameterList.get(0) == 10){
+					staticList.get(room).add(new Shopkeeper(xPos, yPos, 3, 1, 0, 100, 0));	//im Editor noch nicht implementiert	
 				}
 			}
+			
 		}
-		
 		// GameEventListener hinzufuegen fuer Lebendige Objekte
 		for(int i=0; i<creatureList.size(); i++)
 			for(LivingObject l : creatureList.get(i))

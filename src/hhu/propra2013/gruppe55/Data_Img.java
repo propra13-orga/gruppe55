@@ -12,7 +12,7 @@ public class Data_Img {
 	
 // Spieler
 	// Standartansichten
-	static Image player_f = genImg("player/front.png");		// der Spieler von vorne
+	public static Image player_f = genImg("player/front.png");		// der Spieler von vorne
 	static Image player_l = genImg("player/left.png");		// der Spieler von links
 	static Image player_r = genImg("player/right.png");		// der Spieler von rechts
 	static Image player_b = genImg("player/back.png");		// der Spieler von hinten
@@ -23,7 +23,7 @@ public class Data_Img {
 	static Image player_r_atk = genImg("player/right_atk.png");		// Angriff, rechts
 	static Image player_b_atk = genImg("player/back_atk.png");		// Angriff, hinten
 // Monster
-	static Image creature = genImg("creature.png");	// Standart-Kreatur
+	public static Image creature = genImg("creature.png");	// Standart-Kreatur
 // Npc's
 	// Shopkeeper
 	static Image shopkeeper = genImg("Npc/shopkeeper.png");
@@ -32,16 +32,16 @@ public class Data_Img {
 	static Image gameover = genImg("gameover.png");	// Game Over
 	static Image bks = genImg("bks.png");			// Hintergrund
 	// Umgebung des Levels
-	static Image wall = genImg("wall.png");			// Wand
+	public static Image wall = genImg("wall.png");			// Wand
 	static Image grass = genImg("grass.png");		//Grass
-	static Image goal = genImg("goal.png");			// Zielobjekt
+	public static Image goal = genImg("goal.png");			// Zielobjekt
 	// Nutzbare Items
-	static Image potion = genImg("potion.png");		// Trank
+	public static Image potion = genImg("potion.png");		// Trank
 	static Image potionused = genImg("potionused.png");	// (Platzhalter)
-	static Image mpotion = genImg("mpotion.png");		// Manatrank
-	static Image treasure = genImg("treasure.png");		// Schaetze 
+	public static Image mpotion = genImg("mpotion.png");		// Manatrank
+	public static Image treasure = genImg("treasure.png");		// Schaetze 
 	// Fallen
-	static Image trap = genImg("trap.png");			// Speerfalle
+	public static Image trap = genImg("trap.png");			// Speerfalle
 	static Image trapact = genImg("trapActivated.png");	// aktivierte Speerfalle
 	// Interface
 	static Image hud = genImg("HUD.png");			// HUD

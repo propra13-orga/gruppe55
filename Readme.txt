@@ -19,6 +19,18 @@ Known Issues:
 
 Changelog:
 
+09.06.13 - Sami Salem
+Neuer Leveleditor im package leveleditor2
+ Features:
+  - schreibt/liest das Level mit Unterräume im json-Format in/aus eine Datei.
+  - Räume können hinzugefügt bzw. entfernt werden.
+  - Größe von Räume kann immer geändert werden.  
+  - Objekte(Wall,Player,Creature) kann man jetzt Parameter zuweisen
+
+zum kompilieren müssen die jackson*.jar Dateien zum Buildpath hinzugefügt werden!
+in TestLevel.java kann man durch die Variable jsonParser = true/false festlegen wie geparst wird
+ 
+
 08.06.13 - van Meegen - Update
 
 Die Npcs haben nun eine zweite größere Hitbox fuer die Interaktionen und eine kleine "wirkliche" Hitbox die ihrem Image entspricht.
