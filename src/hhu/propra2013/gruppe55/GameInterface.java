@@ -102,11 +102,12 @@ class HUD {
 				i -= 2;
 				posX += 30;
 			}
-			else if(i > 1){
+			else if(i > 0){
 				g2d.drawImage(Data_Img.hud_Tear_HP_Empty, posX+fullScreenOffset, 15, null);
 				i -= 2;
 				posX += 30;
 			}
+			System.out.println("i: " + i + " - v: " + value);
 		}
 		
 		posX = 10;
