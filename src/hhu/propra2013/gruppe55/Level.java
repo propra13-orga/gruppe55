@@ -17,7 +17,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	
 	// Levelobjekte
 	private Player player;				// Spielerobjekt
-	private GameInterface iFace;					//GameInterface
+	private GameInterface iFace;		//GameInterface
 	private int room;					// pointer to current room
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
 	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Waende/Gegenstaende/etc
@@ -209,11 +209,11 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 					}
 					//Creature
 					else if(tempParameterList.get(0) == 2){
-						creatureList.get(r).add(new Creature(xPos+5, yPos-5, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5)));    // bei 2 wird ein Monsterobjekt generiert
+						creatureList.get(r).add(new Creature(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5)));    // bei 2 wird ein Monsterobjekt generiert
 					}else if(tempParameterList.get(0) == 3){
 						playerSpawnX = xPos;
 						playerSpawnY = yPos;
-						player  =  new Player(playerSpawnX-5, playerSpawnY-5, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));    
+						player  =  new Player(playerSpawnX, playerSpawnY, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));    
 					}else if(tempParameterList.get(0) == 4){
 						teleportList.get(r).add(new Teleporter(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));    
 					}else if(tempParameterList.get(0) == 5){
