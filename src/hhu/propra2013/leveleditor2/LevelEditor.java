@@ -396,8 +396,7 @@ public class LevelEditor extends JFrame implements ActionListener
 					mapWindow.levelDataObj = levelReader.getLevelData();
 					//Room Combobox neu füllen
 					comboBoxModel.removeAllElements();
-					int roomNumber = mapWindow.levelDataObj.getlevelRoomParameter(mapWindow.currentRoomIndex).size();
-					for(int i=0; i<roomNumber; i++){
+					for(int i=0; i<mapWindow.levelDataObj.totalRooms(); i++){
 						String tempStr = "Room : " + String.valueOf(i+1);
 						comboBoxModel.addElement(tempStr);
 					}
