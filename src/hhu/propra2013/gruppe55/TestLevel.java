@@ -16,6 +16,7 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 	private int room;					// pointer to current room
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
 	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Waende/Gegenstaende/etc
+	private ArrayList<Projectile> projectileList;			// liste der Projektile (Pfeile, Feuerbaelle, etc)
 	private ArrayList<ArrayList<Teleporter>> teleportList;		// Liste aller Teleporter 
 	// Timer fuer die Aktionen
 	private Timer timer;
@@ -75,6 +76,7 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 		staticList		=	new ArrayList<ArrayList<DungeonObject>>(0);
 		creatureList	=	new ArrayList<ArrayList<LivingObject>>(0);
 		teleportList	=	new ArrayList<ArrayList<Teleporter>>(0);
+		projectileList	=	new ArrayList<Projectile>(0);
 		
 		//0: Background		
 		//1: Wall
@@ -152,6 +154,8 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 		for(int i=0; i<staticList.size(); i++)
 			for(DungeonObject l : staticList.get(i))
 				l.addGameListener(this);
+		// ... und den Spieler
+		player.addGameListener(this);
 
 		//Konstruiere Interface
 		iFace = new GameInterface(this);
@@ -194,20 +198,32 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 				player.teleport(portData[1], portData[2]);
 				// Raumzeiger umsetzen
 				room	=	portData[0];
+				// Projektile loeschen
+				//projectileList.clear();
 				// Schleife beenden
 				break;
 			}
-				
 		
 		// staticlist für den Spieler und das Monster ueberpruefen (erst Spieler -> Monster dann Monster -> Spieler)
 		for(int i=0; i<staticList.get(room).size(); i++){
-			//  ueberpruefe static mit Spieler
-			if(staticList.get(room).get(i).getBorder().intersects(player.getBorder())){
+			// ueberpruefe static mit Spieler
+			if(staticList.get(room).get(i).getBorder().intersects(player.getBorder()))
 				staticList.get(room).get(i).onCollision(player);
-			}
-			//nun ueberpruefe Wand und Monster sowie Monster und Spieler
+			// nun ueberpruefe Wand und Monster sowie Monster und Spieler
 			for(int j=0; j<creatureList.get(room).size(); j++){
-				// zuerst Wand -> Monster
+				/*// Projektile fliegen durch die Gegend
+				for(int k=0; k<projectileList.size();k++){
+					// Monster treffen
+					if(projectileList.get(k).getBorder().intersects(creatureList.get(room).get(j).getBorder()))
+						projectileList.get(k).onCollision(creatureList.get(room).get(j));
+					// sonst Waende treffen
+					else if(projectileList.get(k).getBorder().intersects(staticList.get(room).get(i).getBorder()))
+						projectileList.get(k).onCollision(staticList.get(room).get(i));
+					// sonst evtl den Spieler
+					else if(projectileList.get(k).getBorder().intersects(player.getBorder()))
+						projectileList.get(k).onCollision(player);
+				}*/
+				// dann Wand -> Monster
 				if(staticList.get(room).get(i).getBorder().intersects(creatureList.get(room).get(j).getBorder()))
 					staticList.get(room).get(i).onCollision(creatureList.get(room).get(j));
 				// dann Monster -> Spieler
@@ -217,6 +233,8 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 			}
 		}
 		
+		// TODO: Projektilkollisionen in eigenem Thread. Ansonsten gehts zu sehr auf die Leistung..
+		
 		// Spielerangriff
 		if(player.getAttackState() && player.getWeapSet() == 0)
 			for(int i=0; i<creatureList.get(room).size(); i++){
@@ -225,7 +243,8 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 					player.dealDamage(creatureList.get(room).get(i));
 				}
 			}
-		}
+	}
+		
 	
 	//Methode um das Level neu zu laden und das Spiel von vorne zu beginnen
 	public void reload(){
@@ -239,6 +258,8 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 			for(int i=0; i<staticList.get(room).size(); i++)
 				staticList.get(room).get(i).switchState(0);
 		}
+		// Projektile loeschen
+		projectileList.clear();
 		// Endebedingungen auf false setzen
 		lose	=	false;
 		clear = false;
@@ -261,6 +282,9 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 		// Monster zeichnen
 		for(int i=0; i<creatureList.get(room).size(); i++)
 			creatureList.get(room).get(i).draw(g2d);
+		// projektile
+		for(int i=0; i<projectileList.size(); i++)
+			projectileList.get(i).draw(g2d);
 		
 		// Spieler zeichnen
 		player.draw(g2d);
@@ -298,6 +322,9 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 			// kreaturenbewegung
 			for(int i=0; i<creatureList.get(room).size(); i++)
 				creatureList.get(room).get(i).move();
+			// projektile
+			for(int i=0; i<projectileList.size(); i++)
+				projectileList.get(i).move();
 			
 			// Kollisionsabfrage
 			collisionCheck();
@@ -340,6 +367,10 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 	public void levelCleared(){
 		clear=true;
 	}
+	@Override
+	public void shootProjectile(Projectile p){
+		projectileList.add(p);
+	}
 	
 // KEY LISTENER UNIT
 	/*
@@ -354,8 +385,10 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 			// Bewegungsbefehle an Spieler weiter leiten
 			if(!lose && !clear && (k == KeyEvent.VK_UP || k == KeyEvent.VK_DOWN || k == KeyEvent.VK_LEFT || k == KeyEvent.VK_RIGHT))
 				player.keyPressed(e);
+			else if(k	==	KeyEvent.VK_X)
+				player.swapWeapons();
 			// Enter-Taste abfragen
-			if(k == KeyEvent.VK_ENTER)
+			else if(k == KeyEvent.VK_ENTER){
 				// Option: Bei Sieg oder Niederlage -> zurueck zum Menue
 				if(lose || clear){
 					gw.dispose();
@@ -366,8 +399,9 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 				else if(dialog){
 					iFace.next();
 				}
+			}
 			// Space-Taste abfragen
-			if(k == KeyEvent.VK_SPACE)
+			else if(k == KeyEvent.VK_SPACE)
 				// Option: Bei Sieg oder Niederlage -> erneut beginnen
 				if(lose || clear){
 					reload();

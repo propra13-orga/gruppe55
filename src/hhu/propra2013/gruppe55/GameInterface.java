@@ -144,10 +144,10 @@ class HUD {
 			g2d.drawImage(Data_Img.hud_selector, 445+fullScreenOffset, 59, null);
 		}
 		else if(p.getWeapSet() == 1){
-			g2d.drawImage(Data_Img.hud_selector, 551+fullScreenOffset, -51, null);
+			g2d.drawImage(Data_Img.hud_selector, 551+fullScreenOffset, 59, null);
 		}
 		else if(p.getWeapSet() == 2){
-			g2d.drawImage(Data_Img.hud_selector, 658+fullScreenOffset, -51, null);
+			g2d.drawImage(Data_Img.hud_selector, 658+fullScreenOffset, 59, null);
 		}
 		
 		// Lives zeichnen
@@ -155,7 +155,7 @@ class HUD {
 		g2d.drawString("x " + p.getLives(), 850+fullScreenOffset, 44);
 		// Pfeile zeichnen
 		g2d.drawImage(Data_Img.arrow_f, 900+fullScreenOffset, 24, null);
-		g2d.drawString("x 0", 920+fullScreenOffset, 44);
+		g2d.drawString("x "+p.getArrowsRemaining(), 920+fullScreenOffset, 44);
 		// Tränke zeichnen
 		g2d.drawImage(Data_Img.potion, 820+fullScreenOffset, 54, null);
 		g2d.drawString("x 0", 850+fullScreenOffset, 84);

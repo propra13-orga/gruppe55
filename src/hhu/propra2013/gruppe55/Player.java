@@ -15,6 +15,7 @@ public class Player extends LivingObject {
 	private int[][][] handOffsets	=	new int[4][2][4];	// Offsets fuer die Positionen der Spielerhaende
 	// Besitztuemer des Spielers
 	private int gold	=	0;			// Vermoegen
+	private int arrows	=	15;			// Pfeile des Spielers
 	private int lives;					// Spielerleben
 	
 	// Konstruktor
@@ -45,8 +46,9 @@ public class Player extends LivingObject {
 		
 		// Waffen initialisieren
 		weapons[0]	=	new Weapon();	// Haupthand
-		weapons[1]	=	null;	// Nebenhand
-		weapons[2]	=	null;	// Fernkampfwaffe
+		weapons[1]	=	new Weapon();	// Nebenhand
+		weapons[2]	=	new Weapon();	// Fernkampfwaffe
+		// drei Schwerter, Rorona Zorro, is that you?
 		
 		// Schadenswerte uebernehmen
     	minDmg	=	weapons[0].getMinDmg();
@@ -92,7 +94,7 @@ public class Player extends LivingObject {
 		handOffsets[2][1][3]	=	18;	// Y-Offset der Nebenhand
     	// hinten
 		handOffsets[3][1][0]	=	18;	// X-Offset der Haupthand
-		handOffsets[3][1][1]	=	14;	// Y-Offset der Haupthand
+		handOffsets[3][1][1]	=	15;	// Y-Offset der Haupthand
 		handOffsets[3][1][2]	=	4;	// X-Offset der Nebenhand
 		handOffsets[3][1][3]	=	20;	// Y-Offset der Nebenhand
 
@@ -110,13 +112,17 @@ public class Player extends LivingObject {
     	switchState(2);	
     	
     	// aktuelle Angriffswaffe
-    	final int aw	=	(currEquipped<=1) ? 0 : 2;
+    	final int aw	=	(currEquipped==0) ? 0 : 2;
     	
     	// Angriffstimer setzen!
     	new Thread(){
     		public void run(){
-    			// Mit der Waffe angreifen
+    			// Mit der Waffe angreifen (grafisch)
     			weapons[aw].attack();
+    			
+    			// Fernkampf? Schiessen!
+    			if(aw==2)
+    				shoot();
     			
     			// Sleep-Timer setzen
     			try {
@@ -137,7 +143,82 @@ public class Player extends LivingObject {
     				switchState(1);	// ansonsten normal
     		}
     	}.start();
-    } 
+    }
+    
+    // Methode zum Pfeile Schießen
+    public void shoot(){
+    	// genug Pfeile?
+    	if(arrows<=0)	return;
+    	
+    	// Position bestimmen
+    	int x	=	this.x;
+    	int y	=	this.y;
+    	// je nach Richtung
+    	switch(direction){
+    	case	1:	// nach links
+    		y+=state[currState].getImg().getHeight(null)/2;	// vertikal zentrieren
+    		break;
+    	case	2:	// nach rechts
+    		x+=state[currState].getImg().getWidth(null);	// auch wirklich rechts vom spieler
+    		y+=state[currState].getImg().getHeight(null)/2;	// vertikal zentrieren
+    		break;
+    	case	3:	// nach oben
+    		x+=state[currState].getImg().getWidth(null)/2;	// horizontal zentrieren
+    		break;
+    	case	0:	// nach unten
+    	default:
+    		x+=state[currState].getImg().getWidth(null)/2;	// vertikal zentrieren
+    		y+=state[currState].getImg().getHeight(null);
+    		break;
+    	}
+    	
+    	// Event (und damit den Pfeil) feuern!
+    	for(GameEventListener gel : evtList){
+    		// Winkel berechnen
+    		/*
+    		 * 2->0
+    		 * 3->90
+    		 * 1->180
+    		 * 0->270
+    		 */
+    		int angle;
+    		if(direction==2)
+    			angle	=	0;
+    		else if(direction==1)
+    			angle	=	180;
+    		else if(direction==3)
+    			angle	=	270;
+    		else
+    			angle	=	90;
+    		
+			gel.shootProjectile(new Projectile(x,y,angle, atk+weapons[2].getMaxDmg()));
+		}
+    	
+    	// Pfeil abziehen
+    	arrows--;
+    }
+    
+    // Waffenset wechseln
+    public void swapWeapons(){
+    	// Gibt es eine Waffe, auf die gewechselt wird?
+    	switch(currEquipped){
+    	case	0:	// keine Fernkampfwaffe
+    		currEquipped	=	1;
+    		if(weapons[2]==null)
+    			return;
+    		break;
+    	case	1:	// keine Nahkampfwaffen
+    	default:
+    		currEquipped	=	0;
+    		if(weapons[0]==null && weapons[1]==null)
+    			return;
+    		break;
+    	}
+    	
+    	// Schadenswerte uebernehmen
+    	minDmg	=	weapons[2*currEquipped].getMinDmg();
+    	maxDmg	=	weapons[2*currEquipped].getMaxDmg();
+    }
     
     // Methode um den Spieler an eine bestimmte Stelle zu teleportieren
     public void teleport(int x, int y){
@@ -161,11 +242,11 @@ public class Player extends LivingObject {
     	if(weapons[1]!=null) weapons[1].changeDirection(direction);
     	if(weapons[2]!=null) weapons[2].changeDirection(direction);
     	// Nebenhand hinter Spieler zeichnen bei rechts und hinten
-    	if(direction>=2 && weapons[currEquipped+1]!=null){	
+    	if(direction>=2 && weapons[currEquipped+1]!=null){
     		weapons[currEquipped+1].draw(g2d, x+handOffsets[direction][currState-1][2],y+handOffsets[direction][currState-1][3]);
     	}
     	// Haupthand hinter den Spieler zeichnen bei links und hinten
-    	else if((direction==3 || direction == 1) && currEquipped==0 && weapons[0]!=null){	
+    	if((direction==3 || direction == 1) && currEquipped==0 && weapons[0]!=null){	
     		weapons[0].draw(g2d, x+handOffsets[direction][currState-1][0], y+handOffsets[direction][currState-1][1]);
     	}
     	// Spieler zeichnen
@@ -178,14 +259,6 @@ public class Player extends LivingObject {
     	if((direction==0 || direction==1) && weapons[currEquipped+1]!=null){
     		weapons[currEquipped+1].draw(g2d, x+handOffsets[direction][currState-1][2],y+handOffsets[direction][currState-1][3]);
     	}
-    	
-    	/*// Waffe(n) zeichnen
-    	for(int i=0; i<2-currEquipped; i++){ // 2 Durchläufe bei Nahkampf, einer bei Fernkampf
-	    	// Waffe angelegt?
-	    	if(!(weapons[currEquipped+i]==null))
-	    		// Wenn ja, Waffe zeichnen!
-	    		weapons[currEquipped+i].draw(g2d, x+handOffsets[direction][currState-1+i][0],y+handOffsets[direction][currState-1+i][1]);
-        }*/
     }
     
     // Methode um den Spieler "wiederzubeleben"
@@ -226,27 +299,9 @@ public class Player extends LivingObject {
     	return(lives);
     }
     
-    // Waffenset wechseln
-    public void swapWeapons(){
-    	// Gibt es eine Waffe, auf die gewechselt wird?
-    	switch(currEquipped){
-    	case	0:	// keine Fernkampfwaffe
-    		if(weapons[2]==null)
-    			return;
-    		break;
-    	case	1:	// keine Nahkampfwaffen
-    	default:
-    		if(weapons[0]==null && weapons[1]==null)
-    			return;
-    		break;
-    	}
-    	
-    	// Zeiger umlenken
-    	currEquipped	=	(currEquipped+1)%2;		// Aus 1 wird 0, aus 0 wird 1
-    	
-    	// Schadenswerte uebernehmen
-    	minDmg	=	weapons[currEquipped].getMinDmg();
-    	maxDmg	=	weapons[currEquipped].getMaxDmg();
+    // Anzahl der Pfeile auslesen
+    public int getArrowsRemaining(){
+    	return arrows;
     }
     
     // Methoden fuer die X und Y-Koordinaten

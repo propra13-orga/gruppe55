@@ -73,7 +73,10 @@ public class Data_Img {
 	static Image basicshield_f = genImg("weapons/basicshield/front.png"); // Frontsansicht
 	static Image basicshield_b = genImg("weapons/basicshield/front.png"); // Ruecksansicht
 	// Projektile
-	static Image arrow_f = genImg("weapons/basicbow/arrow_front.png");	//Pfeil front
+	static Image arrow_f = genImg("weapons/projectiles/arrow_front.png");	//Pfeil front
+	static Image arrow_l = genImg("weapons/projectiles/arrow_left.png");	//Pfeil links
+	static Image arrow_r = genImg("weapons/projectiles/arrow_right.png");	//Pfeil rechts
+	static Image arrow_b = genImg("weapons/projectiles/arrow_back.png");	//Pfeil hinten
 	
 	// Methode zum Bilder generieren (nicht nötig, spart aber Tipparbeit oben)
 	private static Image genImg(String image){
