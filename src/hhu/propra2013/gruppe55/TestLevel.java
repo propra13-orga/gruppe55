@@ -209,7 +209,9 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 				}else if(tempParameterList.get(0) == 2){
 					creatureList.get(room).add(new Creature(xPos+5, yPos-5, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5)));		// bei 2 wird ein Monsterobjekt generiert
 				}else if(tempParameterList.get(0) == 3){
-					player	=	new Player(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));		
+					playerSpawnX = xPos;
+					playerSpawnY = yPos;
+					player	=	new Player(playerSpawnX-5, playerSpawnY-5, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));		
 				}else if(tempParameterList.get(0) == 4){
 					teleportList.get(room).add(new Teleporter(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));		
 				}else if(tempParameterList.get(0) == 5){
@@ -223,7 +225,7 @@ public class TestLevel extends JPanel implements ActionListener, GameEventListen
 				}else if(tempParameterList.get(0) == 9){
 					staticList.get(room).add(new TreasureObject(xPos, yPos));		
 				}else if(tempParameterList.get(0) == 10){
-					staticList.get(room).add(new Shopkeeper(xPos, yPos, 3, 1, 0, 100, 0));	//im Editor noch nicht implementiert	
+					creatureList.get(room).add(new Shopkeeper(xPos, yPos, 3, 1, 0, 100, 0));	//im Editor noch nicht implementiert	
 				}
 			}
 		}
