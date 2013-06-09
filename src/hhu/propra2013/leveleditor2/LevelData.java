@@ -100,5 +100,9 @@ public class LevelData {
 		}
 		
 	}
+	
+	public int totalRooms(){
+		return levelRooms.size();
+	}
 
 }
