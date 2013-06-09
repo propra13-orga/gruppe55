@@ -7,8 +7,8 @@ public class Creature extends LivingObject {
 // Attribute der Monster
     // Deklaration der Koordinaten 
     protected int sx, sy;			// Erscheinungskoordinaten
-    protected int moveAreaX	=	180;		// maximale vertikale Bewegung nach rechts
-    protected int moveAreaY	=	120;		// ... und nach oben
+    protected int moveAreaX	=	5*32;		// maximale vertikale Bewegung nach rechts
+    protected int moveAreaY	=	3*32;		// ... und nach oben
     	
 // Konstruktor
     public Creature(int spawnX, int spawnY, int h, int angr, int vert, int ausd, int man) {
