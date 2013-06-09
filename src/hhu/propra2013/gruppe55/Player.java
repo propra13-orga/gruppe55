@@ -46,9 +46,9 @@ public class Player extends LivingObject {
 		
 		// Waffen initialisieren
 		weapons[0]	=	new Weapon();	// Haupthand
-		weapons[1]	=	new Weapon();	// Nebenhand
-		weapons[2]	=	new Weapon();	// Fernkampfwaffe
-		// drei Schwerter, Rorona Zorro, is that you?
+		weapons[1]	=	new SimpleShield();	// Nebenhand
+		weapons[2]	=	new SimpleBow();	// Fernkampfwaffe
+		// drei Schwerter, Rorona Zorro, is that you? (Ist es nicht RoroNOA Zorro, jannik? :3)
 		
 		// Schadenswerte uebernehmen
     	minDmg	=	weapons[0].getMinDmg();

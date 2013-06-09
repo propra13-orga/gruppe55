@@ -21,6 +21,25 @@ Known Issues:
 
 Changelog:
 
+09.06.13 - van Meegen
+
+/src:
+Testlevel:
+	- Der Aufruf der Level über den Jsonparser wird duch private boolean jsonParser = true; getogglet (false = altes Parsersystem). Per Default erstmal auf false gesetzt, bis alle Bugs beseitigt sind.
+SimpleBow:
+	- Klasse fuer den Bogen hinzugefuegt und Offsets eingerichtet
+SimpleShield:
+	- Klasse fuer das Schild hinzugefuegt und Offsets eingerichtet
+GameInterface:
+	- Hp fix fuer den Jsonparser
+Data_Img:
+	- Pfad fuer ein weiteres Bogenbild
+Player:
+	- Waffenaufruf geaendert (aber so nicht odeR?)
+/img:
+	- Bogen "back.png" erstellt
+
+
 <<<<<<< HEAD
 09.06.13 - Sami Salem
 Neuer Leveleditor im package leveleditor2
