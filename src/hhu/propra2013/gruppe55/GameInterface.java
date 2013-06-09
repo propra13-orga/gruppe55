@@ -1,20 +1,23 @@
 package hhu.propra2013.gruppe55;
 
 import java.awt.*;
+import java.awt.event.KeyEvent;
 
 public class GameInterface {
 	
-	private Font font;				//TextFont
+	private Font fontDialog, fontShop;				//TextFont
 	private FontMetrics fMetr;		//FontMetrics für Graphics2D
 	private HUD hud;				//HUD
-	private TestLevel currLvl;		//Aktuelles Level
+	private Level currLvl;		//Aktuelles Level
 	private String[] currDialog;	//Anzuzeigender Dialog
 	private int dialogCounter;		//Anzuzeigende Dialogzeile
+	private int selectedObject;		// Ausgewähltes Shopobjekt
 
 
 	//Interface-Konstruktor
-	public GameInterface(TestLevel t){
-		font = new Font("Viner Hand ITC", Font.BOLD, 20);	//Font setzen
+	public GameInterface(Level t){
+		fontDialog = new Font("Viner Hand ITC", Font.BOLD, 20);	//FontDialog setzen
+		fontShop = new Font("Viner Hand ITC", Font.BOLD, 15);	//FontDialog setzen
 		currLvl = t;										//Level uebergeben
 		hud = new HUD();									//HUD konstruieren
 	}
@@ -25,11 +28,42 @@ public class GameInterface {
 		
 		//Wenn Dialog angezeigt werden soll, diesen zeichnen
 		if(currLvl.getDialog()){
-			g2d.setFont(font);					//Graphics2D Font setzen
-			fMetr = g2d.getFontMetrics(font);	//FontMetrics erzeugen
-			
-			g2d.drawImage(Data_Img.dialogBox, (currLvl.getWidth()/2)-250, currLvl.getHeight()-80, null);	//DialogBox zeichnen
-			g2d.drawString(currDialog[dialogCounter], (currLvl.getWidth()/2)-(fMetr.stringWidth(currDialog[dialogCounter])/2), (currLvl.getHeight()-40));	//Dialogzeile zeichnen
+			// Dialoge zeichnen
+			if(currLvl.getOpenedInterface() == 1 || currLvl.getOpenedInterface() == 3){
+				g2d.setFont(fontDialog);					//Graphics2D Font setzen
+				fMetr = g2d.getFontMetrics(fontDialog);	//FontMetrics erzeugen
+				g2d.drawImage(Data_Img.dialogBox, (currLvl.getWidth()/2)-250, currLvl.getHeight()-80, null);	//DialogBox zeichnen
+				g2d.drawString(currDialog[dialogCounter], (currLvl.getWidth()/2)-(fMetr.stringWidth(currDialog[dialogCounter])/2), (currLvl.getHeight()-40));	//Dialogzeile zeichnen
+			}
+			// Shop zeichnen
+			if(currLvl.getOpenedInterface() == 2 || currLvl.getOpenedInterface() == 3){
+				g2d.setFont(fontShop);					//Graphics2D Font setzen
+				fMetr = g2d.getFontMetrics(fontShop);	//FontMetrics erzeugen
+				g2d.drawImage(Data_Img.shop, (currLvl.getWidth()/2)-128, currLvl.getHeight()/2-64, null);	//DialogBox zeichnen
+				g2d.drawImage(Data_Img.potion, (currLvl.getWidth()/2)-100, currLvl.getHeight()/2-30, null);	//DialogBox zeichnen
+				g2d.drawImage(Data_Img.mpotion, (currLvl.getWidth()/2)-100, currLvl.getHeight()/2-3, null);	//DialogBox zeichnen
+				g2d.drawImage(Data_Img.arrow_f, (currLvl.getWidth()/2)-87, currLvl.getHeight()/2+37, null);	//DialogBox zeichnen
+				g2d.drawString("x1", (currLvl.getWidth()/2-60)-(fMetr.stringWidth("x1")/2), currLvl.getHeight()/2);	//Dialogzeile zeichnen
+				g2d.drawString("x1", (currLvl.getWidth()/2-60)-(fMetr.stringWidth("x1")/2), currLvl.getHeight()/2+27);	//Dialogzeile zeichnen
+				g2d.drawString("x10", (currLvl.getWidth()/2-57)-(fMetr.stringWidth("x10")/2), currLvl.getHeight()/2+50);	//Dialogzeile zeichnen
+				g2d.drawString("10", (currLvl.getWidth()/2-20)-(fMetr.stringWidth("10")/2), currLvl.getHeight()/2);	//Dialogzeile zeichnen
+				g2d.drawString("10", (currLvl.getWidth()/2-20)-(fMetr.stringWidth("10")/2), currLvl.getHeight()/2+27);	//Dialogzeile zeichnen
+				g2d.drawString("10", (currLvl.getWidth()/2-20)-(fMetr.stringWidth("10")/2), currLvl.getHeight()/2+50);	//Dialogzeile zeichnen
+				g2d.drawImage(Data_Img.currency, (currLvl.getWidth()/2-10), currLvl.getHeight()/2-10, null);	//DialogBox zeichnen
+				g2d.drawImage(Data_Img.currency, (currLvl.getWidth()/2-10), currLvl.getHeight()/2+17, null);	//DialogBox zeichnen
+				g2d.drawImage(Data_Img.currency, (currLvl.getWidth()/2-10), currLvl.getHeight()/2+40, null);	//DialogBox zeichnen
+				switch(selectedObject){
+					case 0:
+						g2d.drawImage(Data_Img.shopArrow, (currLvl.getWidth()/2)-115, currLvl.getHeight()/2-15, null);	//DialogBox zeichnen
+						break;
+					case 1:
+						g2d.drawImage(Data_Img.shopArrow, (currLvl.getWidth()/2)-115, currLvl.getHeight()/2+12, null);	//DialogBox zeichnen
+						break;
+					case 2:
+						g2d.drawImage(Data_Img.shopArrow, (currLvl.getWidth()/2)-115, currLvl.getHeight()/2+35, null);	//DialogBox zeichnen
+						break;
+				}
+			}
 		}
 	}
 	
@@ -43,20 +77,99 @@ public class GameInterface {
 	public void setDialog(String str){
 		currDialog = new String[1];
 		currDialog[0] = str;
-		dialogCounter = -1;
+		dialogCounter = 0;
 	}
 	
 	//Nächste Dialogzeile anzeigen, wenn letzte Zeile ausgewählt, Dialog beenden
 	public void next(){
 		if(dialogCounter == currDialog.length-1){
-			currLvl.toggleFreeze();
-			currLvl.setDialog(false);
-			currDialog = null;
-			dialogCounter = 0;
+			if(currLvl.getOpenedInterface() == 1){
+				currLvl.toggleFreeze();
+				currLvl.setDialog(false);
+				currLvl.setOpenedInterface(0);
+				currDialog = null;
+				dialogCounter = 0;
+			}
+			else if(currLvl.getOpenedInterface() == 3){
+				currLvl.setOpenedInterface(2);
+				currDialog = null;
+				dialogCounter = 0;
+			}
 		}
 		else{
 			dialogCounter++;
 		}
+	}
+	
+	// Keyboard-Events im Interface
+	public void buttonAction(int k, Player p){
+		if(currLvl.getOpenedInterface() == 1){
+			if(k == KeyEvent.VK_ENTER){
+				next();
+			}
+		}
+		else if(currLvl.getOpenedInterface() == 2){
+			if(k == KeyEvent.VK_DOWN){
+				if(selectedObject <2){
+					selectedObject++;
+				}
+				else if(selectedObject == 2){
+					selectedObject = 0;
+				}
+			}
+			else if(k == KeyEvent.VK_UP){
+				if(selectedObject >0){
+					selectedObject--;
+				}
+				else if(selectedObject == 0){
+					selectedObject = 2;
+				}
+			}
+			else if(k == KeyEvent.VK_ENTER){
+				switch(selectedObject){
+					case 0:
+						if(p.getStatInventoryObjectCount(1) >= 10){
+							p.giveStatInventoryObject(2, 1);
+							p.giveStatInventoryObject(1, -10);
+						}
+						else{
+							setDialog("Du hast nicht genug Gold");
+							currLvl.setOpenedInterface(3);
+						}
+						break;
+					case 1:
+						if(p.getStatInventoryObjectCount(1) >= 10){
+							p.giveStatInventoryObject(3, 1);
+							p.giveStatInventoryObject(1, -10);
+						}
+						else{
+							setDialog("Du hast nicht genug Gold");
+							currLvl.setOpenedInterface(3);
+						}
+						break;
+					case 2:
+						if(p.getStatInventoryObjectCount(1) >= 10){
+							p.giveStatInventoryObject(4, 10);
+							p.giveStatInventoryObject(1, -10);
+						}
+						else{
+							setDialog("Du hast nicht genug Gold");
+							currLvl.setOpenedInterface(3);
+						}
+						break;
+				}
+			}
+		}
+		else if(currLvl.getOpenedInterface() == 3){
+			if(k == KeyEvent.VK_ENTER){
+				next();
+			}
+		}
+	}
+	
+	// Ausgewähltes Objekt ändern
+	public void setSelectedObject(int s){
+		selectedObject = s;
 	}
 }
 
@@ -82,7 +195,16 @@ class HUD {
 			fullScreenOffset = 0;
 		}
 		
-		g2d.drawImage(Data_Img.hud, 0+fullScreenOffset, 0, null);
+		// Draw HUD
+		if(p.getWeapSet() == 0){
+			g2d.drawImage(Data_Img.hud01, 0+fullScreenOffset, 0, null);
+		}
+		else if(p.getWeapSet() == 1){
+			g2d.drawImage(Data_Img.hud02, 0+fullScreenOffset, 0, null);
+		}
+		else if(p.getWeapSet() == 2){
+			g2d.drawImage(Data_Img.hud03, 0+fullScreenOffset, 0, null);
+		}
 		
 		int posX = 10;
 		int value = p.getHP();
@@ -107,7 +229,6 @@ class HUD {
 				i -= 2;
 				posX += 30;
 			}
-			System.out.println("i: " + i + " - v: " + value);
 		}
 		
 		posX = 10;
@@ -138,30 +259,19 @@ class HUD {
 		g2d.setFont(font);
 		g2d.drawString("" + p.getHP() + "/" + p.getHPMax(), 315+fullScreenOffset, 44);
 		g2d.drawString("" + p.getMana() + "/" + p.getManaMax(), 315+fullScreenOffset, 81);
-		g2d.drawString("" + p.getMoney(), 745+fullScreenOffset, 75);
-		
-		// Draw Weapon-Set-Selector
-		if(p.getWeapSet() == 0){
-			g2d.drawImage(Data_Img.hud_selector, 445+fullScreenOffset, 59, null);
-		}
-		else if(p.getWeapSet() == 1){
-			g2d.drawImage(Data_Img.hud_selector, 551+fullScreenOffset, 59, null);
-		}
-		else if(p.getWeapSet() == 2){
-			g2d.drawImage(Data_Img.hud_selector, 658+fullScreenOffset, 59, null);
-		}
+		g2d.drawString("" + p.getStatInventoryObjectCount(1), 745+fullScreenOffset, 75);
 		
 		// Lives zeichnen
 		g2d.drawImage(Data_Img.player_f, 820+fullScreenOffset, 14, null);
-		g2d.drawString("x " + p.getLives(), 850+fullScreenOffset, 44);
+		g2d.drawString("x " + p.getStatInventoryObjectCount(0), 850+fullScreenOffset, 44);
 		// Pfeile zeichnen
 		g2d.drawImage(Data_Img.arrow_f, 900+fullScreenOffset, 24, null);
-		g2d.drawString("x "+p.getArrowsRemaining(), 920+fullScreenOffset, 44);
+		g2d.drawString("x "+p.getStatInventoryObjectCount(4), 920+fullScreenOffset, 44);
 		// Tränke zeichnen
 		g2d.drawImage(Data_Img.potion, 820+fullScreenOffset, 54, null);
-		g2d.drawString("x 0", 850+fullScreenOffset, 84);
+		g2d.drawString("x  " + p.getStatInventoryObjectCount(2), 850+fullScreenOffset, 84);
 		g2d.drawImage(Data_Img.mpotion, 890+fullScreenOffset, 54, null);
-		g2d.drawString("x 0", 920+fullScreenOffset, 84);
+		g2d.drawString("x  " + p.getStatInventoryObjectCount(3), 920+fullScreenOffset, 84);
 	}
 }
 

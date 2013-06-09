@@ -14,15 +14,22 @@ public class Player extends LivingObject {
 	private boolean attacking	=	false;		// Waehrend einer Attacke true
 	private int[][][] handOffsets	=	new int[4][2][4];	// Offsets fuer die Positionen der Spielerhaende
 	// Besitztuemer des Spielers
-	private int gold	=	0;			// Vermoegen
-	private int arrows	=	15;			// Pfeile des Spielers
-	private int lives;					// Spielerleben
+	private int[] statInventory;		//Inventar für statische Objekte (Gold, Tränke, Pfeile)
 	
 	// Konstruktor
     public Player(int spawnX, int spawnY, int h, int atk, int def, int energy, int mana, int l) {
 		super(spawnX, spawnY, h, atk, def, energy, mana);
 		
-		lives = l;
+		// statInventory Slots
+		// 0: Lives
+		// 1: Gold
+		// 2: HPPotion
+		// 3: MPPotion
+		// 4: Arrows
+		statInventory = new int[5];
+		statInventory[0] = 1;
+		statInventory[1] = statInventory[2] = statInventory[3] = 0;
+		statInventory[4] = 15;
 		
 		// States definieren
 		state[0].changeImg(Data_Img.dead);			// Aussehen bei Tod
@@ -148,7 +155,7 @@ public class Player extends LivingObject {
     // Methode zum Pfeile Schießen
     public void shoot(){
     	// genug Pfeile?
-    	if(arrows<=0)	return;
+    	if(statInventory[4]<=0)	return;
     	
     	// Position bestimmen
     	int x	=	this.x;
@@ -195,7 +202,7 @@ public class Player extends LivingObject {
 		}
     	
     	// Pfeil abziehen
-    	arrows--;
+    	statInventory[4]--;
     }
     
     // Waffenset wechseln
@@ -280,28 +287,18 @@ public class Player extends LivingObject {
     	return atk;
     }
     // Player Gold hinzufügen
-    public void giveMoney(int m){
-    	gold+=m;
+    public void giveStatInventoryObject(int o, int a){
+    	statInventory[o]+=a;
     }
     
     // Player Geld abfragen
-    public int getMoney(){
-    	return(gold);
+    public int getStatInventoryObjectCount(int o){
+    	return(statInventory[o]);
     }
     
     // Abfrage des aktuellen Waffensets
     public int getWeapSet(){
     	return currEquipped;
-    }
-    
-    // Abfrage des Spielerleben
-    public int getLives(){
-    	return(lives);
-    }
-    
-    // Anzahl der Pfeile auslesen
-    public int getArrowsRemaining(){
-    	return arrows;
     }
     
     // Methoden fuer die X und Y-Koordinaten

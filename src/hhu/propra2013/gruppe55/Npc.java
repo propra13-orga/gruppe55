@@ -28,7 +28,7 @@ public class Npc extends LivingObject {
 				// solange Kollision wird das Objekt zurückgeschoben
 				((LivingObject)d).setBack();
 			}
-			System.out.println("blobb"); // Anzeige zum Pruefen der Hitbox - kannst du spaeter loeschen
+//			System.out.println("blobb"); // Anzeige zum Pruefen der Hitbox - kannst du spaeter loeschen
 	}
 
 }

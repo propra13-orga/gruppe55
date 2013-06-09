@@ -44,14 +44,18 @@ public class Data_Img {
 	public static Image trap = genImg("trap.png");			// Speerfalle
 	static Image trapact = genImg("trapActivated.png");	// aktivierte Speerfalle
 	// Interface
-	static Image hud = genImg("HUD.png");			// HUD
-	static Image hud_selector = genImg("HUD_Selector.png");			//HUD_Selector
-	static Image hud_Tear_HP_Full = genImg("HUD_Tear_HP_Full.png");			//HUD_Selector
-	static Image hud_Tear_HP_Half = genImg("HUD_Tear_HP_Half.png");			//HUD_Selector
-	static Image hud_Tear_HP_Empty = genImg("HUD_Tear_HP_Empty.png");			//HUD_Selector
-	static Image hud_Crystal_Full = genImg("HUD_Crystal_MP_Full.png");			//HUD_Selector
-	static Image hud_Crystal_Empty = genImg("HUD_Crystal_MP_Empty.png");			//HUD_Selector
-	static Image dialogBox = genImg("DialogBox.png");	//DialogBox
+	static Image hud01 = new ImageIcon("img/Interface/HUD01.png").getImage();			// HUD (1st Slot selected)
+	static Image hud02 = new ImageIcon("img/Interface/HUD02.png").getImage();			// HUD (2nd Slot selected)
+	static Image hud03 = new ImageIcon("img/Interface/HUD03.png").getImage();			// HUD (3rd Slot selected)
+	static Image hud_Tear_HP_Full = new ImageIcon("img/Interface/HUD_Tear_HP_Full.png").getImage();			// HUD Full HP-Container)
+	static Image hud_Tear_HP_Half = new ImageIcon("img/Interface/HUD_Tear_HP_Half.png").getImage();			// HUD Half HP-Container)
+	static Image hud_Tear_HP_Empty = new ImageIcon("img/Interface/HUD_Tear_HP_Empty.png").getImage();		// HUD Empty HP-Container)
+	static Image hud_Crystal_Full = new ImageIcon("img/Interface/HUD_Crystal_MP_Full.png").getImage();			// HUD Full MP-Container)
+	static Image hud_Crystal_Empty = new ImageIcon("img/Interface/HUD_Crystal_MP_Empty.png.png").getImage();	// HUD Empty MP-Container)
+	static Image dialogBox = new ImageIcon("img/Interface/DialogBox.png").getImage();	//DialogBox
+	static Image shop = new ImageIcon("img/Interface/Shop.png").getImage();	//Shop
+	static Image shopArrow = new ImageIcon("img/Interface/ShopArrow.png").getImage();	//Shop-Pfeil
+	static Image currency = new ImageIcon("img/Interface/Currency.png").getImage();	// Währungssymbol
 	
 	
 // Waffen
