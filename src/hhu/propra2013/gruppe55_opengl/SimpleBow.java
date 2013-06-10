@@ -5,8 +5,8 @@ public class SimpleBow extends Weapon{
 	
 	public SimpleBow() {
 	
-	minDmg = 2;
-	maxDmg = 4;
+	minDmg = 1;
+	maxDmg = 1;
 	name = "Simpler Bogen";
 	
 	state[0].changeTexture(Data_Textures.basicbow);

@@ -1,7 +1,5 @@
 package hhu.propra2013.gruppe55_opengl;
 
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glBindTexture;
 import java.awt.Rectangle;
 
 public class Weapon extends DungeonObject {

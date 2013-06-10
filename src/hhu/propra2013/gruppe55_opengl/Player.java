@@ -157,6 +157,7 @@ public class Player extends LivingObject {
 		switch(direction){
 		case	1:	// nach links
     		y+=state[currState].getTexture().getTextureHeight()/2;	// vertikal zentrieren
+    		x-=state[currState].getTexture().getTextureWidth(); 
     		break;
     	case	2:	// nach rechts
     		x+=state[currState].getTexture().getTextureWidth();	// auch wirklich rechts vom spieler

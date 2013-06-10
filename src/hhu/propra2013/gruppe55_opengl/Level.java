@@ -39,7 +39,6 @@ public class Level implements GameEventListener{
 // Konstruktor
 	public Level(int x, int y) {
 		init(x, y);
-		
 		textures = new Data_Textures();
 		
 		String line;
@@ -270,7 +269,7 @@ public class Level implements GameEventListener{
 				// Raumzeiger umsetzen
 				room	=	portData[0];
 				// Projektile loeschen
-				//projectileList.clear();
+				projectileList.clear();
 				// Schleife beenden
 				break;
 			}
@@ -283,7 +282,7 @@ public class Level implements GameEventListener{
 				staticList.get(room).get(i).onCollision(player);
 			//nun ueberpruefe Wand und Monster sowie Monster und Spieler
 			for(int j=0; j<creatureList.get(room).size(); j++){
-				/*// Projektile fliegen durch die Gegend
+				// Projektile fliegen durch die Gegend
 				for(int k=0; k<projectileList.size();k++){
 				// Monster treffen
 				if(projectileList.get(k).getBorder().intersects(creatureList.get(room).get(j).getBorder()))
@@ -294,7 +293,7 @@ public class Level implements GameEventListener{
 				// sonst evtl den Spieler
 				else if(projectileList.get(k).getBorder().intersects(player.getBorder()))
 					projectileList.get(k).onCollision(player);
-				}*/
+				}
 
 				// zuerst Wand -> Monster
 				if(staticList.get(room).get(i).getBorder().intersects(creatureList.get(room).get(j).getBorder()))
@@ -337,6 +336,7 @@ public class Level implements GameEventListener{
 		clear = false;
 	}
 
+	//Display und OpenGL initialisieren/einstellen
 	public void init(int x, int y){
 		try {
 			Display.setDisplayMode(new DisplayMode(x, y));
@@ -355,9 +355,11 @@ public class Level implements GameEventListener{
 		glOrtho(0, x, y, 0, -1, 1);
 		glMatrixMode(GL_MODELVIEW);
 		
+		Keyboard.enableRepeatEvents(true);
 		Mouse.setGrabbed(true);
 	}
 
+	// Game-Schleife
 	public void play(){
 		while(!close){
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
@@ -375,33 +377,75 @@ public class Level implements GameEventListener{
 		Display.destroy();
 	}
 	
+	// Eingaben abfragen
 	public void input(){
 		// KeyboardEvents
 		
-		// Bewegungsbefehle an Spieler weiter leiten
-		if(!lose && !clear){
-			if(Keyboard.isKeyDown(Keyboard.KEY_UP)){
-				player.keyPressed(Keyboard.KEY_UP);
-				if(dialog){
-					iFace.buttonAction(Keyboard.KEY_UP, player);
-				}
-			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
-				player.keyPressed(Keyboard.KEY_DOWN);
-				if(dialog){
-					iFace.buttonAction(Keyboard.KEY_DOWN, player);
-				}
-			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_LEFT)){
-				player.keyPressed(Keyboard.KEY_LEFT);
-				if(dialog){
-					iFace.buttonAction(Keyboard.KEY_LEFT, player);
-				}
-			}
-			if(Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
-				player.keyPressed(Keyboard.KEY_RIGHT);
-				if(dialog){
-					iFace.buttonAction(Keyboard.KEY_LEFT, player);
+		// Tastatur-Events während des Spiels
+		if(!lose && !clear){		
+			while(Keyboard.next()){
+				
+				int k = Keyboard.getEventKey();
+				
+				if(Keyboard.getEventKeyState()){
+					switch(k){
+						case Keyboard.KEY_UP:
+							player.keyPressed(Keyboard.KEY_UP);
+							if(dialog){
+								iFace.buttonAction(Keyboard.KEY_UP, player);
+							}
+							break;
+						case Keyboard.KEY_DOWN:
+							player.keyPressed(Keyboard.KEY_DOWN);
+							if(dialog){
+								iFace.buttonAction(Keyboard.KEY_DOWN, player);
+							}
+							break;
+						case Keyboard.KEY_RIGHT:
+							player.keyPressed(Keyboard.KEY_RIGHT);
+							if(dialog){
+								iFace.buttonAction(Keyboard.KEY_LEFT, player);
+							}
+							break;
+						case Keyboard.KEY_LEFT:
+							player.keyPressed(Keyboard.KEY_LEFT);
+							if(dialog){
+								iFace.buttonAction(Keyboard.KEY_LEFT, player);
+							}
+							break;
+						case 28:
+							iFace.buttonAction(28, player);
+							break;
+						case Keyboard.KEY_SPACE:
+							// Spieler Angreifen lassen
+							player.attack();
+							break;
+						case Keyboard.KEY_E:
+							for(int i=0; i<creatureList.get(room).size(); i++){
+								if(creatureList.get(room).get(i) instanceof Shopkeeper){
+									if(player.getBorder().intersects(creatureList.get(room).get(i).getBorder())){
+										freeze = true;
+										openedInterface = 2;
+										dialog = true;
+										iFace.setSelectedObject(0);
+									}
+								}
+							}
+							break;
+						case Keyboard.KEY_ESCAPE:
+							if(dialog){
+								freeze = false;
+								dialog = false;
+								openedInterface = 0;
+							}
+							else{close = true;}
+							break;
+						case Keyboard.KEY_X:
+							player.swapWeapons();
+							break;
+						case Keyboard.KEY_F:
+							break;
+					}
 				}
 			}
 			if(!Keyboard.isKeyDown(Keyboard.KEY_UP) && !Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
@@ -410,59 +454,31 @@ public class Level implements GameEventListener{
 			if(!Keyboard.isKeyDown(Keyboard.KEY_LEFT) && !Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
 				player.keyReleased(Keyboard.KEY_LEFT);
 			}
-			else if(Keyboard.isKeyDown(Keyboard.KEY_X))
-				player.swapWeapons();
 		}
-		
-		while(Keyboard.next()){
-			// Enter-Taste abfragen
-			if(Keyboard.getEventKey() ==28){
-				// Option: Bei Sieg oder Niederlage -> zurueck zum Menue
-				if(lose || clear){
-					reload();
-				}
-				//Dialog weiterschalten
-				else if(dialog){
-					iFace.next();
-				}
-			}
-
-			// Space-Taste abfragen
-			if(Keyboard.getEventKey() == Keyboard.KEY_SPACE){
-				// Option: Bei Sieg oder Niederlage -> erneut beginnen
-				if(lose || clear){
-					reload();
-				}
-				else{	// let's fetz
-					// Spieler Angreifen lassen
-					player.attack();
-				}
-			}
-			// Interagieren
-			else if(Keyboard.getEventKey() == Keyboard.KEY_E){
-				for(int i=0; i<creatureList.get(room).size(); i++){
-					if(creatureList.get(room).get(i) instanceof Shopkeeper){
-						if(player.getBorder().intersects(creatureList.get(room).get(i).getBorder())){
-							freeze = true;
-							openedInterface = 2;
-							dialog = true;
-							iFace.setSelectedObject(0);
-						}
+		// Tastatur-Events bei Loose/Clear
+		else{
+			while(Keyboard.next()){
+				
+				int k = Keyboard.getEventKey();
+				
+				if(Keyboard.getEventKeyState()){
+					switch(k){
+						case 28:
+							reload();
+							break;
+						case Keyboard.KEY_SPACE:
+							reload();
+							break;
+						case Keyboard.KEY_ESCAPE:
+							close = true;
+							break;
 					}
 				}
 			}
-			else if(Keyboard.getEventKey() == Keyboard.KEY_ESCAPE){
-				if(dialog){
-					freeze = false;
-					dialog = false;
-					openedInterface = 0;
-				}
-				else{close = true;}
-			}
-			else if(Keyboard.getEventKey() == Keyboard.KEY_F){}
 		}
 	}
 	
+	// Game-Logic
 	public void engine(){
 		// Level gefroren?
 		if(!freeze){
@@ -472,8 +488,6 @@ public class Level implements GameEventListener{
 			
 			// Spielerbewegung
 			player.move();
-			
-//			System.out.println("X: " + player.getX() + " - Y:" + player.getY());
 			
 			// kreaturenbewegung
 			for(int i=0; i<creatureList.get(room).size(); i++)
@@ -488,6 +502,7 @@ public class Level implements GameEventListener{
 		}
 	}
 	
+	// Zeichen/Render-Funktion
 	public void render(){
 		// Koordinatensystem an Spieler anpassen
 		GL11.glTranslatef(Display.getWidth()/2-player.getTX(), Display.getHeight()/2-player.getTY(), 0);
@@ -495,19 +510,13 @@ public class Level implements GameEventListener{
 		// alle objekte der staticlist zeichnen (Waende, Fallen,...)
 		for(int i=0; i<staticList.get(room).size(); i++){
 			staticList.get(room).get(i).draw();
-			glBegin(GL_LINE_STRIP);
-				glVertex2d(staticList.get(room).get(i).getX(), staticList.get(room).get(i).getY());
-				glVertex2d(staticList.get(room).get(i).getX()+staticList.get(room).get(i).getBorder().getWidth(), staticList.get(room).get(i).getY());
-				glVertex2d(staticList.get(room).get(i).getX()+staticList.get(room).get(i).getBorder().getWidth(), staticList.get(room).get(i).getY()+staticList.get(room).get(i).getBorder().getHeight());
-				glVertex2d(staticList.get(room).get(i).getX(), staticList.get(room).get(i).getY()+staticList.get(room).get(i).getBorder().getWidth());
-			glEnd();
 		}
 		// Monster zeichnen
 		for(int i=0; i<creatureList.get(room).size(); i++){
 			creatureList.get(room).get(i).draw();
 		}
 		
-		// projektile
+		// Projektile
 		for(int i=0; i<projectileList.size(); i++)
 			projectileList.get(i).draw();
 			

@@ -73,11 +73,14 @@ public class Projectile extends MovingObject {
 	// Kollision
 	public void onCollision(DungeonObject d){
 		// Gegner/Spieler getroffen?
-		if(d instanceof LivingObject)
+		if(d instanceof LivingObject){
 			((LivingObject)d).getHit(dmg);
 		
 		// Etwas getroffen, also ausblenden
 		switchState(0);
+		}
+		else if (d.isMassive() == true)
+			switchState(0); 
 	}
 
 }

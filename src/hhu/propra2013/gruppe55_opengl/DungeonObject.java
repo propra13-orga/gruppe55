@@ -4,7 +4,6 @@ import static org.lwjgl.opengl.GL11.*;
 import java.awt.Rectangle;
 import org.newdawn.slick.opengl.Texture;
 import java.util.ArrayList;
-import javax.swing.event.EventListenerList;
 
 
 public abstract class DungeonObject {
@@ -106,6 +105,10 @@ public abstract class DungeonObject {
 	public int getY(){return y;}
 	// bild ausgeben
 	public Texture getTexture(){return state[currState].getTexture();}
+	// Massive Status ausgeben
+	public boolean isMassive(){
+		return state[currState].massive;
+	} 
 	// rahmen ausgeben
 	public Rectangle getBorder(){
 		if(state[currState].visible){

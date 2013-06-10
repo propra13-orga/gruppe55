@@ -1,23 +1,20 @@
 package hhu.propra2013.gruppe55_opengl;
 
-import java.awt.event.KeyEvent;
-import static org.lwjgl.opengl.GL11.GL_QUADS;
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glBindTexture;
-import static org.lwjgl.opengl.GL11.glEnd;
-import static org.lwjgl.opengl.GL11.glTexCoord2f;
-import static org.lwjgl.opengl.GL11.glVertex2f;
-
-import java.awt.*;
-
+import static org.lwjgl.opengl.GL11.*;
+import org.lwjgl.input.Keyboard;
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.font.effects.ColorEffect;
 import org.newdawn.slick.opengl.Texture;
+import org.newdawn.slick.SlickException;
+import org.newdawn.slick.UnicodeFont;
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.Toolkit;
 
 public class GameInterface {
 	
-	private Font fontDialog, fontShop;				//TextFont
-	private FontMetrics fMetr;		//FontMetrics für Graphics2D
+	private Font font1, font2;					//AWT-Font-Vorlagen
+	private UnicodeFont fontDialog, fontShop;	//Slick's TrueTypeFont
 	private HUD hud;				//HUD
 	private Level currLvl;		//Aktuelles Level
 	private String[] currDialog;	//Anzuzeigender Dialog
@@ -27,9 +24,23 @@ public class GameInterface {
 
 	//Interface-Konstruktor
 	public GameInterface(Level t){
-		fontDialog = new Font("Viner Hand ITC", Font.BOLD, 20);	//FontDialog setzen
-		fontShop = new Font("Viner Hand ITC", Font.BOLD, 15);	//FontShop setzen
-
+		//Fonts fue das Interface konstruieren
+		font1 = new Font("Viner Hand ITC", Font.BOLD, 20);
+		font2 = new Font("Viner Hand ITC", Font.BOLD, 15);
+		fontDialog = new UnicodeFont(font1);
+		fontShop = new UnicodeFont(font2);
+		
+		fontDialog.addAsciiGlyphs();
+		fontDialog.addGlyphs(400, 600);
+		fontDialog.getEffects().add(new ColorEffect(Color.WHITE));
+		fontShop.addAsciiGlyphs();
+		fontShop.addGlyphs(400, 600);
+		fontShop.getEffects().add(new ColorEffect(Color.WHITE));
+		try {
+			fontDialog.loadGlyphs();
+			fontShop.loadGlyphs();
+		}catch(SlickException e){}
+		
 		currLvl = t;										//Level uebergeben
 		hud = new HUD();									//HUD konstruieren
 	}
@@ -40,25 +51,21 @@ public class GameInterface {
 		
 		// Dialoge zeichnen
 		if(currLvl.getOpenedInterface() == 1 || currLvl.getOpenedInterface() == 3){
-//			g2d.setFont(fontDialog);					//Graphics2D Font setzen
-//			fMetr = g2d.getFontMetrics(fontDialog);	//FontMetrics erzeugen
 			hud.drawHudElement(Data_Textures.dialogBox, (Display.getWidth()/2)-250, Display.getHeight()-80);	//DialogBox zeichnen
-//			g2d.drawString(currDialog[dialogCounter], (currLvl.getWidth()/2)-(fMetr.stringWidth(currDialog[dialogCounter])/2), (currLvl.getHeight()-40));	//Dialogzeile zeichnen
+			fontDialog.drawString((Display.getWidth()/2)-220f, (Display.getHeight()-55f), currDialog[dialogCounter]);	//Dialogzeile zeichnen
 		}
 		// Shop zeichnen
 		if(currLvl.getOpenedInterface() == 2 || currLvl.getOpenedInterface() == 3){
-//			g2d.setFont(fontShop);					//Graphics2D Font setzen
-//			fMetr = g2d.getFontMetrics(fontShop);	//FontMetrics erzeugen
 			hud.drawHudElement(Data_Textures.shop, (Display.getWidth()/2)-128, Display.getHeight()/2-64);	//DialogBox zeichnen
 			hud.drawHudElement(Data_Textures.potion, (Display.getWidth()/2)-100, Display.getHeight()/2-30);	//DialogBox zeichnen
 			hud.drawHudElement(Data_Textures.mpotion, (Display.getWidth()/2)-100, Display.getHeight()/2-3);	//DialogBox zeichnen
 			hud.drawHudElement(Data_Textures.arrow_f, (Display.getWidth()/2)-87, Display.getHeight()/2+37);	//DialogBox zeichnen
-//			g2d.drawString("x1", (currLvl.getWidth()/2-60)-(fMetr.stringWidth("x1")/2), currLvl.getHeight()/2);	//Dialogzeile zeichnen
-//			g2d.drawString("x1", (currLvl.getWidth()/2-60)-(fMetr.stringWidth("x1")/2), currLvl.getHeight()/2+27);	//Dialogzeile zeichnen
-//			g2d.drawString("x10", (currLvl.getWidth()/2-57)-(fMetr.stringWidth("x10")/2), currLvl.getHeight()/2+50);	//Dialogzeile zeichnen
-//			g2d.drawString("10", (currLvl.getWidth()/2-20)-(fMetr.stringWidth("10")/2), currLvl.getHeight()/2);	//Dialogzeile zeichnen
-//			g2d.drawString("10", (currLvl.getWidth()/2-20)-(fMetr.stringWidth("10")/2), currLvl.getHeight()/2+27);	//Dialogzeile zeichnen
-//			g2d.drawString("10", (currLvl.getWidth()/2-20)-(fMetr.stringWidth("10")/2), currLvl.getHeight()/2+50);	//Dialogzeile zeichnen
+			fontShop.drawString((Display.getWidth()/2-67), Display.getHeight()/2-15, "x1");	//Dialogzeile zeichnen
+			fontShop.drawString((Display.getWidth()/2-67), Display.getHeight()/2+12, "x1");	//Dialogzeile zeichnen
+			fontShop.drawString((Display.getWidth()/2-67), Display.getHeight()/2+35, "x10");	//Dialogzeile zeichnen
+			fontShop.drawString((Display.getWidth()/2-25), Display.getHeight()/2-15, "10");	//Dialogzeile zeichnen
+			fontShop.drawString((Display.getWidth()/2-25), Display.getHeight()/2+12, "10");	//Dialogzeile zeichnen
+			fontShop.drawString((Display.getWidth()/2-25), Display.getHeight()/2+35, "10");	//Dialogzeile zeichnen
 			hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2-10), Display.getHeight()/2-10);	//DialogBox zeichnen
 			hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2-10), Display.getHeight()/2+17);	//DialogBox zeichnen
 			hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2-10), Display.getHeight()/2+40);	//DialogBox zeichnen
@@ -108,12 +115,12 @@ public class GameInterface {
 	// Keyboard-Events im Interface
 	public void buttonAction(int k, Player p){
 		if(currLvl.getOpenedInterface() == 1){
-			if(k == KeyEvent.VK_ENTER){
+			if(k == 28){
 				next();
 			}
 		}
 		else if(currLvl.getOpenedInterface() == 2){
-			if(k == KeyEvent.VK_DOWN){
+			if(k == Keyboard.KEY_DOWN){
 				if(selectedObject <2){
 					selectedObject++;
 				}
@@ -121,7 +128,7 @@ public class GameInterface {
 					selectedObject = 0;
 				}
 			}
-		else if(k == KeyEvent.VK_UP){
+		else if(k == Keyboard.KEY_UP){
 			if(selectedObject >0){
 				selectedObject--;
 			}
@@ -129,7 +136,7 @@ public class GameInterface {
 				selectedObject = 2;
 			}
 		}
-		else if(k == KeyEvent.VK_ENTER){
+		else if(k == 28){
 			switch(selectedObject){
 				case 0:
 					if(p.getStatInventoryObjectCount(1) >= 10){
@@ -165,7 +172,7 @@ public class GameInterface {
 			}
 		}
 		else if(currLvl.getOpenedInterface() == 3){
-			if(k == KeyEvent.VK_ENTER){
+			if(k == 28){
 				next();
 			}
 		}
@@ -184,10 +191,19 @@ public class GameInterface {
 class HUD {
 	
 	private int fullScreenOffset;
-	private Font font;
+	private Font fontAwt;
+	private UnicodeFont font;
 	
 	public HUD(){
-		font = new Font("Viner Hand ITC", Font.PLAIN, 13);
+		//Fonts fuer das HUD konstruieren
+		fontAwt = new Font("Viner Hand ITC", Font.BOLD, 13);
+		font = new UnicodeFont(fontAwt);
+		font.addAsciiGlyphs();
+		font.addGlyphs(400, 600);
+		font.getEffects().add(new ColorEffect(Color.WHITE));
+		try {
+			font.loadGlyphs();
+		}catch(SlickException e){e.printStackTrace();}
 	}
 	
 	// Zeichnen des HUD
@@ -211,7 +227,7 @@ class HUD {
 			drawHudElement(Data_Textures.hud03, 0+fullScreenOffset, 0);
 		}
 		
-		int posX = 10;
+		int posX = 15;
 		int value = p.getHP();
 		int i = p.getHPMax();
 		
@@ -235,8 +251,9 @@ class HUD {
 				posX += 30;
 			}
 		}
+		font.drawString(posX+fullScreenOffset, 34, "" + p.getHP() + "/" + p.getHPMax());
 		
-		posX = 10;
+		posX = 15;
 		value = p.getMana();
 		i = p.getManaMax();
 		
@@ -254,29 +271,27 @@ class HUD {
 				posX += 30;
 			}
 		}
+		font.drawString(posX+fullScreenOffset, 71, "" + p.getMana() + "/" + p.getManaMax());
 
 		// Weaponicons zeichnen
-		drawHudElement(Data_Textures.basicsword_icon, 460+fullScreenOffset, 30);
-		drawHudElement(Data_Textures.basicbow_icon, 570+fullScreenOffset, 30);
+		drawHudElement(Data_Textures.basicsword_icon, 430+fullScreenOffset, 20);
+		drawHudElement(Data_Textures.basicbow_icon, 530+fullScreenOffset, 20);
 		
-		// HP/Mana/GEld-Werte schreiben
-//		g2d.setColor(Color.WHITE);
-//		g2d.setFont(font);
-//		g2d.drawString("" + p.getHP() + "/" + p.getHPMax(), 315+fullScreenOffset, 44);
-//		g2d.drawString("" + p.getMana() + "/" + p.getManaMax(), 315+fullScreenOffset, 81);
-//		g2d.drawString("" + p.getStatInventoryObjectCount(1), 745+fullScreenOffset, 75);
+		// Geld-Wert schreiben
+		font.drawString(745+fullScreenOffset, 60, "" + p.getStatInventoryObjectCount(1));
+		drawHudElement(Data_Textures.currency, 775+fullScreenOffset, 63);	//Currency
 		
 		// Lives zeichnen
 		drawHudElement(Data_Textures.player_f, 820+fullScreenOffset, 14);
-//		g2d.drawString("x " + p.getLives(), 850+fullScreenOffset, 44);
+		font.drawString(855+fullScreenOffset, 24, "x " + p.getStatInventoryObjectCount(0));
 		// Pfeile zeichnen
 		drawHudElement(Data_Textures.arrow_f, 900+fullScreenOffset, 24);
-//		g2d.drawString("x "+p.getStatInventoryObjectCount(4), 920+fullScreenOffset, 44);
+		font.drawString(920+fullScreenOffset, 24, "x "+p.getStatInventoryObjectCount(4));
 		// Tränke zeichnen
 		drawHudElement(Data_Textures.potion, 820+fullScreenOffset, 54);
-//		g2d.drawString("x  " + p.getStatInventoryObjectCount(2), 850+fullScreenOffset, 84);
+		font.drawString(850+fullScreenOffset, 68, "x  " + p.getStatInventoryObjectCount(2));
 		drawHudElement(Data_Textures.mpotion, 890+fullScreenOffset, 54);
-//		g2d.drawString("x  " + p.getStatInventoryObjectCount(3), 920+fullScreenOffset, 84);
+		font.drawString(920+fullScreenOffset, 68, "x  " + p.getStatInventoryObjectCount(3));
 	}
 	
 	public void drawHudElement(Texture tex, int x, int y){
