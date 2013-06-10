@@ -144,6 +144,9 @@ public class MapWindow extends JPanel {
 			}else if(tempParameterList.get(0) == 9){
 				//Creature painten
 				g2.drawImage(Data_Img.treasure, xPos, yPos, this);
+			}else if(tempParameterList.get(0) == 10){
+				//Creature painten
+				g2.drawImage(Data_Img.shopkeeper, xPos, yPos, this);
 			}
 		}
 	/*	for(int i=0; i<objectList.size(); i++){

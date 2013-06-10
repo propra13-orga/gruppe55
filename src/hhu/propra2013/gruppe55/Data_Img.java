@@ -26,7 +26,7 @@ public class Data_Img {
 	public static Image creature = genImg("creature.png");	// Standart-Kreatur
 // Npc's
 	// Shopkeeper
-	static Image shopkeeper = genImg("Npc/shopkeeper.png");
+	public static Image shopkeeper = genImg("Npc/shopkeeper.png");
 	// Levelrelevantes
 	static Image win = genImg("youwin.png");		// Siegbild
 	static Image gameover = genImg("gameover.png");	// Game Over

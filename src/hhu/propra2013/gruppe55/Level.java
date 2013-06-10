@@ -227,7 +227,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 					}else if(tempParameterList.get(0) == 9){
 						staticList.get(r).add(new TreasureObject(xPos, yPos));    
 					}else if(tempParameterList.get(0) == 10){
-						creatureList.get(r).add(new Shopkeeper(xPos, yPos, 3, 1, 0, 100, 0));  //im Editor noch nicht implementiert  
+						creatureList.get(r).add(new Shopkeeper(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5)));
 					}
 				}
 			}

@@ -75,7 +75,7 @@ public class LevelData {
 			levelRooms.get(index).put(xyPos, parameterList);
 		}else if(type == 0){
 			levelRooms.get(index).remove(xyPos);
-		}else if(type == 2){
+		}else if(type == 2 || type == 10){
 			parameterList.add(LevelEditor.health);
 			parameterList.add(LevelEditor.angriff);
 			parameterList.add(LevelEditor.verteidigung);

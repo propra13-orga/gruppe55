@@ -78,6 +78,7 @@ public class LevelEditor extends JFrame implements ActionListener
 	private JButton potionButton = new JButton("Potion");
 	private JButton manapotionButton = new JButton("Manapotion");
 	private JButton schatzButton = new JButton("Schatz");
+	private JButton shopKeeperButton = new JButton("Shopkeeper");
 	
 	
 	
@@ -139,10 +140,11 @@ public class LevelEditor extends JFrame implements ActionListener
 		potionButton.addActionListener(this);
 		manapotionButton.addActionListener(this);
 		schatzButton.addActionListener(this);
+		shopKeeperButton.addActionListener(this);
 
 		// wallButton.setIcon(MapWindow.imgWall);
 		JPanel toolsBarPanel = new JPanel();
-		toolsBarPanel.setLayout(new GridLayout(12, 1));
+		toolsBarPanel.setLayout(new GridLayout(14, 1));
 		toolsBarPanel.add(this.openLevel);
 		toolsBarPanel.add(this.saveLevel);
 		toolsBarPanel.add(this.wallButton);
@@ -155,6 +157,7 @@ public class LevelEditor extends JFrame implements ActionListener
 		toolsBarPanel.add(this.potionButton);
 		toolsBarPanel.add(this.manapotionButton);
 		toolsBarPanel.add(this.schatzButton);
+		toolsBarPanel.add(this.shopKeeperButton);
 		
 		//Wall Parameter: type(1),wallTexture
 		//WallObject(int x, int y,int textur)
@@ -326,8 +329,11 @@ public class LevelEditor extends JFrame implements ActionListener
 			wallParameterPanel.setVisible(false);
 			livingObjectParameterPanel.setVisible(false);
 		}
-		else if (ae.getSource() == this.creatureButton){
-			toolType = 2;
+		else if (ae.getSource() == this.creatureButton || ae.getSource() == this.shopKeeperButton){
+			if(ae.getSource() == this.creatureButton)
+				toolType = 2;
+			else 
+				toolType = 10;
 			teleporterParameterPanel.remove(setParametersButton);
 			livingObjectParameterPanel.add(setParametersButton);
 			this.remove(wallParameterPanel);
@@ -349,7 +355,7 @@ public class LevelEditor extends JFrame implements ActionListener
 			wallParameterPanel.setVisible(false);
 		}
 		else if (ae.getSource() == this.setParametersButton){
-			if(toolType == 2 || toolType == 3){
+			if(toolType == 2 || toolType == 3 || toolType == 10){
 				health = Integer.parseInt(healthTxtField.getText());
 				angriff = Integer.parseInt(angriffTxtField.getText());
 				verteidigung = Integer.parseInt(verteidigungTxtField.getText());
