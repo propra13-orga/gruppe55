@@ -17,6 +17,11 @@ Known Issues:
 - Level.java broken - Wozu auf Stand halten, wnen wir die sowieso rausschmeißen? (van Meegen: Kaputte Zeilen auskommentiert um Fehlergeschmeissen zu entfernen)
 - Die Projektile kollidieren nicht
 	- muesste mit neuem Thread geloest werden, weil es ja auch gegen Waende Kollidieren soll. Nur haben wir 860 WandObjekte im Testlevel hieße min. 60*860=51600 extra Abfragen pro Sekunde (in wirklichkeit sogar wesentlich mehr!)
+- OpenGL
+	- Noch keine Lebensbalken der Monster
+	- Noch keine auf 2er-Potenzen konvertierte Bilder/Offsets
+	- Noch kein FullScreen
+	- Noch keine zeichnenden Strings
 
 
 Changelog:
