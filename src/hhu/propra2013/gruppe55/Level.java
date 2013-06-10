@@ -280,7 +280,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 				// Raumzeiger umsetzen
 				room	=	portData[0];
 				// Projektile loeschen
-				//projectileList.clear();
+				projectileList.clear();
 				// Schleife beenden
 				break;
 			}
