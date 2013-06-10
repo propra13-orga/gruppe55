@@ -407,6 +407,9 @@ public class LevelEditor extends JFrame implements ActionListener
 						comboBoxModel.addElement(tempStr);
 					}
 					mapWindow.currentRoomIndex = 0;	
+					mapLaenge = mapWindow.levelDataObj.getlevelRoomParameter(mapWindow.currentRoomIndex).get(0);
+					mapBreite = mapWindow.levelDataObj.getlevelRoomParameter(mapWindow.currentRoomIndex).get(1);
+					mapWindow.setPreferredSize(new Dimension(mapLaenge * imgSize, mapBreite * imgSize));
 					mapPanel.updateUI();
 					mapWindow.updateUI();
 					
