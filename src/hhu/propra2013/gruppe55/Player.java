@@ -126,11 +126,7 @@ public class Player extends LivingObject {
     		public void run(){
     			// Mit der Waffe angreifen (grafisch)
     			weapons[aw].attack();
-    			
-    			// Fernkampf? Schiessen!
-    			if(aw==2)
-    				shoot();
-    			
+    			    			
     			// Sleep-Timer setzen
     			try {
 					Thread.sleep(weapons[aw].getAtkTime());
@@ -138,6 +134,10 @@ public class Player extends LivingObject {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+    			
+    			// Fernkampf? Schiessen!
+    			if(aw==2)
+    				shoot();
     			
     			// Angriff abbrechen
     			weapons[aw].stopAttack();
@@ -164,6 +164,7 @@ public class Player extends LivingObject {
     	switch(direction){
     	case	1:	// nach links
     		y+=state[currState].getImg().getHeight(null)/2;	// vertikal zentrieren
+    		x-=state[currState].getImg().getWidth(null);
     		break;
     	case	2:	// nach rechts
     		x+=state[currState].getImg().getWidth(null);	// auch wirklich rechts vom spieler

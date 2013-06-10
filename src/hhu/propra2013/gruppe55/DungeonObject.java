@@ -93,6 +93,10 @@ public abstract class DungeonObject {
 	public int getY(){return y;}
 	// bild ausgeben
 	public Image getImg(){return state[currState].getImg();}
+	// Massive Status ausgeben
+	public boolean isMassive(){
+		return state[currState].massive;
+	}
 	// rahmen ausgeben
 	public Rectangle getBorder(){
 		if(state[currState].visible){

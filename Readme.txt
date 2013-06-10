@@ -26,6 +26,21 @@ Known Issues:
 
 Changelog:
 
+10.06.13 - van Meegen
+/img:
+	- bks.png entfernt (Wird nicht mehr gebraucht)
+/src:
+DungeonObject
+	- Methode ergaenzt, die wiedergibt ob ein Objekt massiv ist oder begehbar
+Projectile
+	- Pfeile fliegen nun ueber Fallen, verschwinden aber wenn sie auf nicht begehbare Objekte treffen
+Player
+	- Der Spieler toetet sich nicht mehr selber wenn er nach links schiesst
+SimpleBow
+	- min- maxdmg angepasst (Man macht nun immer 2 Dmg mit einem Pfeil)
+Level
+	- Da wir nun kleinere Raeume haben kann man die Treffeabfrage fuer Projektile verwenden ohne dass es zu großen Slow Downs kommen sollte
+
 09.06.13 - jdnklau
 TestLevel:
 	- JSON-Parser gefixed: nun werden alle Räume geladen und nicht nur einer -> Kein IndexOutOfBounds wenn man nen Teleporter tangiert

@@ -292,7 +292,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 				staticList.get(room).get(i).onCollision(player);
 			// nun ueberpruefe Wand und Monster sowie Monster und Spieler
 			for(int j=0; j<creatureList.get(room).size(); j++){
-				/*// Projektile fliegen durch die Gegend
+				// Projektile fliegen durch die Gegend
 				for(int k=0; k<projectileList.size();k++){
 					// Monster treffen
 					if(projectileList.get(k).getBorder().intersects(creatureList.get(room).get(j).getBorder()))
@@ -303,7 +303,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 					// sonst evtl den Spieler
 					else if(projectileList.get(k).getBorder().intersects(player.getBorder()))
 						projectileList.get(k).onCollision(player);
-				}*/
+				}
 				// dann Wand -> Monster
 				if(staticList.get(room).get(i).getBorder().intersects(creatureList.get(room).get(j).getBorder()))
 					staticList.get(room).get(i).onCollision(creatureList.get(room).get(j));
