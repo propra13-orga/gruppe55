@@ -14,7 +14,7 @@ public class Weapon extends DungeonObject {
 	protected int maxDmg	=	3;		// Maximalschaden
 	protected boolean attacking	=	false;	// Waehrend des Angriffs true
 	// Offsetwerte zum zeichnen
-	protected int[] weapOffsets	=	new int[6];	// Die Offsets wie die Waffe in der Spielerhand gehalten wird	
+	protected int[][] weapOffsets	=	new int[4][6];	// Die Offsets wie die Waffe in der Spielerhand gehalten wird	
 	// Statuswerte die durch die Waffe erhoeht werden
 	// TODO: Statuswerte
 
@@ -24,20 +24,40 @@ public class Weapon extends DungeonObject {
 		
 		// States setzen
 		state	=	new State[3];
-		state[0]	=	new State(Data.basicsword, false, false, true);
-		state[1]	=	new State(Data.basicsword, false, false, true);
-		state[2]	=	new State(Data.basicsword_f_atk, false, false, true);
+		state[0]	=	new State(Data_Img.basicsword, false, false, true);
+		state[1]	=	new State(Data_Img.basicsword, false, false, true);
+		state[2]	=	new State(Data_Img.basicsword_f_atk, Data_Img.basicsword_l_atk, Data_Img.basicsword_r_atk, Data_Img.basicsword_u_atk, false, false, true);
+		
 		switchState(1);
 		
-		// Offsets zeichnen
-		weapOffsets[0]	=	0;	// X-Offset von lootbarer Waffe
-		weapOffsets[1]	=	0;	// Y-Offset von lootbarer Waffe
-		
-		weapOffsets[2]	=	3;	// X-offset von gehaltener Waffe
-		weapOffsets[3]	=	21;	// Y-Offset von gehaltener Waffe
-		
-		weapOffsets[4]	=	3;	// X-Offset beim Angriff
-		weapOffsets[5]	=	0;	// Y-offset beim Angriff
+		// Offsets zeichnen - von vorne
+		weapOffsets[0][0]	=	0;	// X-Offset von lootbarer Waffe
+		weapOffsets[0][1]	=	0;	// Y-Offset von lootbarer Waffe
+		weapOffsets[0][2]	=	3;	// X-offset von gehaltener Waffe
+		weapOffsets[0][3]	=	21;	// Y-Offset von gehaltener Waffe
+		weapOffsets[0][4]	=	3;	// X-Offset beim Angriff
+		weapOffsets[0][5]	=	-3;	// Y-offset beim Angriff
+		// Offsets zeichnen - von links
+		weapOffsets[1][0]	=	0;	// X-Offset von lootbarer Waffe
+		weapOffsets[1][1]	=	0;	// Y-Offset von lootbarer Waffe
+		weapOffsets[1][2]	=	3;	// X-offset von gehaltener Waffe
+		weapOffsets[1][3]	=	21;	// Y-Offset von gehaltener Waffe
+		weapOffsets[1][4]	=	23;	// X-Offset beim Angriff
+		weapOffsets[1][5]	=	2;	// Y-offset beim Angriff
+		// Offsets zeichnen - von rechts
+		weapOffsets[2][0]	=	0;	// X-Offset von lootbarer Waffe
+		weapOffsets[2][1]	=	0;	// Y-Offset von lootbarer Waffe
+		weapOffsets[2][2]	=	3;	// X-offset von gehaltener Waffe
+		weapOffsets[2][3]	=	21;	// Y-Offset von gehaltener Waffe
+		weapOffsets[2][4]	=	-3;	// X-Offset beim Angriff
+		weapOffsets[2][5]	=	3;	// Y-offset beim Angriff
+		// Offsets zeichnen - von hinten
+		weapOffsets[3][0]	=	0;	// X-Offset von lootbarer Waffe
+		weapOffsets[3][1]	=	0;	// Y-Offset von lootbarer Waffe
+		weapOffsets[3][2]	=	3;	// X-offset von gehaltener Waffe
+		weapOffsets[3][3]	=	21;	// Y-Offset von gehaltener Waffe
+		weapOffsets[3][4]	=	3;	// X-Offset beim Angriff
+		weapOffsets[3][5]	=	27;	// Y-offset beim Angriff
 	}
 	
 	// Rueckgabe der Angriffsdauer
@@ -48,8 +68,8 @@ public class Weapon extends DungeonObject {
 	// Zeichenmethode
 	public void draw(Graphics2D g2d, int x, int y){
 		//x, y Werte setzen
-		this.x	=	(x-(weapOffsets[currState*2+0]));
-		this.y	=	(y-(weapOffsets[currState*2+1]));
+		this.x	=	(x-(weapOffsets[direction][currState*2+0]));
+		this.y	=	(y-(weapOffsets[direction][currState*2+1]));
 		super.draw(g2d);
 	}
 	

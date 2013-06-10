@@ -2,15 +2,12 @@ package hhu.propra2013.gruppe55;
 
 import java.awt.Graphics2D;
 
-public abstract class LivingObject extends DungeonObject {
+public abstract class LivingObject extends MovingObject {
 	// Lebenspunkte Management
     protected int hp, hpMax,  def, atk, mana, manaMax, energy, energyMax;	// Statuswerte
 	// Variablen fuer Handhabung von Unverwundbarkeit
 	private boolean invulnerable	=	false;		// Unverwundbarkeitszustand des Objekts
 	protected int invulTime			=	500;		// Dauer der Unverwundbarkeit in Millisekunden
-	// Bewegung
-	protected int dx, dy;		// direction coordinates (dx: -1, move left; 1 move right;; dy: -1, move up, 1, move down
-	protected int speed=3;		// speed of object (2 normal speed -> 2px/actionPerfordmed)
 	// Schadensberechnungsvariablen (welch ein Wort!)
 	protected int critBase	=	2;	// Basis-Chance auf kritische Treffer
 	protected int critBonus, minDmg, maxDmg;
@@ -25,11 +22,11 @@ public abstract class LivingObject extends DungeonObject {
 		// Array um den Status zu aendern
 		state	=	new State[3];
 		// Tod-Status
-		state[0] = new State(Data.potionused, false, true, false);
+		state[0] = new State(Data_Img.potionused, false, true, false);
 		// Leben-Status
-		state[1] = new State(Data.potionused, true, false, true);
+		state[1] = new State(Data_Img.potionused, true, false, true);
 		// Extra-Status
-		state[2] = new State(Data.potionused, false, false, false);
+		state[2] = new State(Data_Img.potionused, false, false, false);
 		
 		// starten als lebendiges Objekt
 		currState	=	1;
@@ -107,23 +104,6 @@ public abstract class LivingObject extends DungeonObject {
 			}
 		}.start();
     }
-	
-	// Methode zur Bewegeung
-	public void move(){
-		// Test ob das Objekt lebendig ist
-		if(state[currState].moveable == false)
-			return;
-		// Bewegungmethode ausfuehren
-		
-		x+=speed*dx;
-		y+=speed*dy;
-	}
-	
-	// Waende haben Pushback (man wird einige Pixel zurueckgesetz)
-	public void setBack(){
-		x-=dx;
-		y-=dy;
-	}
 	
 	// Methoden um Statuswerte zu uebergeben
     public int getHP(){return(hp);}

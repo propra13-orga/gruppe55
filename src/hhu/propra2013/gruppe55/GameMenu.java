@@ -28,7 +28,6 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 			settings.setLayout(new GridLayout(1,2));
 			cb = new JComboBox();
 				cb.addItem("Level01");
-				cb.addItem("ScrollingLevel");
 				cb.setSelectedIndex(0);
 			settings.add(cb);
 			fullscreen = new JCheckBox();

@@ -7,8 +7,8 @@ public class Creature extends LivingObject {
 // Attribute der Monster
     // Deklaration der Koordinaten 
     protected int sx, sy;			// Erscheinungskoordinaten
-    protected int moveAreaX	=	180;		// maximale vertikale Bewegung nach rechts
-    protected int moveAreaY	=	120;		// ... und nach oben
+    protected int moveAreaX	=	5*32;		// maximale vertikale Bewegung nach rechts
+    protected int moveAreaY	=	3*32;		// ... und nach oben
     	
 // Konstruktor
     public Creature(int spawnX, int spawnY, int h, int angr, int vert, int ausd, int man) {
@@ -16,7 +16,7 @@ public class Creature extends LivingObject {
 		
 		// States setzen
 		state[0].visible	=	false; 		// totes Monster wird unsichtbar
-		state[1].changeImg(Data.creature); 	// Bild der Lebendigen Kreatur laden
+		state[1].changeImg(Data_Img.creature); 	// Bild der Lebendigen Kreatur laden
 		sx	=	spawnX;						// Erscheinungskoordinaten
 		sy	=	spawnY;
 		
@@ -58,6 +58,18 @@ public class Creature extends LivingObject {
     	
 		// bewegung ausfuehren
 		super.move();
+    }
+    
+    public void getHit(int dmg){
+    	// Muttermethode aufrufen - wir wollen nur ein Detail ergaenzen
+    	super.getHit(dmg);
+    	
+    	// Unser Detail:
+    	if(hp<=0){
+    		for(GameEventListener gel : evtList){
+    			gel.newTreasure(x, y);
+    		}
+    	}
     }
     
     

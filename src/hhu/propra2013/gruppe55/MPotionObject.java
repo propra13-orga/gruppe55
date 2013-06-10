@@ -6,9 +6,9 @@ public class MPotionObject extends DungeonObject {
 		super(x,y);
 		// States der Potion definieren
 		state	=	new State[2];
-		state[0]	=	new State(Data.mpotion,false, false, true);			// Die Potion
-		state[1]	=	new State(Data.mpotion, false, false, false);		// Verschwundene Potion
-		state[1].defineOffset(0,0,32,32);
+		state[0]	=	new State(Data_Img.mpotion,false, false, true);			// Die Potion
+		state[1]	=	new State(Data_Img.mpotion, false, false, false);		// Verschwundene Potion
+		state[1].defineOffset(0,0,32,32, 0);
 		
 	}
 	

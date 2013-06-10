@@ -7,12 +7,162 @@ Geplante Aspekte
  - Animation
  - Kampfsystem
 
+IMPORTANT KNOWN ISSUE:
+
+- Der Shopkeeper kann nicht an einer Wand stehen, da bei jetziger Implementieren dann die Wand die ganze zeit den Shopkeeper wegen der Actionhitbox wegschieben moechte und das nicht geht!
+
 Known Issues:
-- wenn man waehrend man gegen die Wand ueber dem Gem laueft stirbt wird der Grabstein nach unten geportet
+- FIXED? wenn man waehrend man gegen die Wand ueber dem Gem laueft stirbt wird der Grabstein nach unten geportet
 - Bodentexturen muessen generiert werden ohne viel Speicheraufwand
+- Level.java broken - Wozu auf Stand halten, wnen wir die sowieso rausschmeißen? (van Meegen: Kaputte Zeilen auskommentiert um Fehlergeschmeissen zu entfernen)
+- Die Projektile kollidieren nicht
+	- muesste mit neuem Thread geloest werden, weil es ja auch gegen Waende Kollidieren soll. Nur haben wir 860 WandObjekte im Testlevel hieße min. 60*860=51600 extra Abfragen pro Sekunde (in wirklichkeit sogar wesentlich mehr!)
+- OpenGL
+	- Noch keine Lebensbalken der Monster
+	- Noch keine auf 2er-Potenzen konvertierte Bilder/Offsets
+	- Noch kein FullScreen
+	- Noch keine zeichnenden Strings
 
 
 Changelog:
+
+10.06.13 - van Meegen
+/img:
+	- bks.png entfernt (Wird nicht mehr gebraucht)
+/src:
+DungeonObject
+	- Methode ergaenzt, die wiedergibt ob ein Objekt massiv ist oder begehbar
+Projectile
+	- Pfeile fliegen nun ueber Fallen, verschwinden aber wenn sie auf nicht begehbare Objekte treffen
+Player
+	- Der Spieler toetet sich nicht mehr selber wenn er nach links schiesst
+SimpleBow
+	- min- maxdmg angepasst (Man macht nun immer 2 Dmg mit einem Pfeil)
+Level
+	- Da wir nun kleinere Raeume haben kann man die Treffeabfrage fuer Projektile verwenden ohne dass es zu großen Slow Downs kommen sollte
+
+09.06.13 - jdnklau
+TestLevel:
+	- JSON-Parser gefixed: nun werden alle Räume geladen und nicht nur einer -> Kein IndexOutOfBounds wenn man nen Teleporter tangiert
+
+09.06.13 - van Meegen
+
+/src:
+Testlevel:
+	- Der Aufruf der Level über den Jsonparser wird duch private boolean jsonParser = true; getogglet (false = altes Parsersystem). Per Default erstmal auf false gesetzt, bis alle Bugs beseitigt sind.
+SimpleBow:
+	- Klasse fuer den Bogen hinzugefuegt und Offsets eingerichtet
+SimpleShield:
+	- Klasse fuer das Schild hinzugefuegt und Offsets eingerichtet
+GameInterface:
+	- Hp fix fuer den Jsonparser
+Data_Img:
+	- Pfad fuer ein weiteres Bogenbild
+Player:
+	- Waffenaufruf geaendert (aber so nicht odeR?)
+/img:
+	- Bogen "back.png" erstellt
+
+
+<<<<<<< HEAD
+09.06.13 - Sami Salem
+Neuer Leveleditor im package leveleditor2
+ Features:
+  - schreibt/liest das Level mit Unterräume im json-Format in/aus eine Datei.
+  - Räume können hinzugefügt bzw. entfernt werden.
+  - Größe von Räume kann immer geändert werden.  
+  - Objekte(Wall,Player,Creature) kann man jetzt Parameter zuweisen
+
+zum kompilieren müssen die jackson*.jar Dateien zum Buildpath hinzugefügt werden!
+in TestLevel.java kann man durch die Variable jsonParser = true/false festlegen wie geparst wird
+ 
+=======
+09.06.13 - jdnklau
+Player
+	- shoot-Methode die dann auch Pfeile verschiesst
+	- aus Testzwecken nun drei Schwerter, 2 fuer den Nah- eins fuer den Fernkampf zum Pfeile schiessen
+	- nun auch ein Attribut dass die Anzahl der Pfeile speichert
+	- getArrowsRemaining() liefert die Anzahl der verbleibenden Pfeile
+GameEventListener
+	- besitzt nun eine shootProjectile-Methode
+LivingObject
+	- erbt nun von MovingObject
+*neu* MovingObject
+	- *neu*
+*neu* Projectile
+	- Klasse fuer Projektile
+	- braucht x, y, Flugwinkel, Schaden
+
+>>>>>>> 52fec305f01390364bd2516d6b1f23ada0bdff6e
+
+08.06.13 - van Meegen - Update
+
+Die Npcs haben nun eine zweite größere Hitbox fuer die Interaktionen und eine kleine "wirkliche" Hitbox die ihrem Image entspricht.
+/src:
+Npc:
+	- Neues Offsetarray mit Getborder()-funktion fuer die Interaktionshitbox
+Shopkeeper:
+	- Bekommt die Hitbox per superfunktion von livingobject abgeleitet um eine kleinere Hitbox als die aus dem Npc zu generieren
+
+08.06.13 - van Meegen
+
+2 Neue Klassen hinzugefuegt. Npc und Shopkeeper, der sich aus Npc ableitet. Die Klassen sind derzeit noch leer, werden aber demnaechst befuellt)
+=> Hitbox und Interaktionshitbox
+=> diverse Funktionen die der Shopkeeper und weitere Npc's brauchen
+=> ????????
+=> Profit
+
+/src:
+Npc:
+	- Konstruktor hinzugefuegt
+	- Vorlaeufige Hitbox
+	- Klasse ist bisher noch leer wird aber demnaechst voller
+
+Shopkeeper:
+	- Konstruktor (ja ich weiss, maechtig!)
+	- Vorlaeufiges Bild
+
+07.06.13 - jdnklau
+TestLevel:
+	- fuegt sich selbst nun jedem DungeonObject als Listener hinzu
+	- implementiert nun GameEventListener
+DungeonObject
+	- besitzt nun eine ArrayList aller Listener fuer eventuelle GameEvents
+Creature
+	- laesst nun einen Schatz liegen bei Tot
+Player
+	- besitzt nun keine Methoden und Attribute mehr um aus dem Spieler herauszulesen ob das Level beendet wurde
+GoalObject
+	- beendet das Level nun ueber ein GameEvent
+GameEventListener
+	- tolles neues Interface ueber das GameEvents geregelt werden
+	- Die GameEvents selbst werden in den DungeonObject Objekten gefeuert und vom Level gehoert
+
+05.06.13 - jdnklau
+Weapon:
+	- einen Pixel beim Offset fuer den Angriff nach Links nach unten verschoben
+TestLevel:
+	- freeze-State
+
+05.06.13 - van Meegen
+/src:
+Player:
+	- Offsets fuer die Haende (nach oben, links und rechts) ausgerechnet und hinzugefuegt
+Weapon:
+	- Offsets fuers Schwert (nach oben, links und rechts) ausgerechnet und hinzugefuegt
+	- je nachdem in Welche Richtung man schlaegt wird nun auch das richtige Bild dazu angezeigt
+
+05.06.13 - jdnklau
+
+State
+	- besitzt nun Attribute und Methoden fuer richtungsspezifische Grafiken!
+	- defineOffset, changeImg erwarten nun zusaetzlich einen int-Parameter dafuer, fuer welche
+	  Richtung die Aenderung vorgenommen werden soll
+	- Ein zweiter Konstruktor wurde hinzugefuegt, der 4 statt einem Bild erwartet fuer die entsprechenden Richtungen
+	- die Richtungen sind 0:vorne, 1:links, 2:rechts, 3:hinten
+LivingObject
+	- aendert nun in move die Richtung aller States auf die neuste Richtung
+
 
 03.06.13 - van Meegen
 /src:

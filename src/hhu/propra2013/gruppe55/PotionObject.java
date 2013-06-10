@@ -8,9 +8,9 @@ public class PotionObject extends DungeonObject {
 		super(x,y);
 		// States der Potion definieren
 		state	=	new State[2];
-		state[0]	=	new State(Data.potion,false, false, true);			// Die Potion
-		state[1]	=	new State(Data.potionused, false, false, false);	// Verschwundene Potion
-		state[1].defineOffset(0,0,32,32);
+		state[0]	=	new State(Data_Img.potion,false, false, true);			// Die Potion
+		state[1]	=	new State(Data_Img.potionused, false, false, false);	// Verschwundene Potion
+		state[1].defineOffset(0,0,32,32,0);
 	}
 	
 	public void onCollision(DungeonObject d){	 // Heilung bei Kollision!
