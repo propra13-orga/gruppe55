@@ -275,7 +275,7 @@ public class Level implements GameEventListener{
 			}
 				
 		
-		// staticlist f�r den Spieler und das Monster ueberpruefen (erst Spieler -> Monster dann Monster -> Spieler)
+		// Staticlist fuer den Spieler und das Monster ueberpruefen (erst Spieler -> Monster dann Monster -> Spieler)
 		for(int i=0; i<staticList.get(room).size(); i++){
 			//  ueberpruefe static mit Spieler
 			if(staticList.get(room).get(i).getBorder().intersects(player.getBorder()))
@@ -285,19 +285,20 @@ public class Level implements GameEventListener{
 				// Projektile fliegen durch die Gegend
 				for(int k=0; k<projectileList.size();k++){
 				// Monster treffen
-				if(projectileList.get(k).getBorder().intersects(creatureList.get(room).get(j).getBorder())){
-					System.out.println("i: " + i + " - j: " + j + " - k:" + k);
-					projectileList.get(k).onCollision(creatureList.get(room).get(j));
+				if(projectileList.get(k) != null && creatureList.get(room).get(j) != null && staticList.get(room).get(i) != null && player != null){
+					if(projectileList.get(k).getBorder().intersects(creatureList.get(room).get(j).getBorder())){
+						System.out.println("i: " + i + " - j: " + j + " - k:" + k);
+						projectileList.get(k).onCollision(creatureList.get(room).get(j));
+					}
+					// sonst Waende treffen
+					else if(projectileList.get(k).getBorder().intersects(staticList.get(room).get(i).getBorder())){
+						projectileList.get(k).onCollision(staticList.get(room).get(i));
+					}
+					// sonst evtl den Spieler
+					else if(projectileList.get(k).getBorder().intersects(player.getBorder()))
+						projectileList.get(k).onCollision(player);
+					}
 				}
-				// sonst Waende treffen
-				else if(projectileList.get(k).getBorder().intersects(staticList.get(room).get(i).getBorder())){
-					projectileList.get(k).onCollision(staticList.get(room).get(i));
-				}
-				// sonst evtl den Spieler
-				else if(projectileList.get(k).getBorder().intersects(player.getBorder()))
-					projectileList.get(k).onCollision(player);
-				}
-
 				// zuerst Wand -> Monster
 				if(staticList.get(room).get(i).getBorder().intersects(creatureList.get(room).get(j).getBorder()))
 					staticList.get(room).get(i).onCollision(creatureList.get(room).get(j));

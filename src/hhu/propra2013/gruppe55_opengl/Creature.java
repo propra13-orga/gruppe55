@@ -1,7 +1,7 @@
 package hhu.propra2013.gruppe55_opengl;
 
-import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
-import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.*;
+
 public class Creature extends LivingObject {
 // Attribute der Monster
     // Deklaration der Koordinaten 
@@ -80,12 +80,29 @@ public class Creature extends LivingObject {
     		return;
     	// Zeichnen der HP-Leiste ueber den Koepfen der Kreaturen
 //    	g2d.setColor(Color.WHITE);
+    	glDisable(GL_TEXTURE_2D);
+    	glColor3f(1f, 1f, 1f);
+    	glBegin(GL_QUADS);
+    		glVertex2i(x, y-8);
+    		glVertex2i(x, y-3);
+    		glVertex2i(x+24, y-3);
+    		glVertex2i(x+24, y-8);
+    	glEnd();
 //    	g2d.fillRect(x, y-8, 24, 5);
 //    	g2d.setColor(Color.BLACK);
+    	glColor3f(1f, 0f, 0f);
 //    	g2d.drawRect(x, y-8, 24, 5);
 //    	g2d.setColor(Color.RED);
 //    	g2d.fillRect(x+1, y-7, (int)(24*((double)hp/hpMax)), 4);
+    	glBegin(GL_QUADS);
+			glVertex2i(x+1, y-7);
+			glVertex2i(x, y-4);
+			glVertex2i(x+(int)(24*((double)hp/hpMax)), y-4);
+			glVertex2i(x+(int)(24*((double)hp/hpMax)), y-7);
+		glEnd();
 //    	g2d.setColor(Color.BLACK);
+    	glColor3f(1f, 1f, 1f);
+    	glEnable(GL_TEXTURE_2D);
     	// Zeichnen der Monster
     	glBindTexture(GL_TEXTURE_2D, state[currState].getTexture().getTextureID());
     	super.draw();
