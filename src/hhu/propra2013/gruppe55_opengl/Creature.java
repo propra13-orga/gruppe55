@@ -16,6 +16,7 @@ public class Creature extends LivingObject {
 		
 		// States setzen
 		state[0].visible	=	false; 		// totes Monster wird unsichtbar
+		state[0].defineOffset(0, 0, 2, 5, 0);
 		state[1].changeTexture(Data_Textures.creature); 	// Bild der Lebendigen Kreatur laden
 		sx	=	spawnX;						// Erscheinungskoordinaten
 		sy	=	spawnY;
@@ -24,7 +25,7 @@ public class Creature extends LivingObject {
 		dx=1;
 	}
     
-    // TODO: Methode fuer Bewegung überdenken
+    // TODO: Methode fuer Bewegung ï¿½berdenken
     public void move(){
 		// bewegung errechnen
 		if(dx==1 && x>=sx+moveAreaX) // zu weit rechts

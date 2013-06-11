@@ -52,7 +52,7 @@ public class Level implements GameEventListener{
 				FileReader fread = new FileReader("lvl/testlvl.txt");
 				BufferedReader in = new BufferedReader(fread);
 				
-				int k = 0; //Für 3. Arraydimension wird eigene Variable benötigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
+				int k = 0; //Fï¿½r 3. Arraydimension wird eigene Variable benï¿½tigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
 				
 				for(int i=0; (line = in.readLine()) != null; i++){
 					if(i==0){
@@ -275,7 +275,7 @@ public class Level implements GameEventListener{
 			}
 				
 		
-		// staticlist für den Spieler und das Monster ueberpruefen (erst Spieler -> Monster dann Monster -> Spieler)
+		// staticlist fï¿½r den Spieler und das Monster ueberpruefen (erst Spieler -> Monster dann Monster -> Spieler)
 		for(int i=0; i<staticList.get(room).size(); i++){
 			//  ueberpruefe static mit Spieler
 			if(staticList.get(room).get(i).getBorder().intersects(player.getBorder()))
@@ -285,11 +285,14 @@ public class Level implements GameEventListener{
 				// Projektile fliegen durch die Gegend
 				for(int k=0; k<projectileList.size();k++){
 				// Monster treffen
-				if(projectileList.get(k).getBorder().intersects(creatureList.get(room).get(j).getBorder()))
+				if(projectileList.get(k).getBorder().intersects(creatureList.get(room).get(j).getBorder())){
+					System.out.println("i: " + i + " - j: " + j + " - k:" + k);
 					projectileList.get(k).onCollision(creatureList.get(room).get(j));
+				}
 				// sonst Waende treffen
-				else if(projectileList.get(k).getBorder().intersects(staticList.get(room).get(i).getBorder()))
+				else if(projectileList.get(k).getBorder().intersects(staticList.get(room).get(i).getBorder())){
 					projectileList.get(k).onCollision(staticList.get(room).get(i));
+				}
 				// sonst evtl den Spieler
 				else if(projectileList.get(k).getBorder().intersects(player.getBorder()))
 					projectileList.get(k).onCollision(player);
@@ -304,6 +307,8 @@ public class Level implements GameEventListener{
 				// Ende der Kollisionsabfrage
 			}
 		}
+		
+		
 		
 		// Spielerangriff
 		if(player.getAttackState() && player.getWeapSet() == 0){
@@ -356,12 +361,15 @@ public class Level implements GameEventListener{
 		glMatrixMode(GL_MODELVIEW);
 		
 		Keyboard.enableRepeatEvents(true);
-		Mouse.setGrabbed(true);
+		//Mouse.setGrabbed(true);
 	}
 
 	// Game-Schleife
 	public void play(){
 		while(!close){
+			if(Display.isCloseRequested()){
+				Display.destroy();
+			}
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 			GL11.glLoadIdentity();
@@ -381,7 +389,7 @@ public class Level implements GameEventListener{
 	public void input(){
 		// KeyboardEvents
 		
-		// Tastatur-Events während des Spiels
+		// Tastatur-Events wï¿½hrend des Spiels
 		if(!lose && !clear){		
 			while(Keyboard.next()){
 				
@@ -474,6 +482,12 @@ public class Level implements GameEventListener{
 							break;
 					}
 				}
+			}
+			if(!Keyboard.isKeyDown(Keyboard.KEY_UP) && !Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
+				player.keyReleased(Keyboard.KEY_UP);
+			}
+			if(!Keyboard.isKeyDown(Keyboard.KEY_LEFT) && !Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
+				player.keyReleased(Keyboard.KEY_LEFT);
 			}
 		}
 	}

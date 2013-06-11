@@ -66,9 +66,9 @@ public class GameInterface {
 			fontShop.drawString((Display.getWidth()/2-25), Display.getHeight()/2-15, "10");	//Dialogzeile zeichnen
 			fontShop.drawString((Display.getWidth()/2-25), Display.getHeight()/2+12, "10");	//Dialogzeile zeichnen
 			fontShop.drawString((Display.getWidth()/2-25), Display.getHeight()/2+35, "10");	//Dialogzeile zeichnen
-			hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2-10), Display.getHeight()/2-10);	//DialogBox zeichnen
-			hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2-10), Display.getHeight()/2+17);	//DialogBox zeichnen
-			hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2-10), Display.getHeight()/2+40);	//DialogBox zeichnen
+			hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2), Display.getHeight()/2-11);	//DialogBox zeichnen
+			hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2), Display.getHeight()/2+15);	//DialogBox zeichnen
+			hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2), Display.getHeight()/2+38);	//DialogBox zeichnen
 			switch(selectedObject){
 				case 0:
 					hud.drawHudElement(Data_Textures.shopArrow, (Display.getWidth()/2)-115, Display.getHeight()/2-15);	//DialogBox zeichnen
@@ -96,14 +96,19 @@ public class GameInterface {
 		dialogCounter = 0;
 	}
 	
-	//Nächste Dialogzeile anzeigen, wenn letzte Zeile ausgewählt, Dialog beenden
+	//Nï¿½chste Dialogzeile anzeigen, wenn letzte Zeile ausgewï¿½hlt, Dialog beenden
 	public void next(){
 		if(currLvl.getOpenedInterface() == 1){
-			currLvl.toggleFreeze();
-			currLvl.setDialog(false);
-			currLvl.setOpenedInterface(0);
-			currDialog = null;
-			dialogCounter = 0;
+			if(dialogCounter == currDialog.length-1){
+				currLvl.toggleFreeze();
+				currLvl.setDialog(false);
+				currLvl.setOpenedInterface(0);
+				currDialog = null;
+				dialogCounter = 0;
+			}
+			else{
+				dialogCounter++;
+			}
 		}
 		else if(currLvl.getOpenedInterface() == 3){
 			currLvl.setOpenedInterface(2);
@@ -287,7 +292,7 @@ class HUD {
 		// Pfeile zeichnen
 		drawHudElement(Data_Textures.arrow_f, 900+fullScreenOffset, 24);
 		font.drawString(920+fullScreenOffset, 24, "x "+p.getStatInventoryObjectCount(4));
-		// Tränke zeichnen
+		// Trï¿½nke zeichnen
 		drawHudElement(Data_Textures.potion, 820+fullScreenOffset, 54);
 		font.drawString(850+fullScreenOffset, 68, "x  " + p.getStatInventoryObjectCount(2));
 		drawHudElement(Data_Textures.mpotion, 890+fullScreenOffset, 54);

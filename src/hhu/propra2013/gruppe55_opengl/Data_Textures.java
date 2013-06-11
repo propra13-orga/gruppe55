@@ -71,7 +71,7 @@ public class Data_Textures {
 				basicsword_icon = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/basicsword/icon.png")));	// Icon fuer das HUD
 				// simpler Bogen
 				basicbow = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/basicbow/front.png"))); // Frontansicht
-				basicbow_back = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/basicbow/back.png"))); // Rückansicht
+				basicbow_back = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/basicbow/back.png"))); // Rï¿½ckansicht
 				basicbow_f_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/basicbow/front_atk.png"))); // Bogenansicht beim Angriff nach vorn
 				basicbow_l_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/basicbow/left_atk.png"))); // Bogenansicht beim Angriff nach links
 				basicbow_r_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/basicbow/right_atk.png"))); // Bogenansicht beim Angriff nach rechts

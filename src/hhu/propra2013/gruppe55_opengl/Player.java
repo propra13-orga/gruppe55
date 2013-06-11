@@ -9,7 +9,7 @@ public class Player extends LivingObject {
 	private int invulTime			=	500;		// Dauer der Unverwundbarkeit in Millisekunden
 	// Variablen fuer den Angriff
 	public Weapon[] weapons	=	new Weapon[3];	// Waffen in Besitz
-	private int currEquipped	=	0;			// Zeige auf aktuell ausgerüstetes Waffenset (0= Nahkampf; 1= Fernkampf)
+	private int currEquipped	=	0;			// Zeige auf aktuell ausgerï¿½stetes Waffenset (0= Nahkampf; 1= Fernkampf)
 	private boolean attacking	=	false;		// Waehrend einer Attacke true
 	private int[][][] handOffsets	=	new int[4][2][4];	// Offsets fuer die Positionen der Spielerhaende
 	// Besitztuemer des Spielers
@@ -37,16 +37,16 @@ public class Player extends LivingObject {
 		state[0].defineOffset(0,0,32,32, 0);	// Grabsteinhitbox auf 0 setzen
 		// Lebendig
 		state[1]	=	new State(Data_Textures.player_f, Data_Textures.player_l, Data_Textures.player_r, Data_Textures.player_b, true, false, true);
-		state[1].defineOffset(15,5,0,5, 0); 	// Hitbox vorne
-		state[1].defineOffset(15,5,0,5, 1); 	// Hitbox links
-		state[1].defineOffset(15,5,0,5, 2); 	// Hitbox rechts
-		state[1].defineOffset(15,5,0,5, 3); 	// Hitbox hinten
+		state[1].defineOffset(15,5,1,10, 0); 	// Hitbox vorne
+		state[1].defineOffset(15,5,1,10, 1); 	// Hitbox links
+		state[1].defineOffset(15,5,1,10, 2); 	// Hitbox rechts
+		state[1].defineOffset(15,5,1,10, 3); 	// Hitbox hinten
 		// Angriff
 		state[2]	=	new State(Data_Textures.player_f_atk, Data_Textures.player_l_atk, Data_Textures.player_r_atk, Data_Textures.player_b_atk, true, false, true);
-		state[2].defineOffset(15,5,0,5, 0); 	// Hitbox vorne
-		state[2].defineOffset(15,5,0,5, 1); 	// Hitbox links
-		state[2].defineOffset(15,5,0,5, 2); 	// Hitbox rechts
-		state[2].defineOffset(15,5,0,5, 3); 	// Hitbox hinten
+		state[2].defineOffset(15,5,1,10, 0); 	// Hitbox vorne
+		state[2].defineOffset(15,5,1,10, 1); 	// Hitbox links
+		state[2].defineOffset(15,5,1,10, 2); 	// Hitbox rechts
+		state[2].defineOffset(15,5,1,10, 3); 	// Hitbox hinten
 		
 		// 1. State aktivieren (lebendig)
 		switchState(1);
@@ -145,7 +145,7 @@ public class Player extends LivingObject {
     	}.start();
     }
     
-    // Methode zum Pfeile Schießen
+    // Methode zum Pfeile Schieï¿½en
 	public void shoot(){
 		// genug Pfeile?
 		if(statInventory[4]<=0)	return;
@@ -165,6 +165,7 @@ public class Player extends LivingObject {
     		break;
     	case	3:	// nach oben
     		x+=state[currState].getTexture().getTextureWidth()/2;	// horizontal zentrieren
+    		y-=2;
     		break;
     	case	0:	// nach unten
     	default:

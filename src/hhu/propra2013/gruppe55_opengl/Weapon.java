@@ -19,13 +19,22 @@ public class Weapon extends DungeonObject {
 
 	// Konstruktor
 	public Weapon() {
-		super(0, 0);	// Scheint merkwürdig, macht aber Sinn (wird dem Spieler angepasst)
+		super(0, 0);	// Scheint merkwï¿½rdig, macht aber Sinn (wird dem Spieler angepasst)
 		
 		// States setzen
 		state	=	new State[3];
 		state[0]	=	new State(Data_Textures.basicsword, false, false, true);
+			state[0].defineOffset(0, 0, 5, 6, 0);
 		state[1]	=	new State(Data_Textures.basicsword, false, false, true);
+			state[1].defineOffset(0, 0, 5, 6, 0);
+			state[1].defineOffset(0, 0, 5, 6, 1);
+			state[1].defineOffset(0, 0, 5, 6, 2);
+			state[1].defineOffset(0, 0, 5, 6, 3);
 		state[2]	=	new State(Data_Textures.basicsword_f_atk, Data_Textures.basicsword_l_atk, Data_Textures.basicsword_r_atk, Data_Textures.basicsword_u_atk, false, false, true);
+			state[2].defineOffset(0, 0, 10, 6, 0);
+			state[2].defineOffset(0, 0, 6, 10, 1);
+			state[2].defineOffset(0, 0, 6, 10, 2);
+			state[2].defineOffset(0, 0, 10, 6, 3);
 		
 		switchState(1);
 		

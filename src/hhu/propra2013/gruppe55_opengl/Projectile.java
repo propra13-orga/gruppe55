@@ -23,6 +23,7 @@ public class Projectile extends MovingObject {
 		state[0]	=	new State(Data_Textures.arrow_f, false, false, false);
 		// fliegender Pfeil
 		state[1]	=	new State(Data_Textures.arrow_f,Data_Textures.arrow_l,Data_Textures.arrow_r,Data_Textures.arrow_b,true,false,true);
+			
 		// State setzen
 		switchState(1);
 		// Richtung berechnen
