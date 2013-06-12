@@ -10,7 +10,6 @@ import org.lwjgl.*;
 import org.lwjgl.input.*;
 import org.lwjgl.opengl.*;
 import static org.lwjgl.opengl.GL11.*;
-
 import org.lwjgl.opengl.DisplayMode;
 
 public class Level implements GameEventListener{
@@ -30,8 +29,9 @@ public class Level implements GameEventListener{
 	private boolean freeze = false;		// friert das Level ein
 	private int openedInterface;			// Welches Interface aufgerufen ist
 	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
-	private boolean fullscreen;
-	private boolean jsonParser = true;
+	private boolean fullscreen;				// Ob Fullscreen aktiviert ist
+	private DisplayMode initMode;			//Originalfenstermodus
+	private boolean jsonParser = true;		// Ob der JSON Parser verwendet werden soll
 	private LevelData levelDataObj;
 	static Data_Textures textures;
 	
@@ -345,10 +345,10 @@ public class Level implements GameEventListener{
 	//Display und OpenGL initialisieren/einstellen
 	public void init(int x, int y){
 		try {
-			Display.setDisplayMode(new DisplayMode(x, y));
+			initMode = new DisplayMode(x, y);
+			Display.setDisplayMode(initMode);
 			Display.setTitle("Game");
 			Display.setResizable(false);
-			Display.setFullscreen(true);
 			Display.setInitialBackground(255/255f, 211/255f, 155/255f);
 			Display.create();
 		}catch (LWJGLException e) {e.printStackTrace();}
@@ -361,7 +361,7 @@ public class Level implements GameEventListener{
 		glOrtho(0, x, y, 0, -1, 1);
 		glMatrixMode(GL_MODELVIEW);
 		
-		Keyboard.enableRepeatEvents(true);
+		//Keyboard.enableRepeatEvents(true);
 		//Mouse.setGrabbed(true);
 	}
 
@@ -369,7 +369,7 @@ public class Level implements GameEventListener{
 	public void play(){
 		while(!close){
 			if(Display.isCloseRequested()){
-				Display.destroy();
+				close = true;
 			}
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
@@ -453,6 +453,26 @@ public class Level implements GameEventListener{
 							player.swapWeapons();
 							break;
 						case Keyboard.KEY_F:
+							try {
+								if(fullscreen){
+									fullscreen = !fullscreen;
+									Display.setDisplayMode(initMode);
+									Display.setFullscreen(false);
+									glMatrixMode(GL_PROJECTION);
+									glLoadIdentity();
+									glOrtho(0, Display.getWidth(), Display.getHeight(), 0, -1, 1);
+									glMatrixMode(GL_MODELVIEW);
+								}
+								else{
+									fullscreen = !fullscreen;
+									Display.setDisplayMode(Display.getDesktopDisplayMode());
+									Display.setFullscreen(true);
+									glMatrixMode(GL_PROJECTION);
+									glLoadIdentity();
+									glOrtho(0, Display.getDesktopDisplayMode().getWidth(), Display.getDesktopDisplayMode().getHeight(), 0, -1, 1);
+									glMatrixMode(GL_MODELVIEW);
+								}
+							} catch (LWJGLException e) {e.printStackTrace();}
 							break;
 					}
 				}
@@ -520,7 +540,7 @@ public class Level implements GameEventListener{
 	// Zeichen/Render-Funktion
 	public void render(){
 		// Koordinatensystem an Spieler anpassen
-		GL11.glTranslatef(Display.getWidth()/2-player.getTX(), Display.getHeight()/2-player.getTY(), 0);
+		glTranslatef(Display.getWidth()/2-player.getTX(), Display.getHeight()/2-player.getTY(), 0);
 		
 		// alle objekte der staticlist zeichnen (Waende, Fallen,...)
 		for(int i=0; i<staticList.get(room).size(); i++){
@@ -538,7 +558,7 @@ public class Level implements GameEventListener{
 		// Spieler zeichnen
 		player.draw();
 		// Fuer folgende Texturen das Koordinatensystem wieder begradigen
-		GL11.glTranslatef(-(Display.getWidth()/2-player.getTX()), -(Display.getHeight()/2-player.getTY()), 0);
+		glTranslatef(-(Display.getWidth()/2-player.getTX()), -(Display.getHeight()/2-player.getTY()), 0);
 		
 		// Interface zeichnen
 		iFace.paint(player, fullscreen);
