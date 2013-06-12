@@ -26,6 +26,19 @@ Known Issues:
 
 Changelog:
 
+12.06.13 - van Meegen
+/src:
+Storyteller
+	- Storytellerklasse erstellt fuer Npcs die was zu sagen haben!
+Level
+	- Storyteller mit in die Tastaturabfrage eingebunden
+Data_String
+	- Der String fuer den Storyteller wird aus der Example.txt ausgelesen
+Data_Img
+	- Bild fuer den Storyteller mit eingebunden
+/dialogs
+	- Ordner wieder hinzugefuegt fuer Npc und generelle Spieldialoge
+
 10.06.13 - van Meegen
 /img:
 	- bks.png entfernt (Wird nicht mehr gebraucht)

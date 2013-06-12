@@ -7,7 +7,7 @@ public class Data_String {
 // 	Klasse zum statischen Laden der Dialogdateien, damit diese nicht bei jedem Aufruf extra geladen werden müssen	
 	
 	// Example-Dialog
-	// static String[] example = genDialog("example");		// der Spieler von vorne
+	static String[] example = genDialog("example");		// Erster Beispieldialog
 	
 	// Methode zum generieren der Dialog String-Arrays aus .txt
 	private static String[] genDialog(String file){
@@ -16,7 +16,7 @@ public class Data_String {
 		int i = 0;
 		
 		try{
-			FileReader fReader = new FileReader("dialogs/"+file+".txt");
+			FileReader fReader = new FileReader("dialogs/example.txt");
 			BufferedReader bReader = new BufferedReader(fReader);
 			
 			for(i=0; (line = bReader.readLine()) != null; i++){

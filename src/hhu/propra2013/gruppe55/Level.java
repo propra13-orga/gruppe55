@@ -97,6 +97,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			//8: Manapotion
 			//9: Schatz
 			//10: Shopkeeper
+			//11: Storyteller
 			
 			// Schleife die das Level generiert
 			for(int r=0; r<lvlData.length;r++){
@@ -149,6 +150,9 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 						}
 						else if(lvlData[r][i][j] == 10){
 							creatureList.get(r).add(new Shopkeeper(32*i, 32*j, 3, 1, 0, 100, 0));
+						}
+						else if(lvlData[r][i][j] == 11){
+							creatureList.get(r).add(new Storyteller(32*i, 32*j, 3, 1, 0, 100, 0));
 						}
 					}
 				}
@@ -511,6 +515,15 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 							openedInterface = 2;
 							dialog = true;
 							iFace.setSelectedObject(0);
+						}
+					}
+			// Wenn es ein Storyteller ist und kein Shopkeeper - Dialog aus der Textdatei holen und Dialog aufrufen!
+					else if(creatureList.get(room).get(i) instanceof Storyteller){
+						if(player.getBorder().intersects(creatureList.get(room).get(i).getBorder())){
+							iFace.setDialog(Data_String.example, 0);
+							freeze = true;
+							openedInterface = 1;
+							dialog = true;
 						}
 					}
 				}
