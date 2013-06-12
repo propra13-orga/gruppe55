@@ -34,7 +34,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	private boolean freeze	=	false;		// friert das Level ein
 	private int openedInterface;			// Welches Interface aufgerufen ist
 	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
-	private boolean jsonParser = true;		// Bis alles funktioniert per Default auf false gesetzt - auf true setzen um die Jsonlvl zu laden 
+	private boolean jsonParser = false;		// Bis alles funktioniert per Default auf false gesetzt - auf true setzen um die Jsonlvl zu laden 
 	private LevelData levelDataObj;
 	
 	
@@ -153,6 +153,9 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 						}
 						else if(lvlData[r][i][j] == 11){
 							creatureList.get(r).add(new Storyteller(32*i, 32*j, 3, 1, 0, 100, 0));
+						}
+						else if(lvlData[r][i][j] == 12){
+							staticList.get(r).add(new Healthcontainer(i*32, j*32));
 						}
 					}
 				}
