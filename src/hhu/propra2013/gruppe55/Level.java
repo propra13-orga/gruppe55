@@ -34,7 +34,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	private boolean freeze	=	false;		// friert das Level ein
 	private int openedInterface;			// Welches Interface aufgerufen ist
 	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
-	private boolean jsonParser = false;		// Bis alles funktioniert per Default auf false gesetzt - auf true setzen um die Jsonlvl zu laden 
+	private boolean jsonParser = true;		// Bis alles funktioniert per Default auf false gesetzt - auf true setzen um die Jsonlvl zu laden 
 	private LevelData levelDataObj;
 	
 	
