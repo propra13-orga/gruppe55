@@ -89,7 +89,7 @@ public abstract class LivingObject extends MovingObject {
 	}
 	
 	public void raisehp(){
-		hpMax +=100;
+		hpMax +=2;
 		if(hpMax >20){
 			hpMax = 20;
 		}
