@@ -63,7 +63,7 @@ public class GameInterface {
 						g2d.drawImage(Data_Img.shopArrow, (currLvl.getWidth()/2)-115, currLvl.getHeight()/2+35, null);	//DialogBox zeichnen
 						break;
 				}
-			}
+			}			
 		}
 	}
 	
