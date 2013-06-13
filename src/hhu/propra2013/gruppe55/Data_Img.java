@@ -40,6 +40,7 @@ public class Data_Img {
 	// Nutzbare Items
 	public static Image potion = genImg("potion.png");		// Trank
 	static Image potionused = genImg("potionused.png");	// (Platzhalter)
+	public static Image healthcontainer = genImg("Interface/HUD_Tear_HP_Full.png");
 	public static Image mpotion = genImg("mpotion.png");		// Manatrank
 	public static Image treasure = genImg("treasure.png");		// Schaetze 
 	// Fallen
@@ -53,7 +54,7 @@ public class Data_Img {
 	static Image hud_Tear_HP_Half = new ImageIcon("img/Interface/HUD_Tear_HP_Half.png").getImage();			// HUD Half HP-Container)
 	static Image hud_Tear_HP_Empty = new ImageIcon("img/Interface/HUD_Tear_HP_Empty.png").getImage();		// HUD Empty HP-Container)
 	static Image hud_Crystal_Full = new ImageIcon("img/Interface/HUD_Crystal_MP_Full.png").getImage();			// HUD Full MP-Container)
-	static Image hud_Crystal_Empty = new ImageIcon("img/Interface/HUD_Crystal_MP_Empty.png.png").getImage();	// HUD Empty MP-Container)
+	static Image hud_Crystal_Empty = new ImageIcon("img/Interface/HUD_Crystal_MP_Empty.png").getImage();	// HUD Empty MP-Container)
 	static Image dialogBox = new ImageIcon("img/Interface/DialogBox.png").getImage();	//DialogBox
 	static Image shop = new ImageIcon("img/Interface/Shop.png").getImage();	//Shop
 	static Image shopArrow = new ImageIcon("img/Interface/ShopArrow.png").getImage();	//Shop-Pfeil

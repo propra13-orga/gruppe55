@@ -154,6 +154,9 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 						else if(lvlData[r][i][j] == 11){
 							creatureList.get(r).add(new Storyteller(32*i, 32*j, 3, 1, 0, 100, 0));
 						}
+						else if(lvlData[r][i][j] == 12){
+							staticList.get(r).add(new Healthcontainer(i*32, j*32));
+						}
 					}
 				}
 			}

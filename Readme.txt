@@ -14,9 +14,6 @@ IMPORTANT KNOWN ISSUE:
 Known Issues:
 - FIXED? wenn man waehrend man gegen die Wand ueber dem Gem laueft stirbt wird der Grabstein nach unten geportet
 - Bodentexturen muessen generiert werden ohne viel Speicheraufwand
-- Level.java broken - Wozu auf Stand halten, wnen wir die sowieso rausschmeißen? (van Meegen: Kaputte Zeilen auskommentiert um Fehlergeschmeissen zu entfernen)
-- Die Projektile kollidieren nicht
-	- muesste mit neuem Thread geloest werden, weil es ja auch gegen Waende Kollidieren soll. Nur haben wir 860 WandObjekte im Testlevel hieße min. 60*860=51600 extra Abfragen pro Sekunde (in wirklichkeit sogar wesentlich mehr!)
 - OpenGL
 	- Noch keine Lebensbalken der Monster
 	- Noch keine auf 2er-Potenzen konvertierte Bilder/Offsets
@@ -26,7 +23,12 @@ Known Issues:
 
 Changelog:
 
-12.06.13 - van Meegen
+
+
+12.06.13 - van Meegen UPDATE:
+
+Hab im Level den Jsonparseraufruf wieder auf true gesetzt. Ist im letzten push nur auf false gewesen da ich die Objekte im testlvl teste. :3
+
 /src:
 Storyteller
 	- Storytellerklasse erstellt fuer Npcs die was zu sagen haben!
