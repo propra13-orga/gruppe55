@@ -97,6 +97,10 @@ public abstract class DungeonObject {
 	public boolean isMassive(){
 		return state[currState].massive;
 	}
+	// aktuellen Status ausgeben
+	public int getCurrState(){
+		return currState;
+	}
 	// rahmen ausgeben
 	public Rectangle getBorder(){
 		if(state[currState].visible){
