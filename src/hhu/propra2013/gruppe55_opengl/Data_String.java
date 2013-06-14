@@ -6,8 +6,8 @@ public class Data_String {
 	
 // 	Klasse zum statischen Laden der Dialogdateien, damit diese nicht bei jedem Aufruf extra geladen werden müssen	
 	
-	// Example-Dialog
-	//static String[] example = genDialog("example");		// der Spieler von vorne
+	// Story-Dialog
+	static String[] story1 = genDialog("story1");    // 1st one
 	
 	// Methode zum generieren der Dialog String-Arrays aus .txt
 	private static String[] genDialog(String file){

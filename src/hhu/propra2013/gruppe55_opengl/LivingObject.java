@@ -85,6 +85,13 @@ public abstract class LivingObject extends MovingObject {
 		if(mana>manaMax)
 			mana = manaMax;
 	}
+	
+	public void raisehp(){
+		hpMax +=2;
+		if(hpMax >20){
+			hpMax = 20;
+		}
+	}
     
     // Methode zum Unverwundbar machen des Objekts
     public void setInvulnerability(final int sleepTime){

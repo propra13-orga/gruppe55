@@ -34,7 +34,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	private boolean freeze	=	false;		// friert das Level ein
 	private int openedInterface;			// Welches Interface aufgerufen ist
 	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
-	private boolean jsonParser = true;		// Bis alles funktioniert per Default auf false gesetzt - auf true setzen um die Jsonlvl zu laden 
+	private boolean jsonParser = false;		// Bis alles funktioniert per Default auf false gesetzt - auf true setzen um die Jsonlvl zu laden 
 	private LevelData levelDataObj;
 	
 	
@@ -45,6 +45,30 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 		this.gm = gm;
 		this.gw = gw;
 		
+		if(jsonParser){
+			loadLevel("level1");
+		}
+		else{
+			loadLevel("testlvl");
+		}
+		
+		//Cursor unsichtbar machen
+		this.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(Data_Img.potionused, new Point(0,0), "Invisible Cursor"));
+		
+		// Eigenschaften des Panels
+		setFocusable(true);
+		setBackground(new Color(255,211,155));
+		setDoubleBuffered(true);
+		
+		// Hinzufuegen des KeyListener 
+		addKeyListener(new KeyControll());
+		
+		// Aktionstimer wird gesetzt und gestartet
+		timer	=	new Timer(1000/60, this);
+		timer.start();
+	}
+
+	public void loadLevel(String file){
 		String line;
 		String lineints[];
 		int[][][] lvlData = null;
@@ -53,7 +77,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			// Parser fuer Leveldateien
 			try {
 				//.txt einlesen
-				FileReader fread = new FileReader("lvl/testlvl.txt");
+				FileReader fread = new FileReader("lvl/" + file + ".txt");
 				BufferedReader in = new BufferedReader(fread);
 				
 				int k = 0; //Für 3. Arraydimension wird eigene Variable benötigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
@@ -98,6 +122,8 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			//9: Schatz
 			//10: Shopkeeper
 			//11: Storyteller
+			//12: Healthcontainer
+			//13: Checkpoint
 			
 			// Schleife die das Level generiert
 			for(int r=0; r<lvlData.length;r++){
@@ -164,7 +190,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			//lade Leveldaten durch json Parser
 			levelDataObj = new LevelData();
 			try {
-				LevelReader levelReader = new LevelReader(new File("lvl/level1.txt"));
+				LevelReader levelReader = new LevelReader(new File("lvl/" + file + ".txt"));
 				levelDataObj = levelReader.getLevelData();
 			} catch (FileNotFoundException e) {
 				// TODO Auto-generated catch block
@@ -193,6 +219,9 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			//8: Manapotion
 			//9: Schatz
 			//10: Shopkeeper
+			//11: Storyteller
+			//12: Healthcontainer
+			//13: Checkpoint
 			
 			// Schleife die das Level generiert
 			for(int r=0; r<levelDataObj.totalRooms();r++){
@@ -236,6 +265,12 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 					}else if(tempParameterList.get(0) == 10){
 						creatureList.get(r).add(new Shopkeeper(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5)));
 					}
+					else if(tempParameterList.get(0) == 11){
+						creatureList.get(r).add(new Storyteller(xPos, xPos, 3, 1, 0, 100, 0));
+					}
+					else if(tempParameterList.get(0) == 12){
+						staticList.get(r).add(new Healthcontainer(xPos, yPos));
+					}
 				}
 			}
 		}
@@ -252,25 +287,9 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 
 		//Konstruiere Interface
 		iFace = new GameInterface(this);
-		
-		//Cursor unsichtbar machen
-		this.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(Data_Img.potionused, new Point(0,0), "Invisible Cursor"));
-		
-		
-		// Eigenschaften des Panels
-		setFocusable(true);
-		setBackground(new Color(255,211,155));
-		setDoubleBuffered(true);
-		
-		// Hinzufuegen des KeyListener 
-		addKeyListener(new KeyControll());
-		
-		// Aktionstimer wird gesetzt und gestartet
-		timer	=	new Timer(1000/60, this);
-		timer.start();
 	}
-
-// Methoden
+	
+	
 	/*
 	 * Kollisionsabfrage zwischen den Dungeonobjekten aus staticList und creatureList
 	 * bei Spielerkollision wird .onCollision(player) des jeweiligen Listenelements aufgerufen fuer spezielle Kollisionsbehandlung
@@ -292,37 +311,46 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 				break;
 			}
 		
-		// staticlist für den Spieler und das Monster ueberpruefen (erst Spieler -> Monster dann Monster -> Spieler)
+		// staticlist Kollisionen überprüfen
 		for(int i=0; i<staticList.get(room).size(); i++){
-			// ueberpruefe static mit Spieler
-			if(staticList.get(room).get(i).getBorder().intersects(player.getBorder()))
+			// static mit Spieler
+			if(staticList.get(room).get(i).getBorder().intersects(player.getBorder())){
 				staticList.get(room).get(i).onCollision(player);
-			// nun ueberpruefe Wand und Monster sowie Monster und Spieler
-			for(int j=0; j<creatureList.get(room).size(); j++){
-				// Projektile fliegen durch die Gegend
-				for(int k=0; k<projectileList.size();k++){
-					// Monster treffen
-					if(projectileList.get(k).getBorder().intersects(creatureList.get(room).get(j).getBorder()))
-						projectileList.get(k).onCollision(creatureList.get(room).get(j));
-					// sonst Waende treffen
-					else if(projectileList.get(k).getBorder().intersects(staticList.get(room).get(i).getBorder()))
-						projectileList.get(k).onCollision(staticList.get(room).get(i));
-					// sonst evtl den Spieler
-					else if(projectileList.get(k).getBorder().intersects(player.getBorder()))
-						projectileList.get(k).onCollision(player);
+			}
+			// static mit Projektilen
+			for(int j=0; j<projectileList.size();j++){
+				if(projectileList.get(j).getBorder().intersects(staticList.get(room).get(i).getBorder())){
+					projectileList.get(j).onCollision(staticList.get(room).get(i));
 				}
-				// dann Wand -> Monster
-				if(staticList.get(room).get(i).getBorder().intersects(creatureList.get(room).get(j).getBorder()))
-					staticList.get(room).get(i).onCollision(creatureList.get(room).get(j));
-				// dann Monster -> Spieler
-				if(creatureList.get(room).get(j).getBorder().intersects(player.getBorder()))
-					creatureList.get(room).get(j).onCollision(player);
-				// Ende der Kollisionsabfrage
+			}
+			// dann Wand -> Living
+			for(int k=0; k<creatureList.get(room).size();k++){
+				if(staticList.get(room).get(i).getBorder().intersects(creatureList.get(room).get(k).getBorder())){
+					staticList.get(room).get(i).onCollision(creatureList.get(room).get(k));
+				}
 			}
 		}
 		
-		// TODO: Projektilkollisionen in eigenem Thread. Ansonsten gehts zu sehr auf die Leistung..
+		//Kollisionen der LivingObjects
+		for(int i = 0; i < creatureList.get(room).size(); i++){
+			// Living mit Projektilen
+			for(int j=0; j<projectileList.size();j++){
+				if(projectileList.get(j).getBorder().intersects(creatureList.get(room).get(i).getBorder()))
+					projectileList.get(j).onCollision(creatureList.get(room).get(i));
+			}
+			// Living mit Spieler
+			if(creatureList.get(room).get(i).getBorder().intersects(player.getBorder())){
+				creatureList.get(room).get(i).onCollision(player);
+			}
+		}
 		
+		// uebrige Spieler-Kollisionen
+		// Spieler mit Projektilen
+		for(int i=0; i<projectileList.size();i++){
+			if(projectileList.get(i).getBorder().intersects(player.getBorder())){
+				projectileList.get(i).onCollision(player);
+			}
+		}
 		// Spielerangriff
 		if(player.getAttackState() && player.getWeapSet() == 0)
 			for(int i=0; i<creatureList.get(room).size(); i++){
@@ -336,6 +364,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	
 	//Methode um das Level neu zu laden und das Spiel von vorne zu beginnen
 	public void reload(){
+		player.giveStatInventoryObject(0, -1);
 		// den Spieler wiederbeleben
 		player.revive();
 		player.teleport(playerSpawnX, playerSpawnY);
@@ -446,11 +475,11 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	public int getOpenedInterface(){
 		return(openedInterface);
 	}
-	
+	// Interface ausgeben
 	public GameInterface getInterface(){
 		return(iFace);
 	}
-
+	
 // SPIELEREIGNISSE ABFANGEN
 	@Override
 	public void newTreasure(int x, int y) {
@@ -523,7 +552,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			// Wenn es ein Storyteller ist und kein Shopkeeper - Dialog aus der Textdatei holen und Dialog aufrufen!
 					else if(creatureList.get(room).get(i) instanceof Storyteller){
 						if(player.getBorder().intersects(creatureList.get(room).get(i).getBorder())){
-							iFace.setDialog(Data_String.example, 0);
+							iFace.setDialog(Data_String.story1, 0);
 							freeze = true;
 							openedInterface = 1;
 							dialog = true;

@@ -27,7 +27,7 @@ public class Player extends LivingObject {
 		// 3: MPPotion
 		// 4: Arrows
 		statInventory = new int[5];
-		statInventory[0] = 1;
+		statInventory[0] = 3;
 		statInventory[1] = statInventory[2] = statInventory[3] = 0;
 		statInventory[4] = 15;
 		

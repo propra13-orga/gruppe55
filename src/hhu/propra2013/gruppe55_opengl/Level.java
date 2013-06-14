@@ -5,7 +5,6 @@ import java.io.*;
 import hhu.propra2013.leveleditor2.LevelData;
 import hhu.propra2013.leveleditor2.LevelReader;
 import java.util.Map;
-
 import org.lwjgl.*;
 import org.lwjgl.input.*;
 import org.lwjgl.opengl.*;
@@ -31,7 +30,7 @@ public class Level implements GameEventListener{
 	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
 	private boolean fullscreen;				// Ob Fullscreen aktiviert ist
 	private DisplayMode initMode;			//Originalfenstermodus
-	private boolean jsonParser = true;		// Ob der JSON Parser verwendet werden soll
+	private boolean jsonParser = false;		// Ob der JSON Parser verwendet werden soll
 	private LevelData levelDataObj;
 	static Data_Textures textures;
 	
@@ -41,18 +40,29 @@ public class Level implements GameEventListener{
 		init(x, y);
 		textures = new Data_Textures();
 		
+		if(jsonParser){
+			loadLevel("level1");
+		}
+		else{
+			loadLevel("testlvl");
+		}
+		
+		this.play();
+	}
+
+	public void loadLevel(String file){
 		String line;
 		String lineints[];
 		int[][][] lvlData = null;
 		
-		// Parser fuer Leveldateien
 		if(!jsonParser){
+			// Parser fuer Leveldateien
 			try {
 				//.txt einlesen
-				FileReader fread = new FileReader("lvl/testlvl.txt");
+				FileReader fread = new FileReader("lvl/" + file + ".txt");
 				BufferedReader in = new BufferedReader(fread);
 				
-				int k = 0; //Fï¿½r 3. Arraydimension wird eigene Variable benï¿½tigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
+				int k = 0; //Für 3. Arraydimension wird eigene Variable benötigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
 				
 				for(int i=0; (line = in.readLine()) != null; i++){
 					if(i==0){
@@ -72,8 +82,7 @@ public class Level implements GameEventListener{
 				}
 				in.close();
 			} catch (IOException e) {e.printStackTrace();}
-	
-			
+				
 			// Zeiger wird auf den ersten Raum gesetzt
 			room	=	0;
 	
@@ -91,80 +100,84 @@ public class Level implements GameEventListener{
 			//5: Falle
 			//6: Ziel
 			//7: Potion
-			//8: ManaPotion
+			//8: Manapotion
 			//9: Schatz
 			//10: Shopkeeper
+			//11: Storyteller
+			//12: Healthcontainer
+			//13: Checkpoint
 			
 			// Schleife die das Level generiert
 			for(int r=0; r<lvlData.length;r++){
 				// Dimension des neuen Raumes in der Arraylist initialisieren
-				staticList = new ArrayList<ArrayList<DungeonObject>>(0);
-				creatureList = new ArrayList<ArrayList<LivingObject>>(0);
-				teleportList = new ArrayList<ArrayList<Teleporter>>(0);
-	
 				staticList.add(new ArrayList<DungeonObject>(0));
 				creatureList.add(new ArrayList<LivingObject>(0));
 				teleportList.add(new ArrayList<Teleporter>(0));
 				// Objekte generieren
 				for(int i=0;i<=lvlData[0].length-1;i++){
 					for(int j=0;j<=lvlData[0][0].length-1;j++){
-						if(lvlData[r][i][j] == 0){
-							staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						/*if(lvlData[r][i][j] == 0){
+							staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert (derzeit auskommentiert, da zu Speicherintensiv)
 						}
-						else if(lvlData[r][i][j] == 1){
+						else */if(lvlData[r][i][j] == 1){
 							staticList.get(r).add(new WallObject(i*32, j*32));		// bei 1 wird ein Wandobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 2){
 							creatureList.get(r).add(new Creature(i*32+5, j*32-5, 3, 1, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
-							staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						}
 						else if(lvlData[r][i][j] == 3){
 							playerSpawnX	=	i*32-5;
 							playerSpawnY	=	j*32-5;
 							player	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1, 3);		// bei 3 wird ein Spielerobjekt generiert
-							staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						}
 						else if(lvlData[r][i][j] == 5){
-							staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							staticList.get(r).add(new TrapObject(i*32, j*32));		// bei 5 wird ein Fallenobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 4){
-							staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							teleportList.get(r).add(new Teleporter(i*32, j*32, 1, 2*32, 0*32));
 						}
 						else if(lvlData[r][i][j] == 6){
-							staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							staticList.get(r).add(new GoalObject(i*32, j*32));		// bei 6 wird ein Zielobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 7){
-							staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							staticList.get(r).add(new PotionObject(i*32, j*32)); 	// bei 7 wird ein Potionobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 8){
-							staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							staticList.get(r).add(new MPotionObject(i*32, j*32)); 	// bei 8 wird ein Manapotionobject generiert
 						}
 						else if(lvlData[r][i][j] == 9){
-							staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							staticList.get(r).add(new TreasureObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 10){
 							creatureList.get(r).add(new Shopkeeper(32*i, 32*j, 3, 1, 0, 100, 0));
 						}
+						else if(lvlData[r][i][j] == 11){
+							creatureList.get(r).add(new Storyteller(32*i, 32*j, 3, 1, 0, 100, 0));
+						}
+						else if(lvlData[r][i][j] == 12){
+							staticList.get(r).add(new Healthcontainer(i*32, j*32));
+						}
 					}
 				}
 			}
-		}
-		
-		else{
+		}else{
 			//lade Leveldaten durch json Parser
 			levelDataObj = new LevelData();
-			room = 0;
 			try {
-				LevelReader levelReader = new LevelReader(new File("lvl/level1.txt"));
+				LevelReader levelReader = new LevelReader(new File("lvl/" + file + ".txt"));
 				levelDataObj = levelReader.getLevelData();
-			}catch(FileNotFoundException e){e.printStackTrace();}
-			
+			} catch (FileNotFoundException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			
 
 			// Zeiger wird auf den ersten Raum gesetzt
@@ -188,6 +201,9 @@ public class Level implements GameEventListener{
 			//8: Manapotion
 			//9: Schatz
 			//10: Shopkeeper
+			//11: Storyteller
+			//12: Healthcontainer
+			//13: Checkpoint
 			
 			// Schleife die das Level generiert
 			for(int r=0; r<levelDataObj.totalRooms();r++){
@@ -215,7 +231,8 @@ public class Level implements GameEventListener{
 					}else if(tempParameterList.get(0) == 3){
 						playerSpawnX = xPos;
 						playerSpawnY = yPos;
-						player  =  new Player(playerSpawnX, playerSpawnY, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));    					}else if(tempParameterList.get(0) == 4){
+						player  =  new Player(playerSpawnX, playerSpawnY, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));    
+					}else if(tempParameterList.get(0) == 4){
 						teleportList.get(r).add(new Teleporter(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));    
 					}else if(tempParameterList.get(0) == 5){
 						staticList.get(r).add(new TrapObject(xPos, yPos));    
@@ -228,12 +245,17 @@ public class Level implements GameEventListener{
 					}else if(tempParameterList.get(0) == 9){
 						staticList.get(r).add(new TreasureObject(xPos, yPos));    
 					}else if(tempParameterList.get(0) == 10){
-						creatureList.get(r).add(new Shopkeeper(xPos, yPos, 3, 1, 0, 100, 0));  //im Editor noch nicht implementiert  
+						creatureList.get(r).add(new Shopkeeper(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5)));
+					}
+					else if(tempParameterList.get(0) == 11){
+						creatureList.get(r).add(new Storyteller(xPos, xPos, 3, 1, 0, 100, 0));
+					}
+					else if(tempParameterList.get(0) == 12){
+						staticList.get(r).add(new Healthcontainer(xPos, yPos));
 					}
 				}
 			}
 		}
-		
 		// GameEventListener hinzufuegen fuer Lebendige Objekte
 		for(int i=0; i<creatureList.size(); i++)
 			for(LivingObject l : creatureList.get(i))
@@ -245,13 +267,10 @@ public class Level implements GameEventListener{
 		// ... und den Spieler
 		player.addGameListener(this);
 
-		
 		//Konstruiere Interface
 		iFace = new GameInterface(this);
-
-		this.play();
 	}
-
+	
 // Methoden
 	/*
 	 * Kollisionsabfrage zwischen den Dungeonobjekten aus staticList und creatureList
@@ -259,7 +278,7 @@ public class Level implements GameEventListener{
 	 */
 	private void collisionCheck(){
 		// Ueberpruefen ob der Spieler in einen anderen Raum teleportiert werden soll
-		for(int i=0; i<teleportList.get(room).size(); i++)
+		for(int i=0; i<teleportList.get(room).size(); i++){
 			// trifft der Spieler auf einen Teleporter
 			if(teleportList.get(room).get(i).getBorder().intersects(player.getBorder())){
 				// Teleportinformationen abfragen
@@ -273,54 +292,59 @@ public class Level implements GameEventListener{
 				// Schleife beenden
 				break;
 			}
-				
+		}
 		
-		// Staticlist fuer den Spieler und das Monster ueberpruefen (erst Spieler -> Monster dann Monster -> Spieler)
+		// staticlist Kollisionen überprüfen
 		for(int i=0; i<staticList.get(room).size(); i++){
-			//  ueberpruefe static mit Spieler
-			if(staticList.get(room).get(i).getBorder().intersects(player.getBorder()))
+			// static mit Spieler
+			if(staticList.get(room).get(i).getBorder().intersects(player.getBorder())){
 				staticList.get(room).get(i).onCollision(player);
-			//nun ueberpruefe Wand und Monster sowie Monster und Spieler
-			for(int j=0; j<creatureList.get(room).size(); j++){
-				// Projektile fliegen durch die Gegend
-				for(int k=0; k<projectileList.size();k++){
-				// Monster treffen
-				if(projectileList.get(k) != null && creatureList.get(room).get(j) != null && staticList.get(room).get(i) != null && player != null){
-					if(projectileList.get(k).getBorder().intersects(creatureList.get(room).get(j).getBorder())){
-						System.out.println("i: " + i + " - j: " + j + " - k:" + k);
-						projectileList.get(k).onCollision(creatureList.get(room).get(j));
-					}
-					// sonst Waende treffen
-					else if(projectileList.get(k).getBorder().intersects(staticList.get(room).get(i).getBorder())){
-						projectileList.get(k).onCollision(staticList.get(room).get(i));
-					}
-					// sonst evtl den Spieler
-					else if(projectileList.get(k).getBorder().intersects(player.getBorder()))
-						projectileList.get(k).onCollision(player);
+			}
+			// static mit Projektilen
+			for(int j=0; j<projectileList.size();j++){
+				if(projectileList.get(j) != null){
+					if(projectileList.get(j).getBorder().intersects(staticList.get(room).get(i).getBorder())){
+						projectileList.get(j).onCollision(staticList.get(room).get(i));
 					}
 				}
-				// zuerst Wand -> Monster
-				if(staticList.get(room).get(i).getBorder().intersects(creatureList.get(room).get(j).getBorder()))
-					staticList.get(room).get(i).onCollision(creatureList.get(room).get(j));
-				// dann Monster -> Spieler
-				if(creatureList.get(room).get(j).getBorder().intersects(player.getBorder()))
-					creatureList.get(room).get(j).onCollision(player);
-				// Ende der Kollisionsabfrage
+			}
+			// dann Wand -> Living
+			for(int k=0; k<creatureList.get(room).size();k++){
+				if(staticList.get(room).get(i).getBorder().intersects(creatureList.get(room).get(k).getBorder())){
+					staticList.get(room).get(i).onCollision(creatureList.get(room).get(k));
+				}
 			}
 		}
 		
+		//Kollisionen der LivingObjects
+		for(int i = 0; i < creatureList.get(room).size(); i++){
+			// Living mit Projektilen
+			for(int j=0; j<projectileList.size();j++){
+				if(projectileList.get(j).getBorder().intersects(creatureList.get(room).get(i).getBorder()))
+					projectileList.get(j).onCollision(creatureList.get(room).get(i));
+			}
+			// Living mit Spieler
+			if(creatureList.get(room).get(i).getBorder().intersects(player.getBorder())){
+				creatureList.get(room).get(i).onCollision(player);
+			}
+		}
 		
-		
+		// uebrige Spieler-Kollisionen
+		// Spieler mit Projektilen
+		for(int i=0; i<projectileList.size();i++){
+			if(projectileList.get(i).getBorder().intersects(player.getBorder())){
+				projectileList.get(i).onCollision(player);
+			}
+		}
 		// Spielerangriff
-		if(player.getAttackState() && player.getWeapSet() == 0){
+		if(player.getAttackState() && player.getWeapSet() == 0)
 			for(int i=0; i<creatureList.get(room).size(); i++){
 				// Monsterkollision mit der Waffe
 				if(creatureList.get(room).get(i).getBorder().intersects(player.weapons[0].getBorder())){
 					player.dealDamage(creatureList.get(room).get(i));
 				}
 			}
-		}
-}
+	}
 	
 	//Methode um das Level neu zu laden und das Spiel von vorne zu beginnen
 	public void reload(){
@@ -431,12 +455,22 @@ public class Level implements GameEventListener{
 							break;
 						case Keyboard.KEY_E:
 							for(int i=0; i<creatureList.get(room).size(); i++){
+								// Wenn angesprochender NPC ein Shopkeeper ist
 								if(creatureList.get(room).get(i) instanceof Shopkeeper){
 									if(player.getBorder().intersects(creatureList.get(room).get(i).getBorder())){
 										freeze = true;
 										openedInterface = 2;
 										dialog = true;
 										iFace.setSelectedObject(0);
+									}
+								}
+								// Wenn es ein Storyteller ist und kein Shopkeeper - Dialog aus der Textdatei holen und Dialog aufrufen!
+								else if(creatureList.get(room).get(i) instanceof Storyteller){
+									if(player.getBorder().intersects(creatureList.get(room).get(i).getBorder())){
+										iFace.setDialog(Data_String.story1, 0);
+										freeze = true;
+										openedInterface = 1;
+										dialog = true;
 									}
 								}
 							}

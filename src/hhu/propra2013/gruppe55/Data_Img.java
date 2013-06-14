@@ -37,6 +37,8 @@ public class Data_Img {
 	public static Image wall = genImg("wall.png");			// Wand
 	static Image grass = genImg("grass.png");		//Grass
 	public static Image goal = genImg("goal.png");			// Zielobjekt
+	public static Image cp_unused = genImg("CP_unused.png");			// Checkpoint unbenutzt
+	public static Image cp_used = genImg("CP_used.png");			// Checkpoint benutzt
 	// Nutzbare Items
 	public static Image potion = genImg("potion.png");		// Trank
 	static Image potionused = genImg("potionused.png");	// (Platzhalter)

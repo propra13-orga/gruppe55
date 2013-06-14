@@ -156,7 +156,7 @@ public class Player extends LivingObject {
 		// je nach Richtung
 		switch(direction){
 		case	1:	// nach links
-    		y+=state[currState].getTexture().getTextureHeight()/2;	// vertikal zentrieren
+    		y+=state[currState].getTexture().getTextureHeight()/2-1;	// vertikal zentrieren
     		x-=state[currState].getTexture().getTextureWidth(); 
     		break;
     	case	2:	// nach rechts
@@ -164,12 +164,12 @@ public class Player extends LivingObject {
     		y+=state[currState].getTexture().getTextureHeight()/2;	// vertikal zentrieren
     		break;
     	case	3:	// nach oben
-    		x+=state[currState].getTexture().getTextureWidth()/2;	// horizontal zentrieren
+    		x+=state[currState].getTexture().getTextureWidth()/2-2;	// horizontal zentrieren
     		y-=2;
     		break;
     	case	0:	// nach unten
     	default:
-    		x+=state[currState].getTexture().getTextureWidth()/2;	// vertikal zentrieren
+    		x+=state[currState].getTexture().getTextureWidth()/2-2;	// vertikal zentrieren
     		y+=state[currState].getTexture().getTextureHeight();
     		break;
     	}
