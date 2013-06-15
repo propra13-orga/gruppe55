@@ -445,11 +445,11 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 		
 		// Gameover / Win Bildschirm zeichnen
 		if(lose)
-			g2d.drawImage(Data_Img.gameover, 32*10, 32*10, this);
+			g2d.drawImage(Data_Img.youlose, 32*10, 32*10, this);
 		if(clear)
 			g2d.drawImage(Data_Img.win, 32*10, 32*10, this);
 		if(gameover)
-			g2d.drawImage(Data_Img.gameover2, 32*10, 32*10, this);
+			g2d.drawImage(Data_Img.gameover, 32*10, 32*10, this);
 		
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();

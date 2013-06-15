@@ -32,8 +32,8 @@ public class Data_Img {
 	public static Image storyteller = genImg("Npc/storyteller.png");
 	// Levelrelevantes
 	static Image win = genImg("youwin.png");		// Siegbild
-	static Image gameover = genImg("youlose.png");	// Todesbild
-	static Image gameover2 = genImg("gameover.png"); // Gameover!
+	static Image youlose = genImg("youlose.png");	// Todesbild
+	static Image gameover = genImg("gameover.png"); // Gameover!
 	// Umgebung des Levels
 	public static Image wall = genImg("wall.png");			// Wand
 	static Image grass = genImg("grass.png");		//Grass
