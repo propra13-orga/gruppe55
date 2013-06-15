@@ -86,6 +86,9 @@ public class Data_Img {
 	static Image arrow_r = genImg("weapons/projectiles/arrow_right.png");	//Pfeil rechts
 	static Image arrow_b = genImg("weapons/projectiles/arrow_back.png");	//Pfeil hinten
 	
+// zauber
+	public static Image fireball = genImg("spells/fireball.png");
+	
 	// Methode zum Bilder generieren (nicht nötig, spart aber Tipparbeit oben)
 	private static Image genImg(String image){
 		return (new ImageIcon("img/"+image)).getImage();

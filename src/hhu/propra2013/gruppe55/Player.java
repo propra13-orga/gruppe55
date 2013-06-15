@@ -13,6 +13,8 @@ public class Player extends LivingObject {
 	private int currEquipped	=	0;			// Zeige auf aktuell ausgerüstetes Waffenset (0= Nahkampf; 1= Fernkampf)
 	private boolean attacking	=	false;		// Waehrend einer Attacke true
 	private int[][][] handOffsets	=	new int[4][2][4];	// Offsets fuer die Positionen der Spielerhaende
+	// Zaubervariablen
+	private SpellObject spell;
 	// Besitztuemer des Spielers
 	private int[] statInventory;		//Inventar für statische Objekte (Gold, Tränke, Pfeile)
 	
@@ -58,7 +60,9 @@ public class Player extends LivingObject {
 		weapons[0]	=	new Weapon();	// Haupthand
 		weapons[1]	=	new SimpleShield();	// Nebenhand
 		weapons[2]	=	new SimpleBow();	// Fernkampfwaffe
-		// drei Schwerter, Rorona Zorro, is that you? (Ist es nicht RoroNOA Zorro, jannik? :3)
+		
+		// Zauber enbenfalls initialisieren
+		spell	=	new SpellObject(x,y);
 		
 		// Schadenswerte uebernehmen
     	minDmg	=	weapons[0].getMinDmg();
@@ -186,21 +190,7 @@ public class Player extends LivingObject {
     	// Event (und damit den Pfeil) feuern!
     	for(GameEventListener gel : evtList){
     		// Winkel berechnen
-    		/*
-    		 * 2->0
-    		 * 3->90
-    		 * 1->180
-    		 * 0->270
-    		 */
-    		int angle;
-    		if(direction==2)
-    			angle	=	0;
-    		else if(direction==1)
-    			angle	=	180;
-    		else if(direction==3)
-    			angle	=	270;
-    		else
-    			angle	=	90;
+    		int angle=calcPlayerAngle();
     		
 			gel.shootProjectile(new Projectile(x,y,angle, atk+weapons[2].getMaxDmg()));
 		}
@@ -229,6 +219,63 @@ public class Player extends LivingObject {
     	// Schadenswerte uebernehmen
     	minDmg	=	weapons[2*currEquipped].getMinDmg();
     	maxDmg	=	weapons[2*currEquipped].getMaxDmg();
+    }
+    
+    // Methode zur Winkelberechnung des Spielerblickes
+    private int calcPlayerAngle(){
+    	/*
+		 * 2->0
+		 * 3->90
+		 * 1->180
+		 * 0->270
+		 */
+		int angle;
+		if(direction==2)
+			angle	=	0;
+		else if(direction==1)
+			angle	=	180;
+		else if(direction==3)
+			angle	=	270;
+		else
+			angle	=	90;
+		
+		return angle;
+    }
+    
+    // Methode zum Zaubern
+    public void spellCast(){
+    	// was zaubern wir hier eigentlich?
+    	if(spell==null) return;
+    	
+    	// Zauber bereits mit Listener verbunden?
+    	if(!spell.isListened()){
+    		// GameEventListener hinzufügen
+    		for(GameEventListener gel : evtList){
+    			spell.addGameListener(gel);
+    		}
+    	}
+    	
+    	// Manakosten berechnen
+    	int manaCost	=	spell.getManaCost();
+    	int healthCost	=	spell.getHealthCost();
+    	
+    	// wir koennen diesen Zauber nicht wirken!
+    	if(mana<manaCost || hp <=healthCost) return;
+    	
+    	// Zauberkosten berechnen
+    	mana-=manaCost;
+    	hp-=healthCost;
+    	
+    	// eventuelle Heilung wirken
+    	getHealed(spell.getHeal());
+    	
+    	// Zauber vorbereiten
+    	int angle	=	calcPlayerAngle();
+    	int hOffset	=	(int)Math.cos(Math.toRadians(angle));	// Damit wir nicht im Spieler spawnen
+    	int vOffset	=	(int)Math.sin(Math.toRadians(angle));	// wie oben -^
+    	
+    	// zauber nun wirken
+    	spell.cast(x+hOffset*32+vOffset*vOffset*state[currState].getImg().getWidth(null)/3,y+vOffset*32+hOffset*hOffset*state[currState].getImg().getHeight(null)/3,angle,atk);
     }
     
     // Methode um den Spieler an eine bestimmte Stelle zu teleportieren

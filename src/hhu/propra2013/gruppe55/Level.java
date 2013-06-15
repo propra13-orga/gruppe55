@@ -34,7 +34,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	private boolean freeze	=	false;		// friert das Level ein
 	private int openedInterface;			// Welches Interface aufgerufen ist
 	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
-	private boolean jsonParser = false;		// Bis alles funktioniert per Default auf false gesetzt - auf true setzen um die Jsonlvl zu laden 
+	private boolean jsonParser = true;		// Bis alles funktioniert per Default auf false gesetzt - auf true setzen um die Jsonlvl zu laden 
 	private LevelData levelDataObj;
 	
 	
@@ -329,8 +329,9 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 		for(int i = 0; i < creatureList.get(room).size(); i++){
 			// Living mit Projektilen
 			for(int j=0; j<projectileList.size();j++){
-				if(projectileList.get(j).getBorder().intersects(creatureList.get(room).get(i).getBorder()))
+				if(projectileList.get(j).getBorder().intersects(creatureList.get(room).get(i).getBorder())){
 					projectileList.get(j).onCollision(creatureList.get(room).get(i));
+				}
 			}
 			// Living mit Spieler
 			if(creatureList.get(room).get(i).getBorder().intersects(player.getBorder())){
@@ -353,6 +354,13 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 					player.dealDamage(creatureList.get(room).get(i));
 				}
 			}
+		
+		// Projektilliste aussortieren
+		for(int i=0; i<projectileList.size();i++){
+			if(projectileList.get(i).getCurrState()==0){
+				projectileList.remove(i);
+			}
+		}
 	}
 		
 	
@@ -532,6 +540,10 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 					// Spieler Angreifen lassen
 					player.attack();
 				}
+			}
+			// Zauber wirken
+			else if(k== KeyEvent.VK_C){
+				player.spellCast();
 			}
 			// Interagieren
 			else if(k == KeyEvent.VK_E){

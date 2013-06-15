@@ -14,16 +14,19 @@ IMPORTANT KNOWN ISSUE:
 Known Issues:
 - FIXED? wenn man waehrend man gegen die Wand ueber dem Gem laueft stirbt wird der Grabstein nach unten geportet
 - Bodentexturen muessen generiert werden ohne viel Speicheraufwand
-- OpenGL
-	- Noch keine Lebensbalken der Monster
-	- Noch keine auf 2er-Potenzen konvertierte Bilder/Offsets
-	- Noch kein FullScreen
-	- Noch keine zeichnenden Strings
+- Pfeile und Projektile generell muessten schoener an der Position des Schiessenden orientiert abgefeuert werden (zB nach allen Seiten gleicher Abstand, schoen zentriert, etc)
+- eventuell x/y-werte auf double umstellen fuer genauere positionierung
 
 
 Changelog:
 
-
+15.06.13 - jdnklau
+Player:
+	- besitzt nun die Methode spellCast die seinen aktuellen Zauber wirkt
+SpellObject
+	- neue Klasse fuer Zauber
+Fireball
+	- neues verschiessbares Projektil
 
 12.06.13 - van Meegen UPDATE:
 

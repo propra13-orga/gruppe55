@@ -25,6 +25,33 @@ public class Projectile extends MovingObject {
 		state[1]	=	new State(Data_Img.arrow_f,Data_Img.arrow_l,Data_Img.arrow_r,Data_Img.arrow_b,true,false,true);
 		// State setzen
 		switchState(1);
+		adjustToCenter();
+	}
+	
+	// Bewegung berechnen
+	public void move(){
+		// aktuell ziemlich schlecht geloest
+		dx	=	(int)Math.cos(Math.toRadians(angle));
+		dy	=	(int)Math.sin(Math.toRadians(angle));
+		
+		// bewegen
+		super.move();
+	}
+	
+	// Kollision
+	public void onCollision(DungeonObject d){
+		// Gegner/Spieler getroffen?
+		if(d instanceof LivingObject){
+			((LivingObject)d).getHit(dmg);
+			switchState(0);
+		}
+		else if (d.isMassive() == true)
+			switchState(0);
+		// Etwas getroffen, also ausblenden
+		
+	}
+	
+	protected void adjustToCenter(){
 		// Richtung berechnen
 		if(this.angle <=45 || this.angle > 360-45){ 			// nach rechts
 			direction	=	2;
@@ -58,29 +85,6 @@ public class Projectile extends MovingObject {
 			y+=state[1].getImg().getHeight(null);
 			break;
 		}
-	}
-	
-	// Bewegung berechnen
-	public void move(){
-		// aktuell ziemlich schlecht geloest
-		dx	=	(int)Math.cos(Math.toRadians(angle));
-		dy	=	(int)Math.sin(Math.toRadians(angle));
-		
-		// bewegen
-		super.move();
-	}
-	
-	// Kollision
-	public void onCollision(DungeonObject d){
-		// Gegner/Spieler getroffen?
-		if(d instanceof LivingObject){
-			((LivingObject)d).getHit(dmg);
-			switchState(0);
-		}
-		else if (d.isMassive() == true)
-			switchState(0);
-		// Etwas getroffen, also ausblenden
-		
 	}
 
 }
