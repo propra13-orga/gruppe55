@@ -52,6 +52,7 @@ public abstract class LivingObject extends MovingObject {
 		l.getHit(dmg);
 	}
 	
+	// Funktion für Individuelle Aktionen
 	public void action(int pX, int pY){
 	}
 	

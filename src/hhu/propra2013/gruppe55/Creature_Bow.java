@@ -2,54 +2,79 @@ package hhu.propra2013.gruppe55;
 
 public class Creature_Bow extends Creature{
 
-	public Creature_Bow(int spawnX, int spawnY, int mX, int mY, int h, int angr, int vert) {
+	int schussAchse;	// Achse, an der Schussrichtung zum Spieler geprüft werden soll 0-vertikal 1-horizontal
+	
+	public Creature_Bow(int spawnX, int spawnY, int mX, int mY, int a, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
+		// Bewegungslänge und Schussachse setzen
 		moveAreaX = mX;
 		moveAreaY = mY;
+		schussAchse = a;
+		state[1].changeImg(Data_Img.creature_bow);	// Img setzen
 	}
 	
+	// Aktion
 	public void action(int pX, int pY){
 		shoot(pX, pY);
 	}
 	
     // Methode zum Pfeile Schießen
     public void shoot(int pX, int pY){
+    	// Schussrichtung definieren
+    	int angle = calcPlayerDirection(pX, pY);
     	
-    	// Position bestimmen
-    	int x	=	this.x;
-    	int y	=	this.y;
-    	// je nach Richtung
-    	switch(direction){
-	    	case	1:	// nach links
-	    		y+=state[currState].getImg().getHeight(null)/2;	// vertikal zentrieren
-	    		x-=state[currState].getImg().getWidth(null);
+    	// Offsets fuer Projektil setzen
+    	int x = this.x;
+    	int y = this.y;
+    	// je nach Schussrichtung
+    	switch(angle){
+	    	case	0:	// nach rechts
+	    		x+=state[currState].getImg().getWidth(null)+1;
+	    		y+=state[currState].getImg().getHeight(null)/2;
 	    		break;
-	    	case	2:	// nach rechts
-	    		x+=state[currState].getImg().getWidth(null);	// auch wirklich rechts vom spieler
-	    		y+=state[currState].getImg().getHeight(null)/2;	// vertikal zentrieren
+	    	case	90:	// nach unten
+	    		x+=state[currState].getImg().getWidth(null)/2;
+	    		y+=state[currState].getImg().getHeight(null)+1;
 	    		break;
-	    	case	3:	// nach oben
-	    		x+=state[currState].getImg().getWidth(null)/2-20;	// horizontal zentrieren
+	    	case	180:	// nach links
+	    		x-=17;
+	    		y+=state[currState].getImg().getHeight(null)/2;
 	    		break;
-	    	case	0:	// nach unten
+	    	case	270:	// nach oben
+	    		x+=state[currState].getImg().getWidth(null)/2;
+	    		y-=17;
+	    		break;
 	    	default:
-	    		x+=state[currState].getImg().getWidth(null)/2-20;	// vertikal zentrieren
-	    		y+=state[currState].getImg().getHeight(null);
 	    		break;
     	}
-
-    	calcPlayerDirection(pX, pY);
     	
     	// Event (und damit den Pfeil) feuern!
     	for(GameEventListener gel : evtList){    		
-			gel.shootProjectile(new Projectile(x, y, 180, atk+1));
+			gel.shootProjectile(new Projectile(x, y, angle, atk+1));
 		}
     }
     
+    // Schussrichtung abhängig von Spielerposition und Schussachse setzen
     public int calcPlayerDirection(int pX, int pY){
     	int angle = 0;
     	
-    	System.out.println((int)(360*Math.asin(Math.abs((y-pY))/(Math.sqrt(Math.pow(Math.abs(x-pX), 2)+Math.pow(Math.abs(y-pY), 2))))));
+    	//angle = (int)(360*Math.asin(Math.abs((y-pY))/(Math.sqrt(Math.pow(Math.abs(x-pX), 2)+Math.pow(Math.abs(y-pY), 2)))));
+    	if(schussAchse == 0){
+    		if(y > pY){
+    			angle = 270;
+    		}
+    		else{
+    			angle = 90;
+    		}
+    	}
+    	else{
+    		if(x < pX){
+    			angle = 0;
+    		}
+    		else{
+    			angle = 180;
+    		}
+    	}
     	
     	return angle;
     }

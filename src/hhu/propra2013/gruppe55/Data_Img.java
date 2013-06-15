@@ -22,6 +22,7 @@ public class Data_Img {
 	static Image player_b_atk = genImg("player/back_atk.png");		// Angriff, hinten
 // Monster
 	public static Image creature = genImg("enemies/creature.png");	// Standart-Kreatur
+	public static Image creature_bow = genImg("enemies/creature_bow.png");					// Bogen-Monster
 // Npc's
 	// Shopkeeper
 	public static Image shopkeeper = genImg("Npc/shopkeeper.png");

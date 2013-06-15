@@ -178,11 +178,11 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 							
 						}
 						else if(lvlData[r][i][j] == 14){
-							creatureList.get(r).add(new Creature_Bow(32*i, 32*j, 0, 5*32, 3, 1, 0));
+							creatureList.get(r).add(new Creature_Bow(32*i, 32*j, 0, 5*32, 1, 3, 1, 0));
 						}
 					}
 				}
-				// Aktionstimer wird gesetzt und gestartet
+				// Aktionstimer werden gesetzt und gestartet
 				timer	=	new Timer(1000/60, this);
 				timer.start();
 				timerAtk = new Timer(1000, this);
@@ -440,6 +440,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	 * Wird vom timer aufgerufen. Laesst moegliche Bewegungen berechnen, ruft die Kollisionsabfrage auf und zeichnet das Feld neu
 	 */
 	public void actionPerformed(ActionEvent e) {
+		// Wennd er Standart Game-Timer auslöst
 		if(e.getSource() == timer){
 			// Level gefroren?
 			if(!freeze){
@@ -464,8 +465,10 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			// neuzeichnen
 			repaint();
 		}
+		// Wenn Gegnerattacken ausgelöst werden (imo nur Creature_Bow)
 		else if(e.getSource() == timerAtk){
 			for(int i = 0; i < creatureList.get(room).size(); i++){
+				// Alle lebenden Bogen-Gegner Schießen
 				if(creatureList.get(room).get(i) instanceof Creature_Bow && creatureList.get(room).get(i).getCurrState() == 1){
 					creatureList.get(room).get(i).action(player.getX(), player.getY());
 				}
