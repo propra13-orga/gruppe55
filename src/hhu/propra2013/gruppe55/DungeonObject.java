@@ -20,6 +20,7 @@ public abstract class DungeonObject {
 	protected int direction	=	0;	// aktuelle Blickrichtung des Objekts
 	// Checkpoint-relevantes
 	protected int[] resetValues;
+	protected boolean hasResetValues	=	false;	// Wenn false kann dieses Objekt nicht resetet werden und sollte aus den Listen gelöscht werden
 	// Schnittstelle fuer GameEvents
 	protected ArrayList<GameEventListener> evtList	=	new ArrayList<GameEventListener>();
 	
@@ -87,6 +88,9 @@ public abstract class DungeonObject {
 	
 	// Methode zum Setzen der Reset-Werte
 	public void setResetValues(){
+		// Objekt ist Resetbar!
+		hasResetValues	=	true;
+		// Werte setzen
 		resetValues[0]	=	currState;	// 1. Wert: Aktueller State
 		resetValues[1]	=	direction;	// 2. Wert Aktuelle Richtung
 		resetValues[2]	=	x;			// 3. Wert: X-Koordinate
@@ -95,6 +99,7 @@ public abstract class DungeonObject {
 	
 	// Methode zum zuruecksetzen des Objektes
 	public void reset(){
+		if(!hasResetValues) return;
 		// Bild setzen
 		switchState(resetValues[0]);
 		// Richtung setzen
@@ -102,6 +107,10 @@ public abstract class DungeonObject {
 		// Koordinaten setzen
 		x=resetValues[2];
 		y=resetValues[3];
+	}
+	// Methode zur Abfrage, ob ein Objekt Resetbar ist
+	public boolean isResetable(){
+		return hasResetValues;
 	}
 	
 	public void draw(Graphics2D g2d){

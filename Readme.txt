@@ -22,6 +22,10 @@ Known Issues:
 
 Changelog:
 
+16.06-13 - jdnklau
+Level
+	- Raumfix fuer die CheckPoints, so dass man nicht im gleichen Raum abgelegt wird, in dem man gestorben ist, sondern in dem, in dem der Checkpoint lag
+
 15.06.13 - van Meegen
 /img:
 	- neuer youlose screen

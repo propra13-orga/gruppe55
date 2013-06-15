@@ -19,6 +19,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	private Player player;				// Spielerobjekt
 	private GameInterface iFace;		//GameInterface
 	private int room;					// pointer to current room
+	private int roomToRespawn;			// Raum in dem der Spieler nach Niederlage wiedererscheint
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
 	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Waende/Gegenstaende/etc
 	private ArrayList<Projectile> projectileList;			// liste der Projektile (Pfeile, Feuerbaelle, etc)
@@ -389,11 +390,26 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	public void reload(){
 		// Spieler zuruecksetzen
 		player.reset();
+		// Raum setzen
+		room	=	roomToRespawn;
 		// Leben vom Spieler abziehen
 		if(lose==true)
-		player.giveStatInventoryObject(0, -1);{
+			player.giveStatInventoryObject(0, -1);{
 	    }
-		// Fuer alle Raeume
+		// Fuer alle Raeume raus was raus kann
+		for(int r=0;r<staticList.size();r++){
+			// StaticList
+			for(int i=0;i<staticList.get(r).size();i++){
+				if(!staticList.get(r).get(i).isResetable())
+					staticList.get(r).remove(i);
+			}
+			// CreatureList
+			for(int i=0;i<creatureList.get(r).size();i++){
+				if(!creatureList.get(r).get(i).isResetable())
+					creatureList.get(r).remove(i);
+			}
+		}
+		// Rest resetten
 		for(int r=0;r<staticList.size();r++){
 			// StaticList
 			for(int i=0;i<staticList.get(r).size();i++){
@@ -555,6 +571,8 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	public void checkPointReached(){
 		// Spieler speichern
 		player.setResetValues();
+		// Raumnummer speichern
+		roomToRespawn	=	room;
 		// Listen abklappern
     	new Thread(){
     		public void run(){
