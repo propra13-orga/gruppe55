@@ -40,6 +40,9 @@ public abstract class LivingObject extends MovingObject {
 		critBonus	=	0;
 		minDmg		=	1;
 		maxDmg		=	2;
+		
+		// wir brauchen mehr Reset-Werte
+		resetValues	=	new int[6];
 	}
 	
 	// Methode um Schaden auszuteilen
@@ -85,7 +88,7 @@ public abstract class LivingObject extends MovingObject {
 	}
 	
 	public void fillmana(int ma){ 
-		mana+=10;
+		mana+=ma;
 		if(mana>manaMax)
 			mana = manaMax;
 	}
@@ -113,6 +116,22 @@ public abstract class LivingObject extends MovingObject {
 			}
 		}.start();
     }
+    
+
+	// Methode zum Setzen der Reset-Werte
+	public void setResetValues(){
+		super.setResetValues();		// Werte 1-4 abhandeln
+		resetValues[4]	=	hp;			// 5. Wert: HitPoints
+		resetValues[5]	=	mana;		// 6. Wert: Mana
+		
+	}
+	
+	// Methode zum zuruecksetzen des Objektes
+	public void reset(){
+		super.reset();				// Werte 1.4 abhandeln
+		hp	=	resetValues[4];		// HP zuruecksetzen
+		mana	=	resetValues[5];	// Mana zuruecksetzen
+	}
 	
 	// Methoden um Statuswerte zu uebergeben
     public int getHP(){return(hp);}

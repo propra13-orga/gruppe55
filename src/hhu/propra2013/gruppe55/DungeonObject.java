@@ -18,6 +18,8 @@ public abstract class DungeonObject {
 	protected int width;	// breite
 	protected int height;	// hoehe
 	protected int direction	=	0;	// aktuelle Blickrichtung des Objekts
+	// Checkpoint-relevantes
+	protected int[] resetValues;
 	// Schnittstelle fuer GameEvents
 	protected ArrayList<GameEventListener> evtList	=	new ArrayList<GameEventListener>();
 	
@@ -33,6 +35,9 @@ public abstract class DungeonObject {
 		state[0]	=	new State(Data_Img.potionused, false, true, true); 
 		// pointer setzen
 		switchState(0);
+		
+		// Reset-werte Setzen
+		resetValues	=	new int[4];
 	}
 	
 // Methoden
@@ -78,6 +83,25 @@ public abstract class DungeonObject {
 		for(int i=0; i<state.length; i++){
 			state[i].changeDirection(d);
 		}
+	}
+	
+	// Methode zum Setzen der Reset-Werte
+	public void setResetValues(){
+		resetValues[0]	=	currState;	// 1. Wert: Aktueller State
+		resetValues[1]	=	direction;	// 2. Wert Aktuelle Richtung
+		resetValues[2]	=	x;			// 3. Wert: X-Koordinate
+		resetValues[3]	=	y;			// 4. Wert: Y-Koordinate
+	}
+	
+	// Methode zum zuruecksetzen des Objektes
+	public void reset(){
+		// Bild setzen
+		switchState(resetValues[0]);
+		// Richtung setzen
+		changeDirection(resetValues[1]);
+		// Koordinaten setzen
+		x=resetValues[2];
+		y=resetValues[3];
 	}
 	
 	public void draw(Graphics2D g2d){

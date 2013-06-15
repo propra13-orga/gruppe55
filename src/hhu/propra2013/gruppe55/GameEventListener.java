@@ -14,4 +14,7 @@ public interface GameEventListener {
 	// Level Beendet:
 	public void levelCleared();
 	
+	// Spieler erreicht einen Checkpoint!
+	public void checkPointReached();
+	
 }

@@ -111,7 +111,10 @@ public class Player extends LivingObject {
 		handOffsets[3][1][1]	=	15;	// Y-Offset der Haupthand
 		handOffsets[3][1][2]	=	4;	// X-Offset der Nebenhand
 		handOffsets[3][1][3]	=	20;	// Y-Offset der Nebenhand
+		
 
+		// Resetwerte
+		resetValues	=	new int[12];
 	}
     
     // Methode zum Agriff
@@ -283,6 +286,33 @@ public class Player extends LivingObject {
     	this.x	=	x;
     	this.y	=	y;
     }
+    
+    // Methode zum Setzen der Reset-Werte
+	public void setResetValues(){
+		super.setResetValues();		// Werte 1-6 abhandeln
+		resetValues[6]	=	hpMax;	// 7.Wert: maximale HP
+		resetValues[7]	=	manaMax;// 8.Wert: maximales Mana
+		resetValues[8]	=	statInventory[1];	// 9.Wert: Gold
+		resetValues[9]	=	statInventory[4];	// 10.Wert: Pfeile
+		resetValues[10]	=	statInventory[2];	// 11.Wert: Heiltraenke
+		resetValues[11]	=	statInventory[3];	// 12.Wert: Manatraenke
+	}
+	
+	// Methode zum zuruecksetzen des Objektes
+	public void reset(){
+		super.reset();				// Werte 1-6 abhandeln
+		// Max Mana und Max-HP
+		hpMax	=	resetValues[6];
+		manaMax	=	resetValues[7];
+		// Inventar
+		statInventory[1]	=	resetValues[8];
+		statInventory[2]	=	resetValues[10];
+		statInventory[3]	=	resetValues[11];
+		statInventory[4]	=	resetValues[9];
+		// Spezielles
+		hp	=	hpMax;
+		mana	=	manaMax;
+	}
     
     // Methode zum Spieler-Zeichnen
     public void draw(Graphics2D g2d){

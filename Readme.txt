@@ -22,6 +22,16 @@ Known Issues:
 
 Changelog:
 
+15.06.13 - jdnklau
+DungeonObject
+	- die Methoden "reset" und "setResetValues" (fuer sich sprechende Namen) wurden implementiert
+	- resetValues ist nun ein int[] attribut, dass die nummerischen Werte zum zuruecksetzen eines Objektes beinhaltet
+	  die bei einem Reset angenommen werden sollen
+	  Sprich dadrin befinden sich die zum zeitpunkt der Spieler/CheckPoint-Kollision aktuellen Werte des Objekts
+	  Vergleiche die Methode in DungeonObject und LivingObject um die Erweiterbarkeit zu erkennen
+Level
+	- bei einem reload() werden nun die reset()-Methoden der Objekte abgerufen pro Liste pro Raum
+
 15.06.13 - van Meegen
 Boss1:
 	- geruest fuer eine Bossklasse erstellt

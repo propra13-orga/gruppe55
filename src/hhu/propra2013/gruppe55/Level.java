@@ -36,7 +36,6 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
 	private boolean jsonParser = true;		// Bis alles funktioniert per Default auf false gesetzt - auf true setzen um die Jsonlvl zu laden 
 	private LevelData levelDataObj;
-	private GoalObject goal;
 	
 	
 // Konstruktor
@@ -184,6 +183,10 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 						else if(lvlData[r][i][j] == 15){
 							creatureList.get(r).add(new Boss1(i*32+5, j*32-5, 3, 1, 0));		// bei 15 wird ein Boss1 generiert
 						}
+						// CheckPoint
+						else if(lvlData[r][i][j] == 16){
+							staticList.get(r).add(new CheckPoint(i*32,j*32));
+						}
 					}
 				}
 				// Aktionstimer werden gesetzt und gestartet
@@ -296,6 +299,9 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 
 		//Konstruiere Interface
 		iFace = new GameInterface(this);
+		
+		// Erster CheckPoint ist der LevelEintritt
+		checkPointReached();
 	}
 	
 	
@@ -381,17 +387,23 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	
 	//Methode um das Level neu zu laden und das Spiel von vorne zu beginnen
 	public void reload(){
+		// Spieler zuruecksetzen
+		player.reset();
+		// Leben vom Spieler abziehen
 		player.giveStatInventoryObject(0, -1);
-		// den Spieler wiederbeleben
-		player.revive();
-		player.teleport(playerSpawnX, playerSpawnY);
-		// Raumzeiger wieder auf den ersten Raum setzen
-		room = 0;
-		//Fallen zuruecksetzen
-		for(int r=0; r<staticList.size(); r++){
-			for(int i=0; i<staticList.get(room).size(); i++)
-				staticList.get(room).get(i).switchState(0);
+		
+		// Fuer alle Raeume
+		for(int r=0;r<staticList.size();r++){
+			// StaticList
+			for(int i=0;i<staticList.get(r).size();i++){
+				staticList.get(r).get(i).reset();
+			}
+			// CreatureList
+			for(int i=0;i<creatureList.get(r).size();i++){
+				creatureList.get(r).get(i).reset();
+			}
 		}
+		
 		// Projektile loeschen
 		 projectileList.clear();
 		// Endebedingungen auf false setzen
@@ -517,8 +529,8 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	// Y U CRASH @ Bossdrop :( 
 	@Override
 	public void newGoal(int x, int y) {
+		GoalObject goal = new GoalObject(x, y);
 		goal.addGameListener(this);
-		goal = new GoalObject(x, y);
 		staticList.get(room).add(goal);
 	}
 	@Override
@@ -528,6 +540,26 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	@Override
 	public void shootProjectile(Projectile p){
 		projectileList.add(p);
+	}
+	@Override
+	public void checkPointReached(){
+		// Spieler speichern
+		player.setResetValues();
+		// Listen abklappern
+    	new Thread(){
+    		public void run(){
+    			for(int r=0;r<staticList.size();r++){
+    				// StaticList
+    				for(int i=0;i<staticList.get(r).size();i++){
+    					staticList.get(r).get(i).setResetValues();
+    				}
+    				// CreatureList
+    				for(int i=0;i<creatureList.get(r).size();i++){
+    					creatureList.get(r).get(i).setResetValues();
+    				}
+    			}
+    		}
+    	}.start();
 	}
 	
 // KEY LISTENER UNIT
