@@ -20,10 +20,10 @@ public class SpellObject extends DungeonObject {
 		super(x, y);		
 		
 		// Wertezuweisungen
-		manaCost	=	0;
+		manaCost	=	1;
 		healthCost	=	0;
 		dmg			=	4;
-		heal		=	1;
+		heal		=	0;
 	}
 	
 	// Methode, die die eigentliche Magie ausführt

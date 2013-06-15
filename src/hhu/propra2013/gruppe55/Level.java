@@ -36,6 +36,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
 	private boolean jsonParser = true;		// Bis alles funktioniert per Default auf false gesetzt - auf true setzen um die Jsonlvl zu laden 
 	private LevelData levelDataObj;
+	private GoalObject goal;
 	
 	
 // Konstruktor
@@ -179,6 +180,9 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 						}
 						else if(lvlData[r][i][j] == 14){
 							creatureList.get(r).add(new Creature_Bow(32*i, 32*j, 0, 5*32, 1, 3, 1, 0));
+						}
+						else if(lvlData[r][i][j] == 15){
+							creatureList.get(r).add(new Boss1(i*32+5, j*32-5, 3, 1, 0));		// bei 15 wird ein Boss1 generiert
 						}
 					}
 				}
@@ -510,6 +514,13 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	public void newTreasure(int x, int y) {
 		staticList.get(room).add(new TreasureObject(x, y));
 	}
+	// Y U CRASH @ Bossdrop :( 
+	@Override
+	public void newGoal(int x, int y) {
+		goal.addGameListener(this);
+		goal = new GoalObject(x, y);
+		staticList.get(room).add(goal);
+	}
 	@Override
 	public void levelCleared(){
 		clear=true;
@@ -563,6 +574,20 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 				else{	// let's fetz
 					// Spieler Angreifen lassen
 					player.attack();
+				}
+			}
+			// Heiltrank aus dem Inventar benutzen
+			else if(k== KeyEvent.VK_A){
+				if(player.getStatInventoryObjectCount(2)>0){
+					player.getHealed(2);
+					player.giveStatInventoryObject(2, -1);
+				}
+			}
+			// Manatrank aus dem Inventar benutzen
+			else if(k== KeyEvent.VK_S){
+				if(player.getStatInventoryObjectCount(3)>0){
+					player.fillmana(1);
+					player.giveStatInventoryObject(3, -1);
 				}
 			}
 			// Zauber wirken

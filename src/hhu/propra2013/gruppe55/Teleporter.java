@@ -14,7 +14,7 @@ public class Teleporter extends DungeonObject {
 	public Teleporter(int x, int y, int room, int dx, int dy) {
 		super(x, y);
 		
-		state[0].massive	=	false;
+		state[0].massive	=	true;
 		
 		// Zielraum und Zielkoordinaten werden gesetzt
 		this.room	=	room;

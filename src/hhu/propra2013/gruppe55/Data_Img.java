@@ -23,6 +23,8 @@ public class Data_Img {
 // Monster
 	public static Image creature = genImg("enemies/creature.png");	// Standart-Kreatur
 	public static Image creature_bow = genImg("enemies/creature_bow.png");					// Bogen-Monster
+// Bosse
+	public static Image boss1 = genImg("enemies/evilwizard");
 // Npc's
 	// Shopkeeper
 	public static Image shopkeeper = genImg("Npc/shopkeeper.png");

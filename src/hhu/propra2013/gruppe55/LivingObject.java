@@ -84,7 +84,7 @@ public abstract class LivingObject extends MovingObject {
 			hp = hpMax;
 	}
 	
-	public void fillmana(){ 
+	public void fillmana(int ma){ 
 		mana+=10;
 		if(mana>manaMax)
 			mana = manaMax;

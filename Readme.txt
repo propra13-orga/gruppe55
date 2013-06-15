@@ -9,16 +9,28 @@ Geplante Aspekte
 
 IMPORTANT KNOWN ISSUE:
 
+- Derzeit crasht das Spiel wenn der Boss BESIEGT wird da das Event nicht vernuenftig gefeuert wird :( 
+- Bewegung fuer den ersten Boss muss noch implementiert werden
+
 - Der Shopkeeper kann nicht an einer Wand stehen, da bei jetziger Implementieren dann die Wand die ganze zeit den Shopkeeper wegen der Actionhitbox wegschieben moechte und das nicht geht!
 
 Known Issues:
-- FIXED? wenn man waehrend man gegen die Wand ueber dem Gem laueft stirbt wird der Grabstein nach unten geportet
 - Bodentexturen muessen generiert werden ohne viel Speicheraufwand
 - Pfeile und Projektile generell muessten schoener an der Position des Schiessenden orientiert abgefeuert werden (zB nach allen Seiten gleicher Abstand, schoen zentriert, etc)
 - eventuell x/y-werte auf double umstellen fuer genauere positionierung
 
 
 Changelog:
+
+15.06.13 - van Meegen
+Boss1:
+	- geruest fuer eine Bossklasse erstellt
+/lvl:
+	- level 2 Teleporter gefixt
+	- level 3 erstellt
+	*NOTE*: In Level 2 und 3 sind einige Geldsaecke Platzhalter fuer Bogenkreaturen, die noch nicht ueber den JsonParser erstellt werden koennen
+Bugfixes:
+	- diverse Bugfixes
 
 15.06.13 - jdnklau
 Player:
