@@ -26,7 +26,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	// Timer fuer die Aktionen
 	private Timer timer, timerAtk;
 	// Spieleventvariablen
-	private boolean lose, clear;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
+	private boolean lose, clear, gameover;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
 	// Wichtige variablen fuer das neu Laden eines Levels
 	private int playerSpawnX, playerSpawnY;		// Koordinaten des ersten Spielererscheinungspunkts
 	private GameMenu gm;
@@ -390,8 +390,9 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 		// Spieler zuruecksetzen
 		player.reset();
 		// Leben vom Spieler abziehen
-		player.giveStatInventoryObject(0, -1);
-		
+		if(lose==true)
+		player.giveStatInventoryObject(0, -1);{
+	    }
 		// Fuer alle Raeume
 		for(int r=0;r<staticList.size();r++){
 			// StaticList
@@ -402,13 +403,14 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			for(int i=0;i<creatureList.get(r).size();i++){
 				creatureList.get(r).get(i).reset();
 			}
-		}
+		}	
 		
 		// Projektile loeschen
 		 projectileList.clear();
 		// Endebedingungen auf false setzen
 		lose	=	false;
 		clear = false;
+		gameover = false;
 	}
 	
 	/*
@@ -446,6 +448,8 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			g2d.drawImage(Data_Img.gameover, 32*10, 32*10, this);
 		if(clear)
 			g2d.drawImage(Data_Img.win, 32*10, 32*10, this);
+		if(gameover)
+			g2d.drawImage(Data_Img.gameover2, 32*10, 32*10, this);
 		
         Toolkit.getDefaultToolkit().sync();/**/
         g.dispose();
@@ -456,14 +460,20 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	 * Wird vom timer aufgerufen. Laesst moegliche Bewegungen berechnen, ruft die Kollisionsabfrage auf und zeichnet das Feld neu
 	 */
 	public void actionPerformed(ActionEvent e) {
+
 		// Wennd er Standart Game-Timer auslöst
 		if(e.getSource() == timer){
 			// Level gefroren?
 			if(!freeze){
-				// ueberpruefen ob der Spieler lebt
-				if(player.getHP()<=0)
-					lose	=	true;	// wird gesetzt wenn der Spieler stirbt
-				
+				// ueberpruefen ob der Spieler lebt und noch Extraleben zur verfuegung hat
+				if(player.getStatInventoryObjectCount(0)==0 && player.getHP()<=0){
+					gameover = true;
+				}
+				// ueberpruefen ob der Spieler noch lebt
+				else if(player.getHP()<=0){
+					lose	=	true;  // wird gesetzt wenn der Spieler stirbt
+				}
+	
 				// Spielerbewegung
 				player.move();
 				
@@ -526,7 +536,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	public void newTreasure(int x, int y) {
 		staticList.get(room).add(new TreasureObject(x, y));
 	}
-	// Y U CRASH @ Bossdrop :( 
+	// Der Boss droppt das Zielobjekt
 	@Override
 	public void newGoal(int x, int y) {
 		GoalObject goal = new GoalObject(x, y);
@@ -585,7 +595,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			// Enter-Taste abfragen
 			else if(k == KeyEvent.VK_ENTER){
 				// Option: Bei Sieg oder Niederlage -> zurueck zum Menue
-				if(lose || clear){
+				if(lose || clear || gameover){
 					gw.dispose();
 					gm.setVisible(true);
 					reload();
@@ -600,10 +610,10 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			// Space-Taste abfragen
 			else if(k == KeyEvent.VK_SPACE){
 				// Option: Bei Sieg oder Niederlage -> erneut beginnen
-				if(lose || clear){
+				if((lose || clear) && !gameover ){
 					reload();
 				}
-				else{	// let's fetz
+				else if(!gameover){	// let's fetz
 					// Spieler Angreifen lassen
 					player.attack();
 				}

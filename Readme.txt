@@ -22,6 +22,16 @@ Known Issues:
 
 Changelog:
 
+15.06.13 - van Meegen
+/img:
+	- neuer youlose screen
+	- neuer gameover screen (wenn man kein extraleben mehr hat)
+/src:
+Level:
+	- Die Extraleben des Spielers werden nun beruecksichtigt. Stirbt man mit 0 extraleben kann man nur noch ins Hauptmenue zurueckkehren. Ansonsten kann nach dem Tod weiterhin neu begonnen werden. 
+Data_Img:
+	- Neue Bildpfade erstellt
+	
 15.06.13 - jdnklau
 DungeonObject
 	- die Methoden "reset" und "setResetValues" (fuer sich sprechende Namen) wurden implementiert
