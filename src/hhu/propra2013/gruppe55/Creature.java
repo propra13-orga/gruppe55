@@ -11,8 +11,8 @@ public class Creature extends LivingObject {
     protected int moveAreaY	=	3*32;		// ... und nach oben
     	
 // Konstruktor
-    public Creature(int spawnX, int spawnY, int h, int angr, int vert, int ausd, int man) {
-		super(spawnX, spawnY, h, angr, vert, ausd, man);
+    public Creature(int spawnX, int spawnY, int h, int angr, int vert) {
+		super(spawnX, spawnY, h, angr, vert);
 		
 		// States setzen
 		state[0].visible	=	false; 		// totes Monster wird unsichtbar
@@ -24,7 +24,6 @@ public class Creature extends LivingObject {
 		dx=1;
 	}
     
-    // TODO: Methode fuer Bewegung �berdenken
     public void move(){
 		// bewegung errechnen
 		if(dx==1 && x>=sx+moveAreaX) // zu weit rechts

@@ -15,7 +15,7 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 	boolean fullscreen;														// Ob fullscreen oder nicht
 	// level management
 	private Level[] levels;			// Array in dem die Level gespeichert werden
-	private Level testlvl;			// Neues TestLevel
+	private Level lvl;			// Neues TestLevel
 	private int maxLevels	=	1;		// Gesamtanzahl der Level
 	private int curLvl;					// Zeiger auf das aktuelle Level
 	private GameMenu gm;
@@ -28,7 +28,7 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 		
 		this.gm = gm;	//Hauptmenue �bergeben
 		
-		testlvl = new Level(gm, this, (width/2)-26, (height/2)-25);
+		lvl = new Level(gm, this, (width/2)-26, (height/2)-25);
 		
 		// Eigenschaften des Frames setzen
 		// this.addKeyListener(this);											// KeyListener adden
@@ -38,8 +38,14 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 		this.setLocationRelativeTo(null);										// Spielfeld zentriert
 	}
 
-	public void setLvl(int lvl){		
-		this.getContentPane().add(testlvl);
+	public void setLvl(int l){
+		if(l == 0){
+			lvl.loadLevel("testlvl");
+		}
+		else{
+			lvl.loadLevel("level" + l);
+		}
+		this.getContentPane().add(lvl);
 	}
 	
 	//Fullscreen einstellen (nur ScrollingLvl)

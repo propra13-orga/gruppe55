@@ -1,7 +1,5 @@
 package hhu.propra2013.gruppe55;
 
-import java.awt.Graphics2D;
-
 public class Grass extends DungeonObject {
 
 	// Diese Klasse scheint leer zu sein. Alle wichtigen Methoden und Attribute sind im DungeonObject implementiert

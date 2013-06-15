@@ -45,13 +45,6 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 		this.gm = gm;
 		this.gw = gw;
 		
-		if(jsonParser){
-			loadLevel("level1");
-		}
-		else{
-			loadLevel("testlvl");
-		}
-		
 		//Cursor unsichtbar machen
 		this.setCursor(Toolkit.getDefaultToolkit().createCustomCursor(Data_Img.potionused, new Point(0,0), "Invisible Cursor"));
 		
@@ -62,10 +55,6 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 		
 		// Hinzufuegen des KeyListener 
 		addKeyListener(new KeyControll());
-		
-		// Aktionstimer wird gesetzt und gestartet
-		timer	=	new Timer(1000/60, this);
-		timer.start();
 	}
 
 	public void loadLevel(String file){
@@ -73,7 +62,8 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 		String lineints[];
 		int[][][] lvlData = null;
 		
-		if(!jsonParser){
+		if(file == "testlvl"){
+			jsonParser = false;
 			// Parser fuer Leveldateien
 			try {
 				//.txt einlesen
@@ -141,7 +131,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 							staticList.get(r).add(new WallObject(i*32, j*32));		// bei 1 wird ein Wandobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 2){
-							creatureList.get(r).add(new Creature(i*32+5, j*32-5, 3, 1, 0, 100, 0));		// bei 2 wird ein Monsterobjekt generiert
+							creatureList.get(r).add(new Creature(i*32+5, j*32-5, 3, 1, 0));		// bei 2 wird ein Monsterobjekt generiert
 							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						}
 						else if(lvlData[r][i][j] == 3){
@@ -175,27 +165,28 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 							staticList.get(r).add(new TreasureObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 10){
-							creatureList.get(r).add(new Shopkeeper(32*i, 32*j, 3, 1, 0, 100, 0));
+							creatureList.get(r).add(new Shopkeeper(32*i, 32*j, 3, 1, 0));
 						}
 						else if(lvlData[r][i][j] == 11){
-							creatureList.get(r).add(new Storyteller(32*i, 32*j, 3, 1, 0, 100, 0));
+							creatureList.get(r).add(new Storyteller(32*i, 32*j, 3, 1, 0));
 						}
 						else if(lvlData[r][i][j] == 12){
 							staticList.get(r).add(new Healthcontainer(i*32, j*32));
 						}
 					}
 				}
+				// Aktionstimer wird gesetzt und gestartet
+				timer	=	new Timer(1000/60, this);
+				timer.start();
 			}
 		}else{
+			jsonParser = true;
 			//lade Leveldaten durch json Parser
 			levelDataObj = new LevelData();
 			try {
 				LevelReader levelReader = new LevelReader(new File("lvl/" + file + ".txt"));
 				levelDataObj = levelReader.getLevelData();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (FileNotFoundException e) {e.printStackTrace();}
 			
 
 			// Zeiger wird auf den ersten Raum gesetzt
@@ -245,7 +236,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 					}
 					//Creature
 					else if(tempParameterList.get(0) == 2){
-						creatureList.get(r).add(new Creature(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5)));    // bei 2 wird ein Monsterobjekt generiert
+						creatureList.get(r).add(new Creature(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));    // bei 2 wird ein Monsterobjekt generiert
 					}else if(tempParameterList.get(0) == 3){
 						playerSpawnX = xPos;
 						playerSpawnY = yPos;
@@ -263,16 +254,19 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 					}else if(tempParameterList.get(0) == 9){
 						staticList.get(r).add(new TreasureObject(xPos, yPos));    
 					}else if(tempParameterList.get(0) == 10){
-						creatureList.get(r).add(new Shopkeeper(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5)));
+						creatureList.get(r).add(new Shopkeeper(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
 					}
 					else if(tempParameterList.get(0) == 11){
-						creatureList.get(r).add(new Storyteller(xPos, xPos, 3, 1, 0, 100, 0));
+						creatureList.get(r).add(new Storyteller(xPos, xPos, 3, 1, 0));
 					}
 					else if(tempParameterList.get(0) == 12){
 						staticList.get(r).add(new Healthcontainer(xPos, yPos));
 					}
 				}
 			}
+			// Aktionstimer wird gesetzt und gestartet
+			timer	=	new Timer(1000/60, this);
+			timer.start();
 		}
 		// GameEventListener hinzufuegen fuer Lebendige Objekte
 		for(int i=0; i<creatureList.size(); i++)
@@ -521,6 +515,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 					gw.dispose();
 					gm.setVisible(true);
 					reload();
+					timer.stop();
 				}
 				//Dialog weiterschalten
 				else if(dialog){

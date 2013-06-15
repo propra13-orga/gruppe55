@@ -16,7 +16,7 @@ public abstract class LivingObject extends MovingObject {
 	
 // Konstruktor
 		// x,y: Koordinaten zum Erscheinen
-	public LivingObject(int x, int y, int h, int atk, int def, int energy, int mana){
+	public LivingObject(int x, int y, int h, int atk, int def){
 		super(x, y);
 		
 		// Array um den Status zu aendern
@@ -35,8 +35,6 @@ public abstract class LivingObject extends MovingObject {
 		hp = hpMax = h;
 		this.atk	=	atk;
 		this.def	=	def;
-		this.mana = manaMax = mana;
-		this.energy = energyMax = energy;
 		
 		// Kampfwerte setzen
 		critBonus	=	0;

@@ -18,7 +18,10 @@ public class Player extends LivingObject {
 	
 	// Konstruktor
     public Player(int spawnX, int spawnY, int h, int atk, int def, int energy, int mana, int l) {
-		super(spawnX, spawnY, h, atk, def, energy, mana);
+		super(spawnX, spawnY, h, atk, def);
+		
+		this.mana = this.manaMax = mana;
+		this.energy = this.energyMax = energy;
 		
 		// statInventory Slots
 		// 0: Lives

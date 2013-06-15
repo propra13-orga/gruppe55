@@ -1,8 +1,6 @@
 package hhu.propra2013.gruppe55;
 
 import java.awt.*;
-import java.util.HashMap;
-import java.util.Map;
 
 import javax.swing.*;
 
@@ -28,7 +26,7 @@ public class Data_Img {
 	// Shopkeeper
 	public static Image shopkeeper = genImg("Npc/shopkeeper.png");
 	// Storyteller
-	public static Image storyteller = genImg("enemies/evilwizard.png");
+	public static Image storyteller = genImg("Npc/storyteller.png");
 	// Levelrelevantes
 	static Image win = genImg("youwin.png");		// Siegbild
 	static Image gameover = genImg("gameover.png");	// Game Over
