@@ -52,6 +52,9 @@ public abstract class LivingObject extends MovingObject {
 		l.getHit(dmg);
 	}
 	
+	public void action(int pX, int pY){
+	}
+	
 	// Schaden bei Treffer
 	public void getHit(int dmg){
     	// Nichts tun bei Unverwundbarkeit

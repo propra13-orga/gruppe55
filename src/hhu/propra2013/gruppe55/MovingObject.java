@@ -9,7 +9,6 @@ public abstract class MovingObject extends DungeonObject {
 // Konstruktor
 	public MovingObject(int x, int y) {
 		super(x, y);
-		// TODO Auto-generated constructor stub
 	}
 
 // Methoden

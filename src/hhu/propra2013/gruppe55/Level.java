@@ -24,7 +24,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	private ArrayList<Projectile> projectileList;			// liste der Projektile (Pfeile, Feuerbaelle, etc)
 	private ArrayList<ArrayList<Teleporter>> teleportList;		// Liste aller Teleporter 
 	// Timer fuer die Aktionen
-	private Timer timer;
+	private Timer timer, timerAtk;
 	// Spieleventvariablen
 	private boolean lose, clear;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
 	// Wichtige variablen fuer das neu Laden eines Levels
@@ -114,6 +114,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			//11: Storyteller
 			//12: Healthcontainer
 			//13: Checkpoint
+			//14: Creature_Bow
 			
 			// Schleife die das Level generiert
 			for(int r=0; r<lvlData.length;r++){
@@ -173,11 +174,19 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 						else if(lvlData[r][i][j] == 12){
 							staticList.get(r).add(new Healthcontainer(i*32, j*32));
 						}
+						else if(lvlData[r][i][j] == 13){
+							
+						}
+						else if(lvlData[r][i][j] == 14){
+							creatureList.get(r).add(new Creature_Bow(32*i, 32*j, 0, 5*32, 3, 1, 0));
+						}
 					}
 				}
 				// Aktionstimer wird gesetzt und gestartet
 				timer	=	new Timer(1000/60, this);
 				timer.start();
+				timerAtk = new Timer(1000, this);
+				timerAtk.start();
 			}
 		}else{
 			jsonParser = true;
@@ -267,6 +276,8 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			// Aktionstimer wird gesetzt und gestartet
 			timer	=	new Timer(1000/60, this);
 			timer.start();
+			timerAtk = new Timer(1000, this);
+			timerAtk.start();
 		}
 		// GameEventListener hinzufuegen fuer Lebendige Objekte
 		for(int i=0; i<creatureList.size(); i++)
@@ -429,28 +440,37 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	 * Wird vom timer aufgerufen. Laesst moegliche Bewegungen berechnen, ruft die Kollisionsabfrage auf und zeichnet das Feld neu
 	 */
 	public void actionPerformed(ActionEvent e) {
-		// Level gefroren?
-		if(!freeze){
-			// ueberpruefen ob der Spieler lebt
-			if(player.getHP()<=0)
-				lose	=	true;	// wird gesetzt wenn der Spieler stirbt
+		if(e.getSource() == timer){
+			// Level gefroren?
+			if(!freeze){
+				// ueberpruefen ob der Spieler lebt
+				if(player.getHP()<=0)
+					lose	=	true;	// wird gesetzt wenn der Spieler stirbt
+				
+				// Spielerbewegung
+				player.move();
+				
+				// kreaturenbewegung
+				for(int i=0; i<creatureList.get(room).size(); i++)
+					creatureList.get(room).get(i).move();
+				// projektile
+				for(int i=0; i<projectileList.size(); i++)
+					projectileList.get(i).move();
+				
+				// Kollisionsabfrage
+				collisionCheck();
+			}
 			
-			// Spielerbewegung
-			player.move();
-			
-			// kreaturenbewegung
-			for(int i=0; i<creatureList.get(room).size(); i++)
-				creatureList.get(room).get(i).move();
-			// projektile
-			for(int i=0; i<projectileList.size(); i++)
-				projectileList.get(i).move();
-			
-			// Kollisionsabfrage
-			collisionCheck();
+			// neuzeichnen
+			repaint();
 		}
-		
-		// neuzeichnen
-		repaint();
+		else if(e.getSource() == timerAtk){
+			for(int i = 0; i < creatureList.get(room).size(); i++){
+				if(creatureList.get(room).get(i) instanceof Creature_Bow && creatureList.get(room).get(i).getCurrState() == 1){
+					creatureList.get(room).get(i).action(player.getX(), player.getY());
+				}
+			}
+		}
 	}
 	
 	//GameFreeze togglen
@@ -524,6 +544,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 					gm.setVisible(true);
 					reload();
 					timer.stop();
+					timerAtk.stop();
 				}
 				//Dialog weiterschalten
 				else if(dialog){
