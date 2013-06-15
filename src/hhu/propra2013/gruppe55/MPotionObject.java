@@ -10,8 +10,6 @@ public class MPotionObject extends DungeonObject {
 		state	=	new State[2];
 		state[0]	=	new State(Data_Img.mpotion,false, false, true);			// Die Potion
 		state[1]	=	new State(Data_Img.mpotion, false, false, false);		// Verschwundene Potion
-		state[1].defineOffset(0,0,32,32, 0);
-		
 	}
 	
 	public void onCollision(DungeonObject d){	 // Aufnahme des Manatrankes bei Kollision
