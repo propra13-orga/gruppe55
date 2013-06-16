@@ -182,7 +182,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 							creatureList.get(r).add(new Creature_Bow(32*i, 32*j, 0, 5*32, 1, 3, 1, 0));
 						}
 						else if(lvlData[r][i][j] == 15){
-							creatureList.get(r).add(new Boss1(i*32+5, j*32-5, 3*32, 6*32, 3, 1, 0));		// bei 15 wird ein Boss1 generiert
+							creatureList.get(r).add(new Boss1(i*32, j*32, 15, 1, 0));		// bei 15 wird ein Boss1 generiert
 						}
 						// CheckPoint
 						else if(lvlData[r][i][j] == 16){
