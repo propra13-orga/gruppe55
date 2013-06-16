@@ -284,7 +284,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 						creatureList.get(r).add(new Shopkeeper(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
 					}
 					else if(tempParameterList.get(0) == 11){
-						creatureList.get(r).add(new Storyteller(xPos, xPos, 3, 1, 0));
+						creatureList.get(r).add(new Storyteller(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
 					}
 					else if(tempParameterList.get(0) == 12){
 						staticList.get(r).add(new Healthcontainer(xPos, yPos));
