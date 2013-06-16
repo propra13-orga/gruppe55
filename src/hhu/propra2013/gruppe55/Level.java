@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.Map;
 
 import javax.swing.*;
+
 import java.io.*;
 
 public class Level extends JPanel implements ActionListener, GameEventListener {
@@ -288,6 +289,31 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 					else if(tempParameterList.get(0) == 12){
 						staticList.get(r).add(new Healthcontainer(xPos, yPos));
 					}
+					else if(tempParameterList.get(0) == 13){
+						//tempParameterList.get(1) = texturID mit Texturbild = img/textures/texturID.png
+						//tempParameterList.get(2) = 1 massive ; 0 not massive
+						//staticList.get(r).add(new someObject(xPos, yPos, 1));
+						//Image image = new ImageIcon("img/textures/"+tempParameterList.get(1)+".png").getImage();
+					}
+					else if(tempParameterList.get(0) == 14){
+						creatureList.get(r).add(new Creature_Bow(xPos, yPos, tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6), tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
+					}
+					else if(tempParameterList.get(0) == 15){
+						creatureList.get(r).add(new Boss1(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
+					}
+					else if(tempParameterList.get(0) == 16){
+						staticList.get(r).add(new CheckPoint(xPos, yPos));    
+					}
+					else if(tempParameterList.get(0) == 17){
+						creatureList.get(r).add(new Boss2(xPos, yPos, tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
+					}
+					else if(tempParameterList.get(0) == 18){
+						creatureList.get(r).add(new Boss3(xPos, yPos, tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
+					}
+					else if(tempParameterList.get(0) == 19){
+						staticList.get(r).add(new ArrowObject(xPos, yPos));    
+					}
+					
 				}
 			}
 			// Aktionstimer wird gesetzt und gestartet

@@ -145,8 +145,32 @@ public class MapWindow extends JPanel {
 				//Creature painten
 				g2.drawImage(Data_Img.treasure, xPos, yPos, this);
 			}else if(tempParameterList.get(0) == 10){
-				//Creature painten
 				g2.drawImage(Data_Img.shopkeeper, xPos, yPos, this);
+			}else if(tempParameterList.get(0) == 11){
+				g2.drawImage(Data_Img.storyteller, xPos, yPos, this);
+			}else if(tempParameterList.get(0) == 12){
+				g2.drawImage(Data_Img.healthcontainer, xPos, yPos, this);
+			}else if(tempParameterList.get(0) == 13){
+				Image image = new ImageIcon("img/textures/"+tempParameterList.get(1)+".png").getImage();
+				g2.drawImage(image, xPos, yPos, this);
+			}else if(tempParameterList.get(0) == 14){
+				//Creature painten
+				g2.drawImage(Data_Img.creature, xPos, yPos, this);
+			}else if(tempParameterList.get(0) == 16){
+				//Creature painten
+				g2.drawImage(Data_Img.cp_unused, xPos, yPos, this);
+			}else if(tempParameterList.get(0) == 15){
+				//Creature painten
+				g2.drawImage(Data_Img.boss1, xPos, yPos, this);
+			}else if(tempParameterList.get(0) == 17){
+				//Creature painten
+				g2.drawImage(Data_Img.boss1, xPos, yPos, this);
+			}else if(tempParameterList.get(0) == 18){
+				//Creature painten
+				g2.drawImage(Data_Img.boss1, xPos, yPos, this);
+			}else if(tempParameterList.get(0) == 19){
+				//Creature painten
+				g2.drawImage(Data_Img.lootarrow, xPos, yPos, this);
 			}
 		}
 	/*	for(int i=0; i<objectList.size(); i++){

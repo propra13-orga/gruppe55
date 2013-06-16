@@ -16,6 +16,7 @@ import java.util.ArrayList;
 
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -33,25 +34,28 @@ public class LevelEditor extends JFrame implements ActionListener
 	/**
 	 * 
 	 */
-	public static int mapLaenge = 30;
+	public static int mapLaenge = 21;
 	public static int mapBreite = 16;
 	final static int imgSize = 32;
 
 	//toolType
-	//0: Background		ok
-	//1: Wall			ok
-	//2: Creature		ok
-	//3: Player			ok
-	//4: Teleporter     ok
-	//5: Falle			ok
-	//6: Ziel			ok
+	//0: Background    
+	//1: Wall
+	//2: Creature
+	//3: Player
+	//4: Teleporter
+	//5: Falle
+	//6: Ziel
 	//7: Potion
 	//8: Manapotion
 	//9: Schatz
 	//10: Shopkeeper
+	//11: Storyteller
+	//12: Healthcontainer
+	//13: andere Objekte
 	
 	
-	//Parameter müssen momentan noch public und static sein :-|
+	//Parameter 
 	public static int toolType = 0;
 	public static int wallTexture = 0;
 	public static int health = 3;
@@ -63,13 +67,20 @@ public class LevelEditor extends JFrame implements ActionListener
 	public static int teleporterRoom = 1;
 	public static int teleporterRoomxPos = 256;
 	public static int teleporterRoomyPos = 128;
-	
+	public static int otherObjectsTextur = 1;
+	public static int otherObjectsMassive = 0;
+	public static int moveAreaX = 0;
+	public static int moveAreaY = 0;
+	public static int schussAchse = 0;
+
+	private ArrayList<Integer> texturKeyList = new ArrayList<Integer>();
 
 	private JFileChooser fileChooser = new JFileChooser();
 	private JButton openLevel = new JButton("Open Level");
 	private JButton saveLevel = new JButton("Save Level");
 	private JButton wallButton = new JButton("Wall");
 	private JButton creatureButton = new JButton("Creature");
+	private JButton bowCreatureButton = new JButton("Bow Creature");
 	private JButton deleteButton = new JButton("Delete");
 	private JButton playerButton = new JButton("Player");
 	private JButton teleporterButton = new JButton("Teleporter");
@@ -79,6 +90,14 @@ public class LevelEditor extends JFrame implements ActionListener
 	private JButton manapotionButton = new JButton("Manapotion");
 	private JButton schatzButton = new JButton("Schatz");
 	private JButton shopKeeperButton = new JButton("Shopkeeper");
+	private JButton storytellerButton = new JButton("Storyteller");
+	private JButton healthcountainerButton = new JButton("Healthcontainer");
+	private JButton otherObjectsButton = new JButton("andere Objekte");
+	private JButton checkpointButton = new JButton("Checkpoint");
+	private JButton boss1Button = new JButton("Boss 1");
+	private JButton boss2Button = new JButton("Boss 2");
+	private JButton boss3Button = new JButton("Boss 3");
+	private JButton arrowObjectButton = new JButton("Arrow Object");
 	
 	
 	
@@ -98,6 +117,11 @@ public class LevelEditor extends JFrame implements ActionListener
 	private String[] texturenStr = {"Textur1","Textur2"};
 	private JComboBox wallTexturBox = new JComboBox(texturenStr);
 	
+	//otherObjects ParameterPanel Komponenten
+
+	private JComboBox otherObjectsTexturBox = new JComboBox();
+	private JCheckBox massiveCheckBox = new JCheckBox("massive: ");
+	
 	//Creature ParameterPanel Komponenten
 	private JTextField healthTxtField = new JTextField("3");
 	private JTextField angriffTxtField = new JTextField("1");
@@ -105,6 +129,9 @@ public class LevelEditor extends JFrame implements ActionListener
 	private JTextField ausdauerTxtField = new JTextField("100");
 	private JTextField manaTxtField = new JTextField("0");
 	private JTextField lebenTxtField = new JTextField("3");
+	private JTextField moveAreaXTxtField = new JTextField("1");
+	private JTextField moveAreaYTxtField = new JTextField("1");
+	private JTextField schussAchseTxtField = new JTextField("0");
 	private JButton setParametersButton = new JButton("set!");
 	
 	//Teleporter ParameterPanel Komponenten
@@ -119,6 +146,7 @@ public class LevelEditor extends JFrame implements ActionListener
 	private TitlePanel wallParameterPanel;
 	private TitlePanel livingObjectParameterPanel;
 	private TitlePanel teleporterParameterPanel;
+	private TitlePanel otherObjectsParameterPanel;
 	private JPanel topPanel = new JPanel();
 
 	private File levelFile;
@@ -127,11 +155,13 @@ public class LevelEditor extends JFrame implements ActionListener
 	public LevelEditor() {
 		super("Level Editor");
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.setResizable(false);
 
 		openLevel.addActionListener(this);
 		saveLevel.addActionListener(this);
 		wallButton.addActionListener(this);
 		creatureButton.addActionListener(this);
+		bowCreatureButton.addActionListener(this);
 		deleteButton.addActionListener(this);
 		playerButton.addActionListener(this);
 		teleporterButton.addActionListener(this);
@@ -141,15 +171,24 @@ public class LevelEditor extends JFrame implements ActionListener
 		manapotionButton.addActionListener(this);
 		schatzButton.addActionListener(this);
 		shopKeeperButton.addActionListener(this);
+		storytellerButton.addActionListener(this);
+		healthcountainerButton.addActionListener(this);
+		otherObjectsButton.addActionListener(this);
+		checkpointButton.addActionListener(this);
+		boss1Button.addActionListener(this);
+		boss2Button.addActionListener(this);
+		boss3Button.addActionListener(this);
+		arrowObjectButton.addActionListener(this);
 
 		// wallButton.setIcon(MapWindow.imgWall);
 		JPanel toolsBarPanel = new JPanel();
-		toolsBarPanel.setLayout(new GridLayout(14, 1));
+		toolsBarPanel.setLayout(new GridLayout(22, 1));
 		toolsBarPanel.add(this.openLevel);
 		toolsBarPanel.add(this.saveLevel);
 		toolsBarPanel.add(this.wallButton);
 		toolsBarPanel.add(this.deleteButton);
 		toolsBarPanel.add(this.creatureButton);
+		toolsBarPanel.add(this.bowCreatureButton);
 		toolsBarPanel.add(this.playerButton);
 		toolsBarPanel.add(this.teleporterButton);
 		toolsBarPanel.add(this.falleButton);
@@ -158,6 +197,14 @@ public class LevelEditor extends JFrame implements ActionListener
 		toolsBarPanel.add(this.manapotionButton);
 		toolsBarPanel.add(this.schatzButton);
 		toolsBarPanel.add(this.shopKeeperButton);
+		toolsBarPanel.add(this.storytellerButton);
+		toolsBarPanel.add(this.healthcountainerButton);
+		toolsBarPanel.add(this.otherObjectsButton);
+		toolsBarPanel.add(this.checkpointButton);
+		toolsBarPanel.add(this.boss1Button);
+		toolsBarPanel.add(this.boss2Button);
+		toolsBarPanel.add(this.boss3Button);
+		toolsBarPanel.add(this.arrowObjectButton);
 		
 		//Wall Parameter: type(1),wallTexture
 		//WallObject(int x, int y,int textur)
@@ -184,6 +231,12 @@ public class LevelEditor extends JFrame implements ActionListener
 		livingObjectParameterPanel.add(manaTxtField);
 		livingObjectParameterPanel.add(new JLabel(" Leben(nur für Player): "));
 		livingObjectParameterPanel.add(lebenTxtField);
+		livingObjectParameterPanel.add(new JLabel(" move Area X: "));
+		livingObjectParameterPanel.add(moveAreaXTxtField);
+		livingObjectParameterPanel.add(new JLabel(" move Area Y: "));
+		livingObjectParameterPanel.add(moveAreaYTxtField);
+		livingObjectParameterPanel.add(new JLabel(" schuss Achse: "));
+		livingObjectParameterPanel.add(schussAchseTxtField);
 		
 		setParametersButton.addActionListener(this);
 		livingObjectParameterPanel.setVisible(false);
@@ -199,6 +252,10 @@ public class LevelEditor extends JFrame implements ActionListener
 		teleporterParameterPanel.add(new JLabel(" Ziel Raum yPosition: "));
 		teleporterParameterPanel.add(zielRoomyPosTxtField);
 		
+		//andere Objekte Parameter
+		otherObjectsParameterPanel = new TitlePanel(" Parameter: ");
+		otherObjectsParameterPanel.add(otherObjectsTexturBox);
+		otherObjectsParameterPanel.add(massiveCheckBox);
 		
 		
 		//TrapObject Parameter : type(5)
@@ -233,6 +290,13 @@ public class LevelEditor extends JFrame implements ActionListener
 		topPanel.add(editRoomSizeButton);
 		
 		
+		
+		this.setPreferredSize(new Dimension(mapLaenge*imgSize+140,mapBreite*imgSize+100));
+		
+		wallParameterPanel.setPreferredSize(new Dimension(200,60));
+		livingObjectParameterPanel.setPreferredSize(new Dimension(200,90));
+		teleporterParameterPanel.setPreferredSize(new Dimension(200,60));
+		otherObjectsParameterPanel.setPreferredSize(new Dimension(200,60));
 		
 		
 		mapPanel = new TitlePanel("map:");		
@@ -288,8 +352,8 @@ public class LevelEditor extends JFrame implements ActionListener
 			mapWindow.levelDataObj.addemptylevelRoom();
 		}
 		else if (ae.getSource() == this.removeRoomButton){
-			comboBoxModel.removeElementAt(mapWindow.currentRoomIndex);
-			mapWindow.levelDataObj.deletelevelRoom(mapWindow.currentRoomIndex);
+			comboBoxModel.removeElementAt(selectRoomBox.getSelectedIndex());
+			mapWindow.levelDataObj.deletelevelRoom(selectRoomBox.getSelectedIndex());
 		}
 		else if (ae.getSource() == this.editRoomSizeButton){
 			JTextField laenge = new JTextField();
@@ -314,34 +378,79 @@ public class LevelEditor extends JFrame implements ActionListener
 			JComboBox temp = (JComboBox)ae.getSource();
 			wallTexture = temp.getSelectedIndex();
 		}
+		else if (ae.getSource() == this.otherObjectsButton){
+			toolType = 13;
+			this.remove(wallParameterPanel);
+			this.remove(teleporterParameterPanel);
+			this.remove(livingObjectParameterPanel);
+			otherObjectsParameterPanel.add(setParametersButton);
+			this.add(otherObjectsParameterPanel, BorderLayout.SOUTH);	
+			String fileName;
+			
+			  File folder = new File("img/textures");
+			  File[] listOfFiles = folder.listFiles(); 
+			  //reset nach Button wechsel
+			  otherObjectsTexturBox.removeAllItems();
+			  texturKeyList.clear();
+			  for (int i = 0; i < listOfFiles.length; i++) 
+			  {			 
+				  if (listOfFiles[i].isFile()) 
+				  {
+					  fileName = listOfFiles[i].getName();
+					  // \\. und nicht . da . spezielles regex Zeichen ist
+					  String[] tempString = fileName.split("\\.",-1);
+					  texturKeyList.add(Integer.parseInt(tempString[0]));
+					  otherObjectsTexturBox.addItem(tempString[0]);
+				  }
+			  }
+				teleporterParameterPanel.setVisible(false);
+				wallParameterPanel.setVisible(false);
+				livingObjectParameterPanel.setVisible(false);
+				otherObjectsParameterPanel.setVisible(true);
+		}
 		else if (ae.getSource() == this.wallButton){
 			toolType = 1;
 			this.remove(livingObjectParameterPanel);
 			this.remove(teleporterParameterPanel);
+			this.remove(otherObjectsParameterPanel);
 			this.add(wallParameterPanel, BorderLayout.SOUTH);
 			teleporterParameterPanel.setVisible(false);
 			wallParameterPanel.setVisible(true);
 			livingObjectParameterPanel.setVisible(false);
+			otherObjectsParameterPanel.setVisible(false);
 		}
 		else if (ae.getSource() == this.deleteButton)
 		{
 			toolType = 0;
 			wallParameterPanel.setVisible(false);
 			livingObjectParameterPanel.setVisible(false);
+			otherObjectsParameterPanel.setVisible(false);
 		}
-		else if (ae.getSource() == this.creatureButton || ae.getSource() == this.shopKeeperButton){
+		else if (ae.getSource() == this.creatureButton || ae.getSource() == this.bowCreatureButton || ae.getSource() == this.shopKeeperButton || ae.getSource() == this.storytellerButton || ae.getSource() == this.boss1Button || ae.getSource() == this.boss2Button || ae.getSource() == this.boss3Button){
 			if(ae.getSource() == this.creatureButton)
 				toolType = 2;
-			else 
+			else if(ae.getSource() == this.shopKeeperButton)
 				toolType = 10;
+			else if(ae.getSource() == this.bowCreatureButton)
+				toolType = 14;
+			else if(ae.getSource() == this.boss1Button)
+				toolType = 15;
+			else if(ae.getSource() == this.boss2Button)
+				toolType = 17;
+			else if(ae.getSource() == this.boss3Button)
+				toolType = 18;
+			else 
+				toolType = 11;
 			teleporterParameterPanel.remove(setParametersButton);
 			livingObjectParameterPanel.add(setParametersButton);
 			this.remove(wallParameterPanel);
+			this.remove(otherObjectsParameterPanel);
 			this.remove(teleporterParameterPanel);
 			this.add(livingObjectParameterPanel, BorderLayout.SOUTH);	
 			teleporterParameterPanel.setVisible(false);
 			livingObjectParameterPanel.setVisible(true);
 			wallParameterPanel.setVisible(false);
+			otherObjectsParameterPanel.setVisible(false);
 		}
 		else if (ae.getSource() == this.teleporterButton){
 			toolType = 4;
@@ -349,24 +458,38 @@ public class LevelEditor extends JFrame implements ActionListener
 			teleporterParameterPanel.add(setParametersButton);
 			this.remove(wallParameterPanel);
 			this.remove(livingObjectParameterPanel);
+			this.remove(otherObjectsParameterPanel);
 			this.add(teleporterParameterPanel, BorderLayout.SOUTH);	
 			teleporterParameterPanel.setVisible(true);
 			livingObjectParameterPanel.setVisible(false);
 			wallParameterPanel.setVisible(false);
+			otherObjectsParameterPanel.setVisible(false);
 		}
 		else if (ae.getSource() == this.setParametersButton){
-			if(toolType == 2 || toolType == 3 || toolType == 10){
+			if(toolType == 2 || toolType == 3 || toolType == 10 || toolType == 14 || toolType == 15 || toolType == 17 || toolType == 18){
 				health = Integer.parseInt(healthTxtField.getText());
 				angriff = Integer.parseInt(angriffTxtField.getText());
 				verteidigung = Integer.parseInt(verteidigungTxtField.getText());
 				ausdauer = Integer.parseInt(ausdauerTxtField.getText());
 				mana = Integer.parseInt(manaTxtField.getText());
 				leben = Integer.parseInt(lebenTxtField.getText());
+				moveAreaX = Integer.parseInt(moveAreaXTxtField.getText());
+				moveAreaY = Integer.parseInt(moveAreaYTxtField.getText());
+				schussAchse = Integer.parseInt(schussAchseTxtField.getText());
 			}else if(toolType == 4){
 				teleporterRoom = Integer.parseInt(zielRoomTxtField.getText());
 				teleporterRoomxPos = Integer.parseInt(zielRoomxPosTxtField.getText());
 				teleporterRoomyPos = Integer.parseInt(zielRoomyPosTxtField.getText());
 				
+			}else if(toolType == 13){
+				int tempIndex = otherObjectsTexturBox.getSelectedIndex();	
+				otherObjectsTextur = texturKeyList.get(tempIndex);
+				if(massiveCheckBox.isSelected())
+					otherObjectsMassive = 1;
+				else 
+					otherObjectsMassive = 0;
+				
+				System.out.println(otherObjectsMassive + " " + otherObjectsTextur);
 			}
 		}
 		else if (ae.getSource() == this.playerButton){
@@ -375,10 +498,12 @@ public class LevelEditor extends JFrame implements ActionListener
 			livingObjectParameterPanel.add(setParametersButton);
 			this.remove(wallParameterPanel);
 			this.remove(teleporterParameterPanel);
+			this.remove(otherObjectsParameterPanel);
 			this.add(livingObjectParameterPanel, BorderLayout.SOUTH);		
 			teleporterParameterPanel.setVisible(false);
 			livingObjectParameterPanel.setVisible(true);
-			wallParameterPanel.setVisible(false);			
+			wallParameterPanel.setVisible(false);	
+			otherObjectsParameterPanel.setVisible(false);
 		}else if (ae.getSource() == this.falleButton){
 			toolType = 5;
 		}else if (ae.getSource() == this.zielButton){
@@ -389,6 +514,12 @@ public class LevelEditor extends JFrame implements ActionListener
 			toolType = 8;
 		}else if (ae.getSource() == this.schatzButton){
 			toolType = 9;
+		}else if (ae.getSource() == this.healthcountainerButton){
+			toolType = 12;
+		}else if (ae.getSource() == this.checkpointButton){
+			toolType = 16;
+		}else if (ae.getSource() == this.arrowObjectButton){
+			toolType = 19;
 		}
 		else if (ae.getSource() == this.openLevel) {
 			int returnVal = fileChooser.showOpenDialog(this);

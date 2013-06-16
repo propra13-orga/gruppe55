@@ -71,16 +71,20 @@ public class LevelData {
 		parameterList.add(type);
 		if(type == 1){
 			parameterList.add(LevelEditor.wallTexture);
-			System.out.println(LevelEditor.wallTexture);
 			levelRooms.get(index).put(xyPos, parameterList);
 		}else if(type == 0){
 			levelRooms.get(index).remove(xyPos);
-		}else if(type == 2 || type == 10){
+		}else if(type == 2 || type == 10 || type == 11 || type == 14 || type == 15 || type == 17 || type == 18){
 			parameterList.add(LevelEditor.health);
 			parameterList.add(LevelEditor.angriff);
 			parameterList.add(LevelEditor.verteidigung);
 			parameterList.add(LevelEditor.ausdauer);
 			parameterList.add(LevelEditor.mana);
+			if(type == 2 || type == 14 ||  type == 15 || type == 17 || type == 18){
+				parameterList.add(LevelEditor.moveAreaX);
+				parameterList.add(LevelEditor.moveAreaY);
+				parameterList.add(LevelEditor.schussAchse);
+			}
 			levelRooms.get(index).put(xyPos, parameterList);
 		}else if(type == 3){
 			parameterList.add(LevelEditor.health);
@@ -94,6 +98,10 @@ public class LevelData {
 			parameterList.add(LevelEditor.teleporterRoom);
 			parameterList.add(LevelEditor.teleporterRoomxPos);
 			parameterList.add(LevelEditor.teleporterRoomyPos);
+			levelRooms.get(index).put(xyPos, parameterList);
+		}else if(type == 13){
+			parameterList.add(LevelEditor.otherObjectsTextur);
+			parameterList.add(LevelEditor.otherObjectsMassive);
 			levelRooms.get(index).put(xyPos, parameterList);
 		}else{
 			levelRooms.get(index).put(xyPos, parameterList);
