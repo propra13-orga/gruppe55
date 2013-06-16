@@ -2,7 +2,7 @@ package hhu.propra2013.gruppe55;
 
 public class CheckPoint extends DungeonObject {
 
-	public CheckPoint(int x, int y) {
+	public CheckPoint(double x, double y) {
 		super(x, y);
 		
 		state	=	new State[2];

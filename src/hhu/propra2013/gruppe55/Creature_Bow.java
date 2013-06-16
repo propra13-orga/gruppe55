@@ -15,7 +15,14 @@ public class Creature_Bow extends Creature{
 	
 	// Aktion
 	public void action(int pX, int pY){
-		shoot(pX, pY);
+		// Ist der Spieler in Reichweite?
+		if(distanceBetween(pX,pY)<=detectionRange){
+			// Winkel berechnen
+			int[] center	=	getCenter();
+			double angle	=	Math.toDegrees(Math.atan2((pY-center[1]),(pX-center[0])));
+			// Schießen
+			shoot((int)angle%360);
+		}
 	}
 	
     // Methode zum Pfeile Schießen
@@ -24,8 +31,8 @@ public class Creature_Bow extends Creature{
     	int angle = calcPlayerDirection(pX, pY);
     	
     	// Offsets fuer Projektil setzen
-    	int x = this.x;
-    	int y = this.y;
+    	int x = (int)this.x;
+    	int y = (int)this.y;
     	// je nach Schussrichtung
     	switch(angle){
 	    	case	0:	// nach rechts

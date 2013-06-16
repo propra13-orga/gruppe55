@@ -9,14 +9,18 @@ public abstract class LivingObject extends MovingObject {
 	private boolean invulnerable	=	false;		// Unverwundbarkeitszustand des Objekts
 	protected int invulTime			=	500;		// Dauer der Unverwundbarkeit in Millisekunden
 	// Schadensberechnungsvariablen (welch ein Wort!)
-	protected int critBase	=	2;	// Basis-Chance auf kritische Treffer
+	protected int critBase	=	20;	// Basis-Chance auf kritische Treffer
 	protected int critBonus, minDmg, maxDmg;
+	// fermkampfattribute
+	protected int detectionRange	=	200;	// Wenn ZielObjekte die gegebene Anzahl an Pixeln oder weniger entfernt sind=feuern
+	protected Projectile projectile	=	new Projectile(0,0,0,0);	// Wird zur Erzeugung von Schuessen genutzt und gibt somit den Projektiltyp an
+	
 	
 	
 	
 // Konstruktor
 		// x,y: Koordinaten zum Erscheinen
-	public LivingObject(int x, int y, int h, int atk, int def){
+	public LivingObject(double x, double y, int h, int atk, int def){
 		super(x, y);
 		
 		// Array um den Status zu aendern
@@ -49,7 +53,7 @@ public abstract class LivingObject extends MovingObject {
 	public void dealDamage(LivingObject l){
 		// Schaden berechnen, denn wir haben tolle Formeln dafuer
 		int dmg	=	(int) (Math.random()*(maxDmg+1-minDmg))+minDmg;	// Extraschaden
-		dmg	+=	(int)( (Math.random()*10<=(critBase+critBonus) ) ? 2*atk : atk);	// Grundschaden (mit Crits)
+		dmg	+=	(int)( (Math.random()*100<=(critBase+critBonus) ) ? 2*atk : atk);	// Grundschaden (mit Crits)
 		
 		// Schaden setzen
 		l.getHit(dmg);
@@ -57,6 +61,23 @@ public abstract class LivingObject extends MovingObject {
 	
 	// Funktion für Individuelle Aktionen
 	public void action(int pX, int pY){
+	}
+	
+	// Methode zum Fernkampf
+	public void shoot(int angle){
+		// Flugrichtung bestimmen
+		double flyX	=	Math.cos(Math.toRadians(angle%360));
+		double flyY	=	Math.sin(Math.toRadians(angle%360));
+		
+		// Koordinaten festlegen
+		int[] center	=	getCenter();	// Mittelpunkt
+		int hOffset	=	center[0]-(int)x+5;	// Horizontales und..
+		int vOffset	=	center[1]-(int)y+5;	// .. vertikales Offset bestimmen
+		
+		// Geschoss feuern
+		for(GameEventListener gel : evtList){
+    		gel.shootProjectile(projectile.launch(center[0]+(flyX*hOffset),center[1]+(flyY*vOffset),angle, maxDmg+atk));
+		}
 	}
 	
 	// Schaden bei Treffer
@@ -86,13 +107,14 @@ public abstract class LivingObject extends MovingObject {
 		if(hp>hpMax)
 			hp = hpMax;
 	}
-	
+	// Erhoeht das Mana
 	public void fillmana(int ma){ 
 		mana+=ma;
 		if(mana>manaMax)
 			mana = manaMax;
 	}
 	
+	// Erhoeht die MaximalHP
 	public void raisehp(){
 		hpMax +=2;
 		if(hpMax >20){

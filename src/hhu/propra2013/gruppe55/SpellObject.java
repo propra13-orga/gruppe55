@@ -16,7 +16,7 @@ public class SpellObject extends DungeonObject {
  */
 
 // Konstruktor
-	public SpellObject(int x, int y) {
+	public SpellObject(double x, double y) {
 		super(x, y);		
 		
 		// Wertezuweisungen
@@ -27,7 +27,7 @@ public class SpellObject extends DungeonObject {
 	}
 	
 	// Methode, die die eigentliche Magie ausführt
-	public void cast(int x,int y,int angle,int spellDmg){
+	public void cast(double x,double y,int angle,int spellDmg){
 		// Feuerball schießen!
 		for(GameEventListener gel : evtList){
 			gel.shootProjectile(new Fireball(x,y,angle,dmg+spellDmg));

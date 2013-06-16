@@ -5,7 +5,7 @@ import java.awt.Graphics2D;
 public class WallObject extends DungeonObject {
 
 	// Diese Klasse scheint leer zu sein. Alle wichtigen Methoden und Attribute sind im DungeonObject implementiert
-	public WallObject(int x, int y) {
+	public WallObject(double x, double y) {
 		super(x, y);
 
 		// Status-Array deklarieren

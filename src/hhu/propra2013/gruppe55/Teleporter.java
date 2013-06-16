@@ -11,7 +11,7 @@ public class Teleporter extends DungeonObject {
 	// room: Zielraum
 	// dx, dy: Zielkoordinaten
 	
-	public Teleporter(int x, int y, int room, int dx, int dy) {
+	public Teleporter(double x, double y, int room, int dx, int dy) {
 		super(x, y);
 		
 		state[0].massive	=	true;
@@ -24,6 +24,6 @@ public class Teleporter extends DungeonObject {
 	
 	// gibt Teleportationsdaten zureuck fuer weitere Berechnungen
 	public int[] getTeleport(){
-		return (new int[] {room, dx, dy});
+		return (new int[] {room, (int)dx, (int)dy});
 	}
 }

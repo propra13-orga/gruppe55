@@ -7,7 +7,7 @@ public class Npc extends LivingObject {
 	// Interaktions-Hitbox-Offsets fuer Npc's 
 	protected int offset2[] = {-15,-15, -15, -15};
 	// Kontruktor fuer den Npc
-	public Npc(int spawnX, int spawnY, int h, int angr, int vert) {
+	public Npc(double spawnX, double spawnY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
 		state[1].massive = true;
     }
@@ -15,7 +15,7 @@ public class Npc extends LivingObject {
 	public Rectangle getBorder(){
 		// Wenn der Npc da is...
 		if(state[currState].visible){
-			return new Rectangle(x + offset2[1], y + offset2[0], state[currState].getImg().getWidth(null) -offset2[1]-offset2[3], state[currState].getImg().getHeight(null)-offset2[0]-offset2[2]);
+			return new Rectangle((int)x + offset2[1], (int)y + offset2[0], state[currState].getImg().getWidth(null) -offset2[1]-offset2[3], state[currState].getImg().getHeight(null)-offset2[0]-offset2[2]);
 		}		
 		   else
 		// ... und wenn er nicht da ist

@@ -17,14 +17,20 @@ IMPORTANT KNOWN ISSUE:
 Known Issues:
 - Bodentexturen muessen generiert werden ohne viel Speicheraufwand
 - Pfeile und Projektile generell muessten schoener an der Position des Schiessenden orientiert abgefeuert werden (zB nach allen Seiten gleicher Abstand, schoen zentriert, etc)
-- eventuell x/y-werte auf double umstellen fuer genauere positionierung
 
+- Spielerpfeile werden nicht richtig positioniert
+
+WICHTIG: Ich habe die X/Y Koordinaten in allen Objekten von int auf double umgestellt, um geregeltere bewegung zu ermöglichen!
 
 Changelog:
 
 16.06-13 - jdnklau
 Level
 	- Raumfix fuer die CheckPoints, so dass man nicht im gleichen Raum abgelegt wird, in dem man gestorben ist, sondern in dem, in dem der Checkpoint lag
+LivingObject
+	- allgemeinere shoot-Methode hinzugefuegt
+DungeonObject
+	- x/y-Koordinaten sind nun double
 
 15.06.13 - van Meegen
 /img:

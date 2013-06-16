@@ -10,8 +10,8 @@ import javax.swing.event.EventListenerList;
 public abstract class DungeonObject {
 // Attribute
 	// Koordinaten
-	protected int x;	// aktuelle X-Position des Objekts
-	protected int y;	// aktuelle Y-Position des Objekts
+	protected double x;	// aktuelle X-Position des Objekts
+	protected double y;	// aktuelle Y-Position des Objekts
 	// Grafik
 	protected  State[] state;
 	protected int currState;
@@ -26,7 +26,7 @@ public abstract class DungeonObject {
 	
 // Konstruktor
 		// x, y: Koordinaten zum Erscheinen
-	public DungeonObject(int x, int y){
+	public DungeonObject(double x, double y){
 		// Koordinaten
 		this.x	=	x;
 		this.y	=	y;
@@ -93,8 +93,8 @@ public abstract class DungeonObject {
 		// Werte setzen
 		resetValues[0]	=	currState;	// 1. Wert: Aktueller State
 		resetValues[1]	=	direction;	// 2. Wert Aktuelle Richtung
-		resetValues[2]	=	x;			// 3. Wert: X-Koordinate
-		resetValues[3]	=	y;			// 4. Wert: Y-Koordinate
+		resetValues[2]	=	(int)x;			// 3. Wert: X-Koordinate
+		resetValues[3]	=	(int)y;			// 4. Wert: Y-Koordinate
 	}
 	
 	// Methode zum zuruecksetzen des Objektes
@@ -115,15 +115,41 @@ public abstract class DungeonObject {
 	
 	public void draw(Graphics2D g2d){
 		if(state[currState].visible)
-			g2d.drawImage(state[currState].getImg(), x, y, null);
+			g2d.drawImage(state[currState].getImg(), (int)x, (int)y, null);
 	}
 
 // Die folgenden Methoden werden fuer die Level-methoden "paint" und "collisionCheck" benoetigt:
 	
 	// x wert ausgeben
-	public int getX(){return x;}
+	public int getX(){return (int)x;}
 	// y wert ausgeben
-	public int getY(){return y;}
+	public int getY(){return (int)y;}
+	// Objekt Mitte ausgeben
+	public int[] getCenter(){
+		// Werte zwischenlagern vor der Ausgabe
+		int[] ret	=	new int[2];
+		int[] offsets	=	state[currState].getOffset();
+		
+		// X-Posi
+		ret[0]	=	(int)x+state[currState].getImg().getWidth(null)/2+offsets[1]-offsets[3];
+		// Y-Posi
+		ret[1]	=	(int)y+state[currState].getImg().getWidth(null)/2+offsets[0]-offsets[2];
+		
+		return ret;
+	}
+	// Methode zur Berechnung der Distanz zweier DungeonObjekte
+	public int distanceBetween(DungeonObject d){
+		// Werte zum vergleichen
+		int[] dc	=	d.getCenter();
+		return distanceBetween(dc[0],dc[1]);
+	}
+	public int distanceBetween(int x, int y){
+		// Werte zum Vergleichen
+		int[] tc	=	this.getCenter();
+		
+		// Pythagoras ist unser Freund und Helfer in der Not!
+		return (int)Math.sqrt( Math.pow((x-tc[0]),2)+Math.pow((y-tc[1]),2) );
+	}
 	// bild ausgeben
 	public Image getImg(){return state[currState].getImg();}
 	// Massive Status ausgeben
@@ -138,7 +164,7 @@ public abstract class DungeonObject {
 	public Rectangle getBorder(){
 		if(state[currState].visible){
 			int[] offset= state[currState].getOffset();
-			return new Rectangle(x + offset[1], y + offset[0], state[currState].getImg().getWidth(null) -offset[1]-offset[3], state[currState].getImg().getHeight(null)-offset[0]-offset[2]);
+			return new Rectangle((int)x + offset[1], (int)y + offset[0], state[currState].getImg().getWidth(null) -offset[1]-offset[3], state[currState].getImg().getHeight(null)-offset[0]-offset[2]);
 		}		
 		// else
 		return new Rectangle(0,0,0,0);

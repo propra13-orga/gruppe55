@@ -7,7 +7,7 @@ public class Projectile extends MovingObject {
 
 // Konstruktor
 	// int angle: Der Winkel, in dem sich bewegt werden soll (in Grad)
-	public Projectile(int x, int y, int angle, int dmg) {
+	public Projectile(double x, double y, int angle, int dmg) {
 		super(x,y);
 		
 		// Winkel und Schaden uebernehmen
@@ -15,27 +15,23 @@ public class Projectile extends MovingObject {
 		this.dmg	=	dmg;
 		// Geschwindigkeit anpassen
 		speed	=	5;	// Wuhuuu
+		speed	=0.1;
 		
 		// States neu definieren
 		state	=	new State[2];
-		
 		// Nicht zeichnen, wenn was getroffen wurde
 		state[0]	=	new State(Data_Img.arrow_f, false, false, false);
 		// fliegender Pfeil
 		state[1]	=	new State(Data_Img.arrow_f,Data_Img.arrow_l,Data_Img.arrow_r,Data_Img.arrow_b,true,false,true);
 		// State setzen
 		switchState(1);
-		adjustToCenter();
-	}
-	
-	// Bewegung berechnen
-	public void move(){
-		// aktuell ziemlich schlecht geloest
-		dx	=	(int)Math.cos(Math.toRadians(angle));
-		dy	=	(int)Math.sin(Math.toRadians(angle));
 		
-		// bewegen
-		super.move();
+		// Bewegungsrichtung initialisieren
+		dx	=	Math.cos(Math.toRadians(angle));
+		dy	=	Math.sin(Math.toRadians(angle));
+		
+		// Besser positionieren
+		adjustPosition();
 	}
 	
 	// Kollision
@@ -43,15 +39,22 @@ public class Projectile extends MovingObject {
 		// Gegner/Spieler getroffen?
 		if(d instanceof LivingObject){
 			((LivingObject)d).getHit(dmg);
+			// Etwas getroffen, also ausblenden
 			switchState(0);
 		}
 		else if (d.isMassive() == true)
+			// Etwas getroffen, also ausblenden
 			switchState(0);
-		// Etwas getroffen, also ausblenden
 		
 	}
 	
-	protected void adjustToCenter(){
+	// Abschuss (wenn nur als Typenreferenz genutzt [siehe LivingObject])
+	public Projectile launch(double x, double y, int angle, int dmg){
+		return new Projectile(x,y,angle,dmg);
+	}
+	
+	// Koodinatenanpassung
+	protected void adjustPosition(){
 		// Richtung berechnen
 		if(this.angle <=45 || this.angle > 360-45){ 			// nach rechts
 			direction	=	2;
@@ -65,8 +68,8 @@ public class Projectile extends MovingObject {
 		else{ 													// nach unten
 			direction	=	0;
 		}
-		// Richtung setzen
 		changeDirection(direction);
+		checkDirection();
 		// Koordinaten anpassen
 		switch(direction){
 		case	1:	// links

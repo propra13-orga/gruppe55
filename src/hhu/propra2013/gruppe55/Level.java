@@ -549,12 +549,12 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	
 // SPIELEREIGNISSE ABFANGEN
 	@Override
-	public void newTreasure(int x, int y) {
+	public void newTreasure(double x, double y) {
 		staticList.get(room).add(new TreasureObject(x, y));
 	}
 	// Der Boss droppt das Zielobjekt
 	@Override
-	public void newGoal(int x, int y) {
+	public void newGoal(double x, double y) {
 		GoalObject goal = new GoalObject(x, y);
 		goal.addGameListener(this);
 		staticList.get(room).add(goal);

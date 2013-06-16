@@ -4,7 +4,7 @@ public class PotionObject extends DungeonObject {
 // Attribute
 	protected int heal	=	2;	// zu heilender Wert
 	
-	public PotionObject(int x, int y) {
+	public PotionObject(double x, double y) {
 		super(x,y);
 		// States der Potion definieren
 		state	=	new State[2];

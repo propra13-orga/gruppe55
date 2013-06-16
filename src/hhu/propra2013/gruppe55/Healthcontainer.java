@@ -3,7 +3,7 @@ package hhu.propra2013.gruppe55;
 public class Healthcontainer extends DungeonObject {
 // Attribute
 	
-	public Healthcontainer(int x, int y) {
+	public Healthcontainer(double x, double y) {
 		super(x,y);
 		// Bild des Containers laden
 		state	=	new State[2];

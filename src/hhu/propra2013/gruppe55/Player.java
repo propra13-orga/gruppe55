@@ -19,7 +19,7 @@ public class Player extends LivingObject {
 	private int[] statInventory;		//Inventar für statische Objekte (Gold, Tränke, Pfeile)
 	
 	// Konstruktor
-    public Player(int spawnX, int spawnY, int h, int atk, int def, int energy, int mana, int l) {
+    public Player(double spawnX, double spawnY, int h, int atk, int def, int energy, int mana, int l) {
 		super(spawnX, spawnY, h, atk, def);
 		
 		this.mana = this.manaMax = mana;
@@ -168,8 +168,8 @@ public class Player extends LivingObject {
     	if(statInventory[4]<=0)	return;
     	
     	// Position bestimmen
-    	int x	=	this.x;
-    	int y	=	this.y;
+    	int x	=	(int)this.x;
+    	int y	=	(int)this.y;
     	// je nach Richtung
     	switch(direction){
     	case	1:	// nach links
@@ -190,13 +190,7 @@ public class Player extends LivingObject {
     		break;
     	}
     	
-    	// Event (und damit den Pfeil) feuern!
-    	for(GameEventListener gel : evtList){
-    		// Winkel berechnen
-    		int angle=calcPlayerAngle();
-    		
-			gel.shootProjectile(new Projectile(x,y,angle, atk+weapons[2].getMaxDmg()));
-		}
+    	shoot(calcPlayerAngle());
     	
     	// Pfeil abziehen
     	statInventory[4]--;
@@ -321,7 +315,7 @@ public class Player extends LivingObject {
     	
     	// Den Spieler zeichnen
     	if(currState<=0){	// Tote brauchen keine Waffen
-    		g2d.drawImage(state[currState].getImg(), x,  y,  null);
+    		g2d.drawImage(state[currState].getImg(), (int)x,  (int)y,  null);
     		return;
     	}
     	
@@ -331,21 +325,21 @@ public class Player extends LivingObject {
     	if(weapons[2]!=null) weapons[2].changeDirection(direction);
     	// Nebenhand hinter Spieler zeichnen bei rechts und hinten
     	if(direction>=2 && weapons[currEquipped+1]!=null){
-    		weapons[currEquipped+1].draw(g2d, x+handOffsets[direction][currState-1][2],y+handOffsets[direction][currState-1][3]);
+    		weapons[currEquipped+1].draw(g2d, (int)x+handOffsets[direction][currState-1][2],(int)y+handOffsets[direction][currState-1][3]);
     	}
     	// Haupthand hinter den Spieler zeichnen bei links und hinten
     	if((direction==3 || direction == 1) && currEquipped==0 && weapons[0]!=null){	
-    		weapons[0].draw(g2d, x+handOffsets[direction][currState-1][0], y+handOffsets[direction][currState-1][1]);
+    		weapons[0].draw(g2d, (int)x+handOffsets[direction][currState-1][0], (int)y+handOffsets[direction][currState-1][1]);
     	}
     	// Spieler zeichnen
     	super.draw(g2d);
     	// Haupthand vor den Spieler zeichnen bei rechts und vorne
     	if((direction ==0 || direction==2) && currEquipped==0 && weapons[0]!=null){
-    		weapons[0].draw(g2d, x+handOffsets[direction][currState-1][0], y+handOffsets[direction][currState-1][1]);
+    		weapons[0].draw(g2d, (int)x+handOffsets[direction][currState-1][0], (int)y+handOffsets[direction][currState-1][1]);
     	}
     	// Nebenhand vor den Spieler zeichnen bei links und vorne
     	if((direction==0 || direction==1) && weapons[currEquipped+1]!=null){
-    		weapons[currEquipped+1].draw(g2d, x+handOffsets[direction][currState-1][2],y+handOffsets[direction][currState-1][3]);
+    		weapons[currEquipped+1].draw(g2d, (int)x+handOffsets[direction][currState-1][2],(int)y+handOffsets[direction][currState-1][3]);
     	}
     }
     
@@ -382,12 +376,12 @@ public class Player extends LivingObject {
     	return currEquipped;
     }
     
-    // Methoden fuer die X und Y-Koordinaten
+    // Methoden fuer die X und Y-Koordinaten - Benötigt im translate der Zeichenmethode des levels
     public int getTX(){
-    	return x-state[currState].getImg().getWidth(null)/2;
+    	return (int)x-state[currState].getImg().getWidth(null)/2;
     }
     public int getTY(){
-    	return y-state[currState].getImg().getHeight(null)/2;
+    	return (int)y-state[currState].getImg().getHeight(null)/2;
     }
 
 // Methoden zur Steuerung des Spielers per Keyboard

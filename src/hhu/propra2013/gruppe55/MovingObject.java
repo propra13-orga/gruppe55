@@ -3,11 +3,11 @@ package hhu.propra2013.gruppe55;
 public abstract class MovingObject extends DungeonObject {
 // Attribute
 	// Bewegung
-	protected int dx, dy;		// direction coordinates (dx: -1, move left; 1 move right;; dy: -1, move up, 1, move down
-	protected int speed=3;		// speed of object (2 normal speed -> 2px/actionPerfordmed)
+	protected double dx, dy;		// direction coordinates (dx: -1, move left; 1 move right;; dy: -1, move up, 1, move down
+	protected double speed=3.0;		// speed of object (2 normal speed -> 2px/actionPerfordmed)
 
 // Konstruktor
-	public MovingObject(int x, int y) {
+	public MovingObject(double x, double y) {
 		super(x, y);
 	}
 
@@ -31,13 +31,13 @@ public abstract class MovingObject extends DungeonObject {
 		// Richtung in den States wiederspiegeln
 		if(dx==0 && dy==0) return;
 		int oldDirection	=	direction;
-		if(dy==1)	// nach unten
+		if(dy>0)	// nach unten
 			direction	=	0;
-		else if(dx==-1)		// nach links
+		else if(dx<0)		// nach links
 			direction	=	1;
-		else if(dx==1)		// nach rechts
+		else if(dx>0)		// nach rechts
 			direction	=	2;
-		else if(dx==0 && dy==-1)	// nach oben
+		else if(dx==0 && dy<0)	// nach oben
 			direction	=	3;
 		
 		// States der Richtung anpassen

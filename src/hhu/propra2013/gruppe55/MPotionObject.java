@@ -4,7 +4,7 @@ public class MPotionObject extends DungeonObject {
 	
 	protected int ma	=	1;
 	
-	public MPotionObject(int x, int y) {
+	public MPotionObject(double x, double y) {
 		super(x,y);
 		// States der Potion definieren
 		state	=	new State[2];

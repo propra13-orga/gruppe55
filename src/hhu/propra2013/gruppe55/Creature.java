@@ -11,14 +11,14 @@ public class Creature extends LivingObject {
     protected int moveAreaY	=	3*32;		// ... und nach oben
     	
 // Konstruktor
-    public Creature(int spawnX, int spawnY, int h, int angr, int vert) {
+    public Creature(double spawnX, double spawnY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
 		
 		// States setzen
 		state[0].visible	=	false; 		// totes Monster wird unsichtbar
 		state[1].changeImg(Data_Img.creature); 	// Bild der Lebendigen Kreatur laden
-		sx	=	spawnX;						// Erscheinungskoordinaten
-		sy	=	spawnY;
+		sx	=	(int)spawnX;						// Erscheinungskoordinaten
+		sy	=	(int)spawnY;
 		
 		// Bewegung initiieren
 		dx=1;
@@ -79,11 +79,11 @@ public class Creature extends LivingObject {
     		return;
     	// Zeichnen der HP-Leiste ueber den Koepfen der Kreaturen
     	g2d.setColor(Color.WHITE);
-    	g2d.fillRect(x, y-8, 24, 5);
+    	g2d.fillRect((int)x, (int)y-8, 24, 5);
     	g2d.setColor(Color.BLACK);
-    	g2d.drawRect(x, y-8, 24, 5);
+    	g2d.drawRect((int)x, (int)y-8, 24, 5);
     	g2d.setColor(Color.RED);
-    	g2d.fillRect(x+1, y-7, (int)(24*((double)hp/hpMax)), 4);
+    	g2d.fillRect((int)x+1, (int)y-7, (int)(24*((double)hp/hpMax)), 4);
     	g2d.setColor(Color.BLACK);
     	// Zeichnen der Monster
     	super.draw(g2d);

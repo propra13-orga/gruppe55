@@ -4,7 +4,7 @@ public class TreasureObject extends DungeonObject {
 	
 
 	
-	public TreasureObject(int x, int y) {
+	public TreasureObject(double x, double y) {
 		super(x,y);
 		// States des Schatzes definieren
 		state	=	new State[2];

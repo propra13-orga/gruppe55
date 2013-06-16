@@ -10,14 +10,10 @@ public class Boss1 extends Creature {
     protected int moveAreaY	=	6*32;		// ... und nach oben
    
 
-    public Boss1(int spawnX, int spawnY, int h, int angr, int vert) {
+    public Boss1(double spawnX, double spawnY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
 		
-		
-		state[0].visible	=	false; 		// totes Monster wird unsichtbar
 		state[1].changeImg(Data_Img.boss1); 	// Bild der Lebendigen Kreatur laden
-		sx	=	spawnX;						// Erscheinungskoordinaten
-		sy	=	spawnY;
 		dx =1;
 		dy =1;
     }
@@ -59,14 +55,14 @@ public class Boss1 extends Creature {
     		return;
     	// Zeichnen der HP-Leiste ueber den Koepfen der Kreaturen
     	g2d.setColor(Color.WHITE);
-    	g2d.fillRect(x, y-8, 58, 5);
+    	g2d.fillRect((int)x, (int)y-8, 58, 5);
     	g2d.setColor(Color.BLACK);
-    	g2d.drawRect(x, y-8, 58, 5);
+    	g2d.drawRect((int)x, (int)y-8, 58, 5);
     	g2d.setColor(Color.RED);
-    	g2d.fillRect(x, y-7, (int)(58*((double)hp/hpMax)), 4);
+    	g2d.fillRect((int)x, (int)y-7, (int)(58*((double)hp/hpMax)), 4);
     	g2d.setColor(Color.BLACK);
     	// Zeichnen der Monster
-    	g2d.drawImage(state[currState].getImg(), x, y, null);
+    	g2d.drawImage(state[currState].getImg(), (int)x, (int)y, null);
     }
     
 public void onCollision(DungeonObject d){
