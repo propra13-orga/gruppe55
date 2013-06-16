@@ -14,7 +14,7 @@ public class Projectile extends MovingObject {
 		this.angle	=	angle%360;
 		this.dmg	=	dmg;
 		// Geschwindigkeit anpassen
-		speed	=	5;	// Wuhuuu
+		speed	=5;	// Wuhuuu
 		
 		// States neu definieren
 		state	=	new State[2];
@@ -54,21 +54,7 @@ public class Projectile extends MovingObject {
 	
 	// Koodinatenanpassung
 	protected void adjustPosition(){
-		// Richtung berechnen
-		if(this.angle <=45 || this.angle > 360-45){ 			// nach rechts
-			direction	=	2;
-		}
-		else if(this.angle <=45+90 || this.angle > 180-45){	// nach oben
-			direction	=	3;
-		}
-		else if(this.angle <=45+180 || this.angle > 270-45){	// nach links
-			direction	=	1;
-		}
-		else{ 													// nach unten
-			direction	=	0;
-		}
-		changeDirection(direction);
-		checkDirection();
+		setDirectionByAngle(angle%360);
 		// Koordinaten anpassen
 		switch(direction){
 		case	1:	// links
@@ -80,13 +66,20 @@ public class Projectile extends MovingObject {
 			break;
 		case	3:	// oben
 			x-=state[1].getImg().getWidth(null)/2;	// besser zentrieren
+			y-=state[1].getImg().getHeight(null);
 			break;
 		case	0:	// unten
 		default:
 			x-=state[1].getImg().getWidth(null)/2;	// besser zentrieren
-			y+=state[1].getImg().getHeight(null);
 			break;
 		}
+	}
+	
+	@Override
+	// Muessen wir ueberschreiben, da sonst die move-Methode unsere Richtung neu setzt
+	// Solange die checkDirection im MovingObject nicht besser gesetzt ist, ist das unser weg
+	protected void checkDirection(){
+		// Die Richtung eines Geschosses soll sich ja eigentlich nicht aendern, also weiss ich nicht, was hier rein sollte...
 	}
 
 }
