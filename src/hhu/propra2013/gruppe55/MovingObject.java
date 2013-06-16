@@ -45,6 +45,33 @@ public abstract class MovingObject extends DungeonObject {
 			changeDirection(direction);
 	}
 	
+	// Methode zur Richtungsberechnung bei gegebenem Winkel
+	protected void setDirectionByAngle(int angle){
+		int oldDirection	=	direction;
+		
+		// Winkel anpassen
+		angle	%=	360;
+		angle	=	(angle<0)?360-angle:angle;
+		
+		// Richtung berechnen
+		if(angle >225 && angle < 315){	// nach oben
+			direction	=	3;
+		}
+		else if(angle >135 && angle <=225){	// nach links
+			direction	=	1;
+		}
+		else if(angle >=315 || angle <45){	// nach rechts
+			direction	=	2;
+		}
+		else{ 								// nach unten
+			direction	=	0;
+		}
+		// Richtung anpassen (grafisch)
+		if(direction!=oldDirection){
+			changeDirection(direction);
+		}
+	}
+	
 	// Waende haben Pushback (man wird einige Pixel zurueckgesetz)
 	public void setBack(){
 		x-=dx;

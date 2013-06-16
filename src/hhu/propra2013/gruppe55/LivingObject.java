@@ -65,18 +65,23 @@ public abstract class LivingObject extends MovingObject {
 	
 	// Methode zum Fernkampf
 	public void shoot(int angle){
+		shoot(angle, projectile);
+	}
+	// eigentliche Methode, erwartet ein Objekt des zu schieﬂenden Typs (hilfsfunktion fuer Zauber zB)
+	protected void shoot(int angle, Projectile p){
 		// Flugrichtung bestimmen
 		double flyX	=	Math.cos(Math.toRadians(angle%360));
 		double flyY	=	Math.sin(Math.toRadians(angle%360));
 		
 		// Koordinaten festlegen
 		int[] center	=	getCenter();	// Mittelpunkt
-		int hOffset	=	center[0]-(int)x+5;	// Horizontales und..
-		int vOffset	=	center[1]-(int)y+5;	// .. vertikales Offset bestimmen
+		int hOffset	=	center[0]-(int)x;	// Horizontales und..
+		int vOffset	=	center[1]-(int)y;	// .. vertikales Offset bestimmen
+		int radius	=	(int)Math.sqrt(Math.pow(hOffset, 2)+Math.pow(vOffset, 2))+10;
 		
 		// Geschoss feuern
 		for(GameEventListener gel : evtList){
-    		gel.shootProjectile(projectile.launch(center[0]+(flyX*hOffset),center[1]+(flyY*vOffset),angle, maxDmg+atk));
+    		gel.shootProjectile(p.launch(center[0]+flyX*radius,center[1]+flyY*radius,angle, maxDmg+atk));
 		}
 	}
 	
