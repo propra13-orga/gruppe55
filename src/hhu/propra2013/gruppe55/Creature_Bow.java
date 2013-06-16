@@ -12,7 +12,6 @@ public class Creature_Bow extends Creature{
 		schussAchse = a;
 		state[1].changeImg(Data_Img.creature_bow);	// Img setzen
 	}
-	
 	// Aktion
 	public void action(int pX, int pY){
 		// Ist der Spieler in Reichweite?
@@ -21,7 +20,7 @@ public class Creature_Bow extends Creature{
 			int[] center	=	getCenter();
 			double angle	=	Math.toDegrees(Math.atan2((pY-center[1]),(pX-center[0])));
 			// Schieﬂen
-			shoot((int)angle%360);
+			shoot((int)angle);
 		}
 	}
 	

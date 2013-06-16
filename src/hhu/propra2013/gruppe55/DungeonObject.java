@@ -131,9 +131,9 @@ public abstract class DungeonObject {
 		int[] offsets	=	state[currState].getOffset();
 		
 		// X-Posi
-		ret[0]	=	(int)x+state[currState].getImg().getWidth(null)/2+offsets[1]-offsets[3];
+		ret[0]	=	(int)x+state[currState].getImg().getWidth(null)/2;
 		// Y-Posi
-		ret[1]	=	(int)y+state[currState].getImg().getWidth(null)/2+offsets[0]-offsets[2];
+		ret[1]	=	(int)y+state[currState].getImg().getHeight(null)/2;
 		
 		return ret;
 	}
@@ -165,9 +165,14 @@ public abstract class DungeonObject {
 		if(state[currState].visible){
 			int[] offset= state[currState].getOffset();
 			return new Rectangle((int)x + offset[1], (int)y + offset[0], state[currState].getImg().getWidth(null) -offset[1]-offset[3], state[currState].getImg().getHeight(null)-offset[0]-offset[2]);
-		}		
+		}	
 		// else
 		return new Rectangle(0,0,0,0);
+	}
+	
+	// Es ist so Aetzend immer System.out.println(...) zu schreiben <.<
+	protected void test(String str){
+		System.out.println(str);
 	}
 	
 }
