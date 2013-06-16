@@ -15,7 +15,6 @@ public class Projectile extends MovingObject {
 		this.dmg	=	dmg;
 		// Geschwindigkeit anpassen
 		speed	=	5;	// Wuhuuu
-		speed	=0.1;
 		
 		// States neu definieren
 		state	=	new State[2];
