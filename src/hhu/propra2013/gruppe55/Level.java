@@ -518,13 +518,14 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 		}
 		// Wenn Gegnerattacken ausgelöst werden (imo nur Creature_Bow)
 		else if(e.getSource() == timerAtk){
+			int[] playerCenter	=	player.getCenter();
 			for(int i = 0; i < creatureList.get(room).size(); i++){
 				// Alle lebenden Bogen-Gegner Schießen
 				if(creatureList.get(room).get(i) instanceof Creature_Bow && creatureList.get(room).get(i).getCurrState() == 1){
-					creatureList.get(room).get(i).action(player.getX(), player.getY());
+					creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
 				}
 				else if(creatureList.get(room).get(i) instanceof Boss2 && creatureList.get(room).get(i).getCurrState() == 1){
-					creatureList.get(room).get(i).action(player.getX(), player.getY());
+					creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
 				}
 			}
 		}

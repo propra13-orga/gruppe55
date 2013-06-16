@@ -21,6 +21,14 @@ WICHTIG: Ich habe die X/Y Koordinaten in allen Objekten von int auf double umges
 
 Changelog:
 
+16.06.13 - jdnklau
+MovingObject
+	- besitzt nun eine Methode setDirectionByAngle
+LivingObject
+	- fixes fuer das Schießen
+Creature_Bow
+	- schießt nun auf die Mitte des Spielers statt auf seinen Kopf zu zielen (no headshots plx, there is no hitbox!)
+
 16.06.13 - van Meegen
 Bosskampf2:
 
