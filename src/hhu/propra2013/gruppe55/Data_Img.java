@@ -46,6 +46,7 @@ public class Data_Img {
 	public static Image healthcontainer = genImg("Interface/HUD_Tear_HP_Full.png");
 	public static Image mpotion = genImg("mpotion.png");		// Manatrank
 	public static Image treasure = genImg("treasure.png");		// Schaetze 
+	public static Image lootarrow = genImg("weapons/basicbow/lootarrow.png");
 	// Fallen
 	public static Image trap = genImg("trap.png");			// Speerfalle
 	static Image trapact = genImg("trapActivated.png");	// aktivierte Speerfalle

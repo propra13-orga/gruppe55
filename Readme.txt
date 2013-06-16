@@ -2,10 +2,7 @@
  - realisierte Stat-Uebergabe von ATK/DEF von den Waffen an den Spieler
 Geplante Aspekte
  - Boden als eine große Grafik, Objekte überlagern diese
- - Klasse zur Text-/Dialogdarstellung
- - Fernkampfwaffen/Projektile
  - Animation
- - Kampfsystem
 
 IMPORTANT KNOWN ISSUE:
 
@@ -24,6 +21,30 @@ WICHTIG: Ich habe die X/Y Koordinaten in allen Objekten von int auf double umges
 
 Changelog:
 
+16.06.13 - van Meegen
+Bosskampf2:
+
+Ich hatte mir fuer den Boss folgendes überlegt: Der Boss ist auf der anderen Seite einer Fallenreihe und man muss diesen mit Fernkampf besiegen (weil Fernkampfboss). Das Ziel spawnt dann auf der Seite des Spielers sobald der Boss tot ist. Das Level habe ich mitgepusht, es reicht das ins Testlvl umzubenennen damit es geladen wird (ich wollte euer Testlevel nicht überschreiben). 
+
+/img:
+	- Lootarrow und Creature_bow hinzugefuegt
+/src:
+ArrowObject
+	- vom Spieler aufsammelbare Pfeile die den Pfeilvorrat erhoehen (:O)
+Boss1
+	- Der Boss bekommt seine MoveArea nun auch ueber den Konstruktor und nicht fest
+Boss2
+	- Den Boss fuer das 2. Level erstellt (Range Boss) - Der Kampf ist oben erklärt. Das Bild ist ein Platzhalter.
+Boss3
+	- Platzhalterklasse fuer den 3. Boss bis uns was einfaellt!
+Data_Img
+	- neue Bilder eingebunden
+Level
+	- die neuen Objekte werden geneniert (Bosse, Lootarrow etc)
+	- Der Boss2 kann nun auch schiessen!
+	
+	
+	
 16.06-13 - jdnklau
 Level
 	- Raumfix fuer die CheckPoints, so dass man nicht im gleichen Raum abgelegt wird, in dem man gestorben ist, sondern in dem, in dem der Checkpoint lag

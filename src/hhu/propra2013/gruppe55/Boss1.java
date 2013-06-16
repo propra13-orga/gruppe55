@@ -6,14 +6,13 @@ import java.awt.Graphics2D;
 public class Boss1 extends Creature {
 	
 	protected int sx, sy;					// Erscheinungskoordinaten
-    protected int moveAreaX	=	3*32;		// maximale vertikale Bewegung nach rechts
-    protected int moveAreaY	=	6*32;		// ... und nach oben
-   
-
-    public Boss1(double spawnX, double spawnY, int h, int angr, int vert) {
+ 
+    public Boss1(double spawnX, double spawnY,int mX, int mY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
 		
 		state[1].changeImg(Data_Img.boss1); 	// Bild der Lebendigen Kreatur laden
+		sx	=	(int)spawnX;						// Erscheinungskoordinaten
+		sy	=	(int)spawnY;
 		dx =1;
 		dy =1;
     }

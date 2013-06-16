@@ -182,11 +182,20 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 							creatureList.get(r).add(new Creature_Bow(32*i, 32*j, 0, 5*32, 1, 3, 1, 0));
 						}
 						else if(lvlData[r][i][j] == 15){
-							creatureList.get(r).add(new Boss1(i*32+5, j*32-5, 3, 1, 0));		// bei 15 wird ein Boss1 generiert
+							creatureList.get(r).add(new Boss1(i*32+5, j*32-5, 3*32, 6*32, 3, 1, 0));		// bei 15 wird ein Boss1 generiert
 						}
 						// CheckPoint
 						else if(lvlData[r][i][j] == 16){
 							staticList.get(r).add(new CheckPoint(i*32,j*32));
+						}
+						else if(lvlData[r][i][j] == 17){
+							creatureList.get(r).add(new Boss2(32*i, 32*j, 10*32, 0, 3, 1, 0));
+						}
+						else if(lvlData[r][i][j] == 18){
+							creatureList.get(r).add(new Boss3(i*32+5, j*32-5, 0, 0, 3, 1, 0));
+						}
+						else if(lvlData[r][i][j] == 19){
+							staticList.get(r).add(new ArrowObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
 						}
 					}
 				}
@@ -512,6 +521,9 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			for(int i = 0; i < creatureList.get(room).size(); i++){
 				// Alle lebenden Bogen-Gegner Schießen
 				if(creatureList.get(room).get(i) instanceof Creature_Bow && creatureList.get(room).get(i).getCurrState() == 1){
+					creatureList.get(room).get(i).action(player.getX(), player.getY());
+				}
+				else if(creatureList.get(room).get(i) instanceof Boss2 && creatureList.get(room).get(i).getCurrState() == 1){
 					creatureList.get(room).get(i).action(player.getX(), player.getY());
 				}
 			}
