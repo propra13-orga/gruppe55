@@ -296,7 +296,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 						//Image image = new ImageIcon("img/textures/"+tempParameterList.get(1)+".png").getImage();
 					}
 					else if(tempParameterList.get(0) == 14){
-						creatureList.get(r).add(new Creature_Bow(xPos, yPos, tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6), tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
+						creatureList.get(r).add(new Creature_Bow(xPos, yPos, tempParameterList.get(4)*32, tempParameterList.get(5)*32, tempParameterList.get(6), tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
 					}
 					else if(tempParameterList.get(0) == 15){
 						creatureList.get(r).add(new Boss1(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
@@ -305,10 +305,10 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 						staticList.get(r).add(new CheckPoint(xPos, yPos));    
 					}
 					else if(tempParameterList.get(0) == 17){
-						creatureList.get(r).add(new Boss2(xPos, yPos, tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
+						creatureList.get(r).add(new Boss2(xPos, yPos, tempParameterList.get(4)*32, tempParameterList.get(5)*32, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
 					}
 					else if(tempParameterList.get(0) == 18){
-						creatureList.get(r).add(new Boss3(xPos, yPos, tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
+						creatureList.get(r).add(new Boss3(xPos, yPos, tempParameterList.get(4)*32, tempParameterList.get(5)*32, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
 					}
 					else if(tempParameterList.get(0) == 19){
 						staticList.get(r).add(new ArrowObject(xPos, yPos));    
