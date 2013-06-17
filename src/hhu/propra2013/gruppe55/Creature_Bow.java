@@ -11,6 +11,7 @@ public class Creature_Bow extends Creature{
 		moveAreaY = mY;
 		schussAchse = a;
 		state[1].changeImg(Data_Img.creature_bow);	// Img setzen
+		speed = 2;
 	}
 	// Aktion
 	public void action(int pX, int pY){

@@ -21,6 +21,16 @@ WICHTIG: Ich habe die X/Y Koordinaten in allen Objekten von int auf double umges
 
 Changelog:
 
+17.06.13 - van Meegen
+
+Alle Bosse haben nun eigene Grafiken und der 3. Boss hat nun auch eine Mechanik. Der Spieler hat nun in allen Leveln 1 Def und die Bosse haben 2 Atk. Diverse andere fixes. 
+
+/img:
+	- Boss2 und 3 Grafiken geaddet (Normal und OpenGl)
+/src:
+	- Bosse überarbeitet und Data_Img / Textures angepasst
+	- Boss3 macht nun auch wirklich was! :3
+		
 16.06.13 - jdnklau
 MovingObject
 	- besitzt nun eine Methode setDirectionByAngle

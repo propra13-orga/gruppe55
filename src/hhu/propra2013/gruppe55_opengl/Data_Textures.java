@@ -7,7 +7,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 public class Data_Textures {
 	
-	static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, boss1, shopkeeper, storyteller,
+	static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, boss1, boss2, boss3, shopkeeper, storyteller,
 	win, youlose, gameover, bks, wall, grass, goal, potion, potionused, healthcontainer, mpotion, treasure, lootarrow,
 	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, cp_used, cp_unused,
 	basicbow, basicbow_back, basicbow_f_atk, basicbow_l_atk, basicbow_r_atk, basicbow_u_atk, basicbow_icon, basicshield_f, basicshield_b, arrow_f, arrow_l, arrow_r, arrow_b, fireball,
@@ -32,6 +32,8 @@ public class Data_Textures {
 				creature_bow = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/enemies/creature_bow.png")));	// Bogen-Monster
 			// Bosse
 					boss1 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/enemies/boss1.png")));
+					boss2 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/enemies/boss2.png")));
+					boss3 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/enemies/boss3.png")));
 			// Npc's
 				// Shopkeeper
 				shopkeeper = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/Npc/shopkeeper.png")));

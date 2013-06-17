@@ -10,10 +10,10 @@ public class Boss2 extends Creature {
     public Boss2(int spawnX, int spawnY, int mX, int mY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
 		
-		state[1].changeTexture(Data_Textures.boss1); 	// Bild der Lebendigen Kreatur laden
+		state[1].changeTexture(Data_Textures.boss2); 	// Bild der Lebendigen Kreatur laden
 		moveAreaX = mX;
 		moveAreaY = mY;
-		state[1].changeTexture(Data_Textures.boss1);	// Img setzen
+		state[1].changeTexture(Data_Textures.boss2);	// Img setzen
 	}
 	
 	// Aktion

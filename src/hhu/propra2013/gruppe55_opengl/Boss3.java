@@ -17,7 +17,7 @@ public class Boss3 extends Creature {
     public Boss3(double spawnX, double spawnY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
 		
-		state[1].changeTexture(Data_Textures.boss1); 	// Bild der Lebendigen Kreatur laden
+		state[1].changeTexture(Data_Textures.boss3); 	// Bild der Lebendigen Kreatur laden
 		sx	=	(int)spawnX;					// Erscheinungskoordinaten
 		sy	=	(int)spawnY;					
 		dx =1;									// Bewegung wird initialisiert x - Richung
