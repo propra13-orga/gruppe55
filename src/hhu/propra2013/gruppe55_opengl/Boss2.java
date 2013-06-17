@@ -1,7 +1,6 @@
 package hhu.propra2013.gruppe55_opengl;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import static org.lwjgl.opengl.GL11.*;
 
 public class Boss2 extends Creature {
 	
@@ -10,14 +9,13 @@ public class Boss2 extends Creature {
     public Boss2(int spawnX, int spawnY, int mX, int mY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
 		
-		state[1].changeTexture(Data_Textures.boss2); 	// Bild der Lebendigen Kreatur laden
-		moveAreaX = mX;
-		moveAreaY = mY;
-		state[1].changeTexture(Data_Textures.boss2);	// Img setzen
-		detectionRange = 300;					// Reichwite ab wann der Boss angreift
-		}
+		state[1].changeTexture(Data_Textures.boss2);   // Bild der Lebendigen Kreatur laden
+		moveAreaX = mX;              // Maximale Bewegung auf der X-Achse
+		moveAreaY = mY;              // Maximale Bewegung auf der Y-Achse
+		detectionRange = 360;          // Reichwite ab wann der Boss angreift
+	}
 	
-	// Aktion
+	// Aktion (wie in der Creature_Bow)
 	public void action(int pX, int pY){
 		// Ist der Spieler in Reichweite?
 		if(distanceBetween(pX,pY)<=detectionRange){
@@ -36,7 +34,7 @@ public class Boss2 extends Creature {
     	// Unser Detail:
     	if(hp<=0){
     		for(GameEventListener gel : evtList){
-    			gel.newGoal(482, 320);
+    			gel.newGoal(482, 320); // Der Boss droppt beim Tod das Zielobjekt in der Nische auf unserer Seite der Fallen
     		}
     	}
     }

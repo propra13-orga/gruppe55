@@ -19,7 +19,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	// Levelobjekte
 	private Player player;				// Spielerobjekt
 	private GameInterface iFace;		//GameInterface
-	private int room;					// pointer to current room
+	private int room, currLvl;					// pointer to current room and Level
 	private int roomToRespawn;			// Raum in dem der Spieler nach Niederlage wiedererscheint
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
 	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Waende/Gegenstaende/etc
@@ -41,8 +41,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 	
 	
 // Konstruktor
-	public Level(GameMenu gm, GameWindow gw, int x, int y) {		
-		// Mittelpunkt des Fensters
+	public Level(GameMenu gm, GameWindow gw, int x, int y) {
 		
 		this.gm = gm;
 		this.gw = gw;
@@ -59,10 +58,13 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 		addKeyListener(new KeyControll());
 	}
 
-	public void loadLevel(String file){
+	public void loadLevel(String file, int lvl){
 		String line;
 		String lineints[];
 		int[][][] lvlData = null;
+
+		freeze = lose = clear = gameover = false;
+		currLvl = lvl; //Geladenen Level speichern
 		
 		if(file == "testlvl"){
 			jsonParser = false;
@@ -669,8 +671,15 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 			}
 			// Space-Taste abfragen
 			else if(k == KeyEvent.VK_SPACE){
-				// Option: Bei Sieg oder Niederlage -> erneut beginnen
-				if((lose || clear) && !gameover ){
+				// Naechstes Level
+				if(clear){
+					currLvl++;
+					if(currLvl <= 3){
+						loadLevel("Level"+currLvl, currLvl);
+					}
+				}
+				// Reload
+				else if(lose && !gameover ){
 					reload();
 				}
 				else if(!gameover){	// let's fetz

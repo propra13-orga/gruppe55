@@ -79,11 +79,11 @@ public class Creature extends LivingObject {
     		return;
     	// Zeichnen der HP-Leiste ueber den Koepfen der Kreaturen
     	g2d.setColor(Color.WHITE);
-    	g2d.fillRect((int)x, (int)y-8, 24, 5);
+    	g2d.fillRect((int)x, (int)y-8, state[currState].getImg().getWidth(null), 5);
     	g2d.setColor(Color.BLACK);
-    	g2d.drawRect((int)x, (int)y-8, 24, 5);
+    	g2d.drawRect((int)x, (int)y-8, state[currState].getImg().getWidth(null), 5);
     	g2d.setColor(Color.RED);
-    	g2d.fillRect((int)x+1, (int)y-7, (int)(24*((double)hp/hpMax)), 4);
+    	g2d.fillRect((int)x+1, (int)y-7, (int)(state[currState].getImg().getWidth(null)*((double)hp/hpMax)), 4);
     	g2d.setColor(Color.BLACK);
     	// Zeichnen der Monster
     	super.draw(g2d);

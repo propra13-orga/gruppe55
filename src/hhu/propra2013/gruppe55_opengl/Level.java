@@ -16,7 +16,7 @@ public class Level implements GameEventListener{
 	// Levelobjekte
 	private Player player;				// Spielerobjekt
 	private GameInterface iFace;					//GameInterface
-	private int room;					// pointer to current room
+	private int room, currLvl;					// pointer to current room and Level
 	private int roomToRespawn;			// Raum in dem der Spieler nach Niederlage wiedererscheint
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
 	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Waende/Gegenstaende/etc
@@ -44,6 +44,8 @@ public class Level implements GameEventListener{
 		init(x, y);
 		textures = new Data_Textures();
 		
+		currLvl = lvl; //Geladenen Level speichern
+		
 		if(lvl == 0){
 			jsonParser = false;
 			loadLevel("testlvl");
@@ -61,7 +63,10 @@ public class Level implements GameEventListener{
 		String lineints[];
 		int[][][] lvlData = null;
 		
-		if(!jsonParser){
+		close = freeze = lose = clear = gameover = false;
+		
+		if(file == "testlvl"){
+			jsonParser = false;
 			// Parser fuer Leveldateien
 			try {
 				//.txt einlesen
@@ -638,14 +643,26 @@ public class Level implements GameEventListener{
 				if(Keyboard.getEventKeyState()){
 					switch(k){
 						case 28:
+							//Beenden
 							if(lose || clear || gameover){
 								close = true;
 							}
 							break;
 						case Keyboard.KEY_SPACE:
-							reload();
+							// Naechstes Level
+							if(clear){
+								currLvl++;
+								if(currLvl <= 3){
+									loadLevel("Level"+currLvl);
+								}
+							}
+							// Reload
+							else if(!gameover){
+								reload();
+							}
 							break;
 						case Keyboard.KEY_ESCAPE:
+							// Beenden
 							close = true;
 							break;
 					}

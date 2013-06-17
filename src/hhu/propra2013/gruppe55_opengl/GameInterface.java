@@ -51,35 +51,45 @@ public class GameInterface {
 		
 		// Dialoge zeichnen
 		if(currLvl.getOpenedInterface() == 1 || currLvl.getOpenedInterface() == 3){
-			hud.drawHudElement(Data_Textures.dialogBox, (Display.getWidth()/2)-250, Display.getHeight()-80);	//DialogBox zeichnen
-			fontDialog.drawString((Display.getWidth()/2)-220f, (Display.getHeight()-55f), currDialog[dialogCounter]);	//Dialogzeile zeichnen
+			paintDialog();
 		}
 		// Shop zeichnen
 		if(currLvl.getOpenedInterface() == 2 || currLvl.getOpenedInterface() == 3){
-			hud.drawHudElement(Data_Textures.shop, (Display.getWidth()/2)-128, Display.getHeight()/2-64);	//DialogBox zeichnen
-			hud.drawHudElement(Data_Textures.potion, (Display.getWidth()/2)-100, Display.getHeight()/2-30);	//DialogBox zeichnen
-			hud.drawHudElement(Data_Textures.mpotion, (Display.getWidth()/2)-100, Display.getHeight()/2-3);	//DialogBox zeichnen
-			hud.drawHudElement(Data_Textures.arrow_f, (Display.getWidth()/2)-87, Display.getHeight()/2+37);	//DialogBox zeichnen
-			fontShop.drawString((Display.getWidth()/2-67), Display.getHeight()/2-15, "x1");	//Dialogzeile zeichnen
-			fontShop.drawString((Display.getWidth()/2-67), Display.getHeight()/2+12, "x1");	//Dialogzeile zeichnen
-			fontShop.drawString((Display.getWidth()/2-67), Display.getHeight()/2+35, "x10");	//Dialogzeile zeichnen
-			fontShop.drawString((Display.getWidth()/2-25), Display.getHeight()/2-15, "10");	//Dialogzeile zeichnen
-			fontShop.drawString((Display.getWidth()/2-25), Display.getHeight()/2+12, "10");	//Dialogzeile zeichnen
-			fontShop.drawString((Display.getWidth()/2-25), Display.getHeight()/2+35, "10");	//Dialogzeile zeichnen
-			hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2), Display.getHeight()/2-11);	//DialogBox zeichnen
-			hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2), Display.getHeight()/2+15);	//DialogBox zeichnen
-			hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2), Display.getHeight()/2+38);	//DialogBox zeichnen
-			switch(selectedObject){
-				case 0:
-					hud.drawHudElement(Data_Textures.shopArrow, (Display.getWidth()/2)-115, Display.getHeight()/2-15);	//DialogBox zeichnen
-					break;
-				case 1:
-					hud.drawHudElement(Data_Textures.shopArrow, (Display.getWidth()/2)-115, Display.getHeight()/2+12);	//DialogBox zeichnen
-					break;
-				case 2:
-					hud.drawHudElement(Data_Textures.shopArrow, (Display.getWidth()/2)-115, Display.getHeight()/2+35);	//DialogBox zeichnen
-					break;
-			}
+			paintShop();
+		}
+	}
+	
+	//Dialog zeichnen
+	public void paintDialog(){
+		hud.drawHudElement(Data_Textures.dialogBox, (Display.getWidth()/2)-250, Display.getHeight()-80);	//DialogBox zeichnen
+		fontDialog.drawString((Display.getWidth()/2)-220f, (Display.getHeight()-55f), currDialog[dialogCounter]);	//Dialogzeile zeichnen
+	}
+	
+	//Shopfenster zeichnen
+	public void paintShop(){
+		hud.drawHudElement(Data_Textures.shop, (Display.getWidth()/2)-128, Display.getHeight()/2-64);	//DialogBox zeichnen
+		hud.drawHudElement(Data_Textures.potion, (Display.getWidth()/2)-100, Display.getHeight()/2-30);	//DialogBox zeichnen
+		hud.drawHudElement(Data_Textures.mpotion, (Display.getWidth()/2)-100, Display.getHeight()/2-3);	//DialogBox zeichnen
+		hud.drawHudElement(Data_Textures.arrow_f, (Display.getWidth()/2)-87, Display.getHeight()/2+37);	//DialogBox zeichnen
+		fontShop.drawString((Display.getWidth()/2-67), Display.getHeight()/2-15, "x1");	//Dialogzeile zeichnen
+		fontShop.drawString((Display.getWidth()/2-67), Display.getHeight()/2+12, "x1");	//Dialogzeile zeichnen
+		fontShop.drawString((Display.getWidth()/2-67), Display.getHeight()/2+35, "x10");	//Dialogzeile zeichnen
+		fontShop.drawString((Display.getWidth()/2-25), Display.getHeight()/2-15, "10");	//Dialogzeile zeichnen
+		fontShop.drawString((Display.getWidth()/2-25), Display.getHeight()/2+12, "10");	//Dialogzeile zeichnen
+		fontShop.drawString((Display.getWidth()/2-25), Display.getHeight()/2+35, "10");	//Dialogzeile zeichnen
+		hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2), Display.getHeight()/2-11);	//DialogBox zeichnen
+		hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2), Display.getHeight()/2+15);	//DialogBox zeichnen
+		hud.drawHudElement(Data_Textures.currency, (Display.getWidth()/2), Display.getHeight()/2+38);	//DialogBox zeichnen
+		switch(selectedObject){
+			case 0:
+				hud.drawHudElement(Data_Textures.shopArrow, (Display.getWidth()/2)-115, Display.getHeight()/2-15);	//DialogBox zeichnen
+				break;
+			case 1:
+				hud.drawHudElement(Data_Textures.shopArrow, (Display.getWidth()/2)-115, Display.getHeight()/2+12);	//DialogBox zeichnen
+				break;
+			case 2:
+				hud.drawHudElement(Data_Textures.shopArrow, (Display.getWidth()/2)-115, Display.getHeight()/2+35);	//DialogBox zeichnen
+				break;
 		}
 	}
 	

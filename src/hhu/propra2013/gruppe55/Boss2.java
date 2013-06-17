@@ -39,22 +39,4 @@ public class Boss2 extends Creature {
     		}
     	}
     }
-    
-    @Override
-    public void draw(Graphics2D g2d){
-    	// Nichts zeichnen, wenn Kreatur unsichtbar
-    	if(!state[currState].visible)
-    		return;
-    	// Zeichnen der HP-Leiste ueber den Koepfen der Kreaturen
-    	g2d.setColor(Color.WHITE);
-    	g2d.fillRect((int)x, (int)y-8, 58, 5);
-    	g2d.setColor(Color.BLACK);
-    	g2d.drawRect((int)x, (int)y-8, 58, 5);
-    	g2d.setColor(Color.RED);
-    	g2d.fillRect((int)x, (int)y-7, (int)(58*((double)hp/hpMax)), 4);
-    	g2d.setColor(Color.BLACK);
-    	// Zeichnen der Monster
-    	g2d.drawImage(state[currState].getImg(), (int)x, (int)y, null);
-    }
-
 }

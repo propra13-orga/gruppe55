@@ -40,10 +40,10 @@ public class GameWindow extends JFrame implements ActionListener, KeyListener{	/
 
 	public void setLvl(int l){
 		if(l == 0){
-			lvl.loadLevel("testlvl");
+			lvl.loadLevel("testlvl", l);
 		}
 		else{
-			lvl.loadLevel("level" + l);
+			lvl.loadLevel("level" + l, l);
 		}
 		this.getContentPane().add(lvl);
 	}
