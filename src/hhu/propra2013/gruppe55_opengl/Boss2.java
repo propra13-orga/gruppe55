@@ -14,7 +14,7 @@ public class Boss2 extends Creature {
 		moveAreaX = mX;
 		moveAreaY = mY;
 		state[1].changeTexture(Data_Textures.boss2);	// Img setzen
-		detectionRange = 300;					// Reichwite ab wann der Boss angreift
+		detectionRange = 360;					// Reichwite ab wann der Boss angreift
 		}
 	
 	// Aktion
