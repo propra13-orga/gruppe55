@@ -3,10 +3,13 @@ package hhu.propra2013.gruppe55_opengl;
 public class Healthcontainer extends DungeonObject {
 // Attribute
 	
-	public Healthcontainer(int x, int y) {
+	public Healthcontainer(double x, double y) {
 		super(x,y);
 		// Bild des Containers laden
-		state[0].changeTexture(Data_Textures.healthcontainer);
+		state	=	new State[2];
+		state[0]	=	new State(Data_Textures.healthcontainer,false, false, true);	
+		state[1]	=	new State(Data_Textures.healthcontainer, false, false, false);	// der Eingesammelte Container
+
 	}
 	
 	public void onCollision(DungeonObject d){	 // Mehr MaxHp bei Kollision!
@@ -14,7 +17,7 @@ public class Healthcontainer extends DungeonObject {
 	    	if(d instanceof	Player){
 				((Player)d).raisehp();
 				// Wechsel des Status auf "verschwundener" container
-				state[0].visible = false;
+				switchState(1);
 	    	}
 	} 
 

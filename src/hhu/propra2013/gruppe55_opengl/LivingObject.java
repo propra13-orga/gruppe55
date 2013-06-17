@@ -7,14 +7,16 @@ public abstract class LivingObject extends MovingObject {
 	private boolean invulnerable	=	false;		// Unverwundbarkeitszustand des Objekts
 	protected int invulTime			=	500;		// Dauer der Unverwundbarkeit in Millisekunden
 	// Schadensberechnungsvariablen (welch ein Wort!)
-	protected int critBase	=	2;	// Basis-Chance auf kritische Treffer
-	protected int critBonus, minDmg, maxDmg;
-	
-	
+	protected int critBase	=	20;	// Basis-Chance auf kritische Treffer
+ 	protected int critBonus, minDmg, maxDmg;
+	// fermkampfattribute
+	protected int detectionRange	=	200;	// Wenn ZielObjekte die gegebene Anzahl an Pixeln oder weniger entfernt sind=feuern
+	protected Projectile projectile	=	new Projectile(0,0,0,0);	// Wird zur Erzeugung von Schuessen genutzt und gibt somit den Projektiltyp an
+
 	
 // Konstruktor
 		// x,y: Koordinaten zum Erscheinen
-	public LivingObject(int x, int y, int h, int atk, int def, int energy, int mana){
+	public LivingObject(double x, double y, int h, int atk, int def){
 		super(x, y);
 		
 		// Array um den Status zu aendern
@@ -33,24 +35,53 @@ public abstract class LivingObject extends MovingObject {
 		hp = hpMax = h;
 		this.atk	=	atk;
 		this.def	=	def;
-		this.mana = manaMax = mana;
-		this.energy = energyMax = energy;
 		
 		// Kampfwerte setzen
 		critBonus	=	0;
 		minDmg		=	1;
 		maxDmg		=	2;
+		
+		// wir brauchen mehr Reset-Werte
+		resetValues	=	new int[6];
 	}
 	
 	// Methode um Schaden auszuteilen
 	public void dealDamage(LivingObject l){
 		// Schaden berechnen, denn wir haben tolle Formeln dafuer
 		int dmg	=	(int) (Math.random()*(maxDmg+1-minDmg))+minDmg;	// Extraschaden
-		dmg	+=	(int)( (Math.random()*10<=(critBase+critBonus) ) ? 2*atk : atk);	// Grundschaden (mit Crits)
+		dmg	+=	(int)( (Math.random()*100<=(critBase+critBonus) ) ? 2*atk : atk);	// Grundschaden (mit Crits)
 		
 		// Schaden setzen
 		l.getHit(dmg);
 	}
+	
+	// Funktion fuer Individuelle Aktionen
+	public void action(int pX, int pY){
+	}
+
+	// Methode zum Fernkampf
+	public void shoot(int angle){
+		shoot(angle, projectile);
+	}
+
+	// Eigentliche Methode, erwartet ein Objekt des zu schiessenden Typs (hilfsfunktion fuer Zauber zB)
+	protected void shoot(int angle, Projectile p){
+		// Flugrichtung bestimmen
+		double flyX	=	Math.cos(Math.toRadians(angle%360));
+		double flyY	=	Math.sin(Math.toRadians(angle%360));
+
+		// Koordinaten festlegen
+		int[] center	=	getCenter();	// Mittelpunkt
+		int hOffset	=	center[0]-(int)x;	// Horizontales und..
+		int vOffset	=	center[1]-(int)y;	// .. vertikales Offset bestimmen
+		int radius	=	(int)Math.sqrt(Math.pow(hOffset, 2)+Math.pow(vOffset, 2))+10;
+
+		// Geschoss feuern
+		for(GameEventListener gel : evtList){
+			gel.shootProjectile(p.launch(center[0]+flyX*radius,center[1]+flyY*radius,angle, maxDmg+atk));
+		}
+	}
+
 	
 	// Schaden bei Treffer
 	public void getHit(int dmg){
@@ -80,12 +111,14 @@ public abstract class LivingObject extends MovingObject {
 			hp = hpMax;
 	}
 	
-	public void fillmana(){ 
-		mana+=10;
+	// Erhoeht das Mana
+	public void fillmana(int ma){ 
+		mana+=ma;
 		if(mana>manaMax)
 			mana = manaMax;
 	}
 	
+	// Erhoeht die MaximalHP
 	public void raisehp(){
 		hpMax +=2;
 		if(hpMax >20){
@@ -109,6 +142,21 @@ public abstract class LivingObject extends MovingObject {
 			}
 		}.start();
     }
+
+    // Methode zum Setzen der Reset-Werte
+	public void setResetValues(){
+		super.setResetValues();		// Werte 1-4 abhandeln
+		resetValues[4]	=	hp;			// 5. Wert: HitPoints
+		resetValues[5]	=	mana;		// 6. Wert: Mana
+	}
+
+	// Methode zum zuruecksetzen des Objektes
+	public void reset(){
+		super.reset();				// Werte 1.4 abhandeln
+		hp	=	resetValues[4];		// HP zuruecksetzen
+		mana	=	resetValues[5];	// Mana zuruecksetzen
+	}
+
 	
 	// Methoden um Statuswerte zu uebergeben
     public int getHP(){return(hp);}

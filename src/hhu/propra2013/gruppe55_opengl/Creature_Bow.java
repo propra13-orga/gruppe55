@@ -1,4 +1,4 @@
-package hhu.propra2013.gruppe55;
+package hhu.propra2013.gruppe55_opengl;
 
 public class Creature_Bow extends Creature{
 
@@ -10,7 +10,7 @@ public class Creature_Bow extends Creature{
 		moveAreaX = mX;
 		moveAreaY = mY;
 		schussAchse = a;
-		state[1].changeImg(Data_Img.creature_bow);	// Img setzen
+		state[1].changeTexture(Data_Textures.creature_bow);	// Img setzen
 		speed = 2;
 	}
 	// Aktion
@@ -36,19 +36,19 @@ public class Creature_Bow extends Creature{
     	// je nach Schussrichtung
     	switch(angle){
 	    	case	0:	// nach rechts
-	    		x+=state[currState].getImg().getWidth(null)+1;
-	    		y+=state[currState].getImg().getHeight(null)/2;
+	    		x+=state[currState].getTexture().getTextureWidth()+1;
+	    		y+=state[currState].getTexture().getTextureHeight()/2;
 	    		break;
 	    	case	90:	// nach unten
-	    		x+=state[currState].getImg().getWidth(null)/2;
-	    		y+=state[currState].getImg().getHeight(null)+1;
+	    		x+=state[currState].getTexture().getTextureWidth()/2;
+	    		y+=state[currState].getTexture().getTextureHeight()+1;
 	    		break;
 	    	case	180:	// nach links
 	    		x-=17;
-	    		y+=state[currState].getImg().getHeight(null)/2;
+	    		y+=state[currState].getTexture().getTextureHeight()/2;
 	    		break;
 	    	case	270:	// nach oben
-	    		x+=state[currState].getImg().getWidth(null)/2;
+	    		x+=state[currState].getTexture().getTextureWidth()/2;
 	    		y-=17;
 	    		break;
 	    	default:

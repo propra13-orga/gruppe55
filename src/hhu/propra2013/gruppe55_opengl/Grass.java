@@ -3,7 +3,7 @@ package hhu.propra2013.gruppe55_opengl;
 public class Grass extends DungeonObject {
 
 	// Diese Klasse scheint leer zu sein. Alle wichtigen Methoden und Attribute sind im DungeonObject implementiert
-	public Grass(int x, int y) {
+	public Grass(double x, double y) {
 		super(x, y);
 
 		// Status-Array deklarieren

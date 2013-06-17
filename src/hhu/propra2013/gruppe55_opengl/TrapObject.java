@@ -4,7 +4,7 @@ public class TrapObject extends DungeonObject {
 // Attribute
 	protected int trapDmg	=	1;	// Schaden, den diese Falle auslöst
 
-	public TrapObject(int x, int y) {
+	public TrapObject(double x, double y) {
 		super(x,y);
 		// States definieren
 		state	=	new State[2];

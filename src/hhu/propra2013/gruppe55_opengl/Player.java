@@ -12,13 +12,19 @@ public class Player extends LivingObject {
 	private int currEquipped	=	0;			// Zeige auf aktuell ausger�stetes Waffenset (0= Nahkampf; 1= Fernkampf)
 	private boolean attacking	=	false;		// Waehrend einer Attacke true
 	private int[][][] handOffsets	=	new int[4][2][4];	// Offsets fuer die Positionen der Spielerhaende
+	// Zaubervariablen
+	private SpellObject spell;
+
 	// Besitztuemer des Spielers
 	private int[] statInventory;		//Inventar fuer statische Objekte (Gold, Traenke, Pfeile)
 	
 	// Konstruktor
-    public Player(int spawnX, int spawnY, int h, int atk, int def, int energy, int mana, int l) {
-		super(spawnX, spawnY, h, atk, def, energy, mana);
-		
+    public Player(double spawnX, double spawnY, int h, int atk, int def, int energy, int mana, int l) {
+    	super(spawnX, spawnY, h, atk, def);
+
+    	this.mana = this.manaMax = mana;
+    	this.energy = this.energyMax = energy;
+
 		// statInventory Slots
 		// 0: Lives
 		// 1: Gold
@@ -26,7 +32,7 @@ public class Player extends LivingObject {
 		// 3: MPPotion
 		// 4: Arrows
 		statInventory = new int[5];
-		statInventory[0] = 1;
+		statInventory[0] = l;
 		statInventory[1] = statInventory[2] = statInventory[3] = 0;
 		statInventory[4] = 15;
 
@@ -57,11 +63,17 @@ public class Player extends LivingObject {
 		weapons[2]	=	new SimpleBow();	// Fernkampfwaffe
 		// drei Schwerter, Rorona Zorro, is that you? (Ist es nicht RoroNOA Zorro, jannik? :3)
 
+		// Zauber enbenfalls initialisieren
+		spell	=	new SpellObject(x,y);
+
 		
 		// Schadenswerte uebernehmen
     	minDmg	=	weapons[0].getMinDmg();
     	maxDmg	=	weapons[0].getMaxDmg();
 		
+    	// Resetwerte
+    	resetValues	=	new int[12];
+
 		
 		// Haende setzen fuer state[1] = laufender Spieler (ignoriere 0, tote Spieler haben keine Waffen!)
     	// vorne
@@ -145,14 +157,14 @@ public class Player extends LivingObject {
     	}.start();
     }
     
-    // Methode zum Pfeile Schie�en
+    // Methode zum Pfeile Schiessen
 	public void shoot(){
 		// genug Pfeile?
 		if(statInventory[4]<=0)	return;
 
 		// Position bestimmen
-		int x	=	this.x;
-		int y	=	this.y;
+		int x	=	(int)this.x;
+		int y	=	(int)this.y;
 		// je nach Richtung
 		switch(direction){
 		case	1:	// nach links
@@ -174,27 +186,7 @@ public class Player extends LivingObject {
     		break;
     	}
     	
-    	// Event (und damit den Pfeil) feuern!
-    	for(GameEventListener gel : evtList){
-    		// Winkel berechnen
-    		/*
-    		 * 2->0
-    		 * 3->90
-    		 * 1->180
-    		 * 0->270
-    		 */
-    		int angle;
-    		if(direction==2)
-    			angle	=	0;
-    		else if(direction==1)
-    			angle	=	180;
-    		else if(direction==3)
-    			angle	=	270;
-    		else
-    			angle	=	90;
-    		
-			gel.shootProjectile(new Projectile(x,y,angle, atk+weapons[2].getMaxDmg()));
-		}
+		shoot(calcPlayerAngle());
     	
     	// Pfeil abziehen
     	statInventory[4]--;
@@ -222,11 +214,97 @@ public class Player extends LivingObject {
     	maxDmg	=	weapons[2*currEquipped].getMaxDmg();
     }
     
+	// Methode zur Winkelberechnung des Spielerblickes
+	private int calcPlayerAngle(){
+		/*
+		 * 2->0
+		 * 3->90
+		 * 1->180
+		 * 0->270
+		 */
+		int angle;
+		if(direction==2)
+			angle	=	0;
+		else if(direction==1)
+			angle	=	180;
+		else if(direction==3)
+			angle	=	270;
+		else
+			angle	=	90;
+
+		return angle;
+	}
+
+	// Methode zum Zaubern
+	public void spellCast(){
+		// was zaubern wir hier eigentlich?
+		if(spell==null) return;
+
+		// Zauber bereits mit Listener verbunden?
+		if(!spell.isListened()){
+			// GameEventListener hinzufuegen
+			for(GameEventListener gel : evtList){
+				spell.addGameListener(gel);
+			}
+		}
+
+		// Manakosten berechnen
+		int manaCost	=	spell.getManaCost();
+		int healthCost	=	spell.getHealthCost();
+	
+		// wir koennen diesen Zauber nicht wirken!
+		if(mana<manaCost || hp <=healthCost) return;
+
+		// Zauberkosten berechnen
+		mana-=manaCost;
+		hp-=healthCost;
+
+		// eventuelle Heilung wirken
+		getHealed(spell.getHeal());
+
+		// Zauber vorbereiten
+		int angle	=	calcPlayerAngle();
+		int hOffset	=	(int)Math.cos(Math.toRadians(angle));	// Damit wir nicht im Spieler spawnen
+		int vOffset	=	(int)Math.sin(Math.toRadians(angle));	// wie oben -^
+
+		// zauber nun wirken
+		spell.cast(x+hOffset*32+vOffset*vOffset*state[currState].getTexture().getTextureWidth()/3,y+vOffset*32+hOffset*hOffset*state[currState].getTexture().getTextureHeight()/3,angle,atk);
+	}
+
+    
     // Methode um den Spieler an eine bestimmte Stelle zu teleportieren
     public void teleport(int x, int y){
     	this.x	=	x;
     	this.y	=	y;
     }
+    
+	// Methode zum Setzen der Reset-Werte
+	public void setResetValues(){
+		super.setResetValues();		// Werte 1-6 abhandeln
+		resetValues[6]	=	hpMax;	// 7.Wert: maximale HP
+		resetValues[7]	=	manaMax;// 8.Wert: maximales Mana
+		resetValues[8]	=	statInventory[1];	// 9.Wert: Gold
+		resetValues[9]	=	statInventory[4];	// 10.Wert: Pfeile
+		resetValues[10]	=	statInventory[2];	// 11.Wert: Heiltraenke
+		resetValues[11]	=	statInventory[3];	// 12.Wert: Manatraenke
+	}
+
+	// Methode zum zuruecksetzen des Objektes
+	public void reset(){
+		super.reset();				// Werte 1-6 abhandeln
+		// Max Mana und Max-HP
+		hpMax	=	resetValues[6];
+		manaMax	=	resetValues[7];
+		// Inventar
+		statInventory[1]	=	resetValues[8];
+		statInventory[2]	=	resetValues[10];
+		statInventory[3]	=	resetValues[11];
+		statInventory[4]	=	resetValues[9];
+		// Spezielles
+		hp	=	hpMax;
+		mana	=	manaMax;
+	}
+
     
     // Methode zum Spieler-Zeichnen
     public void draw(){
@@ -245,21 +323,21 @@ public class Player extends LivingObject {
     	if(weapons[2]!=null) weapons[2].changeDirection(direction);
     	// Nebenhand hinter Spieler zeichnen bei rechts und hinten
     	if(direction>=2 && weapons[currEquipped+1]!=null){	
-    		weapons[currEquipped+1].draw(x+handOffsets[direction][currState-1][2],y+handOffsets[direction][currState-1][3]);
+    		weapons[currEquipped+1].draw((int)x+handOffsets[direction][currState-1][2],(int)y+handOffsets[direction][currState-1][3]);
     	}
     	// Haupthand hinter den Spieler zeichnen bei links und hinten
     	if((direction==3 || direction == 1) && currEquipped==0 && weapons[0]!=null){	
-    		weapons[0].draw(x+handOffsets[direction][currState-1][0], y+handOffsets[direction][currState-1][1]);
+    		weapons[0].draw((int)x+handOffsets[direction][currState-1][0], (int)y+handOffsets[direction][currState-1][1]);
     	}
     	// Spieler zeichnen
     	super.draw();
     	// Haupthand vor den Spieler zeichnen bei rechts und vorne
     	if((direction ==0 || direction==2) && currEquipped==0 && weapons[0]!=null){
-    		weapons[0].draw(x+handOffsets[direction][currState-1][0], y+handOffsets[direction][currState-1][1]);
+    		weapons[0].draw((int)x+handOffsets[direction][currState-1][0], (int)y+handOffsets[direction][currState-1][1]);
     	}
     	// Nebenhand vor den Spieler zeichnen bei links und vorne
     	if((direction==0 || direction==1) && weapons[currEquipped+1]!=null){
-    		weapons[currEquipped+1].draw(x+handOffsets[direction][currState-1][2],y+handOffsets[direction][currState-1][3]);
+    		weapons[currEquipped+1].draw((int)x+handOffsets[direction][currState-1][2],(int)y+handOffsets[direction][currState-1][3]);
     	}
     }
     
@@ -300,10 +378,10 @@ public class Player extends LivingObject {
     
     // Methoden fuer die X und Y-Koordinaten
     public int getTX(){
-    	return x-state[currState].getTexture().getTextureWidth()/2;
+    	return (int)x-state[currState].getTexture().getTextureWidth()/2;
     }
     public int getTY(){
-    	return y-state[currState].getTexture().getTextureHeight()/2;
+    	return (int)y-state[currState].getTexture().getTextureHeight()/2;
     }
 
 // Methoden zur Steuerung des Spielers per Keyboard

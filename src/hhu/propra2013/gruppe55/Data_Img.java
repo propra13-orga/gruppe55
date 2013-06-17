@@ -25,6 +25,8 @@ public class Data_Img {
 	public static Image creature_bow = genImg("enemies/creature_bow.png");					// Bogen-Monster
 // Bosse
 	public static Image boss1 = genImg("enemies/boss1.png");
+	public static Image boss2 = genImg("enemies/boss2.png");
+	public static Image boss3 = genImg("enemies/boss3.png");
 // Npc's
 	// Shopkeeper
 	public static Image shopkeeper = genImg("Npc/shopkeeper.png");

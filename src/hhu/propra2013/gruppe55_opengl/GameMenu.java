@@ -8,17 +8,17 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 
 	private static final long serialVersionUID = 1L;
 	//Deklarationen
-//	private JPanel jp, settings;											// JPanel
-//	private JComboBox cb;										// Combobox im Jpanel
-//	private JButton start, ende;								
-//	private JCheckBox fullscreen;
+	private JPanel jp, settings;											// JPanel
+	private JComboBox cb;										// Combobox im Jpanel
+	private JButton start, ende;								
+	private JCheckBox fullscreen;
+	private Level lvl;
 	
 	public static void main(String[] args) {
-//		GameMenu gm = new GameMenu();							// Menue und Spielfenster konstruieren
-		Level lvl = new Level(960, 540);
+		GameMenu gm = new GameMenu();							// Menue und Spielfenster konstruieren
 	}
 	// Erstellen des Spielmenues
-/**	public GameMenu(){											// Konstruktor dieser Klasse
+	public GameMenu(){											// Konstruktor dieser Klasse
 		super("Spielmenue");									// Aufruf des JFrame-Konstruktors
 		this.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		this.setLayout(new GridLayout(2,1));					// 1,2 GridLayout
@@ -26,11 +26,15 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 		settings = new JPanel();
 			settings.setLayout(new GridLayout(1,2));
 			cb = new JComboBox();
-				cb.addItem("ScrollingLevel");
+				cb.addItem("TestLevel");
+				cb.addItem("Level 1");
+				cb.addItem("Level 2");
+				cb.addItem("Level 3");
 				cb.setSelectedIndex(0);
 			settings.add(cb);
 			fullscreen = new JCheckBox();
 				fullscreen.setText("Fullscreen");
+				fullscreen.setEnabled(false);
 			settings.add(fullscreen);
 		
 		jp = new JPanel();										
@@ -50,22 +54,13 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 		this.setVisible(true);								// sichtbarkeit 
 		this.setLocationRelativeTo(null); 					// im Bildschirm zentriert
 	}
-**/
 
 	@Override
 	public void actionPerformed(ActionEvent e){				//ActionListenerfunktion
-/**			if(e.getSource() == start){							//Wenn start gedrueckt, Menue unsichtbar machen & Spiel sichtbar machen
-			if(fullscreen.isSelected()){
-				gw.toggleFullscreen(1);
-			}
-			else{
-				gw.toggleFullscreen(0);
-			}
-			gw.setLvl(cb.getSelectedIndex());
+		if(e.getSource() == start){							//Wenn start gedrueckt, Menue unsichtbar machen & Spiel sichtbar machen
 			this.setVisible(false);
-			gw.setVisible(true);
+			lvl = new Level(960, 650, this, cb.getSelectedIndex());
 		}
 		else{System.exit(1);}								//Wenn ende gedrueckt, Programm beenden
-**/
 	}
 }

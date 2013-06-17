@@ -1,18 +1,14 @@
 package hhu.propra2013.gruppe55_opengl;
 
 public class TreasureObject extends DungeonObject {
-	
-
-	
-	public TreasureObject(int x, int y) {
+		
+	public TreasureObject(double x, double y) {
 		super(x,y);
 		// States des Schatzes definieren
 		state	=	new State[2];
 		state[0]	=	new State(Data_Textures.treasure,false, false, true);			// Der Schatz (Derzeit ein Fillerbild - generic gem)
 		state[0].defineOffset(0,0,6,12,0);
 		state[1]	=	new State(Data_Textures.treasure, false, false, false);			// Aufgesammelter Schatz
-		state[1].defineOffset(0,0,32,32,0);
-		
 	}
 	
 	public void onCollision(DungeonObject d){	 // Goldstand erhoehen bei Kollision

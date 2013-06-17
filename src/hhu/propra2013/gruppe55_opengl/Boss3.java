@@ -1,7 +1,14 @@
-package hhu.propra2013.gruppe55;
+package hhu.propra2013.gruppe55_opengl;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.GL_TEXTURE_2D;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glBindTexture;
+import static org.lwjgl.opengl.GL11.glColor3f;
+import static org.lwjgl.opengl.GL11.glDisable;
+import static org.lwjgl.opengl.GL11.glEnable;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glVertex2d;
 
 public class Boss3 extends Creature {
 	// Attribute
@@ -12,13 +19,13 @@ public class Boss3 extends Creature {
     public Boss3(double spawnX, double spawnY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
 		
-		state[1].changeImg(Data_Img.boss3); 	// Bild der Lebendigen Kreatur laden
+		state[1].changeTexture(Data_Textures.boss3); 	// Bild der Lebendigen Kreatur laden
 		sx	=	(int)spawnX;					// Erscheinungskoordinaten
 		sy	=	(int)spawnY;					
 		dx =1;									// Bewegung wird initialisiert x - Richung
 		dy =1;									// Bewegung wird initialisiert y - Richung								
 		speed = 3;								// Startgeschwindigkeit
-		detectionRange = 350;					// Groessere Schussreichweite
+		detectionRange = 300;					// Groessere Schussreichweite
 		
 		// Resetrelevante Werte
 		resetValues	=	new int[7];	// atk kommt dazu, sonst wird sie nach dem Enrage nicht zurueck gesetzt
@@ -107,20 +114,31 @@ public class Boss3 extends Creature {
     }
      
     @Override
-    public void draw(Graphics2D g2d){
+    public void draw(){
     	// Nichts zeichnen, wenn Kreatur unsichtbar
     	if(!state[currState].visible)
     		return;
     	// Zeichnen der HP-Leiste ueber den Koepfen der Kreaturen
-    	g2d.setColor(Color.WHITE);
-    	g2d.fillRect((int)x, (int)y-8, 58, 5);
-    	g2d.setColor(Color.BLACK);
-    	g2d.drawRect((int)x, (int)y-8, 58, 5);
-    	g2d.setColor(Color.RED);
-    	g2d.fillRect((int)x, (int)y-7, (int)(58*((double)hp/hpMax)), 4);
-    	g2d.setColor(Color.BLACK);
+    	glDisable(GL_TEXTURE_2D);
+    	glColor3f(1f, 1f, 1f);
+    	glBegin(GL_QUADS);
+    		glVertex2d(x, y-8);
+    		glVertex2d(x, y-3);
+    		glVertex2d(x+24, y-3);
+    		glVertex2d(x+24, y-8);
+    	glEnd();
+    	glColor3f(1f, 0f, 0f);
+    	glBegin(GL_QUADS);
+			glVertex2d(x+1, y-7);
+			glVertex2d(x, y-4);
+			glVertex2d(x+(int)(24*((double)hp/hpMax)), y-4);
+			glVertex2d(x+(int)(24*((double)hp/hpMax)), y-7);
+		glEnd();
+    	glColor3f(1f, 1f, 1f);
+    	glEnable(GL_TEXTURE_2D);
     	// Zeichnen der Monster
-    	g2d.drawImage(state[currState].getImg(), (int)x, (int)y, null);
+    	glBindTexture(GL_TEXTURE_2D, state[currState].getTexture().getTextureID());
+    	super.draw();
     }
     
 public void onCollision(DungeonObject d){
