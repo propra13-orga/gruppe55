@@ -59,7 +59,7 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 	public void actionPerformed(ActionEvent e){				//ActionListenerfunktion
 		if(e.getSource() == start){							//Wenn start gedrueckt, Menue unsichtbar machen & Spiel sichtbar machen
 			this.setVisible(false);
-			lvl = new Level(960, 540, this, cb.getSelectedIndex());
+			lvl = new Level(960, 650, this, cb.getSelectedIndex());
 		}
 		else{System.exit(1);}								//Wenn ende gedrueckt, Programm beenden
 	}
