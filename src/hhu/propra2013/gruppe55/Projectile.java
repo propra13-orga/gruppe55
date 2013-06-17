@@ -44,7 +44,6 @@ public class Projectile extends MovingObject {
 		else if (d.isMassive() == true)
 			// Etwas getroffen, also ausblenden
 			switchState(0);
-		
 	}
 	
 	// Abschuss (wenn nur als Typenreferenz genutzt [siehe LivingObject])

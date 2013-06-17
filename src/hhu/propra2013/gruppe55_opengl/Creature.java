@@ -11,21 +11,20 @@ public class Creature extends LivingObject {
 
     	
 // Konstruktor
-    public Creature(int spawnX, int spawnY, int h, int angr, int vert, int ausd, int man) {
-		super(spawnX, spawnY, h, angr, vert, ausd, man);
+    public Creature(double spawnX, double spawnY, int h, int angr, int vert) {
+		super(spawnX, spawnY, h, angr, vert);
 		
 		// States setzen
 		state[0].visible	=	false; 		// totes Monster wird unsichtbar
-		state[0].defineOffset(0, 0, 2, 5, 0);
+		state[1].defineOffset(0, 0, 2, 5, 0);
 		state[1].changeTexture(Data_Textures.creature); 	// Bild der Lebendigen Kreatur laden
-		sx	=	spawnX;						// Erscheinungskoordinaten
-		sy	=	spawnY;
+		sx	=	(int)spawnX;						// Erscheinungskoordinaten
+		sy	=	(int)spawnY;
 		
 		// Bewegung initiieren
 		dx=1;
 	}
     
-    // TODO: Methode fuer Bewegung �berdenken
     public void move(){
 		// bewegung errechnen
 		if(dx==1 && x>=sx+moveAreaX) // zu weit rechts
@@ -79,28 +78,21 @@ public class Creature extends LivingObject {
     	if(!state[currState].visible)
     		return;
     	// Zeichnen der HP-Leiste ueber den Koepfen der Kreaturen
-//    	g2d.setColor(Color.WHITE);
     	glDisable(GL_TEXTURE_2D);
     	glColor3f(1f, 1f, 1f);
     	glBegin(GL_QUADS);
-    		glVertex2i(x, y-8);
-    		glVertex2i(x, y-3);
-    		glVertex2i(x+24, y-3);
-    		glVertex2i(x+24, y-8);
+    		glVertex2d(x, y-8);
+    		glVertex2d(x, y-3);
+    		glVertex2d(x+24, y-3);
+    		glVertex2d(x+24, y-8);
     	glEnd();
-//    	g2d.fillRect(x, y-8, 24, 5);
-//    	g2d.setColor(Color.BLACK);
     	glColor3f(1f, 0f, 0f);
-//    	g2d.drawRect(x, y-8, 24, 5);
-//    	g2d.setColor(Color.RED);
-//    	g2d.fillRect(x+1, y-7, (int)(24*((double)hp/hpMax)), 4);
     	glBegin(GL_QUADS);
-			glVertex2i(x+1, y-7);
-			glVertex2i(x, y-4);
-			glVertex2i(x+(int)(24*((double)hp/hpMax)), y-4);
-			glVertex2i(x+(int)(24*((double)hp/hpMax)), y-7);
+			glVertex2d(x+1, y-7);
+			glVertex2d(x, y-4);
+			glVertex2d(x+(24*((double)hp/hpMax)), y-4);
+			glVertex2d(x+(24*((double)hp/hpMax)), y-7);
 		glEnd();
-//    	g2d.setColor(Color.BLACK);
     	glColor3f(1f, 1f, 1f);
     	glEnable(GL_TEXTURE_2D);
     	// Zeichnen der Monster
