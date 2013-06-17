@@ -13,7 +13,7 @@ public class Boss2 extends Creature {
 		state[1].changeImg(Data_Img.boss2); 	// Bild der Lebendigen Kreatur laden
 		moveAreaX = mX;							// Maximale Bewegung auf der X-Achse
 		moveAreaY = mY;							// Maximale Bewegung auf der Y-Achse
-		detectionRange = 300;					// Reichwite ab wann der Boss angreift
+		detectionRange = 360;					// Reichwite ab wann der Boss angreift
 	}
 	
 	// Aktion (wie in der Creature_Bow)

@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 public class Boss3 extends Creature {
+	// Attribute
+	private Projectile alternativeProjectile	=	new Fireball(0,0,0,0);
 	
 	protected boolean bounce = false;		// Abfrage ob der Boss von einer Wand abgebounced ist
  
@@ -16,6 +18,10 @@ public class Boss3 extends Creature {
 		dx =1;									// Bewegung wird initialisiert x - Richung
 		dy =1;									// Bewegung wird initialisiert y - Richung								
 		speed = 3;								// Startgeschwindigkeit
+		detectionRange = 350;					// Groessere Schussreichweite
+		
+		// Resetrelevante Werte
+		resetValues	=	new int[7];	// atk kommt dazu, sonst wird sie nach dem Enrage nicht zurueck gesetzt
     }
 
     public void move(){    	
@@ -39,17 +45,23 @@ public class Boss3 extends Creature {
 			int[] center	=	getCenter();
 			double angle	=	Math.toDegrees(Math.atan2((pY-center[1]),(pX-center[0])));
 			// Schießen
-			shoot((int)angle%360);
+			if(hp>10){
+				shoot((int)angle%360);
+			}
+			// Auf Feuerbaelle umsteigen - so als Warnung
+			else if(hp>5){
+				shoot((int)angle%360, alternativeProjectile);
+			}
 			// Am Ende soll es schwieriger sein, uebertreiben wir also!
-			if(hp<=5){
-				shoot((int)(angle+10)%360);
-				shoot((int)(angle+20)%360);
-				shoot((int)(angle+30)%360);
-				shoot((int)(angle+40)%360);
-				shoot((int)(angle-40)%360);
-				shoot((int)(angle-30)%360);
-				shoot((int)(angle-20)%360);
-				shoot((int)(angle-10)%360);
+			else{
+				shoot((int)(angle+10)%360, alternativeProjectile);
+				shoot((int)(angle+20)%360, alternativeProjectile);
+				shoot((int)(angle+30)%360, alternativeProjectile);
+				shoot((int)(angle+40)%360, alternativeProjectile);
+				shoot((int)(angle-40)%360, alternativeProjectile);
+				shoot((int)(angle-30)%360, alternativeProjectile);
+				shoot((int)(angle-20)%360, alternativeProjectile);
+				shoot((int)(angle-10)%360, alternativeProjectile);
 			}
 		}
 	}
@@ -74,7 +86,6 @@ public class Boss3 extends Creature {
     	// Wenn der Boss weniger als 10 HP hat
     	else if(hp<=10){
     		speed = 4.5;
-    		projectile	=	new Fireball(0,0,0,0);	// Wir schiessen nun Feuerbaelle
     	}
     	
     	// Unser Detail:
@@ -83,6 +94,16 @@ public class Boss3 extends Creature {
     			gel.newGoal(x, y);		// Der Boss droppt an der Stelle seines Todes das Zielobjekt (bis wir nahtlosen Übergang zwischen den Leveln haben)
     		}
     	}
+    }
+    
+    // Resetmethoden bearbeiten
+    public void setResetValues(){
+    	super.setResetValues();
+    	resetValues[6]	=	atk;
+    }
+    public void reset(){
+    	super.reset();
+    	atk	=	resetValues[6];
     }
      
     @Override

@@ -11,6 +11,8 @@ import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glVertex2d;
 
 public class Boss3 extends Creature {
+	// Attribute
+	private Projectile alternativeProjectile	=	new Fireball(0,0,0,0);
 	
 	protected boolean bounce = false;		// Abfrage ob der Boss von einer Wand abgebounced ist
  
@@ -23,21 +25,13 @@ public class Boss3 extends Creature {
 		dx =1;									// Bewegung wird initialisiert x - Richung
 		dy =1;									// Bewegung wird initialisiert y - Richung								
 		speed = 3;								// Startgeschwindigkeit
+		detectionRange = 300;					// Groessere Schussreichweite
+		
+		// Resetrelevante Werte
+		resetValues	=	new int[7];	// atk kommt dazu, sonst wird sie nach dem Enrage nicht zurueck gesetzt
     }
 
     public void move(){    	
-		// bewegungsgeschwindigkeit berechnen
-    	// Wenn der Boss weniger als 5 HP hat
-    	if(hp<=5){
-    		speed = 6.0;
-    	}
-    	// Wenn der Boss weniger als 10 HP hat
-    	else if(hp<=10){
-    		speed = 4.5;
-    	}
-    	// wenn der Boss mehr als 10 HP hat
-    	else 
-    		speed = 3;
     	// Berechnung des Winkels beim abprallen von einer Wand
     	if(bounce==true){
     		double angle=Math.random()*360; // [0,360[
@@ -58,7 +52,24 @@ public class Boss3 extends Creature {
 			int[] center	=	getCenter();
 			double angle	=	Math.toDegrees(Math.atan2((pY-center[1]),(pX-center[0])));
 			// Schießen
-			shoot((int)angle%360);
+			if(hp>10){
+				shoot((int)angle%360);
+			}
+			// Auf Feuerbaelle umsteigen - so als Warnung
+			else if(hp>5){
+				shoot((int)angle%360, alternativeProjectile);
+			}
+			// Am Ende soll es schwieriger sein, uebertreiben wir also!
+			else{
+				shoot((int)(angle+10)%360, alternativeProjectile);
+				shoot((int)(angle+20)%360, alternativeProjectile);
+				shoot((int)(angle+30)%360, alternativeProjectile);
+				shoot((int)(angle+40)%360, alternativeProjectile);
+				shoot((int)(angle-40)%360, alternativeProjectile);
+				shoot((int)(angle-30)%360, alternativeProjectile);
+				shoot((int)(angle-20)%360, alternativeProjectile);
+				shoot((int)(angle-10)%360, alternativeProjectile);
+			}
 		}
 	}
 
@@ -70,7 +81,19 @@ public class Boss3 extends Creature {
       
     public void getHit(int dmg){
     	// Muttermethode aufrufen - wir wollen nur ein Detail ergaenzen
-    	super.getHit(dmg);
+    	super.getHit(dmg);		
+    	
+    	// bewegungsgeschwindigkeit berechnen
+    	// Wenn der Boss weniger als 5 HP hat
+    	if(hp<=5){
+    		speed = 7.0;
+    		// ENRAGE WUAAAAARGH
+    		atk	=	(int)((double)atk*1.5);	// Staerker werden
+    	}
+    	// Wenn der Boss weniger als 10 HP hat
+    	else if(hp<=10){
+    		speed = 4.5;
+    	}
     	
     	// Unser Detail:
     	if(hp<=0){
@@ -78,6 +101,16 @@ public class Boss3 extends Creature {
     			gel.newGoal(x, y);		// Der Boss droppt an der Stelle seines Todes das Zielobjekt (bis wir nahtlosen Übergang zwischen den Leveln haben)
     		}
     	}
+    }
+    
+    // Resetmethoden bearbeiten
+    public void setResetValues(){
+    	super.setResetValues();
+    	resetValues[6]	=	atk;
+    }
+    public void reset(){
+    	super.reset();
+    	atk	=	resetValues[6];
     }
      
     @Override
