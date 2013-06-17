@@ -19,18 +19,6 @@ public class Boss3 extends Creature {
     }
 
     public void move(){    	
-		// bewegungsgeschwindigkeit berechnen
-    	// Wenn der Boss weniger als 5 HP hat
-    	if(hp<=5){
-    		speed = 6.0;
-    	}
-    	// Wenn der Boss weniger als 10 HP hat
-    	else if(hp<=10){
-    		speed = 4.5;
-    	}
-    	// wenn der Boss mehr als 10 HP hat
-    	else 
-    		speed = 3;
     	// Berechnung des Winkels beim abprallen von einer Wand
     	if(bounce==true){
     		double angle=Math.random()*360; // [0,360[
@@ -52,6 +40,17 @@ public class Boss3 extends Creature {
 			double angle	=	Math.toDegrees(Math.atan2((pY-center[1]),(pX-center[0])));
 			// Schießen
 			shoot((int)angle%360);
+			// Am Ende soll es schwieriger sein, uebertreiben wir also!
+			if(hp<=5){
+				shoot((int)(angle+10)%360);
+				shoot((int)(angle+20)%360);
+				shoot((int)(angle+30)%360);
+				shoot((int)(angle+40)%360);
+				shoot((int)(angle-40)%360);
+				shoot((int)(angle-30)%360);
+				shoot((int)(angle-20)%360);
+				shoot((int)(angle-10)%360);
+			}
 		}
 	}
 
@@ -63,7 +62,20 @@ public class Boss3 extends Creature {
       
     public void getHit(int dmg){
     	// Muttermethode aufrufen - wir wollen nur ein Detail ergaenzen
-    	super.getHit(dmg);
+    	super.getHit(dmg);		
+    	
+    	// bewegungsgeschwindigkeit berechnen
+    	// Wenn der Boss weniger als 5 HP hat
+    	if(hp<=5){
+    		speed = 7.0;
+    		// ENRAGE WUAAAAARGH
+    		atk	=	(int)((double)atk*1.5);	// Staerker werden
+    	}
+    	// Wenn der Boss weniger als 10 HP hat
+    	else if(hp<=10){
+    		speed = 4.5;
+    		projectile	=	new Fireball(0,0,0,0);	// Wir schiessen nun Feuerbaelle
+    	}
     	
     	// Unser Detail:
     	if(hp<=0){
