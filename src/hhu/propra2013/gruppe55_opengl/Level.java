@@ -35,18 +35,22 @@ public class Level implements GameEventListener{
 	private LevelData levelDataObj;
 	static Data_Textures textures;			// Grafik-Klasse
 	private long lastAction;	// Timer-Variable
+	private GameMenu gm;		//Spiele-Menü
 	
 	
 // Konstruktor
-	public Level(int x, int y) {
+	public Level(int x, int y, GameMenu gm, int lvl) {
+		this.gm = gm;
 		init(x, y);
 		textures = new Data_Textures();
 		
-		if(jsonParser){
-			loadLevel("level1");
+		if(lvl == 0){
+			jsonParser = false;
+			loadLevel("testlvl");
 		}
 		else{
-			loadLevel("testlvl");
+			jsonParser = true;
+			loadLevel("level"+lvl);
 		}
 		
 		this.play();
@@ -183,7 +187,7 @@ public class Level implements GameEventListener{
 							creatureList.get(r).add(new Boss2(32*i, 32*j, 10*32, 0, 3, 1, 0));
 						}
 						else if(lvlData[r][i][j] == 18){
-							creatureList.get(r).add(new Boss3(i*32+5, j*32-5, 0, 0, 3, 1, 0));
+							creatureList.get(r).add(new Boss3(i*32, j*32, 15, 1, 0));
 						}
 						else if(lvlData[r][i][j] == 19){
 							staticList.get(r).add(new ArrowObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
@@ -295,7 +299,7 @@ public class Level implements GameEventListener{
 						creatureList.get(r).add(new Boss2(xPos, yPos, tempParameterList.get(6)*32, tempParameterList.get(7)*32, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
 					}
 					else if(tempParameterList.get(0) == 18){
-						creatureList.get(r).add(new Boss3(xPos, yPos, tempParameterList.get(6)*32, tempParameterList.get(7)*32, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
+						creatureList.get(r).add(new Boss3(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
 					}
 					else if(tempParameterList.get(0) == 19){
 						staticList.get(r).add(new ArrowObject(xPos, yPos));    
@@ -492,8 +496,8 @@ public class Level implements GameEventListener{
 			Display.update();
 			Display.sync(60);
 		}
-		
 		Display.destroy();
+		gm.setVisible(true);
 	}
 	
 	// Eingaben abfragen
@@ -501,9 +505,8 @@ public class Level implements GameEventListener{
 		// KeyboardEvents
 		
 		// Tastatur-Events wï¿½hrend des Spiels
-		if(!lose && !clear){		
-			while(Keyboard.next()){
-				
+		if(!lose && !clear && !gameover){		
+			while(Keyboard.next()){				
 				int k = Keyboard.getEventKey();
 				
 				if(Keyboard.getEventKeyState()){
@@ -533,13 +536,14 @@ public class Level implements GameEventListener{
 							}
 							break;
 						case 28:
-							if(lose || clear || gameover){}
-							else if(dialog){
+							if(dialog){
 								iFace.buttonAction(28, player);
 							}
 							break;
 						case Keyboard.KEY_SPACE:
-							if((lose || clear) && !gameover ){}
+							if((lose || clear) && !gameover ){
+								reload();
+							}
 							else if(!gameover){
 								// Spieler Angreifen lassen
 								player.attack();
@@ -634,7 +638,9 @@ public class Level implements GameEventListener{
 				if(Keyboard.getEventKeyState()){
 					switch(k){
 						case 28:
-							reload();
+							if(lose || clear || gameover){
+								close = true;
+							}
 							break;
 						case Keyboard.KEY_SPACE:
 							reload();
@@ -690,6 +696,9 @@ public class Level implements GameEventListener{
 						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
 					}
 					else if(creatureList.get(room).get(i) instanceof Boss2 && creatureList.get(room).get(i).getCurrState() == 1){
+						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
+					}
+					else if(creatureList.get(room).get(i) instanceof Boss3 && creatureList.get(room).get(i).getCurrState() == 1){
 						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
 					}
 				}
