@@ -5,6 +5,10 @@ import static org.lwjgl.opengl.GL11.*;
 public class Boss3 extends Creature {
 	// Attribute
 	private Projectile alternativeProjectile	=	new Fireball(0,0,0,0);
+	// Kontrollvariablen fuer Phase 3
+	private boolean warning1	=	false;	// Boolean, ob bereits ein Warnschuss abgegeben wurde
+	private boolean warning2	=	false;	// Boolean, ob bereits ein zweiter Warnschuss abgegeben wurde
+	private int warnedAngle = 0;		// Winkel, der gewarnt wurde
 	
 	protected boolean bounce = false;		// Abfrage ob der Boss von einer Wand abgebounced ist
  
@@ -20,7 +24,7 @@ public class Boss3 extends Creature {
 		detectionRange = 300;					// Groessere Schussreichweite
 		
 		// Resetrelevante Werte
-		resetValues	=	new int[7];	// atk kommt dazu, sonst wird sie nach dem Enrage nicht zurueck gesetzt
+		resetValues	=	new int[9];	// atk und detectionRange und speed kommen dazu, sonst wird nach dem Enrage nicht zurueck gesetzt
     }
 
     public void move(){    	
@@ -32,9 +36,10 @@ public class Boss3 extends Creature {
     		bounce=false;	// Bounce wird wieder auf false gesetzt
     	}
 		// bewegung ausfuehren
-		x+=speed*dx;
-		y+=speed*dy;
-		
+    	if(state[currState].moveable){
+    		x+=speed*dx;
+    		y+=speed*dy;
+    	}
     }
     
     public void action(int pX, int pY){
@@ -53,14 +58,36 @@ public class Boss3 extends Creature {
 			}
 			// Am Ende soll es schwieriger sein, uebertreiben wir also!
 			else{
-				shoot((int)(angle+10)%360, alternativeProjectile);
-				shoot((int)(angle+20)%360, alternativeProjectile);
-				shoot((int)(angle+30)%360, alternativeProjectile);
-				shoot((int)(angle+40)%360, alternativeProjectile);
-				shoot((int)(angle-40)%360, alternativeProjectile);
-				shoot((int)(angle-30)%360, alternativeProjectile);
-				shoot((int)(angle-20)%360, alternativeProjectile);
-				shoot((int)(angle-10)%360, alternativeProjectile);
+				// Warnschuss um dem Spieler ne Chance zu geben!
+				// Warnschuss um dem Spieler ne Chance zu geben!
+				if(!warning1 || (warning1 && !warning2) ){
+					// Warnung flaggen
+					warning2	=	warning1; // sichert, dass wir 2x zur Warnung schiessen
+					warning1	=	true;
+					warnedAngle	=	(!warning2)?(int)angle:warnedAngle;
+					// Warnschuesse abgeben, die den 120° Bereich einleiten, der von der Feuerballsalve abgedeckt wird
+					shoot(warnedAngle+60%360, alternativeProjectile);
+					shoot(warnedAngle-60%360, alternativeProjectile);
+				}
+				else{
+					// die naechsten Schuesse muessen wieder Warnungen sein
+					warning1	=	false;
+					warning2	=	false;
+					// Nun decken wir den 120° Bereich (oben genannt) mit Feuer ein
+					shoot(warnedAngle%360+60, alternativeProjectile);
+					shoot(warnedAngle%360+50, alternativeProjectile);
+					shoot(warnedAngle%360+40, alternativeProjectile);
+					shoot(warnedAngle%360+30, alternativeProjectile);
+					shoot(warnedAngle%360+20, alternativeProjectile);
+					shoot(warnedAngle%360+10, alternativeProjectile);
+					shoot(warnedAngle%360, alternativeProjectile);
+					shoot(warnedAngle%360-10, alternativeProjectile);
+					shoot(warnedAngle%360-20, alternativeProjectile);
+					shoot(warnedAngle%360-30, alternativeProjectile);
+					shoot(warnedAngle%360-40, alternativeProjectile);
+					shoot(warnedAngle%360-50, alternativeProjectile);
+					shoot(warnedAngle%360-60, alternativeProjectile);
+				}
 			}
 		}
 	}
@@ -78,9 +105,13 @@ public class Boss3 extends Creature {
     	// bewegungsgeschwindigkeit berechnen
     	// Wenn der Boss weniger als 5 HP hat
     	if(hp<=5){
-    		speed = 7.0;
+    		// stoppe Bewegung
+    		speed = 7;
+    		state[1].changeMoveable(false);
     		// ENRAGE WUAAAAARGH
-    		atk	=	(int)((double)atk*1.5);	// Staerker werden
+    		atk	*=2;	// Staerker werden
+    		// Groessere Range
+    		detectionRange	=	600;
     	}
     	// Wenn der Boss weniger als 10 HP hat
     	else if(hp<=10){
@@ -99,10 +130,15 @@ public class Boss3 extends Creature {
     public void setResetValues(){
     	super.setResetValues();
     	resetValues[6]	=	atk;
+    	resetValues[7]	=	detectionRange;
+    	resetValues[8]	=	(int) speed;
     }
     public void reset(){
     	super.reset();
     	atk	=	resetValues[6];
+    	detectionRange	=	resetValues[7];
+    	speed	=	resetValues[8];
+		state[1].changeMoveable(true);
     }
     
     public void onCollision(DungeonObject d){
