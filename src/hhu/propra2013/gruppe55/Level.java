@@ -193,7 +193,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 							creatureList.get(r).add(new Boss2(32*i, 32*j, 10*32, 0, 3, 1, 0));
 						}
 						else if(lvlData[r][i][j] == 18){
-							creatureList.get(r).add(new Boss3(i*32+5, j*32-5, 0, 0, 3, 1, 0));
+							creatureList.get(r).add(new Boss3(i*32, j*32, 15, 1, 0));
 						}
 						else if(lvlData[r][i][j] == 19){
 							staticList.get(r).add(new ArrowObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
@@ -308,7 +308,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 						creatureList.get(r).add(new Boss2(xPos, yPos, tempParameterList.get(6)*32, tempParameterList.get(7)*32, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
 					}
 					else if(tempParameterList.get(0) == 18){
-						creatureList.get(r).add(new Boss3(xPos, yPos, tempParameterList.get(6)*32, tempParameterList.get(7)*32, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
+						creatureList.get(r).add(new Boss3(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
 					}
 					else if(tempParameterList.get(0) == 19){
 						staticList.get(r).add(new ArrowObject(xPos, yPos));    
@@ -551,6 +551,9 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 					creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
 				}
 				else if(creatureList.get(room).get(i) instanceof Boss2 && creatureList.get(room).get(i).getCurrState() == 1){
+					creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
+				}
+				else if(creatureList.get(room).get(i) instanceof Boss3 && creatureList.get(room).get(i).getCurrState() == 1){
 					creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
 				}
 			}
