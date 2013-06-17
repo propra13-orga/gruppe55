@@ -1,5 +1,6 @@
 package hhu.propra2013.gruppe55;
 
+import hhu.propra2013.gruppe55_opengl.Player;
 import hhu.propra2013.leveleditor2.LevelData;
 import hhu.propra2013.leveleditor2.LevelReader;
 
@@ -140,10 +141,15 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						}
 						else if(lvlData[r][i][j] == 3){
-							playerSpawnX	=	i*32-5;
-							playerSpawnY	=	j*32-5;
-							player	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1, 3);		// bei 3 wird ein Spielerobjekt generiert
-							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							if(player == null){
+								playerSpawnX	=	i*32-5;
+								playerSpawnY	=	j*32-5;
+								player	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1, 3);		// bei 3 wird ein Spielerobjekt generiert
+								// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							}
+							else{
+								player.teleport(i*32-5, j*32-5);
+							}
 						}
 						else if(lvlData[r][i][j] == 5){
 							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
@@ -267,9 +273,14 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 					else if(tempParameterList.get(0) == 2){
 						creatureList.get(r).add(new Creature(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));    // bei 2 wird ein Monsterobjekt generiert
 					}else if(tempParameterList.get(0) == 3){
-						playerSpawnX = xPos;
-						playerSpawnY = yPos;
-						player  =  new Player(playerSpawnX, playerSpawnY, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));    
+						if(player == null){
+							playerSpawnX = xPos;
+							playerSpawnY = yPos;
+							player  =  new Player(playerSpawnX, playerSpawnY, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));    
+						}
+						else{
+							player.teleport(xPos, yPos);
+						}
 					}else if(tempParameterList.get(0) == 4){
 						teleportList.get(r).add(new Teleporter(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));    
 					}else if(tempParameterList.get(0) == 5){
