@@ -1,6 +1,4 @@
-﻿To-Do-List
- - realisierte Stat-Uebergabe von ATK/DEF von den Waffen an den Spieler
-Geplante Aspekte
+﻿Geplante Aspekte
  - Boden als eine große Grafik, Objekte überlagern diese
  - Animation
 
@@ -15,11 +13,17 @@ Known Issues:
 - Bodentexturen muessen generiert werden ohne viel Speicheraufwand
 - Pfeile und Projektile generell muessten schoener an der Position des Schiessenden orientiert abgefeuert werden (zB nach allen Seiten gleicher Abstand, schoen zentriert, etc)
 
-- Spielerpfeile werden nicht richtig positioniert
-
 WICHTIG: Ich habe die X/Y Koordinaten in allen Objekten von int auf double umgestellt, um geregeltere bewegung zu ermöglichen!
 
 Changelog:
+
+22.06.13 - jdnklau
+Weapon
+	- es werden nun mehr Attribute des Spielers durch die Waffen erhoehbar sein. Zum Abruf steht dann die Methode getStats zur verfuegung,
+	  die die Werte als int[7] wiedergibt
+Player
+	- profitiert nun von allen Attributverbesserungen, die eine Waffe ihm geben kann
+
 
 17.06.13 - van Meegen
 

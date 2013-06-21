@@ -4,11 +4,13 @@ public abstract class LivingObject extends MovingObject {
 	// Lebenspunkte Management
     protected int hp, hpMax,  def, atk, mana, manaMax, energy, energyMax;	// Statuswerte
 	// Variablen fuer Handhabung von Unverwundbarkeit
-	private boolean invulnerable	=	false;		// Unverwundbarkeitszustand des Objekts
+	protected boolean invulnerable	=	false;		// Unverwundbarkeitszustand des Objekts
 	protected int invulTime			=	500;		// Dauer der Unverwundbarkeit in Millisekunden
 	// Schadensberechnungsvariablen (welch ein Wort!)
 	protected int critBase	=	20;	// Basis-Chance auf kritische Treffer
  	protected int critBonus, minDmg, maxDmg;
+ 	// Heilattribute fuer Leben und Mana
+ 	protected int healBonus=0,manaBonus=0;		// erhoehen die Werte fuer generiertes Leben/Mana
 	// fermkampfattribute
 	protected int detectionRange	=	200;	// Wenn ZielObjekte die gegebene Anzahl an Pixeln oder weniger entfernt sind=feuern
 	protected Projectile projectile	=	new Projectile(0,0,0,0);	// Wird zur Erzeugung von Schuessen genutzt und gibt somit den Projektiltyp an
@@ -105,7 +107,7 @@ public abstract class LivingObject extends MovingObject {
 	// Heilung bei Aufnahme einer Potion
 	public void getHealed(int heal){
 		// Heilung durchführen
-		hp+=heal;
+		hp+=heal+healBonus;
 		// aber nicht zu viel heilen!
 		if(hp>hpMax)
 			hp = hpMax;
@@ -113,7 +115,7 @@ public abstract class LivingObject extends MovingObject {
 	
 	// Erhoeht das Mana
 	public void fillmana(int ma){ 
-		mana+=ma;
+		mana+=ma+manaBonus;
 		if(mana>manaMax)
 			mana = manaMax;
 	}

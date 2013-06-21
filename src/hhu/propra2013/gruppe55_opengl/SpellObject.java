@@ -2,12 +2,14 @@ package hhu.propra2013.gruppe55_opengl;
 
 public class SpellObject extends DungeonObject {
 // Attribute
-	private int manaCost;		// Manakosten des Zaubers
-	private int healthCost;		// Falls der Zauber mit Blut bezahlt wird
-	private int dmg;			// Falls der Zauber Schaden machen soll
-	private int heal;			// Falls der Zauber heilen soll
+	protected int manaCost;		// Manakosten des Zaubers
+	protected int healthCost;		// Falls der Zauber mit Blut bezahlt wird
+	protected int dmg;			// Falls der Zauber Schaden machen soll
+	protected int heal;			// Falls der Zauber heilen soll
+	protected int castDuration;	// Dauer, wie lange der Zauber wirkend gecastet wird in Millisekunden
+	protected int castDurationInterval;	// Invertvallhafte Dauer, in der der Zauber waehrend seiner zugesprochenen Wirkzeit gewirkt wird
 	// Listener
-	private boolean listener;	// true, wenn der Zauber durch den Spieler bereits mit Listenern verbunden wurde
+	protected boolean listener;	// true, wenn der Zauber durch den Spieler bereits mit Listenern verbunden wurde
 	
 /*
  * Zaubereigenschaften:
@@ -24,14 +26,21 @@ public class SpellObject extends DungeonObject {
 		healthCost	=	0;
 		dmg			=	4;
 		heal		=	0;
+		castDuration=	0;
+		castDurationInterval	=	0;
 	}
 	
 	// Methode, die die eigentliche Magie ausführt
-	public void cast(double x,double y,int angle,int spellDmg){
-		// Feuerball schießen!
+	public void cast(final double x,final double y,final int angle,final int spellDmg){
+		// Zaubern!
 		for(GameEventListener gel : evtList){
 			gel.shootProjectile(new Fireball(x,y,angle,dmg+spellDmg));
 		}
+	}
+	
+	// Zauberdauer?
+	public int[] getCastDurationData(){
+		return new int[]{castDuration,castDurationInterval};
 	}
 	
 	// Wiedergabe der Manakosten

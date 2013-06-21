@@ -1,6 +1,5 @@
 package hhu.propra2013.gruppe55;
 
-import hhu.propra2013.gruppe55_opengl.Player;
 import hhu.propra2013.leveleditor2.LevelData;
 import hhu.propra2013.leveleditor2.LevelReader;
 

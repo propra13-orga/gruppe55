@@ -1,16 +1,22 @@
 package hhu.propra2013.gruppe55_opengl;
 
 public class SimpleBow extends Weapon{
+// Attribute
+	protected int type	=	2;		// Fernkampf 
 	
 	public SimpleBow() {
+		super();
+		
+		// Werteanpassungen
 		minDmg = 1;
 		maxDmg = 1;
 		name = "Simpler Bogen";
-	
+		// Grafik
 		state[0].changeTexture(Data_Textures.basicbow);
 		state[1] = new State(Data_Textures.basicbow_back, Data_Textures.basicbow, Data_Textures.basicbow_back, Data_Textures.basicbow, false, false, true);
 		state[2] = new State(Data_Textures.basicbow_f_atk, Data_Textures.basicbow_l_atk, Data_Textures.basicbow_r_atk, Data_Textures.basicbow_u_atk, false, false, true);
-	
+
+		// Offsets
 		weapOffsets[0][0]	=	0;	// X-Offset von lootbarer Waffe
 		weapOffsets[0][1]	=	0;	// Y-Offset von lootbarer Waffe
 		weapOffsets[0][2]	=	5;	// X-offset von gehaltener Waffe

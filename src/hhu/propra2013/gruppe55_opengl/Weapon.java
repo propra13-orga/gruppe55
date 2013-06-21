@@ -5,21 +5,36 @@ import java.awt.Rectangle;
 public class Weapon extends DungeonObject {
 // Attribute
 	// Spezifikation der Waffe
-	protected int type	=	0;		// Waffentyp (0=Schwert)
+	protected int type	=	0;		// Waffentyp (0=Nahkampf, Haupthand;; 1=Nahkampf, Nebenhand;; 2=Fernkampf)
 	protected String name	=	"Simples Schwert";	// Waffenname
 	// Angriffswerte
-	protected int atkTime	=	400;	// Angriffszeit in Millisekunden
+	protected int atkTime	=	250;	// Angriffszeit in Millisekunden
 	protected int minDmg	=	1;		// Mindestschaden
 	protected int maxDmg	=	3;		// Maximalschaden
 	protected boolean attacking	=	false;	// Waehrend des Angriffs true
 	// Offsetwerte zum zeichnen
 	protected int[][] weapOffsets	=	new int[4][6];	// Die Offsets wie die Waffe in der Spielerhand gehalten wird	
 	// Statuswerte die durch die Waffe erhoeht werden
-	// TODO: Statuswerte
+	protected int atk;			// Bonus auf die ATK
+	protected int def;			// Bonus auf die DEF
+	protected int hpMax;		// Maximal-HP wird um die angegebene Zahl Containerweise erhöht
+	protected int manaMax;		// Wie maxHP nur fuer Mana
+	protected int critBonus;	// erhoeht die Chance auf kritische Treffer
+	protected int healBonus;	// erhoeht die durch Traenke erhaltene Heilung
+	protected int manaBonus;	// wie healBonus nur fuer Mana
 
 	// Konstruktor
 	public Weapon() {
-		super(0, 0);	// Scheint merkwï¿½rdig, macht aber Sinn (wird dem Spieler angepasst)
+		super(0, 0);	// Scheint merkwuerdig, macht aber Sinn (wird dem Spieler angepasst)
+		
+		// Wertzuweisungen
+		atk=0;			// Extra ATK
+		def=0;			// extra DEF
+		hpMax=0;		// extra auf die maximale Gesundheit
+		manaMax=0;		// extra auf das maximale Mana
+		critBonus=0;	// Extraprozentpunkte fuer die kritische Trefferchance
+		healBonus=0;	// gewaehrte extraheilung bei Traenken zB
+		manaBonus=0;	// gewaehrtes extramana bei Traenken zB
 		
 		// States setzen
 		state	=	new State[3];
@@ -110,6 +125,11 @@ public class Weapon extends DungeonObject {
 			return super.getBorder();
 		// ansonsten keine Hitbox
 		return new Rectangle(0,0,0,0);
+	}
+	
+	// Werte uebergeben
+	public int[] getStats(){
+		return new int[] {atk,def,hpMax,manaMax,critBonus,healBonus,manaBonus};
 	}
 
 }

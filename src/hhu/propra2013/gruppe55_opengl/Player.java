@@ -4,7 +4,7 @@ import org.lwjgl.input.Keyboard;
 import static org.lwjgl.opengl.GL11.*;
 
 public class Player extends LivingObject {
-
+// Attribute
 	// Variablen fuer Handhabung von Unverwundbarkeit
 	private int invulTime			=	500;		// Dauer der Unverwundbarkeit in Millisekunden
 	// Variablen fuer den Angriff
@@ -17,13 +17,18 @@ public class Player extends LivingObject {
 
 	// Besitztuemer des Spielers
 	private int[] statInventory;		//Inventar fuer statische Objekte (Gold, Traenke, Pfeile)
+	private int[] stats;				// durch Ausruestung erhaltene Attribute
+	private int[] baseStats;			// Basiswerte des Spielers
 	
-	// Konstruktor
+// Konstruktor
     public Player(double spawnX, double spawnY, int h, int atk, int def, int energy, int mana, int l) {
     	super(spawnX, spawnY, h, atk, def);
 
     	this.mana = this.manaMax = mana;
     	this.energy = this.energyMax = energy;
+    	
+    	// Basisattribute des Spielers speichern
+    	baseStats	=	new int[]{atk,def,h,mana,critBonus,healBonus,manaBonus};
 
 		// statInventory Slots
 		// 0: Lives
@@ -61,15 +66,13 @@ public class Player extends LivingObject {
 		weapons[0]	=	new Weapon();	// Haupthand
 		weapons[1]	=	new SimpleShield();	// Nebenhand
 		weapons[2]	=	new SimpleBow();	// Fernkampfwaffe
-		// drei Schwerter, Rorona Zorro, is that you? (Ist es nicht RoroNOA Zorro, jannik? :3)
 
 		// Zauber enbenfalls initialisieren
-		spell	=	new SpellObject(x,y);
+		spell	=	new SpellFlameBreath(x,y);
 
 		
-		// Schadenswerte uebernehmen
-    	minDmg	=	weapons[0].getMinDmg();
-    	maxDmg	=	weapons[0].getMaxDmg();
+		// Attribute uebernehmen
+		calcStatsByWeapons();
 		
     	// Resetwerte
     	resetValues	=	new int[12];
@@ -212,6 +215,48 @@ public class Player extends LivingObject {
     	// Schadenswerte uebernehmen
     	minDmg	=	weapons[2*currEquipped].getMinDmg();
     	maxDmg	=	weapons[2*currEquipped].getMaxDmg();
+    }
+    
+    // Wenn neue Waffen angelegt werden, sollten die Attribute eingelesen werden
+    private void calcStatsByWeapons(){
+    	// alte werte auf 0 setzen
+    	stats	=	new int[]{0,0,0,0,0,0,0};
+    	minDmg	=	0;
+    	maxDmg	=	0;
+    	// neue Werte initialisieren zwischenspeichern
+    	int[] newStats;
+    	
+    	
+    	// entweder Fernkampfwaffe oder beide Nahkampfwaffen
+    	for(int i=0; i<2-currEquipped;i++){ // wird 2x ausgefuehrt bei Nah- und 1x bei Fernkampf
+    		if(weapons[currEquipped+i]!=null){	// Waffe angelegt
+    			newStats=weapons[currEquipped+i].getStats();
+    			
+    			// Schaden uebernehmen
+    			minDmg+=weapons[currEquipped+i].getMinDmg();
+    			maxDmg+=weapons[currEquipped+i].getMaxDmg();
+    			
+    			// Attribute zusammenrechnen
+    			stats[0]+=newStats[0];
+    			stats[1]+=newStats[1];
+    			stats[2]+=newStats[2];
+    			stats[3]+=newStats[3];
+    			stats[4]+=newStats[4];
+    			stats[5]+=newStats[5];
+    			stats[6]+=newStats[6];
+    		}
+    	}
+    	
+    	// In den Spieler uebernehmen
+    	atk	=	baseStats[0]+stats[0];
+    	def	=	baseStats[1]+stats[1];
+    	hpMax	=	baseStats[2]+2*stats[2];
+    		if(hpMax>20) hpMax=20;
+    	manaMax	=	baseStats[3]+stats[3];
+    		if(manaMax>10) manaMax=10;
+    	critBonus	=	baseStats[4]+stats[4];
+    	healBonus	=	baseStats[5]+stats[5];
+    	manaBonus	=	baseStats[6]+stats[6];
     }
     
 	// Methode zur Winkelberechnung des Spielerblickes
