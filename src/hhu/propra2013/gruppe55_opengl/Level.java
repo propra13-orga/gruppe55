@@ -14,8 +14,9 @@ import org.lwjgl.opengl.DisplayMode;
 public class Level implements GameEventListener{
 
 	// Levelobjekte
-	private Player player;				// Spielerobjekt
-	private GameInterface iFace;					//GameInterface
+	private Player player;				//Spielerobjekt
+	private GameInterface iFace;		//GameInterface
+	private Network nw;					//Netzwerkklasse
 	private int room, currLvl;					// pointer to current room and Level
 	private int roomToRespawn;			// Raum in dem der Spieler nach Niederlage wiedererscheint
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
@@ -341,7 +342,12 @@ public class Level implements GameEventListener{
 		
 		// Erster CheckPoint ist der LevelEintritt
 		checkPointReached();
-
+		
+		//Netzwerk starten
+		if(nw == null){
+			nw = new Network();
+			nw.start(this);
+		}
 	}
 	
 // Methoden
@@ -511,6 +517,7 @@ public class Level implements GameEventListener{
 			Display.update();
 			Display.sync(60);
 		}
+		nw.stop();
 		Display.destroy();
 		gm.setVisible(true);
 	}
@@ -821,6 +828,16 @@ public class Level implements GameEventListener{
 	//Dialogstatus abfragen
 	public boolean getDialog(){
 		return(dialog);
+	}
+	
+	//Dialog ausgeben (Testfunktion für Netzwerk)
+	public void printDialog(String line){
+		if(openedInterface == 0){
+			setDialog(true);
+			toggleFreeze();
+			iFace.setDialog(line);
+			openedInterface = 1;
+		}
 	}
 	
 	//Zu zeichnendes Interface ausgeben
