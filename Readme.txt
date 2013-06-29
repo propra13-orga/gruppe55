@@ -17,6 +17,10 @@ WICHTIG: Ich habe die X/Y Koordinaten in allen Objekten von int auf double umges
 
 Changelog:
 
+29.06.13 - jdnklau
+DungeonObject
+	- diverse Methoden fuer eine Triggermechanik eingefuegt
+
 22.06.13 - jdnklau
 Weapon
 	- es werden nun mehr Attribute des Spielers durch die Waffen erhoehbar sein. Zum Abruf steht dann die Methode getStats zur verfuegung,

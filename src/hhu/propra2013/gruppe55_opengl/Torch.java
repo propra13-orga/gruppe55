@@ -7,5 +7,16 @@ public class Torch extends DungeonObject {
 		state	=	new State[2];
 		state[0]	=	new State(Data_Textures.torch, false, true, true);
 		state[1]	=	new State(Data_Textures.torch_lit, false, true, true);
+		
+		for(String key:triggerKeys)
+			triggerNames.add(key);
+	}
+	
+	// Die Fackel soll sich magischerweise Entzuenden. Dadadam!
+	public void triggerAction(String key){
+		// der Entsprechende Trigger wurde geaendert, also muessen wir reagieren
+		int newState	=	(isTriggerSet(key)) ? 1 : 0;	// Wenn Trigger auf true steht Fackel an, sonst Fackel aus
+		// Status wechseln nicht vergessen
+		switchState(newState);
 	}
 }

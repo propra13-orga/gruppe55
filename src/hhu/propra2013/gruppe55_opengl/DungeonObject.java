@@ -185,6 +185,15 @@ public abstract class DungeonObject {
 			gel.triggerFired(key);
 		}
 	}
+	
+	// Methode zur Abfrage ob ALLE Trigger auf true stehen
+	protected boolean allTriggersTrue(){
+		for(String key:triggerNames){
+			if(!isTriggerSet(key))
+				return false;
+		}
+		return true;
+	}
 
 // Die folgenden Methoden werden fuer die Level-methoden "paint" und "collisionCheck" benoetigt:
 	

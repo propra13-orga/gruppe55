@@ -121,6 +121,18 @@ public class Level implements GameEventListener{
 			//14: Creature_Bow
 			// ...
 			//20: WallSecret
+			//21: Torch
+			//22: fireelemental
+			//23: switch
+			
+			// Das Testlevel ist sehr sehr undynamisch was Konstruktoren angeht
+			// daher muss man manuell etwas Dynamik hier herein zwingen
+			
+			int torchCounter=0;	// Zaehlt die Position im TriggerArray ab, die uebergeben werden soll
+			String[][] torchTrigger={{"f1"},{"f2"},{"f3"},{"f4"},{"f5"}}; // Array der TriggerKeyArrays fuer die Fackeln
+			int switchCounter=0; // Wie der torchCounter nur fuer Schalter
+			String[][] switchTrigger={{"f1","f3"},{"f2","f4","f5"}};	// Array der TriggerKeyArrays fuer die Schalter
+			
 			
 			// Schleife die das Level generiert
 			for(int r=0; r<lvlData.length;r++){
@@ -206,13 +218,18 @@ public class Level implements GameEventListener{
 							staticList.get(r).add(new ArrowObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 20){
-							staticList.get(r).add(new WallSecret(i*32, j*32, new String[]{"testTrigger001PreAlpha"})); 
+							staticList.get(r).add(new WallSecret(i*32, j*32, new String[]{"f1","f2","f3","f4","f5"})); 
 						}
 						else if(lvlData[r][i][j] == 21){
-							staticList.get(r).add(new Torch(i*32, j*32, new String[]{"WorkInProgress"}));
+							staticList.get(r).add(new Torch(i*32, j*32, torchTrigger[torchCounter]));
+							torchCounter++;	// erhoehen, wir wollen ja variieren!
 						}
 						else if(lvlData[r][i][j] == 22) {
 							creatureList.get(r).add(new FireElemental(i*32, j*32, 15, 1, 0));
+						}
+						else if(lvlData[r][i][j] == 23){
+							staticList.get(r).add(new Switch(i*32, j*32, switchTrigger[switchCounter]));
+							switchCounter++;	// erhoehen, wir wollen ja variieren!
 						}
 					}
 				}

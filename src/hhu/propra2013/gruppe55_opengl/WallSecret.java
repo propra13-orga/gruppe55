@@ -11,8 +11,9 @@ public class WallSecret extends WallObject {
 	}
 	
 	public void triggerAction(String key){
-		System.out.println("you adorable lucker");
-		for(String listenedKey:triggerNames)
-			state[currState].visible	=	!isTriggerSet(key);
+		if(allTriggersTrue())
+			state[currState].visible	=	false;
+		else
+			state[currState].visible	=	true;
 	}
 }
