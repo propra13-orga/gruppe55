@@ -5,6 +5,8 @@ import static org.lwjgl.opengl.GL11.*;
 import java.awt.Rectangle;
 import org.newdawn.slick.opengl.Texture;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 
 public abstract class DungeonObject {
@@ -23,6 +25,8 @@ public abstract class DungeonObject {
 	protected boolean hasResetValues = false;	// Wenn false kann dieses Objekt nicht resetet werden und sollte aus den Listen geloescht werden
 	// Schnittstelle fuer GameEvents
 	protected ArrayList<GameEventListener> evtList	=	new ArrayList<GameEventListener>();
+	protected Map<String, Boolean> trigger	=	new HashMap<String, Boolean>();		// Werte der Trigger
+	protected ArrayList<String> triggerNames	=	new ArrayList<String>();		// TriggerNamen, auf die geachtet werden soll
 
 	
 // Konstruktor
@@ -48,7 +52,6 @@ public abstract class DungeonObject {
 		evtList.add(listener);
 	}
 
-	
 	// spezielle Kollisionsbehandlung
 	protected void onCollision(DungeonObject d){
 		// standart fuer ungefaehrliche Objekte
@@ -130,6 +133,56 @@ public abstract class DungeonObject {
 				glTexCoord2f(1, 0);
 				glVertex2d(x+state[currState].getTexture().getTextureWidth(), y);
 			glEnd();
+		}
+	}
+	
+	// Nachpruefen, ob ein entsprechender Trigger gesetzt ist
+	public boolean isTriggerSet(String key){
+		// Liste abfragen
+		return (trigger.containsKey(key) && trigger.get(key));
+	}
+	
+	// Nachpruefen ob auf einen bestimmten TriggerKey gehorcht wird
+	public boolean isTriggerListened(String key){
+		boolean isListenedTo	=	false;
+		for(String listenedKey: triggerNames)
+			if(listenedKey.equals(key)){
+				isListenedTo	=	true;
+				break;
+			}
+		return isListenedTo;
+	}
+	
+	// Methode um einen Trigger zu setzen
+	public void toggleTrigger(String key){
+		// Nur Trigger setzen, die wir auch beachten wollen
+		for(String listenedKey:triggerNames){
+			if(listenedKey.equals(key)){
+				// Existiert dieser Trigge bereits?
+				if(!trigger.containsKey(key)){	// nein, also erstmal setzen
+					trigger.put(key, true);		// da beim togglen gesetzt natuerlich auf true
+				}
+				else{
+					trigger.put(key, !trigger.get(key));	// Wert umkehren
+				}
+				// Objekt gefunden, also ende
+				break;
+			}
+		}
+	}
+	
+	// Methode zum ausfuehren Trigger-bedingter Zustaende
+	public void triggerAction(String key){
+		// Testimplemention zur veranschaulichung
+		if(trigger.containsKey(key)){
+			System.out.println("you adorable lucker");
+		}
+	}
+	
+	// Methode zum leichten Trigger schiessen
+	protected void fireTrigger(String key){
+		for(GameEventListener gel : evtList){
+			gel.triggerFired(key);
 		}
 	}
 

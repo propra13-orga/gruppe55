@@ -213,8 +213,10 @@ public class Player extends LivingObject {
     	}
     	
     	// Schadenswerte uebernehmen
-    	minDmg	=	weapons[2*currEquipped].getMinDmg();
-    	maxDmg	=	weapons[2*currEquipped].getMaxDmg();
+    	calcStatsByWeapons();
+    	
+    	// testweise ein Trigger
+    	fireTrigger("testTrigger001PreAlpha");
     }
     
     // Wenn neue Waffen angelegt werden, sollten die Attribute eingelesen werden

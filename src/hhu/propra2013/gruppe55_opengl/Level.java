@@ -119,6 +119,8 @@ public class Level implements GameEventListener{
 			//12: Healthcontainer
 			//13: Checkpoint
 			//14: Creature_Bow
+			// ...
+			//20: WallSecret
 			
 			// Schleife die das Level generiert
 			for(int r=0; r<lvlData.length;r++){
@@ -202,6 +204,9 @@ public class Level implements GameEventListener{
 						}
 						else if(lvlData[r][i][j] == 19){
 							staticList.get(r).add(new ArrowObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
+						}
+						else if(lvlData[r][i][j] == 20){
+							staticList.get(r).add(new WallSecret(i*32, j*32, new String[]{"testTrigger001PreAlpha"})); 
 						}
 					}
 				}
@@ -892,5 +897,29 @@ public class Level implements GameEventListener{
 	@Override
 	public void levelCleared() {
 		clear=true;
+	}
+	
+	@Override
+	public void triggerFired(final String key){
+		new Thread(){	// neuen Thread starten
+			public void run(){
+				for(int r=0;r<staticList.size();r++){	// fuer alle Raeume setzen wir unseren Trigger
+					// StaticList
+					for(int i=0;i<staticList.get(r).size();i++){
+						staticList.get(r).get(i).toggleTrigger(key);	// Trigger togglen
+						if(staticList.get(r).get(i).isTriggerListened(key)){		// ... und  eventuell ausfuehren
+							staticList.get(r).get(i).triggerAction(key);
+						}
+					}
+					// CreatureList
+					for(int i=0;i<creatureList.get(r).size();i++){
+						creatureList.get(r).get(i).toggleTrigger(key);	// trigger togglen
+						if(creatureList.get(r).get(i).isTriggerListened(key)){		// ... und  eventuell ausfuehren
+							creatureList.get(r).get(i).triggerAction(key);
+						}
+					}
+				}
+			}
+		}.start();
 	}
 }

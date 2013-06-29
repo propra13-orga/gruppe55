@@ -17,4 +17,7 @@ public interface GameEventListener {
 	
 	// Spieler erreicht einen Checkpoint!
 	public void checkPointReached();
+	
+	// Ein Trigger wurde gefeuert
+	public void triggerFired(String key);
 }
