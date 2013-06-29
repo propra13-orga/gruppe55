@@ -7,9 +7,9 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 public class Data_Textures {
 	
-	static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, boss1, boss2, boss3, shopkeeper, storyteller,
+	static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, fireelemental, boss1, boss2, boss3, shopkeeper, storyteller,
 	win, youlose, gameover, bks, wall, grass, goal, potion, potionused, healthcontainer, mpotion, treasure, lootarrow,
-	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, cp_used, cp_unused,
+	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, cp_used, cp_unused, torch, torch_lit,
 	basicbow, basicbow_back, basicbow_f_atk, basicbow_l_atk, basicbow_r_atk, basicbow_u_atk, basicbow_icon, basicshield_f, basicshield_b, arrow_f, arrow_l, arrow_r, arrow_b, fireball,
 	hud01, hud02, hud03, hud_Tear_HP_Full, hud_Tear_HP_Half, hud_Tear_HP_Empty,hud_Crystal_Full, hud_Crystal_Empty, dialogBox, shop, shopArrow, currency;
 	
@@ -30,6 +30,7 @@ public class Data_Textures {
 			// Monster
 				creature = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/enemies/creature.png")));	// Standart-Kreatur
 				creature_bow = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/enemies/creature_bow.png")));	// Bogen-Monster
+				fireelemental = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/enemies/fireelemental.png")));	// Feuerelementar
 			// Bosse
 					boss1 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/enemies/boss1.png")));
 					boss2 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/enemies/boss2.png")));
@@ -49,6 +50,9 @@ public class Data_Textures {
 				goal = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/goal.png")));			// Zielobjekt
 				cp_unused = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/CP_unused.png")));			// Checkpoint unbenutzt
 				cp_used = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/CP_used.png")));			// Checkpoint benutzt
+				torch = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/torch.png")));			// Fackel - aus
+				torch_lit = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/torch_lit.png")));			// Fackel - aus
+				
 			// Nutzbare Items
 				potion = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/potion.png")));		// Trank
 				potionused = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/potionused.png")));	// (Platzhalter)

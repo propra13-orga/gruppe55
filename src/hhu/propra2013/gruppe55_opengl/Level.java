@@ -208,6 +208,12 @@ public class Level implements GameEventListener{
 						else if(lvlData[r][i][j] == 20){
 							staticList.get(r).add(new WallSecret(i*32, j*32, new String[]{"testTrigger001PreAlpha"})); 
 						}
+						else if(lvlData[r][i][j] == 21){
+							staticList.get(r).add(new Torch(i*32, j*32, new String[]{"WorkInProgress"}));
+						}
+						else if(lvlData[r][i][j] == 22) {
+							creatureList.get(r).add(new FireElemental(i*32, j*32, 15, 1, 0));
+						}
 					}
 				}
 			}
@@ -738,6 +744,9 @@ public class Level implements GameEventListener{
 						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
 					}
 					else if(creatureList.get(room).get(i) instanceof Boss3 && creatureList.get(room).get(i).getCurrState() == 1){
+						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
+					}
+					else if(creatureList.get(room).get(i) instanceof FireElemental && creatureList.get(room).get(i).getCurrState() == 1){
 						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
 					}
 				}
