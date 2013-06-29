@@ -8,7 +8,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 public class Data_Textures {
 	
 	static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, fireelemental, boss1, boss2, boss3, shopkeeper, storyteller,
-	win, youlose, gameover, bks, wall, grass, goal, potion, potionused, healthcontainer, mpotion, treasure, lootarrow, lavahat,
+	win, youlose, gameover, bks, wall, grass, goal, potion, potionused, healthcontainer, mpotion, treasure, lootarrow,
 	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, cp_used, cp_unused, torch, torch_lit, door, 
 	basicbow, basicbow_back, basicbow_f_atk, basicbow_l_atk, basicbow_r_atk, basicbow_u_atk, basicbow_icon, basicshield_f, basicshield_b, arrow_f, arrow_l, arrow_r, arrow_b, fireball,
 	hud01, hud02, hud03, hud_Tear_HP_Full, hud_Tear_HP_Half, hud_Tear_HP_Empty,hud_Crystal_Full, hud_Crystal_Empty, dialogBox, shop, shopArrow, currency;
@@ -61,7 +61,6 @@ public class Data_Textures {
 				mpotion = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/mpotion.png")));		// Manatrank
 				treasure = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/treasure.png")));		// Schaetze
 				lootarrow = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/basicbow/lootarrow.png")));
-				lavahat = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/armor/lavahat.png")));
 			// Fallen
 				trap = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/trap.png")));			// Speerfalle
 				trapact = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/trapActivated.png")));	// aktivierte Speerfalle
