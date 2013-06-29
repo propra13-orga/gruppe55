@@ -129,9 +129,9 @@ public class Level implements GameEventListener{
 			// daher muss man manuell etwas Dynamik hier herein zwingen
 			
 			int torchCounter=0;	// Zaehlt die Position im TriggerArray ab, die uebergeben werden soll
-			String[][] torchTrigger={{"f1"},{"f2"},{"f3"},{"f4"},{"f5"}}; // Array der TriggerKeyArrays fuer die Fackeln
+			String[][] torchTrigger={{"f1"},{"f2"},{"f3"},{"f4"},{"f5"},{"f6"}}; // Array der TriggerKeyArrays fuer die Fackeln
 			int switchCounter=0; // Wie der torchCounter nur fuer Schalter
-			String[][] switchTrigger={{"f1","f3"},{"f2","f4","f5"}};	// Array der TriggerKeyArrays fuer die Schalter
+			String[][] switchTrigger={{"f1","f4","f6"},{"f2","f4","f5"},{"f1","f2","f6"},{"f2","f4","f5","f6"},{"f2","f3","f4"},{"f2","f5","f6"}};	// Array der TriggerKeyArrays fuer die Schalter
 			
 			
 			// Schleife die das Level generiert
@@ -218,7 +218,7 @@ public class Level implements GameEventListener{
 							staticList.get(r).add(new ArrowObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 20){
-							staticList.get(r).add(new WallSecret(i*32, j*32, new String[]{"f1","f2","f3","f4","f5"})); 
+							staticList.get(r).add(new WallSecret(i*32, j*32, new String[]{"f1","f2","f3","f4","f5","f6"})); 
 						}
 						else if(lvlData[r][i][j] == 21){
 							staticList.get(r).add(new Torch(i*32, j*32, torchTrigger[torchCounter]));
@@ -618,7 +618,7 @@ public class Level implements GameEventListener{
 										openedInterface = 1;
 										dialog = true;
 									}
-								}
+								}		
 							}
 							break;
 						case Keyboard.KEY_ESCAPE:

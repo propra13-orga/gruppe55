@@ -14,7 +14,6 @@ public class Player extends LivingObject {
 	private int[][][] handOffsets	=	new int[4][2][4];	// Offsets fuer die Positionen der Spielerhaende
 	// Zaubervariablen
 	private SpellObject spell;
-
 	// Besitztuemer des Spielers
 	private int[] statInventory;		//Inventar fuer statische Objekte (Gold, Traenke, Pfeile)
 	private int[] stats;				// durch Ausruestung erhaltene Attribute
@@ -214,9 +213,6 @@ public class Player extends LivingObject {
     	
     	// Schadenswerte uebernehmen
     	calcStatsByWeapons();
-    	
-    	// testweise ein Trigger
-    	fireTrigger("testTrigger001PreAlpha");
     }
     
     // Wenn neue Waffen angelegt werden, sollten die Attribute eingelesen werden

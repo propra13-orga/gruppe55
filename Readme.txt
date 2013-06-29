@@ -4,18 +4,21 @@
 
 IMPORTANT KNOWN ISSUE:
 
-- Derzeit crasht das Spiel wenn der Boss BESIEGT wird da das Event nicht vernuenftig gefeuert wird :( 
-- Bewegung fuer den ersten Boss muss noch implementiert werden
+- Die Schalter für die Fackeln sind zu Sensibel!
 
 - Der Shopkeeper kann nicht an einer Wand stehen, da bei jetziger Implementieren dann die Wand die ganze zeit den Shopkeeper wegen der Actionhitbox wegschieben moechte und das nicht geht!
 
 Known Issues:
-- Bodentexturen muessen generiert werden ohne viel Speicheraufwand
 - Pfeile und Projektile generell muessten schoener an der Position des Schiessenden orientiert abgefeuert werden (zB nach allen Seiten gleicher Abstand, schoen zentriert, etc)
 
 WICHTIG: Ich habe die X/Y Koordinaten in allen Objekten von int auf double umgestellt, um geregeltere bewegung zu ermöglichen!
 
 Changelog:
+
+29.06.13 - van Meegen
+
+Das alte Testlevel gesichert (Testlvl_backup.txt) und dann ein neues erstellt um die neuen Objekte zu testen. Es gibt nun ein Fackelraetsel im ersten raum + ein neuer Gegner im 2. Raum! Die "Schalter"-Bilder sind derzeit noch Potions(Platzhalter)
+
 
 29.06.13 - jdnklau
 DungeonObject
