@@ -8,9 +8,9 @@ public class Switch extends DungeonObject {
 		
 		// State neu setzen
 		state	=	new State[2];
-		// Testbilder
-		state[0]	=	new State(Data_Textures.potion,false,true,true);
-		state[1]	=	new State(Data_Textures.mpotion,false,true,true);
+		// Bilder der Schalter
+		state[0]	=	new State(Data_Textures.button_off,false,true,true);  	// Schalter steht auf "Off"
+		state[1]	=	new State(Data_Textures.button_on,false,true,true);		// Schalter steht auf "On"
 		
 		// Namen zum abhoeren
 		this.triggersToHandle	=	triggersToHandle;

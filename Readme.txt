@@ -15,6 +15,32 @@ WICHTIG: Ich habe die X/Y Koordinaten in allen Objekten von int auf double umges
 
 Changelog:
 
+30.06.13 - van Meegen
+/img:
+	- Bilder fuer die Schalter, den Lavahut und das Lavafeld eingefuegt
+	
+/src:
+Lavapatch:
+	- Lavafeldklasse hinzugefuegt. Das Lavafeld fuegt dem Spieler viel Schaden zu, solange dieser keinen Hut traegt!
+
+Fireelemental:
+	- Kommentare hinzugefuegt
+	
+Lavahat:
+	- Lavahatklasse hinzugefuegt. Der Hut wird benoetigt um die Lavafelder zu ueberqueren!
+
+Data_Textures:
+	- neue Bilder eingebunden
+	
+Player:
+	- Funktionen zum Hut aufsammeln und uebergeben hinzugefuegt. Der hut wird nun auch gezeichnet.
+	
+Level:
+	- Neue Objekte in die Levelschleife eingebunden
+
+Switch:
+	- Bilder hinzugefuegt
+
 29.06.13 - van Meegen
 
 Das alte Testlevel gesichert (Testlvl_backup.txt) und dann ein neues erstellt um die neuen Objekte zu testen. Es gibt nun ein Fackelraetsel im ersten raum + ein neuer Gegner im 2. Raum! Die "Schalter"-Bilder sind derzeit noch Potions(Platzhalter)

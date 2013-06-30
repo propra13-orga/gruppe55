@@ -18,6 +18,8 @@ public class Player extends LivingObject {
 	private int[] statInventory;		//Inventar fuer statische Objekte (Gold, Traenke, Pfeile)
 	private int[] stats;				// durch Ausruestung erhaltene Attribute
 	private int[] baseStats;			// Basiswerte des Spielers
+	public Lavahat hat = new Lavahat(x,y);	// Der Hut des Spielers
+	private boolean hashat = false;		// Hutabfragevariable
 	
 // Konstruktor
     public Player(double spawnX, double spawnY, int h, int atk, int def, int energy, int mana, int l) {
@@ -346,6 +348,7 @@ public class Player extends LivingObject {
 		// Spezielles
 		hp	=	hpMax;
 		mana	=	manaMax;
+		hashat = false; 			// Hutstatus zuruecksetzen!
 	}
 
     
@@ -359,7 +362,10 @@ public class Player extends LivingObject {
         	glBindTexture(GL_TEXTURE_2D, state[currState].getTexture().getTextureID());
     		return;
     	}
-    	
+    	// Wenn man den Hut hat soll er auch gezeichnet werden!
+    	if(hashat==true){
+    		hat.draw((int)x,(int)y);	
+    	}
     	// Richtungen der Waffen anpassen
     	if(weapons[0]!=null) weapons[0].changeDirection(direction);
     	if(weapons[1]!=null) weapons[1].changeDirection(direction);
@@ -417,6 +423,14 @@ public class Player extends LivingObject {
     // Abfrage des aktuellen Waffensets
     public int getWeapSet(){
     	return currEquipped;
+    }
+    // Den Hut einsammeln!
+    public void collecthat(){
+    	hashat = true;
+    }
+    // Abfrage ob man den Hut hat!
+    public boolean gethat(){
+    	return hashat;
     }
     
     // Methoden fuer die X und Y-Koordinaten

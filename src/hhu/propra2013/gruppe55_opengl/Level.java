@@ -189,47 +189,55 @@ public class Level implements GameEventListener{
 							staticList.get(r).add(new TreasureObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 10){
-							creatureList.get(r).add(new Shopkeeper(32*i, 32*j, 3, 1, 0));
+							creatureList.get(r).add(new Shopkeeper(32*i, 32*j, 3, 1, 0)); // Bei 10 wird ein Shopkeeper generiert
 						}
 						else if(lvlData[r][i][j] == 11){
-							creatureList.get(r).add(new Storyteller(32*i, 32*j, 3, 1, 0));
+							creatureList.get(r).add(new Storyteller(32*i, 32*j, 3, 1, 0));	// Bei 11 wird ein Storyteller generiert
 						}
 						else if(lvlData[r][i][j] == 12){
-							staticList.get(r).add(new Healthcontainer(i*32, j*32));
+							staticList.get(r).add(new Healthcontainer(i*32, j*32));		// Bei 12 wird ein Healthcontainer generiert
 						}
-						else if(lvlData[r][i][j] == 13){
+						else if(lvlData[r][i][j] == 13){	// leerer Platzhalter fuer ggf zukuenftige Implementation
 						}
 						else if(lvlData[r][i][j] == 14){
-							creatureList.get(r).add(new Creature_Bow(32*i, 32*j, 0, 5*32, 1, 3, 1, 0));
+							creatureList.get(r).add(new Creature_Bow(32*i, 32*j, 0, 5*32, 1, 3, 1, 0));		// bei 14 wird ein Bogenmonster generiert
 						}
 						else if(lvlData[r][i][j] == 15){
-							creatureList.get(r).add(new Boss1(i*32, j*32, 15, 1, 0));		// bei 15 wird ein Boss1 generiert						// CheckPoint
+							creatureList.get(r).add(new Boss1(i*32, j*32, 15, 1, 0));		// bei 15 wird ein Boss1 generiert						
 						}
 						else if(lvlData[r][i][j] == 16){
-							staticList.get(r).add(new CheckPoint(i*32,j*32));
+							staticList.get(r).add(new CheckPoint(i*32,j*32));		// bei 16 wird ein CheckPoint generiert
 						}
 						else if(lvlData[r][i][j] == 17){
-							creatureList.get(r).add(new Boss2(32*i, 32*j, 10*32, 0, 3, 1, 0));
+							creatureList.get(r).add(new Boss2(32*i, 32*j, 10*32, 0, 3, 1, 0));		// bei 17 wird ein Boss2 generiert		
 						}
 						else if(lvlData[r][i][j] == 18){
-							creatureList.get(r).add(new Boss3(i*32, j*32, 15, 1, 0));
+							creatureList.get(r).add(new Boss3(i*32, j*32, 15, 1, 0));		// bei 18 wird ein Boss3 generiert		
 						}
 						else if(lvlData[r][i][j] == 19){
-							staticList.get(r).add(new ArrowObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
+							staticList.get(r).add(new ArrowObject(i*32, j*32)); 	// bei 19 wird ein Pfeilobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 20){
-							staticList.get(r).add(new WallSecret(i*32, j*32, new String[]{"f1","f2","f3","f4","f5","f6"})); 
+							staticList.get(r).add(new WallSecret(i*32, j*32, new String[]{"f1","f2","f3","f4","f5","f6"})); // bei 20 wird eine "Geheimwand" generiert (Die Schalter auf die diese Tuer hoert muessen angegeben werden)
 						}
 						else if(lvlData[r][i][j] == 21){
-							staticList.get(r).add(new Torch(i*32, j*32, torchTrigger[torchCounter]));
+							staticList.get(r).add(new Torch(i*32, j*32, torchTrigger[torchCounter]));		// bei 21 wird eine Fackel generiert
 							torchCounter++;	// erhoehen, wir wollen ja variieren!
 						}
 						else if(lvlData[r][i][j] == 22) {
-							creatureList.get(r).add(new FireElemental(i*32, j*32, 15, 1, 0));
+							creatureList.get(r).add(new FireElemental(i*32, j*32, 15, 1, 0));		// bei 22 wird ein Feuerelementar generiert
 						}
 						else if(lvlData[r][i][j] == 23){
-							staticList.get(r).add(new Switch(i*32, j*32, switchTrigger[switchCounter]));
+							staticList.get(r).add(new Switch(i*32, j*32, switchTrigger[switchCounter]));		// bei 23 wird ein Schalter generiert
 							switchCounter++;	// erhoehen, wir wollen ja variieren!
+						}
+						else if(lvlData[r][i][j] == 24){
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							staticList.get(r).add(new Lavahat(i*32, j*32)); 	// bei 24 wird ein Lavahut generiert
+						}
+						else if(lvlData[r][i][j] == 25){
+							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+							staticList.get(r).add(new Lavapatch(i*32, j*32));		// bei 25 wird ein Lavafeld generiert
 						}
 					}
 				}

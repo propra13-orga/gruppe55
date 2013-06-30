@@ -2,8 +2,8 @@ package hhu.propra2013.gruppe55_opengl;
 
 public class FireElemental extends Creature {
 	
-	private Projectile projectile = new Fireball(0,0,0,0);
-	private int shootorder = 0;
+	private Projectile projectile = new Fireball(0,0,0,0);		// Feuerelementare schiessen Feuerbaelle!
+	private int shootorder = 0;		// Schusszaehler fuer den Extraschuss
 	
 	public FireElemental (double spawnX, double spawnY, int h, int angr, int vert){
 		super (spawnX, spawnY, h, angr, vert);
@@ -23,6 +23,7 @@ public class FireElemental extends Creature {
 			// Winkel berechnen
 			int[] center	=	getCenter();
 			double angle	=	Math.toDegrees(Math.atan2((pY-center[1]),(pX-center[0])));
+			// Sollte das Elementar schon 3x in Richtung Spieler geschossen haben -> Schuss in alle 4 Himmelsrichtungen
 			if(shootorder > 2){
 				shoot((int)0, projectile);
 				shoot((int)90, projectile);
@@ -30,6 +31,7 @@ public class FireElemental extends Creature {
 				shoot((int)270, projectile);
 				shootorder = 0;
 			}
+			// Schuss in Richtung des Spielers
 			else{
 				shoot((int)angle%360, projectile);
 				shootorder +=1;
