@@ -14,9 +14,8 @@ import org.lwjgl.opengl.DisplayMode;
 public class LevelMP extends Level implements GameEventListener{
 
 	// Levelobjekte
-	private Client c;
+	private Client c;					//Network-Client
 	protected Player player1, player2;				//Spielerobjekt
-	private int[] player2keys;
 	private GameInterface iFace;		//GameInterface
 	private int room, currLvl;					// pointer to current room and Level
 	private int roomToRespawn;			// Raum in dem der Spieler nach Niederlage wiedererscheint
@@ -559,7 +558,7 @@ public class LevelMP extends Level implements GameEventListener{
 			Display.update();
 			Display.sync(60);
 		}
-		c.end();
+		c.end();	//Netzwerk-Client stoppen
 		Display.destroy();
 		super.gm.setVisible(true);
 	}
@@ -771,7 +770,7 @@ public class LevelMP extends Level implements GameEventListener{
 			//Spiel Aktionen
 			if(((Sys.getTime()-lastAction)/Sys.getTimerResolution()) >= 1){
 
-				c.send("alive");
+				c.send("alive");	//Lebenssignal an Server senden
 				int[] playerCenter	=	player1.getCenter();
 				for(int i = 0; i < creatureList.get(room).size(); i++){
 					// Alle lebenden Bogen-Gegner Schie�en
