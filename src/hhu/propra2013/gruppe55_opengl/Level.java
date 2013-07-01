@@ -16,7 +16,6 @@ public class Level implements GameEventListener{
 	// Levelobjekte
 	private Player player;				//Spielerobjekt
 	private GameInterface iFace;		//GameInterface
-	private Network nw;					//Netzwerkklasse
 	private int room, currLvl;					// pointer to current room and Level
 	private int roomToRespawn;			// Raum in dem der Spieler nach Niederlage wiedererscheint
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
@@ -36,12 +35,12 @@ public class Level implements GameEventListener{
 	private LevelData levelDataObj;
 	static Data_Textures textures;			// Grafik-Klasse
 	private long lastAction;	// Timer-Variable
-	private GameMenu gm;		//Spiele-Menü
+	protected GameMenu gm;		//Spiele-Menue
 	
 	
 // Konstruktor
-	public Level(int x, int y, GameMenu gm, int lvl) {
-		this.gm = gm;
+	public Level(int x, int y, GameMenu g, int lvl) {
+		gm = g;
 		init(x, y);
 		textures = new Data_Textures();
 		
@@ -74,7 +73,7 @@ public class Level implements GameEventListener{
 				FileReader fread = new FileReader("lvl/" + file + ".txt");
 				BufferedReader in = new BufferedReader(fread);
 				
-				int k = 0; //Für 3. Arraydimension wird eigene Variable benötigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
+				int k = 0; //Fï¿½r 3. Arraydimension wird eigene Variable benï¿½tigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
 				
 				for(int i=0; (line = in.readLine()) != null; i++){
 					if(i==0){
@@ -248,10 +247,7 @@ public class Level implements GameEventListener{
 			try {
 				LevelReader levelReader = new LevelReader(new File("lvl/" + file + ".txt"));
 				levelDataObj = levelReader.getLevelData();
-			} catch (FileNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			} catch (FileNotFoundException e) {e.printStackTrace();}
 			
 
 			// Zeiger wird auf den ersten Raum gesetzt
@@ -373,17 +369,11 @@ public class Level implements GameEventListener{
 		//Konstruiere Interface
 		iFace = new GameInterface(this);
 		
-		//Startzeit für Action-Timer initial setzen
+		//Startzeit fï¿½r Action-Timer initial setzen
 		lastAction = Sys.getTime();
 		
 		// Erster CheckPoint ist der LevelEintritt
 		checkPointReached();
-		
-		//Netzwerk starten
-		if(nw == null){
-			nw = new Network();
-			nw.start(this);
-		}
 	}
 	
 // Methoden
@@ -409,7 +399,7 @@ public class Level implements GameEventListener{
 			}
 		}
 		
-		// staticlist Kollisionen überprüfen
+		// staticlist Kollisionen ï¿½berprï¿½fen
 		for(int i=0; i<staticList.get(room).size(); i++){
 			// static mit Spieler
 			if(staticList.get(room).get(i).getBorder().intersects(player.getBorder())){
@@ -553,7 +543,6 @@ public class Level implements GameEventListener{
 			Display.update();
 			Display.sync(60);
 		}
-		nw.stop();
 		Display.destroy();
 		gm.setVisible(true);
 	}
@@ -761,7 +750,7 @@ public class Level implements GameEventListener{
 			if(((Sys.getTime()-lastAction)/Sys.getTimerResolution()) >= 1){
 				int[] playerCenter	=	player.getCenter();
 				for(int i = 0; i < creatureList.get(room).size(); i++){
-					// Alle lebenden Bogen-Gegner Schießen
+					// Alle lebenden Bogen-Gegner Schieï¿½en
 					if(creatureList.get(room).get(i) instanceof Creature_Bow && creatureList.get(room).get(i).getCurrState() == 1){
 						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
 					}
@@ -869,7 +858,7 @@ public class Level implements GameEventListener{
 		return(dialog);
 	}
 	
-	//Dialog ausgeben (Testfunktion für Netzwerk)
+	//Dialog ausgeben (Testfunktion fï¿½r Netzwerk)
 	public void printDialog(String line){
 		if(openedInterface == 0){
 			setDialog(true);

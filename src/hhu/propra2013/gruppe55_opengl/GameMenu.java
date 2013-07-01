@@ -11,7 +11,7 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 	private JPanel jp, settings;											// JPanel
 	private JComboBox cb;										// Combobox im Jpanel
 	private JButton start, ende;								
-	private JCheckBox fullscreen;
+	private JCheckBox coop;
 	private Level lvl;
 	
 	public static void main(String[] args) {
@@ -32,10 +32,10 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 				cb.addItem("Level 3");
 				cb.setSelectedIndex(0);
 			settings.add(cb);
-			fullscreen = new JCheckBox();
-				fullscreen.setText("Fullscreen");
-				fullscreen.setEnabled(false);
-			settings.add(fullscreen);
+			coop = new JCheckBox();
+				coop.setText("Co-Op");
+				coop.setEnabled(true);
+			settings.add(coop);
 		
 		jp = new JPanel();										
 			jp.setLayout(new GridLayout(2,1));
@@ -59,7 +59,12 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 	public void actionPerformed(ActionEvent e){				//ActionListenerfunktion
 		if(e.getSource() == start){							//Wenn start gedrueckt, Menue unsichtbar machen & Spiel sichtbar machen
 			this.setVisible(false);
-			lvl = new Level(960, 650, this, cb.getSelectedIndex());
+			if(!coop.isSelected()){
+				lvl = new Level(960, 650, this, cb.getSelectedIndex());
+			}
+			else{
+				lvl = new LevelMP(960, 650, this, cb.getSelectedIndex());
+			}
 		}
 		else{System.exit(1);}								//Wenn ende gedrueckt, Programm beenden
 	}
