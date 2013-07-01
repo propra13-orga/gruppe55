@@ -11,10 +11,12 @@ import org.lwjgl.opengl.*;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.opengl.DisplayMode;
 
-public class Level implements GameEventListener{
+public class LevelMP extends Level implements GameEventListener{
 
 	// Levelobjekte
-	private Player player;				//Spielerobjekt
+	private Client c;
+	protected Player player1, player2;				//Spielerobjekt
+	private int[] player2keys;
 	private GameInterface iFace;		//GameInterface
 	private int room, currLvl;					// pointer to current room and Level
 	private int roomToRespawn;			// Raum in dem der Spieler nach Niederlage wiedererscheint
@@ -35,27 +37,12 @@ public class Level implements GameEventListener{
 	private LevelData levelDataObj;
 	static Data_Textures textures;			// Grafik-Klasse
 	private long lastAction;	// Timer-Variable
-	protected GameMenu gm;		//Spiele-Menue
+	private GameMenu gm;		//Spiele-Men�
 	
 	
 // Konstruktor
-	public Level(int x, int y, GameMenu g, int lvl) {
-		gm = g;
-		init(x, y);
-		textures = new Data_Textures();
-		
-		currLvl = lvl; //Geladenen Level speichern
-		
-		if(lvl == 0){
-			jsonParser = false;
-			loadLevel("testlvl");
-		}
-		else{
-			jsonParser = true;
-			loadLevel("level"+lvl);
-		}
-		
-		this.play();
+	public LevelMP(int x, int y, GameMenu gm, int lvl) {
+		super(x, y, gm, lvl);
 	}
 
 	public void loadLevel(String file){
@@ -153,14 +140,16 @@ public class Level implements GameEventListener{
 							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						}
 						else if(lvlData[r][i][j] == 3){
-							if(player == null){
+							if(player1 == null){
 								playerSpawnX	=	i*32-5;
 								playerSpawnY	=	j*32-5;
-								player	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1, 3);		// bei 3 wird ein Spielerobjekt generiert
+								player1	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1, 3);		// bei 3 wird ein Spielerobjekt generiert
+								player2	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1, 3);		// Player 2 konstruieren
 								// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							}
 							else{
-								player.teleport(i*32-5, j*32-5);
+								player1.teleport(i*32-5, j*32-5);
+								player2.teleport(i*32-5, j*32-5);
 							}
 						}
 						else if(lvlData[r][i][j] == 5){
@@ -299,13 +288,15 @@ public class Level implements GameEventListener{
 					else if(tempParameterList.get(0) == 2){
 						creatureList.get(r).add(new Creature(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));    // bei 2 wird ein Monsterobjekt generiert
 					}else if(tempParameterList.get(0) == 3 ){
-						if(player == null){
+						if(player1 == null){
 							playerSpawnX = xPos;
 							playerSpawnY = yPos;
-							player  =  new Player(playerSpawnX, playerSpawnY, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));    
+							player1  =  new Player(playerSpawnX, playerSpawnY, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));
+							player2  =  new Player(playerSpawnX, playerSpawnY, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));
 						}
 						else{
-							player.teleport(xPos, yPos);
+							player1.teleport(xPos, yPos);
+							player2.teleport(xPos, yPos);
 					}
 					}else if(tempParameterList.get(0) == 4){
 						teleportList.get(r).add(new Teleporter(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));    
@@ -364,7 +355,8 @@ public class Level implements GameEventListener{
 			for(DungeonObject l : staticList.get(i))
 				l.addGameListener(this);
 		// ... und den Spieler
-		player.addGameListener(this);
+		player1.addGameListener(this);
+		player2.addGameListener(this);
 
 		//Konstruiere Interface
 		iFace = new GameInterface(this);
@@ -374,6 +366,10 @@ public class Level implements GameEventListener{
 		
 		// Erster CheckPoint ist der LevelEintritt
 		checkPointReached();
+		
+		//NetzwerkClient starten
+		c = new Client();
+		c.start();
 	}
 	
 // Methoden
@@ -385,11 +381,12 @@ public class Level implements GameEventListener{
 		// Ueberpruefen ob der Spieler in einen anderen Raum teleportiert werden soll
 		for(int i=0; i<teleportList.get(room).size(); i++){
 			// trifft der Spieler auf einen Teleporter
-			if(teleportList.get(room).get(i).getBorder().intersects(player.getBorder())){
+			if(teleportList.get(room).get(i).getBorder().intersects(player1.getBorder()) || teleportList.get(room).get(i).getBorder().intersects(player2.getBorder())){
 				// Teleportinformationen abfragen
 				int[] portData	=	teleportList.get(room).get(i).getTeleport();
 				// Spieler teleportieren
-				player.teleport(portData[1], portData[2]);
+				player1.teleport(portData[1], portData[2]);
+				player2.teleport(portData[1], portData[2]);
 				// Raumzeiger umsetzen
 				room	=	portData[0];
 				// Projektile loeschen
@@ -402,8 +399,11 @@ public class Level implements GameEventListener{
 		// staticlist Kollisionen �berpr�fen
 		for(int i=0; i<staticList.get(room).size(); i++){
 			// static mit Spieler
-			if(staticList.get(room).get(i).getBorder().intersects(player.getBorder())){
-				staticList.get(room).get(i).onCollision(player);
+			if(staticList.get(room).get(i).getBorder().intersects(player1.getBorder())){
+				staticList.get(room).get(i).onCollision(player1);
+			}
+			if(staticList.get(room).get(i).getBorder().intersects(player2.getBorder())){
+				staticList.get(room).get(i).onCollision(player2);
 			}
 			// static mit Projektilen
 			for(int j=0; j<projectileList.size();j++){
@@ -429,24 +429,38 @@ public class Level implements GameEventListener{
 					projectileList.get(j).onCollision(creatureList.get(room).get(i));
 			}
 			// Living mit Spieler
-			if(creatureList.get(room).get(i).getBorder().intersects(player.getBorder())){
-				creatureList.get(room).get(i).onCollision(player);
+			if(creatureList.get(room).get(i).getBorder().intersects(player1.getBorder())){
+				creatureList.get(room).get(i).onCollision(player1);
+			}
+			if(creatureList.get(room).get(i).getBorder().intersects(player2.getBorder())){
+				creatureList.get(room).get(i).onCollision(player2);
 			}
 		}
 		
 		// uebrige Spieler-Kollisionen
 		// Spieler mit Projektilen
 		for(int i=0; i<projectileList.size();i++){
-			if(projectileList.get(i).getBorder().intersects(player.getBorder())){
-				projectileList.get(i).onCollision(player);
+			if(projectileList.get(i).getBorder().intersects(player1.getBorder())){
+				projectileList.get(i).onCollision(player1);
+			}
+			if(projectileList.get(i).getBorder().intersects(player2.getBorder())){
+				projectileList.get(i).onCollision(player2);
 			}
 		}
 		// Spielerangriff
-		if(player.getAttackState() && player.getWeapSet() == 0){
+		if(player1.getAttackState() && player1.getWeapSet() == 0){
 			for(int i=0; i<creatureList.get(room).size(); i++){
 				// Monsterkollision mit der Waffe
-				if(creatureList.get(room).get(i).getBorder().intersects(player.weapons[0].getBorder())){
-					player.dealDamage(creatureList.get(room).get(i));
+				if(creatureList.get(room).get(i).getBorder().intersects(player1.weapons[0].getBorder())){
+					player1.dealDamage(creatureList.get(room).get(i));
+				}
+			}
+		}
+		if(player2.getAttackState() && player2.getWeapSet() == 0){
+			for(int i=0; i<creatureList.get(room).size(); i++){
+				// Monsterkollision mit der Waffe
+				if(creatureList.get(room).get(i).getBorder().intersects(player2.weapons[0].getBorder())){
+					player2.dealDamage(creatureList.get(room).get(i));
 				}
 			}
 		}
@@ -463,12 +477,14 @@ public class Level implements GameEventListener{
 	//Methode um das Level neu zu laden und das Spiel von vorne zu beginnen
 	public void reload(){
 		// Spieler zuruecksetzen
-		player.reset();
+		player1.reset();
+		player2.reset();
 		// Raum setzen
 		room	=	roomToRespawn;
 		// Leben vom Spieler abziehen
 		if(lose==true){
-			player.giveStatInventoryObject(0, -1);
+			player1.giveStatInventoryObject(0, -1);
+			player2.giveStatInventoryObject(0, -1);
 	    }
 		// Fuer alle Raeume raus was raus kann
 		for(int r=0;r<staticList.size();r++){
@@ -531,7 +547,7 @@ public class Level implements GameEventListener{
 		while(!close){
 			if(Display.isCloseRequested()){
 				close = true;
-			}
+			}			
 			GL11.glClear(GL11.GL_COLOR_BUFFER_BIT | GL11.GL_DEPTH_BUFFER_BIT);
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 			GL11.glLoadIdentity();
@@ -543,8 +559,9 @@ public class Level implements GameEventListener{
 			Display.update();
 			Display.sync(60);
 		}
+		c.end();
 		Display.destroy();
-		gm.setVisible(true);
+		super.gm.setVisible(true);
 	}
 	
 	// Eingaben abfragen
@@ -559,32 +576,32 @@ public class Level implements GameEventListener{
 				if(Keyboard.getEventKeyState()){
 					switch(k){
 						case Keyboard.KEY_UP:
-							player.keyPressed(Keyboard.KEY_UP);
+							player1.keyPressed(Keyboard.KEY_UP);
 							if(dialog){
-								iFace.buttonAction(Keyboard.KEY_UP, player);
+								iFace.buttonAction(Keyboard.KEY_UP, player1);
 							}
 							break;
 						case Keyboard.KEY_DOWN:
-							player.keyPressed(Keyboard.KEY_DOWN);
+							player1.keyPressed(Keyboard.KEY_DOWN);
 							if(dialog){
-								iFace.buttonAction(Keyboard.KEY_DOWN, player);
+								iFace.buttonAction(Keyboard.KEY_DOWN, player1);
 							}
 							break;
 						case Keyboard.KEY_RIGHT:
-							player.keyPressed(Keyboard.KEY_RIGHT);
+							player1.keyPressed(Keyboard.KEY_RIGHT);
 							if(dialog){
-								iFace.buttonAction(Keyboard.KEY_LEFT, player);
+								iFace.buttonAction(Keyboard.KEY_LEFT, player1);
 							}
 							break;
 						case Keyboard.KEY_LEFT:
-							player.keyPressed(Keyboard.KEY_LEFT);
+							player1.keyPressed(Keyboard.KEY_LEFT);
 							if(dialog){
-								iFace.buttonAction(Keyboard.KEY_LEFT, player);
+								iFace.buttonAction(Keyboard.KEY_LEFT, player1);
 							}
 							break;
 						case 28:
 							if(dialog){
-								iFace.buttonAction(28, player);
+								iFace.buttonAction(28, player1);
 							}
 							break;
 						case Keyboard.KEY_SPACE:
@@ -593,14 +610,14 @@ public class Level implements GameEventListener{
 							}
 							else if(!gameover){
 								// Spieler Angreifen lassen
-								player.attack();
+								player1.attack();
 							}
 							break;
 						case Keyboard.KEY_E:
 							for(int i=0; i<creatureList.get(room).size(); i++){
 								// Wenn angesprochender NPC ein Shopkeeper ist
 								if(creatureList.get(room).get(i) instanceof Shopkeeper){
-									if(player.getBorder().intersects(creatureList.get(room).get(i).getBorder())){
+									if(player1.getBorder().intersects(creatureList.get(room).get(i).getBorder())){
 										freeze = true;
 										openedInterface = 2;
 										dialog = true;
@@ -609,7 +626,7 @@ public class Level implements GameEventListener{
 								}
 								// Wenn es ein Storyteller ist und kein Shopkeeper - Dialog aus der Textdatei holen und Dialog aufrufen!
 								else if(creatureList.get(room).get(i) instanceof Storyteller){
-									if(player.getBorder().intersects(creatureList.get(room).get(i).getBorder())){
+									if(player1.getBorder().intersects(creatureList.get(room).get(i).getBorder())){
 										iFace.setDialog(Data_String.story1, 0);
 										freeze = true;
 										openedInterface = 1;
@@ -627,7 +644,7 @@ public class Level implements GameEventListener{
 							else{close = true;}
 							break;
 						case Keyboard.KEY_X:
-							player.swapWeapons();
+							player1.swapWeapons();
 							break;
 						case Keyboard.KEY_F:
 							try {
@@ -652,28 +669,28 @@ public class Level implements GameEventListener{
 							} catch (LWJGLException e) {e.printStackTrace();}
 							break;
 						case Keyboard.KEY_C:
-							player.spellCast();
+							player1.spellCast();
 							break;
 						case Keyboard.KEY_A:
-							if(player.getStatInventoryObjectCount(2)>0){
-								player.getHealed(2);
-								player.giveStatInventoryObject(2, -1);
+							if(player1.getStatInventoryObjectCount(2)>0){
+								player1.getHealed(2);
+								player1.giveStatInventoryObject(2, -1);
 							}
 							break;
 						case Keyboard.KEY_S:
-							if(player.getStatInventoryObjectCount(3)>0){
-								player.fillmana(1);
-								player.giveStatInventoryObject(3, -1);
+							if(player1.getStatInventoryObjectCount(3)>0){
+								player1.fillmana(1);
+								player1.giveStatInventoryObject(3, -1);
 							}
 							break;
 					}
 				}
 			}
 			if(!Keyboard.isKeyDown(Keyboard.KEY_UP) && !Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
-				player.keyReleased(Keyboard.KEY_UP);
+				player1.keyReleased(Keyboard.KEY_UP);
 			}
 			if(!Keyboard.isKeyDown(Keyboard.KEY_LEFT) && !Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
-				player.keyReleased(Keyboard.KEY_LEFT);
+				player1.keyReleased(Keyboard.KEY_LEFT);
 			}
 		}
 		// Tastatur-Events bei Loose/Clear
@@ -711,12 +728,16 @@ public class Level implements GameEventListener{
 				}
 			}
 			if(!Keyboard.isKeyDown(Keyboard.KEY_UP) && !Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
-				player.keyReleased(Keyboard.KEY_UP);
+				player1.keyReleased(Keyboard.KEY_UP);
 			}
 			if(!Keyboard.isKeyDown(Keyboard.KEY_LEFT) && !Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
-				player.keyReleased(Keyboard.KEY_LEFT);
+				player1.keyReleased(Keyboard.KEY_LEFT);
 			}
 		}
+	}
+	
+	//Input für Player 2
+	public void input2(){
 	}
 	
 	// Game-Logic
@@ -724,16 +745,17 @@ public class Level implements GameEventListener{
 		// Level gefroren?
 		if(!freeze){
 			// ueberpruefen ob der Spieler lebt und noch Extraleben zur verfuegung hat
-			if(player.getStatInventoryObjectCount(0)==0 && player.getHP()<=0){
+			if(player1.getStatInventoryObjectCount(0)==0 && player1.getHP()<=0 || player2.getStatInventoryObjectCount(0)==0 && player2.getHP()<=0){
 				gameover = true;
 			}
 			// ueberpruefen ob der Spieler noch lebt
-			else if(player.getHP()<=0){
+			else if(player1.getHP()<=0 || player2.getHP()<=0){
 				lose	=	true;  // wird gesetzt wenn der Spieler stirbt
 			}
 
 			// Spielerbewegung
-			player.move();
+			player1.move();
+			player2.move();
 			
 			// kreaturenbewegung
 			for(int i=0; i<creatureList.get(room).size(); i++)
@@ -748,7 +770,9 @@ public class Level implements GameEventListener{
 			
 			//Spiel Aktionen
 			if(((Sys.getTime()-lastAction)/Sys.getTimerResolution()) >= 1){
-				int[] playerCenter	=	player.getCenter();
+
+				c.send("alive");
+				int[] playerCenter	=	player1.getCenter();
 				for(int i = 0; i < creatureList.get(room).size(); i++){
 					// Alle lebenden Bogen-Gegner Schie�en
 					if(creatureList.get(room).get(i) instanceof Creature_Bow && creatureList.get(room).get(i).getCurrState() == 1){
@@ -772,7 +796,7 @@ public class Level implements GameEventListener{
 	// Zeichen/Render-Funktion
 	public void render(){
 		// Koordinatensystem an Spieler anpassen
-		glTranslatef(Display.getWidth()/2-player.getTX(), Display.getHeight()/2-player.getTY(), 0);
+		glTranslatef(Display.getWidth()/2-player1.getTX(), Display.getHeight()/2-player1.getTY(), 0);
 		
 		// alle objekte der staticlist zeichnen (Waende, Fallen,...)
 		for(int i=0; i<staticList.get(room).size(); i++){
@@ -788,12 +812,13 @@ public class Level implements GameEventListener{
 			projectileList.get(i).draw();
 			
 		// Spieler zeichnen
-		player.draw();
+		player1.draw();
+		player2.draw();
 		// Fuer folgende Texturen das Koordinatensystem wieder begradigen
-		glTranslatef(-(Display.getWidth()/2-player.getTX()), -(Display.getHeight()/2-player.getTY()), 0);
+		glTranslatef(-(Display.getWidth()/2-player1.getTX()), -(Display.getHeight()/2-player1.getTY()), 0);
 		
 		// Interface zeichnen
-		iFace.paint(player, fullscreen);
+		iFace.paint(player1, fullscreen);
 		
 		// Gameover / Win Bildschirm zeichnen
 		if(lose){
@@ -896,7 +921,8 @@ public class Level implements GameEventListener{
 	@Override
 	public void checkPointReached(){
 		// Spieler speichern
-		player.setResetValues();
+		player1.setResetValues();
+		player2.setResetValues();
 		// Raumnummer speichern
 		roomToRespawn	=	room;
 		// Listen abklappern

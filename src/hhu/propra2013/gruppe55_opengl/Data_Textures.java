@@ -39,7 +39,7 @@ public class Data_Textures {
 				// Shopkeeper
 				shopkeeper = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/Npc/shopkeeper.png")));
 				// Storyteller
-				storyteller = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/NPC/storyteller.png")));
+				storyteller = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/Npc/storyteller.png")));
 			// Levelrelevantes
 				win = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/youwin.png")));		// Siegbild
 				youlose = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/youlose.png")));	// Todesbild
@@ -101,10 +101,10 @@ public class Data_Textures {
 					basicshield_f = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/basicshield/front.png"))); // Frontsansicht
 					basicshield_b = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/basicshield/back.png"))); // Ruecksansicht
 				// Projektile
-					arrow_f = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/projectiles/arrow_front.png")));	//Pfeil front
-					arrow_l = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/projectiles/arrow_left.png")));	//Pfeil links
-					arrow_r = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/projectiles/arrow_right.png")));	//Pfeil rechts
-					arrow_b = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/projectiles/arrow_back.png")));	//Pfeil hinten
+					arrow_f = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/Projectiles/arrow_front.png")));	//Pfeil front
+					arrow_l = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/Projectiles/arrow_left.png")));	//Pfeil links
+					arrow_r = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/Projectiles/arrow_right.png")));	//Pfeil rechts
+					arrow_b = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/Projectiles/arrow_back.png")));	//Pfeil hinten
 					fireball = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/spells/fireball.png")));
 		} catch (IOException e) {e.printStackTrace();}
 	}
