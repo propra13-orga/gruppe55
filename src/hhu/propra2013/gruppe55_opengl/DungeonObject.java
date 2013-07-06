@@ -161,7 +161,6 @@ public abstract class DungeonObject {
 	/**
 	 * Die Methode reset.
 	 * Diese Methode fuehrt den Reset, sofern ResetValues vorhanden sind, mit den in setResetValues gesetzten Werten durch.
-	 * @see setResetValues 
 	 */
 
 	// Methode zum zuruecksetzen des Objektes
@@ -180,7 +179,6 @@ public abstract class DungeonObject {
 	 * Die Methode isResetable.
 	 * Diese Methode gibt einen boolean Wert der Variable hasResetValues zurueck, die ueber die SetResetValuesFunktion gesetzt wird.
 	 * @return boolean hasResetValues
-	 * @see SetResetValues
 	 */
 
 	// Methode zur Abfrage, ob ein Objekt Resetbar ist
