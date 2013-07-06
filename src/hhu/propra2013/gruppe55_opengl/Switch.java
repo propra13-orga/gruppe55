@@ -33,25 +33,21 @@ public class Switch extends DungeonObject {
 	}
 	
 	/**
-	 * Die Methode onCollision. 
+	 * Die Methode interact. 
 	 * Diese Methode sorgt dafuer, dass der Player den Schalter betaetigen kann. Beim Betaetigen des Schalters wird das Bild des Schalters geaendert und das Triggerevent gefeuert. 
-	 * Die Methode onCollision ueberschreibt die aus der Klasse DungeonObject stammende Methode onCollision.
-	 * @param d  Die Methode erwartet ein Dungeonobjekt und ueberprueft ob es sich dabei um den Player handelt
-	 * @see DungeonObject
+	 * Die Methode interact ueberschreibt die aus der Klasse DungeonObject stammende Methode interact.
+	 * @param px X-Koordinate des Spielers
+	 * @param py Y-Koordinate des Spielers
 	 */
-	
-	// Aktuell noch keine Interaktionsmechanik -> Kollision!
-	public void onCollision(DungeonObject d){
-		// nur der Spieler hat die Macht!
-		if(d instanceof Player){
+	public void interaction(int px, int py){
+		// Abfrage ob der Spieler in Interagtionsreichweite intergieren will! 
+		if(distanceBetween(px, py)<=interactionRange){
 			for(String key:triggersToHandle){
 				fireTrigger(key);
 				// Status wechseln
 			}
 			switchState(1-currState);
 		}
-		// Zurueckschieben
-		super.onCollision(d);
 	}
 
 }

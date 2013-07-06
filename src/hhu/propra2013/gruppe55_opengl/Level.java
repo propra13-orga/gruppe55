@@ -29,7 +29,7 @@ public class Level implements GameEventListener{
 	private ArrayList<Projectile> projectileList;			// liste der Projektile (Pfeile, Feuerbaelle, etc)
 	private ArrayList<ArrayList<Teleporter>> teleportList;		// Liste aller Teleporter 
 	// Spieleventvariablen
-	private boolean lose, clear, gameover, close;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
+	private boolean lose, clear, gameover, close,alreadyInteracted=false;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
 	// Wichtige variablen fuer das neu Laden eines Levels
 	private int playerSpawnX, playerSpawnY;		// Koordinaten des ersten Spielererscheinungspunkts
 	private boolean freeze = false;		// friert das Level ein
@@ -88,7 +88,7 @@ public class Level implements GameEventListener{
 				FileReader fread = new FileReader("lvl/" + file + ".txt");
 				BufferedReader in = new BufferedReader(fread);
 				
-				int k = 0; //Fï¿½r 3. Arraydimension wird eigene Variable benï¿½tigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
+				int k = 0; //Für 3. Arraydimension wird eigene Variable benï¿½tigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
 				
 				for(int i=0; (line = in.readLine()) != null; i++){
 					if(i==0){
@@ -131,7 +131,7 @@ public class Level implements GameEventListener{
 			//10: Shopkeeper
 			//11: Storyteller
 			//12: Healthcontainer
-			//13: Checkpoint
+			//16: Checkpoint
 			//14: Creature_Bow
 			// ...
 			//20: WallSecret
@@ -640,26 +640,7 @@ public class Level implements GameEventListener{
 							}
 							break;
 						case Keyboard.KEY_E:
-							for(int i=0; i<creatureList.get(room).size(); i++){
-								// Wenn angesprochender NPC ein Shopkeeper ist
-								if(creatureList.get(room).get(i) instanceof Shopkeeper){
-									if(player.getBorder().intersects(creatureList.get(room).get(i).getBorder())){
-										freeze = true;
-										openedInterface = 2;
-										dialog = true;
-										iFace.setSelectedObject(0);
-									}
-								}
-								// Wenn es ein Storyteller ist und kein Shopkeeper - Dialog aus der Textdatei holen und Dialog aufrufen!
-								else if(creatureList.get(room).get(i) instanceof Storyteller){
-									if(player.getBorder().intersects(creatureList.get(room).get(i).getBorder())){
-										iFace.setDialog(Data_String.story1, 0);
-										freeze = true;
-										openedInterface = 1;
-										dialog = true;
-									}
-								}		
-							}
+							player.keyPressed(Keyboard.KEY_E);
 							break;
 						case Keyboard.KEY_ESCAPE:
 							if(dialog){
@@ -718,6 +699,8 @@ public class Level implements GameEventListener{
 			if(!Keyboard.isKeyDown(Keyboard.KEY_LEFT) && !Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
 				player.keyReleased(Keyboard.KEY_LEFT);
 			}
+			if(!Keyboard.isKeyDown(Keyboard.KEY_E))
+				player.keyReleased(Keyboard.KEY_E);
 		}
 		// Tastatur-Events bei Loose/Clear
 		else{
@@ -790,6 +773,21 @@ public class Level implements GameEventListener{
 			// projektile
 			for(int i=0; i<projectileList.size(); i++)
 				projectileList.get(i).move();
+			
+			// Interaktionsabfragen
+			if(player.wantsToInteract() && !alreadyInteracted){
+				int px=(int)player.getX();
+				int py=(int)player.getY();
+				
+				for(int i=0; i<staticList.get(room).size(); i++)
+					staticList.get(room).get(i).interaction(px, py);
+				for(int i=0; i<creatureList.get(room).size(); i++)
+					creatureList.get(room).get(i).interaction(px, py);
+				
+				alreadyInteracted=true;
+			}
+			else if(!player.wantsToInteract())
+				alreadyInteracted=false;
 
 			// Kollisionsabfrage
 			collisionCheck();			
@@ -1065,5 +1063,21 @@ public class Level implements GameEventListener{
 				}
 			}
 		}.start();
+	}
+
+	@Override
+	public void showDialog(String[] dialog) {
+		iFace.setDialog(dialog, 0);
+		freeze = true;
+		openedInterface = 1;
+		this.dialog = true;
+	}
+
+	@Override
+	public void openShop() {
+		freeze = true;
+		openedInterface = 2;
+		dialog = true;
+		iFace.setSelectedObject(0);
 	}
 }

@@ -46,7 +46,7 @@ public interface GameEventListener {
 	
 	/**
 	 * Die Methode checkPointReached.
-	 * Diese Methode implementiert die Funktion, mit der das der Checkpoint erreicht wurde.
+	 * Diese Methode implementiert die Funktion, zur Mitteilung dass der Checkpoint erreicht wurde.
 	 */
 	
 	// Spieler erreicht einen Checkpoint!
@@ -60,4 +60,16 @@ public interface GameEventListener {
 	
 	// Ein Trigger wurde gefeuert
 	public void triggerFired(String key);
+	
+	
+	/**
+	 * Diese Methode implementiert eine Funktion, die es ermoeglicht Dialoge im Level auszugeben
+	 * @param dialog Der entsprechende Dialog, zeilenweise im Array
+	 */
+	public void showDialog(String[] dialog);
+	
+	/**
+	 * Diese Methode laesst den Ingame-Shop aufrufen
+	 */
+	public void openShop();
 }

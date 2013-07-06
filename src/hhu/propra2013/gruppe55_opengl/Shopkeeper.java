@@ -26,5 +26,7 @@ public class Shopkeeper extends Npc {
 		state[1].defineOffset(0, 0, 1, 5, 0);
 		state[1].changeTexture(Data_Textures.shopkeeper); 	// Platzhalterbild fuer den Shopkeeper
 		super.getBorder();
+		
+		interactionResponse=2;	// Der Shop sollte geoeffnet werden
     }
 }

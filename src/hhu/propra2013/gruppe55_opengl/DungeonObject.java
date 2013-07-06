@@ -24,12 +24,15 @@ public abstract class DungeonObject {
 	protected int width;	// breite
 	protected int height;	// hoehe
 	protected int direction	=	0;	// aktuelle Blickrichtung des Objekts
+	// Interaktionsvariablen
+	final protected int  interactionRange = 37; // Gibt die Interaktionsreichweite des Spielers an
 	// Checkpoint-relevantes
 	protected int[] resetValues;
 	protected boolean hasResetValues = false;	// Wenn false kann dieses Objekt nicht resetet werden und sollte aus den Listen geloescht werden
 	// Schnittstelle fuer GameEvents
 	protected ArrayList<GameEventListener> evtList	=	new ArrayList<GameEventListener>();
 	protected Map<String, Boolean> trigger	=	new HashMap<String, Boolean>();		// Werte der Trigger
+	protected Map<String, Boolean> resetTrigger	=	new HashMap<String, Boolean>();		// Werte der Trigger zum Zuruecksetzen
 	protected ArrayList<String> triggerNames	=	new ArrayList<String>();		// TriggerNamen, auf die geachtet werden soll
 	// Element
 	protected int element;		// Element des Objektes (siehe Konstruktor fuer Beschreibung)
@@ -102,10 +105,20 @@ public abstract class DungeonObject {
 			}
 	}
 	
+	
+	/**
+	 * Die Methode interaction wird von Objekten benutzt, mit denen der Spieler interagieren kann und aufgerufen, sollte der Spieler interagieren wollen
+	 * @param px X-Koordinate des Spielers
+	 * @param py Y-Koordinate des Spielers
+	 */
+	public void interaction(int px, int py){
+		// Standartmaessig leer, da nicht jedes Objekt interaktiv ist!
+	}
+	
 	/**
 	 * Die Methode switchState.
 	 * Diese Methode wechselt den Status (state) in dem sich die verschiedenen Objekte befinden, z.B. wenn der Spieler stirbt und den status von lebendig auf tot aendert. 
-	 * @param s  Die Methode erwartet die Uebergabe eines Int Werts s (= der gewuenschte State). 
+	 * @param s  Die Methode erwartet die Uebergabe eines Int Werts auf welchen State gewechselt werden soll. 
 	 */
 	
 	// Methode zum Wechseln der States
@@ -156,6 +169,17 @@ public abstract class DungeonObject {
 		resetValues[1]	=	direction;	// 2. Wert Aktuelle Richtung
 		resetValues[2]	=	(int)x;			// 3. Wert: X-Koordinate
 		resetValues[3]	=	(int)y;			// 4. Wert: Y-Koordinate
+		
+		// Trigger resetbar machen
+		for(String key:triggerNames){
+			// Ist der key schon drin?
+			if (!trigger.containsKey(key)) {
+				resetTrigger.put(key, false);
+			}
+			else{
+				resetTrigger.put(key, trigger.get(key));
+			}
+		}
 	}
 	
 	/**
@@ -173,6 +197,12 @@ public abstract class DungeonObject {
 		// Koordinaten setzen
 		x=resetValues[2];
 		y=resetValues[3];
+		
+		// Trigger resetbar machen
+		for(String key:triggerNames){
+			// Ist der key schon drin?
+			trigger.put(key, resetTrigger.get(key));
+		}
 	}
 	
 	/**

@@ -9,9 +9,8 @@ import java.awt.Rectangle;
  */
 
 public class Npc extends LivingObject {	
-
-	// Interaktions-Hitbox-Offsets fuer Npc's 
-	protected int offset2[] = {-15,-15, -15, -15};
+	protected String[] storyToTell;		// Enthaelt den Dialog, den der NPC zu erzaehlen gewillt ist
+	protected int interactionResponse;	// 1=Dialog, 2=Shop, sonst nichts
 	
 	/**
 	 * Der Konstruktor fuer den Npc.
@@ -28,24 +27,9 @@ public class Npc extends LivingObject {
 	public Npc(double spawnX, double spawnY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
 		state[1].massive = true;
+		storyToTell	=	Data_String.story1;
+		detectionRange	=	45;
     }
-	
-	/**
-	 * Die Methode getBorder.
-	 * Diese Methode aendert die Hitbox des Objektes.
-	 * @return Die neue Hitbox als Rectangle(int, int, int, int).
-	 */
-	
-	// Neue Hitbox fuer den Npc (Bereich um ihn herum zum Interagieren)
-	public Rectangle getBorder(){
-		// Wenn der Npc da is...
-		if(state[currState].visible){
-			return new Rectangle((int)x + (int)offset2[1], (int)y + (int)offset2[0], state[currState].getTexture().getTextureWidth() -offset2[1]-offset2[3], state[currState].getTexture().getTextureHeight()-offset2[0]-offset2[2]);
-		}		
-		   else
-		// ... und wenn er nicht da ist
-		return new Rectangle(0,0,0,0);
-	}
 	
 	/**
 	 * Die Methode onCollision.
@@ -59,6 +43,28 @@ public class Npc extends LivingObject {
 				// solange Kollision wird das Objekt zurückgeschoben
 				((LivingObject)d).setBack();
 			}
+	}
+	
+	/**
+	 * Die interaction-Methode von NPC-Objekten kontrolliert die Ausgabe eines Dialoges bzw das Abrufen des Shops
+	 * @param px X-Koordinate des Spielers
+	 * @param py Y-Koordinate des Spielers
+	 * @see LivingObject
+	 */
+	public void interaction(int px, int py){
+		// Abfrage ob der Spieler in Interagtionsreichweite intergieren will! 
+		if(distanceBetween(px, py)<=interactionRange){
+			if(interactionResponse==1){
+				for(GameEventListener gel : evtList){
+					gel.showDialog(storyToTell);
+				}
+			}
+			else if(interactionResponse==2){
+				for(GameEventListener gel : evtList){
+					gel.openShop();
+				}
+			}
+		}
 	}
 
 }

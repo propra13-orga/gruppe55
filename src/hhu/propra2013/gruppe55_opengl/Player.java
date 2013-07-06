@@ -25,6 +25,7 @@ public class Player extends LivingObject {
 	private int[] stats;				// durch Ausruestung erhaltene Attribute
 	private int[] baseStats;			// Basiswerte des Spielers
 	public Hat hat;						// Der Hut des Spielers
+	private boolean interaction=false;	// Angabe, ob der Spieler mit Objekten interagieren moechte
 	
 	/**
 	 * Der Konstruktor fuer den Player.
@@ -600,6 +601,14 @@ public class Player extends LivingObject {
     }
     
     /**
+     * Diese Methode gibt wieder, ob der Spieler gewillt ist mit naheliegenden Objekten zu interagieren
+     * @return Wahrheitswert des Interaktionsbed&uuml;rfnisses
+     */
+    public boolean wantsToInteract(){
+    	return interaction;
+    }
+    
+    /**
      * Die Methode getTX.
      * Diese Methode gibt die x Koordinate der Mitte der Textur zurueck.
      * @return Die x-Koordinate der Mitte der Textur als int
@@ -632,6 +641,7 @@ public class Player extends LivingObject {
 		if (k == Keyboard.KEY_RIGHT) {dx = +1;}
 		if (k == Keyboard.KEY_DOWN) {dy = +1;}
 		if (k == Keyboard.KEY_UP) {dy = -1;}
+		if (k == Keyboard.KEY_E) {interaction=true;}
 	}
 	
 	/**
@@ -645,5 +655,6 @@ public class Player extends LivingObject {
 		if (k == Keyboard.KEY_RIGHT) {dx = 0;}
 		if (k == Keyboard.KEY_DOWN) {dy = 0;}
 		if (k == Keyboard.KEY_UP) {dy = 0;}
+		if (k == Keyboard.KEY_E) {interaction=false;}
 	}
 }
