@@ -4,6 +4,11 @@ import javax.swing.*;	//Imports
 import java.awt.*;
 import java.awt.event.*;
 
+/**
+ * Die Klasse GameMenu.
+ * Diese Klasse implementiert das Hauptmenue fuer das Spiel.
+ */
+
 public class GameMenu extends JFrame implements ActionListener{	// ActionListener implementiert
 
 	private static final long serialVersionUID = 1L;
@@ -14,9 +19,21 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 	private JCheckBox coop;
 	private Level lvl;
 	
+	/**
+	 * Die Methode main.
+	 * Die Methode, die das Objekt GameMenu erzeugt.
+	 * @param args  
+	 */
+	
 	public static void main(String[] args) {
 		GameMenu gm = new GameMenu();							// Menue und Spielfenster konstruieren
 	}
+	
+	/**
+	 * Der Konstruktor fuer das GameMenu.
+	 * Hier werden alle verschiedenen Elemente des Hauptmenues implementiert (Buttons, Checkboxen, etc. ...)
+	 */
+	
 	// Erstellen des Spielmenues
 	public GameMenu(){											// Konstruktor dieser Klasse
 		super("Spielmenue");									// Aufruf des JFrame-Konstruktors
@@ -55,6 +72,11 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 		this.setLocationRelativeTo(null); 					// im Bildschirm zentriert
 	}
 
+	/**
+	 * Die Methode actionPerformed.
+	 * Diese Methode implementiert die Funktionen, die bei drücken der Buttons aufgerufen werden (z.B. Start des Spiels)
+	 */
+	
 	@Override
 	public void actionPerformed(ActionEvent e){				//ActionListenerfunktion
 		if(e.getSource() == start){							//Wenn start gedrueckt, Menue unsichtbar machen & Spiel sichtbar machen

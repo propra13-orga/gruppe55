@@ -1,5 +1,11 @@
 package hhu.propra2013.gruppe55_opengl;
 
+/**
+ * Die Klasse Healthcontainer.
+ * Diese Klasse erbt von der Klasse DungeonObject und implementiert den Healthcontainer, den der Player einsammeln kann, um seine MaxHP zu erhoehen.
+ * @see DungeonObject
+ */
+
 public class Healthcontainer extends DungeonObject {
 // Attribute
 	

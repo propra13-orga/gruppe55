@@ -1,9 +1,27 @@
 package hhu.propra2013.gruppe55_opengl;
 
+/** 
+ * Die Klasse FireElemental.
+ * Diese Klasse erbt von der Klasse Creature und implementiert das FireElemental.
+ * @see Creature
+ */
+
 public class FireElemental extends Creature {
 	
 	private Projectile projectile = new Fireball(0,0,0,0);		// Feuerelementare schiessen Feuerbaelle!
 	private int shootorder = 0;		// Schusszaehler fuer den Extraschuss
+	
+	/**
+	 * Der Konstruktor fuer das FireElemental.
+	 * Beim Aufruf werden dem Konstruktor 
+	 * Beim Aufruf werden dem Konstruktor die Werte spawnX, spawnY, h, angr und vert uebergeben.
+	 * Des Weiteren werden die benoetigten States, sowie die Startkoordinaten, die Bilder, die Detectionrange, in der das FireElemental den Player angreift und die Bewegung initialisiert.
+	 * @param spawnX - Die x-Koordinate, an der das FireElemental gezeichnet wird.
+	 * @param spawnY - Die y-Koordinate, an der das FireElemental gezeichnet wird.
+	 * @param h - Der HP-Wert, mit dem das FireElemental generiert wird.
+	 * @param angr - Der Angriffswert, mit dem das FireElemental generiert wird.
+	 * @param vert - Der Verteidigungswert, mit dem das FireElemental generiert wird.
+	 */
 	
 	public FireElemental (double spawnX, double spawnY, int h, int angr, int vert){
 		super (spawnX, spawnY, h, angr, vert);
@@ -17,6 +35,13 @@ public class FireElemental extends Creature {
 		detectionRange = 500;					// Groessere Schussreichweite
 	}
 
+	/**
+	 * Die Methode action.
+	 * Diese Methode fuehrt die Schussfunktion auf die Mitte des Players aus, sofern dieser innerhalb der Reichweite (= Detectionrange). Zusaetzlich hat das FireElemental eine Shootorder, sodass nach X schuessen ein alternatives Schussmuster ausgeloest wird.
+	 * @param pX  Die Methode erwartet die Uebergabe eines int Werts pX
+     * @param pY  Die Methode erwartet die Uebergabe eines int Werts pY 
+	 */
+	
     public void action(int pX, int pY){
 		// Ist der Spieler in Reichweite?
 		if(distanceBetween(pX,pY)<=detectionRange){

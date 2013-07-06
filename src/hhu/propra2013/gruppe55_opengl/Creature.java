@@ -2,14 +2,31 @@ package hhu.propra2013.gruppe55_opengl;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Die Klasse Creature.
+ * Diese Klasse erbt von der Klasse LivingObject und spezifiert die Art des Objektes weiter (als Kreaturen = Gegner).
+ * @see LivingObject
+ */
+
+
 public class Creature extends LivingObject {
 // Attribute der Monster
     // Deklaration der Koordinaten 
     protected int sx, sy;			// Erscheinungskoordinaten
 	protected int moveAreaX	=	5*32;		// maximale vertikale Bewegung nach rechts
 	protected int moveAreaY	=	3*32;		// ... und nach oben
-
-    	
+	
+	/**
+	 * Der Konstruktor fuer eine Creature.
+	 * Beim Aufruf werden dem Konstruktor die Werte spawnX, spawnY, h, angr und vert uebergeben.
+	 * Des Weiteren werden die benoetigten States, sowie die Startkoordinaten und die Bewegung initialisiert.
+	 * @param spawnX - Die x-Koordinate, an der die Creature gezeichnet wird.
+	 * @param spawnY - Die y-Koordinate, an der die Creature gezeichnet wird.
+	 * @param h - Der HP-Wert, mit dem die Creature generiert wird.
+	 * @param angr - Der Angriffswert, mit dem die Creature generiert wird.
+	 * @param vert - Der Verteidigungswert, mit dem die Creature generiert wird.
+	 */
+	
 // Konstruktor
     public Creature(double spawnX, double spawnY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
@@ -24,6 +41,14 @@ public class Creature extends LivingObject {
 		// Bewegung initiieren
 		dx=1;
 	}
+    
+    /**
+     * Die Methode move.
+     * Diese Methode definiert das Bewegungsmuster nach dem sich die Creatures bewegen.
+     * Die Methode ueberschreibt die Methode move aus der Mutterklasse MovingObject.
+     * @see MovingObject
+     */
+    
     
     public void move(){
 		// bewegung errechnen
@@ -60,6 +85,14 @@ public class Creature extends LivingObject {
 		super.move();
     }
     
+    /**
+     * Die Methode getHit.
+     * Diese Methode ruft die Methode getHit aus der Mutterklasse LivingObject auf um den Schaden den die Creature machen zu errechnen.
+     * Die Methode ueberschreibt die Methode der Mutterklasse LivingObject mit dem Event fuer den Loot den die Creature droppen soll.
+     * @param dmg  Die Methode erwartet als Uebergabe eines int Werts dmg (aus der Berechnung in der Klasse LivinObject)
+     * @see LivingObject
+     */
+    
 	public void getHit(int dmg){
 		// Muttermethode aufrufen - wir wollen nur ein Detail ergaenzen
 		super.getHit(dmg);
@@ -72,6 +105,12 @@ public class Creature extends LivingObject {
 		}
 	}
     
+	/**
+	 * Die Methode draw.
+	 * Diese Methode zeichnet die Creature, sofern diese Lebt (tote Kreaturen sind nicht sichtbar). Zudem wird eine HP-Leist ueber den Koepfen der Monster gezeichnet.
+	 * Die Methode ueberschreibt die Methode draw aus der Mutterklasse LivingObject um die Zeichnung der Creature zu realisieren.
+	 */
+	
     @Override
     public void draw(){
     	// Nichts zeichnen, wenn Kreatur unsichtbar

@@ -5,6 +5,11 @@ import java.io.*;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
+/**
+ * Die Klasse Data_Textures.
+ * Die Klasse Data_Textures dient dazu, alle Bilder einmal statisch zu laden, damit diese nicht bei jedem Objektaufruf erneut geladen werden muessen.
+ */
+
 public class Data_Textures {
 	
 	static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, fireelemental, boss1, boss2, boss3, shopkeeper, storyteller,

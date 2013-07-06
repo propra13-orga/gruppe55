@@ -11,6 +11,11 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
 
+/**
+ * Die Klasse GameInterface.
+ * Diese Klasse implementiert das HUD, die Dialogboxen und den Shop.
+ */
+
 public class GameInterface {
 	
 	private Font font1, font2;					//AWT-Font-Vorlagen
@@ -21,6 +26,12 @@ public class GameInterface {
 	private int dialogCounter;		//Anzuzeigende Dialogzeile
 	private int selectedObject;		// Ausgewaehltes Shopobjekt
 
+	/**
+	 * Der Konstruktor fuer das GameInterface.
+	 * Beim Aufruf wird dem Konstruktor das Objekt t vom Typ Level uebergeben. Des Weiteren werden Fonts gesetzt und das HUD konstruiert (siehe HUD).
+	 * @param t  Die Methode erwartet die Uebergabe eines Objekts t vom Typ Level
+	 * @see HUD
+	 */
 
 	//Interface-Konstruktor
 	public GameInterface(Level t){
@@ -45,6 +56,13 @@ public class GameInterface {
 		hud = new HUD();									//HUD konstruieren
 	}
 	
+	/**
+	 * Die Methode paint.
+	 * Diese Methode zeichnet das komplette HUD, fragt ab ob ein Dialog oder ein Shop gezeichnet werden soll und zeichnet diesen dann.
+	 * @param p  Die Methode erwartet die Uebergabe eines Objektes p vom Typ Player
+	 * @param full  Die Methode erwartet die Uebergabe eines boolean Werts full
+	 */
+	
 	//Interface zeichnen
 	public void paint(Player p, boolean full){		
 		hud.draw(full, p);					//Draw HUD
@@ -59,11 +77,21 @@ public class GameInterface {
 		}
 	}
 	
+	/**
+	 * Die Methode paintDialog.
+	 * Diese Methode zeichnet einen Dialog (z.B. wenn der Player mit einem NPC redet). 
+	 */
+	
 	//Dialog zeichnen
 	public void paintDialog(){
 		hud.drawHudElement(Data_Textures.dialogBox, (Display.getWidth()/2)-250, Display.getHeight()-80);	//DialogBox zeichnen
 		fontDialog.drawString((Display.getWidth()/2)-220f, (Display.getHeight()-55f), currDialog[dialogCounter]);	//Dialogzeile zeichnen
 	}
+	
+	/**
+	 * Die Methode paintShop
+	 * Diese Methode zeichnet den Shop, wenn dieser aufgerufen wird und implementiert die Auswahl von kaufbaren Objekten.
+	 */
 	
 	//Shopfenster zeichnen
 	public void paintShop(){
@@ -93,11 +121,24 @@ public class GameInterface {
 		}
 	}
 	
+	/**
+	 * Die Methode setDialog.
+	 * Diese Methode uebergibt den anzuzeigenden Dialog (str) und die Startzeile (count), wenn dieser Mehrere Zeilen umfasst.
+	 * @param str  Die Methode erwartet die Uebergabe eines String[] str
+	 * @param count  Die Methode erwartet die Uebergabe eines int Werts count
+	 */
+	
 	//Anzuzeigenden Dialog und Startzeile uebergeben (Mehrere Zeilen)
 	public void setDialog(String[] str, int count){
 		currDialog = str;
 		dialogCounter = count;
 	}
+	
+	/**
+	 * Die Methode setDialog.
+	 * Diese Methode uebergibt den anzuzeigenden Dialog (str) und die Startzeile (count), wenn dieser eine einzelne Zeile umfasst. 
+	 * @param str  Die Methode erwartet die Uebergabe eines String[] str
+	 */
 	
 	//Anzuzeigenden Dialog und Startzeile uebergeben (Einzelne Zeilen)
 	public void setDialog(String str){
@@ -105,6 +146,11 @@ public class GameInterface {
 		currDialog[0] = str;
 		dialogCounter = 0;
 	}
+	
+	/** 
+	 * Die Methode next.
+	 * Diese Methode schaltet die Dialogzeilen durch und wenn es sich um die letzte Zeile handelt wird der Dialog beendet.
+	 */
 	
 	//N�chste Dialogzeile anzeigen, wenn letzte Zeile ausgew�hlt, Dialog beenden
 	public void next(){
@@ -126,6 +172,13 @@ public class GameInterface {
 			dialogCounter = 0;
 		}
 	}
+	
+	/**
+	 * Die Methode buttonAction.
+	 * Diese Methode implementiert die Bedienbarkeit des Shops. 
+	 * @param k  Die Methode erwartet die Uebergabe eines int Werts k
+	 * @param p  Die Methode erwartet die Uebergabe eines Obejekts p vom Typ player
+	 */
 	
 	// Keyboard-Events im Interface
 	public void buttonAction(int k, Player p){
@@ -193,13 +246,19 @@ public class GameInterface {
 		}
 	}
 	
+	/**
+	 * Die Methode setSelectedObject.
+	 * Diese Methode aendert das im Shop ausgewaehlte Objekt.
+	 * @param s  Die Methode erwartet die Uebergabe eines int Werts s
+	 */
+	
+	
 	// Ausgewaehltes Objekt aendern
 	public void setSelectedObject(int s){
 		selectedObject = s;
 	}
 
 }
-
 
 //HUD
 
