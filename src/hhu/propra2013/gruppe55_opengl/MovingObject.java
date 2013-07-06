@@ -71,7 +71,7 @@ public abstract class MovingObject extends DungeonObject {
 	/**
 	 * Die Methode setDirectionByAngle.
 	 * Diese Methode errechnet die Richtung auf Basis eines uebergebenen Winkels und aendert diese dann entsprechend.
-	 * @param int angle - Die Methode erwartet die Uebergabe eines int Werts angle
+	 * @param angle - Die Methode erwartet die Uebergabe eines int Werts angle
 	 */
 	
 	// Methode zur Richtungsberechnung bei gegebenem Winkel

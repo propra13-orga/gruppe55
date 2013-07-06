@@ -10,8 +10,19 @@ import javax.swing.text.*;
 import java.util.Date;
 import java.text.*;
 
+/**
+ * Die Klasse Server.
+ * Diese Klasse implementiert den Server fuer die Coop Version des Spiels.
+ */
+
 public class Server{
 
+	/**
+	 * Die Methode main.
+	 * Diese Methode, die das Objekt Server erzeugt.
+	 * @param args
+	 */
+	
 	//Main-Funktion
 	public static void main(String[] args) {
 		Server sv = new Server();
@@ -23,6 +34,12 @@ public class Server{
 	private Socket client1, client2;	//Beiden verfuegbaren Clients
 	private PrintWriter out1, out2;		//Outputs
 	private boolean running;			//Statusvariablen
+	
+	
+	/**
+	 * Der Konstruktor fuer den Server.
+	 * Hier werden Grunddaten, wie ServerSocket und Timeout gesetzt.
+	 */
 	
 	//Konstruktor
 	public Server(){
@@ -36,6 +53,11 @@ public class Server{
 		
 		run();	//Server starten
 	}
+	
+	/**
+	 * Die Methode run.
+	 * Diese Methode implementiert alle Funktionen, die der Server im laufenden Zustand ausfuehrt.
+	 */
 	
 	//Server-Schleife
 	public void run(){
@@ -105,6 +127,11 @@ public class Server{
 		}
 	}
 	
+	/**
+	 * Die Methode stop.
+	 * Diese Methode stoppt den Server und schliesst alle offenen Verbindungen zu den Clients. 
+	 */
+	
 	//Server stoppen
 	public void stop(){
 		running = false;
@@ -135,6 +162,12 @@ public class Server{
 //-------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
 
+/**
+ * Die Klasse ServerInput.
+ * Diese Klasse implementiert die Inputfunktionen fuer den Server. 
+ */
+
+
 //InputHandlerThread
 class ServerInput extends Thread{
 	
@@ -142,6 +175,11 @@ class ServerInput extends Thread{
 	private BufferedReader in;		//InputStreamReader
 	private String inLine;			//Ausgelesene Line
 	private boolean running, open;	//Statusvariablen
+
+	/**
+	 * Der Konstruktor fuer die Klasse ServerInput.
+	 * @param id  Die Methode erwartet die Uebergabe eines int Werts id
+	 */
 	
 	//Konstruktor
 	public ServerInput(int id){
@@ -149,6 +187,11 @@ class ServerInput extends Thread{
 		
 		clientID = id;
 	}
+	
+	/**
+	 * Die Methode run.
+	 * Diese Methode implementiert alle Funktionen fuer den Input (Serverseitig), die waehrend des Coop Spiels benoetigt werden. 
+	 */
 	
 	//Thread-Schleife
 	@Override
@@ -173,16 +216,32 @@ class ServerInput extends Thread{
 		}
 	}
 	
-	//InputStrea uebergeben
+	/**
+	 * Die Methode setInputStream.
+	 * Diese Methode uebergibt den Inputstream an den Server 
+	 */
+	
+	//InputStream uebergeben
 	public void setInputStream(InputStream is){
 		in = new BufferedReader(new InputStreamReader(is));
 		open = true;
 	}
 	
+	/**
+	 * Die Methode getOpened.
+	 * Diese Methode gibt zurueck ob eine Verbindung offen ist.
+	 * @return true, wenn eine Verbindung offen ist.
+	 */
+	
 	//Return Status, ob Verbindung offen ist
 	public boolean getOpened(){
 		return(open);
 	}
+	
+	/**
+	 * Die Methode end.
+	 * Diese Methode beendet das Coop Spiel und schliesst alle offenen verbindung.
+	 */
 	
 	//Thread beenden
 	public void end(){
@@ -194,6 +253,11 @@ class ServerInput extends Thread{
 //-------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
 
+/**
+ * Die Klasse ServerFrame.
+ * Diese Klasse implementiert das ServerGUI. 
+ */
+
 //Server-GUI
 class ServerFrame extends JFrame implements ActionListener, WindowListener{
 	
@@ -204,6 +268,12 @@ class ServerFrame extends JFrame implements ActionListener, WindowListener{
 	private JList clients;				//JList fuer verbundene Clients
 	private JPanel toparea, buttons;	//Panels fuer Layout
 	private SimpleDateFormat sdf = new SimpleDateFormat("HH.mm.ss");	//DateFormat fuer Log-Zeitstempel
+	
+	/**
+	 * Der Konstruktor fuer die Klasse ServerFrame.
+	 * Hier werden alle Elemente (Buttons,Textfelder, etc.) zum GUI hinzugefuegt.
+	 * @param s  Die Methode erwartet die Uebergabe eines Objekts s vom Typ Server
+	 */
 	
 	//Konstruktor
 	public ServerFrame(Server s){
@@ -256,14 +326,33 @@ class ServerFrame extends JFrame implements ActionListener, WindowListener{
 		setVisible(true);																//Fenster anzeigen
 	}
 
+	/**
+	 * Die Methode addToLog.
+	 * Diese Methode fuegt Zeilen zum Serverlog hinzu.
+	 * @param s  Die Methode erwartet die Uebergabe eines Strings s
+	 */
+	
 	//Zeile zum Log hinzufuegen
 	public void addToLog(String s){
 		log.append("-- " + sdf.format(new Date()) + ": " + s + "\n");
 	}
+	
+	/**
+	 * Die Methode addClient.
+	 * Diese Methode fuegt den Client zur Liste hinzu.
+	 * @param name  Die Methode erwartet die Uebergabe eines Strings name 
+	 * @param ip  Die Methode erwartet die Uebergabe eines Strings ip 
+	 * @param port  Die Methode erwartet die Uebergabe eines int Werts port
+	 */
 
 	//Client zur List hinzufuegen
 	public void addClient(String name, String ip, int port){
 	}
+	
+	/**
+	 * Die Methode actionPerformed.
+	 * Diese Methode fuehrt die Aktionen aus, die durch das Druecken der Buttons ausgefuhert werdern sollen.
+	 */
 	
 	// ActionListener --------------------------------------------
 	@Override

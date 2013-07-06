@@ -11,6 +11,11 @@ import org.lwjgl.opengl.*;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.opengl.DisplayMode;
 
+/**
+ * Die Klasse Level.
+ * Die Hauptklasse, in der das ganze Level mit sämtlichen Objekten, Funktionen, etc. generiert wird.
+ */
+
 public class Level implements GameEventListener{
 
 	// Levelobjekte
@@ -38,6 +43,15 @@ public class Level implements GameEventListener{
 	private long lastAction;	// Timer-Variable
 	protected GameMenu gm;		//Spiele-Menue
 	
+	/**
+	 * Der Konstruktor fuer das Level.
+	 * Beim Aufruf werden dem Konstruktor die x und y koordinaten, das GameMenu und die Levelnummer uebergeben.
+	 * Diese Methode liest die Level selbst aus einer Textdatei aus und parsed diese entweder mit dem JsonParser oder mit einer eigenen Parserversion, die allerdings nur fuer Testlevel gebraucht werden sollte. Die Richtigen Level entstehen alle mit Hilfe der JsonParserschleife.
+	 * @param x  Die Methode erwartet die Uebergabe eines int Werts x
+	 * @param y  Die Methode erwartet die Uebergabe eines int Werts y
+	 * @param g  Die Methode erwartet die Uebergabe eines Objektes g vom Typ GameMenu
+	 * @param lvl  Die Methode erwartet die Uebergabe eines int Werts lvl
+	 */
 	
 // Konstruktor
 	public Level(int x, int y, GameMenu g, int lvl) {
@@ -378,6 +392,12 @@ public class Level implements GameEventListener{
 	}
 	
 // Methoden
+	
+	/**
+	 * Die Methode CollisionCheck.
+	 * Diese Methode fragt die Kollision zwischen Objekten aus der static- und creatureList ab. Bei der Kollision zwischen Spieler und einem Objekt wird .onCollision(player) des jeweiligen Listenelements aufgerufen fuer eine spezielle Kollisionsbehandlung.
+	 */
+	
 	/*
 	 * Kollisionsabfrage zwischen den Dungeonobjekten aus staticList und creatureList
 	 * bei Spielerkollision wird .onCollision(player) des jeweiligen Listenelements aufgerufen fuer spezielle Kollisionsbehandlung
@@ -461,6 +481,11 @@ public class Level implements GameEventListener{
 
 	}
 	
+	/**
+	 * Die Methode reload.
+	 * Diese Methode laedt das Level neu (ggf. vom letzten CheckPoint, den der Player vor seinem Tod erreicht hat).
+	 */
+	
 	//Methode um das Level neu zu laden und das Spiel von vorne zu beginnen
 	public void reload(){
 		// Spieler zuruecksetzen
@@ -504,6 +529,13 @@ public class Level implements GameEventListener{
 		gameover = false;
 	}
 
+	/**
+	 * Die Methode init.
+	 * Diese Methode initialisiert das Display und diverse openGL einstellungen.
+	 * @param x  Die Methode erwartet die Uebergabe eines int Werts x
+	 * @param y  Die Methode erwartet die Uebergabe eines int Werts y
+	 */
+	
 	//Display und OpenGL initialisieren/einstellen
 	public void init(int x, int y){
 		try {
@@ -527,6 +559,11 @@ public class Level implements GameEventListener{
 		//Mouse.setGrabbed(true);
 	}
 
+	/**
+	 * Die Methode play.
+	 * Diese Methode ist der Gameloop, der die Funktionen input, engine und render aufruft, die das Spielen ermoeglichen.
+	 */
+	
 	// Game-Schleife
 	public void play(){
 		while(!close){
@@ -547,6 +584,11 @@ public class Level implements GameEventListener{
 		Display.destroy();
 		gm.setVisible(true);
 	}
+	
+	/**
+	 * Die Methode input.
+	 * Diese Methode implementiert die Steuerung und mapped die verschiedenen Tasten und Funktionen im Spiel zusammen.
+	 */
 	
 	// Eingaben abfragen
 	public void input(){
@@ -720,6 +762,11 @@ public class Level implements GameEventListener{
 		}
 	}
 	
+	/**
+	 * Die Methode engine.
+	 * Diese Methode bearbeitet die Spielmechaniken und Ereignisse, wie die Spieler- und Kreaturenbewegung, die Kollisionsabfrage, Projektile, etc.
+	 */
+	
 	// Game-Logic
 	public void engine(){
 		// Level gefroren?
@@ -769,6 +816,11 @@ public class Level implements GameEventListener{
 			}
 		}
 	}
+	
+	/**
+	 * Die Methode render.
+	 * Diese Methode zeichnet das Level, also alle Objekte sowie das Interface und Win/lose/Gameoverscreen.
+	 */
 	
 	// Zeichen/Render-Funktion
 	public void render(){
@@ -838,26 +890,54 @@ public class Level implements GameEventListener{
 		}
 	}
 	
+	/** 
+	 * Die Metode toggleFreeze.
+	 * Diese Methode toggled den Zustand freeze (also entweder das Spiel ist pausiert oder das Spiel laueft).
+	 */
+	
 	//GameFreeze togglen
 	public void toggleFreeze(){
 		freeze	=	!freeze;
 	}
+	
+	/**
+	 * Die Methode setDialog.
+	 * Diese Methode fragt ab, ob ein Dialog angezeigt werden soll.
+	 * @param d  true, dann zeige den Dialog an.  
+	 */
 	
 	//Dialog anzeigen ja/nein
 	public void setDialog(boolean d){
 		dialog = d;
 	}
 	
+	/**
+	 * Die Methode setOpenedInterface.
+	 * Diese Methode bestimmt, welches OpenedInterface gesetzt werden soll (also ob Dialog oder Shop ...) 
+	 * @param o  Die Methode erwartet die Uebergabe eines int Werts o
+	 */
+	
 	//OpenedInterface aendern
 	public void setOpenedInterface(int o){
 		openedInterface = o;
 	}
 
+	/**
+	 * Die Methode getDialog.
+	 * Diese Methode gibt den Status des Dialogs zurueck.
+	 * @return Den Status des aktuellen Dialogs.
+	 */
 	
 	//Dialogstatus abfragen
 	public boolean getDialog(){
 		return(dialog);
 	}
+	
+	/**
+	 * Die Methode printDialog.
+	 * Diese Methode gibt den Dialog aus (Testfunktion fuer das Netzwerk).
+	 * @param line  Die Methode erwartet die Uebergabe eines Strings line
+	 */
 	
 	//Dialog ausgeben (Testfunktion fï¿½r Netzwerk)
 	public void printDialog(String line){
@@ -869,17 +949,37 @@ public class Level implements GameEventListener{
 		}
 	}
 	
+	/**
+	 * Die Methode getOpenedInterface.
+	 * Diese Methode gibt das zu zeichnende Interface zureuck.
+	 * @return Das zu zeichnende Interface openedInterface.
+	 */
+	
 	//Zu zeichnendes Interface ausgeben
 	public int getOpenedInterface(){
 		return(openedInterface);
 	}
 
+	/**
+	 * Die Methode newTreasure.
+	 * Diese Methode spezifiziert, was passieren soll, wenn das Event newTreasure gefeuert wird (es soll ein Schatzobjekt erstellt werden).
+	 * @param x  Die Methode erwartet die Uebergabe eines double Werts x
+	 * @param y  Die Methode erwartet die Uebergabe eines double Werts y
+	 */
+	
 	// SPIELEREIGNISSE ABFANGEN
 	@Override
 	public void newTreasure(double x, double y) {
 		staticList.get(room).add(new TreasureObject(x, y));
 	}
 
+	/**
+	 * Die Methode newGoal.
+	 * Diese Methode spezifiziert, was passieren soll, wenn das Event newGoal gefeuert wird (es soll ein GoalObject erstellt werden).
+	 * @param x  Die Methode erwartet die Uebergabe eines double Werts x
+	 * @param y  Die Methode erwartet die Uebergabe eines double Werts y
+	 */
+	
 	// Der Boss droppt das Zielobjekt 
 	@Override
 	public void newGoal(double x, double y) {
@@ -888,11 +988,21 @@ public class Level implements GameEventListener{
 		staticList.get(room).add(goal);
 	}
 
+	/**
+	 * Die Methode shootProjectile.
+	 * Diese Methode spezifiziert, was passieren soll, wenn das Event shootProjectile gefeuert wird (es wird ein Projectile zur ProjectileList hinzugefuegt)
+	 * @param p  Die Methode erwartet die Uebergabe eines Objektes p vom Typ Projectile
+	 */
 	
 	@Override
 	public void shootProjectile(Projectile p){
 		projectileList.add(p);
 	}
+	
+	/**
+	 * Die Methode checkPointReached.
+	 * Diese Methode speichert alle Zustaende, die beim erreichen eines CheckPoints gesichert werden muessen, damit der Player dort neu anfangen kann.
+	 */
 	
 	@Override
 	public void checkPointReached(){
@@ -916,12 +1026,22 @@ public class Level implements GameEventListener{
 			}
 		}.start();
 	}
-
-
+	
+	/**
+	 * Die Methode levelCleared.
+	 * Die Methode setzt die Variable clear auf true (wenn der Player das Level erfolgreich abschliesst).
+	 */
+	
 	@Override
 	public void levelCleared() {
 		clear=true;
 	}
+	
+	/**
+	 * Die Methode triggerFired.
+	 * Diese Methode setzt die Trigger und fuehrt ggfs. deren Aktion aus.
+	 * @param key Die Methode erwartet die Uebergabe eines Strings key 
+	 */
 	
 	@Override
 	public void triggerFired(final String key){

@@ -442,7 +442,6 @@ public class Player extends LivingObject {
 	/**
 	 * Die Methode reset.
 	 * Diese Methode ruft die Methode reset aus der Mutterklasse LivingObject auf um die Werte zu resetten und resettet anschliessend auch noch die Playerspezifischen, die zuvor in setResetValues im Player gesetzt wurden.
-	 * @see setResetValues
 	 */
 
 	// Methode zum zuruecksetzen des Objektes

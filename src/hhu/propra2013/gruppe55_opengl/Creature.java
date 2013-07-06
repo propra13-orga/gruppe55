@@ -20,11 +20,11 @@ public class Creature extends LivingObject {
 	 * Der Konstruktor fuer eine Creature.
 	 * Beim Aufruf werden dem Konstruktor die Werte spawnX, spawnY, h, angr und vert uebergeben.
 	 * Des Weiteren werden die benoetigten States, sowie die Startkoordinaten und die Bewegung initialisiert.
-	 * @param spawnX - Die x-Koordinate, an der die Creature gezeichnet wird.
-	 * @param spawnY - Die y-Koordinate, an der die Creature gezeichnet wird.
-	 * @param h - Der HP-Wert, mit dem die Creature generiert wird.
-	 * @param angr - Der Angriffswert, mit dem die Creature generiert wird.
-	 * @param vert - Der Verteidigungswert, mit dem die Creature generiert wird.
+	 * @param spawnX  Die x-Koordinate, an der die Creature gezeichnet wird.
+	 * @param spawnY  Die y-Koordinate, an der die Creature gezeichnet wird.
+	 * @param h  Der HP-Wert, mit dem die Creature generiert wird.
+	 * @param angr  Der Angriffswert, mit dem die Creature generiert wird.
+	 * @param vert  Der Verteidigungswert, mit dem die Creature generiert wird.
 	 */
 	
 // Konstruktor

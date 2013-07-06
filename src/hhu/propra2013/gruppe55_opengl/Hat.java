@@ -1,5 +1,11 @@
 package hhu.propra2013.gruppe55_opengl;
 
+/** 
+ * Die abstrakte Klasse Hat.
+ * Diese erbt von der Klasse DungeonObject und implementiert die hats fuer den Player.
+ * @see DungeonObject
+ */
+
 public abstract class Hat extends DungeonObject {
 // Attribute
 	// Statuswerte die durch den Hut erhoeht werden
@@ -12,6 +18,14 @@ public abstract class Hat extends DungeonObject {
 	protected int manaBonus;	// wie healBonus nur fuer Mana
 	protected int[][] resistances;	// Widerstaende
 
+	/**
+	 * Der Konstruktor fuer die Klasse Hat.
+	 * Beim Aufruf werden dem Konstruktor die x und y Koordinaten uebergeben.
+	 * Des Weiteren werden hier die States fuer den hat, sowie die Attribute, die der hat dem Player gibt und die Resistenzen gesetzt. Da es sich um die abstrakte Klasse handelt, werden die wirklichen Attribute erst in den Unterklassen richtig gesetzt.
+	 * @param x  Die x Koordinate des hats
+	 * @param y  Die y Koordinate des hats
+	 */
+	
 	public Hat(double x, double y) {
 		super(x, y);
 		
@@ -40,16 +54,35 @@ public abstract class Hat extends DungeonObject {
 		resistances[2][1]	=	0;	// Wenn >0 ist das Objekt gegen Element 3 Immun
 	}
 	
+	/**
+	 * Die Methode getStats.
+	 * Diese Methode gibt die Stats, des hats zureuck.
+	 * @return Die Stats als int[].
+	 */
 	
 	// Werte uebergeben
 	public int[] getStats(){
 		return new int[] {atk,def,hpMax,manaMax,critBonus,healBonus,manaBonus};
 	}
 	
+	/**
+	 * Die Methode getResistances.
+	 * Diese Methode gibt die Resistances, des hats zureuck.
+	 * @return Die Resistenzen als int.
+	 */
+	
 	// Widerstaende uebergeben
 	public int[][]getResistances(){
 		return resistances;
 	}
+	
+	/**
+	 * Die Methode onCollision. 
+	 * Diese Methode sorgt dafuer, dass der Player den hat einsammeln kann, dass der eingesammelte hat "verschwindet" und der Player den Hut nun besitzt.
+	 * Die Methode onCollision ueberschreibt die aus der Klasse DungeonObject stammende Methode onCollision.
+	 * @param d  Die Methode erwartet ein Dungeonobjekt und ueberprueft ob es sich dabei um den Player handelt
+	 * @see DungeonObject
+	 */
 	
 	public void onCollision(DungeonObject d){	 // Aufnahme des Hutes bei Collision
     	if(d instanceof	Player){
@@ -58,6 +91,13 @@ public abstract class Hat extends DungeonObject {
 			switchState(1);
     	}
 	} 
+	
+	/**
+	 * Die Methode draw.
+	 * Diese Methode ueberschreibt die Methode draw aus der Mutterklasse DungeonObject und aendert die Koordinaten leicht ab.
+	 * @param x  Die x-Koordinate an der der hat gezeichnet wird
+	 * @param y  Die y-Koordinate an der der hat gezeichnet wird
+	 */
 	
 	public void draw(int x, int y){
 		//x, y Werte setzen

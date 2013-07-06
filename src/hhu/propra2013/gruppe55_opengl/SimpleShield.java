@@ -1,10 +1,19 @@
 package hhu.propra2013.gruppe55_opengl;
 
+/**
+ * Die Klasse SimpleShield.
+ * Diese Klasse erbt von der Klasse Weapon und spezifiziert diese weiter als SimpleShield (einfaches Schild).
+ */
+
 public class SimpleShield extends Weapon{
 // ATTRIBUTE
 	
+	/**
+	 * Der Konstruktor fuer das SimpleShield.
+	 * Hier werden Name, Schaden, States und Bilder sowie Offsetwerte fuer das Zeichnen des Schildes gesetzt. 
+	 */
 	
-// KONSTRUKTOR
+	// KONSTRUKTOR
 	public SimpleShield(){
 		super();
 		
@@ -13,6 +22,8 @@ public class SimpleShield extends Weapon{
 		name = "Simples Schild";
 		// Attribute
 		def = 1;
+		minDmg	=	0;		// Mindestschaden
+		maxDmg	=	0;		// Maximalschaden
 		
 		state[0].changeTexture(Data_Textures.basicshield_f);
 		state[1] = new State(Data_Textures.basicshield_f, Data_Textures.basicshield_f, Data_Textures.basicshield_b, Data_Textures.basicshield_b, false, false, true);

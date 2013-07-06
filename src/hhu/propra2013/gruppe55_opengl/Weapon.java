@@ -2,6 +2,12 @@ package hhu.propra2013.gruppe55_opengl;
 
 import java.awt.Rectangle;
 
+/**
+ * Die abstrake Klasse Weapon.
+ * Diese Klasse erbt von der Klasse DungeonObject und implementiert das Grundgeruest fuer die Waffen.
+ * @see DungeonObject
+ */
+
 public abstract class Weapon extends DungeonObject {
 // Attribute
 	// Spezifikation der Waffe
@@ -24,6 +30,12 @@ public abstract class Weapon extends DungeonObject {
 	protected int manaBonus;	// wie healBonus nur fuer Mana
 	protected int[][] resistances;	// Widerstaende
 
+	/**
+	 * Der Konstruktor fuer die Weapon.
+	 * Beim Aufruf werden dem Konstruktor die Werte (0,0) uebergeben. Das liegt daran, dass sie im Player angepasst werden.
+	 * Des Weiteren werden alle wichtigen Attribute und Offsets der Waffen hier initialisiert (und in den Unterklassen dann gesetzt), die States gesetzt und die Bilder geladen.
+	 */
+	
 	// Konstruktor
 	public Weapon() {
 		super(0, 0);	// Scheint merkwuerdig, macht aber Sinn (wird dem Spieler angepasst)
@@ -92,11 +104,23 @@ public abstract class Weapon extends DungeonObject {
 		weapOffsets[3][5]	=	27;	// Y-offset beim Angriff
 	}
 	
+	/**
+	 * Die Methode getAtkTime.
+	 * Diese Methode gibt die Angriffsdauer zurueck.
+	 * @return Der Wert atkTime als int.
+	 */
+	
 	// Rueckgabe der Angriffsdauer
 	public int getAtkTime(){
 		return atkTime;
 	}
 	
+	/**
+	 * Die Methode draw.
+	 * Diese Methode zeichnet die Waffe mit den uebergebenen Offsets.
+	 * @param x  Die Methode erwartet die Uebergabe eines int Werts x
+	 * @param y  Die Methode erwartet die Uebergabe eines int Werts y
+	 */
 	// Zeichenmethode
 	public void draw(int x, int y){
 		//x, y Werte setzen
@@ -105,12 +129,22 @@ public abstract class Weapon extends DungeonObject {
 		super.draw();
 	}
 	
+	/**
+	 * Die Methode attack.
+	 * Diese Methode setzt den Angriffsmodus.
+	 */
+	
 	// Angriffsmodus setzen
 	public void attack(){
 		// auf Angriff setzen
 		this.attacking	=	true;
 		switchState(2);
 	}
+	
+	/**
+	 * Die Methode stopAttack.
+	 * Diese Methode stoppt den Angriff.
+	 */
 	
 	// Angriffsmodus abbrechen
 	public void stopAttack(){
@@ -119,13 +153,33 @@ public abstract class Weapon extends DungeonObject {
 		switchState(1);
 	}
 	
+	
+	/**
+	 * Die Methode getMinDmg.
+	 * Diese Methode gibt den MinDmg zurueck. 
+	 * @return Der Wert minDmg als int.
+	 */
+	
 	public int getMinDmg(){
 		return minDmg;
 	}
 	
+	/**
+	 * Die Methode getMaxDmg.
+	 * Diese Methode gibt den MaxDmg zurueck. 
+	 * @return Der Wert maxDmg als int.
+	 */
+	
 	public int getMaxDmg(){
 		return maxDmg;
 	}
+	
+	/**
+	 * Die Methode getBorder.
+	 * Diese Methode erstellt beim Anriff eine Hitbox. Ansonsten gibt es keine Hitbox. 
+	 * @return Die neue Hitbox, wenn der Player angreift.
+	 * @return Keine Hitbox, wenn der Player nicht angreift.
+	 */
 	
 	// Hitbox
 	public Rectangle getBorder(){
@@ -136,10 +190,22 @@ public abstract class Weapon extends DungeonObject {
 		return new Rectangle(0,0,0,0);
 	}
 	
+	/**
+	 * Die Methode getStats.
+	 * Diese Methode gibt die Stats der Waffe zurueck.
+	 * @return Die Stats der Waffe als int[].
+	 */
+	
 	// Werte uebergeben
 	public int[] getStats(){
 		return new int[] {atk,def,hpMax,manaMax,critBonus,healBonus,manaBonus};
 	}
+	
+	/**
+	 * Die Methode getResistances.
+	 * Diese Methode gibt die Resistances der Waffe zurueck.
+	 * @return Die Resitenzen der Waffe als int.
+	 */
 	
 	// Widerstaende uebergeben
 	public int[][]getResistances(){

@@ -13,7 +13,7 @@ import java.awt.Toolkit;
 
 /**
  * Die Klasse GameInterface.
- * Diese Klasse implementiert das HUD, die Dialogboxen und den Shop.
+ * Diese Klasse implementiert die Dialogboxen und den Shop.
  */
 
 public class GameInterface {
@@ -61,6 +61,7 @@ public class GameInterface {
 	 * Diese Methode zeichnet das komplette HUD, fragt ab ob ein Dialog oder ein Shop gezeichnet werden soll und zeichnet diesen dann.
 	 * @param p  Die Methode erwartet die Uebergabe eines Objektes p vom Typ Player
 	 * @param full  Die Methode erwartet die Uebergabe eines boolean Werts full
+	 * @see HUD
 	 */
 	
 	//Interface zeichnen
@@ -260,13 +261,23 @@ public class GameInterface {
 
 }
 
-//HUD
+/**
+ * Die Klasse HUD.
+ * Diese Klasse implementiert das HUD.
+ *
+ */
 
+//HUD
 class HUD {
 	
 	private int fullScreenOffset;
 	private Font fontAwt;
 	private UnicodeFont font;
+	
+	/**
+	 * Der Konstruktor fuer das HUD.
+	 * Hier werden Eigenschaften wie die Fonts fuer das HUD gesetzt.
+	 */
 	
 	public HUD(){
 		//Fonts fuer das HUD konstruieren
@@ -279,6 +290,13 @@ class HUD {
 			font.loadGlyphs();
 		}catch(SlickException e){e.printStackTrace();}
 	}
+	
+	/**
+	 * Die Methode draw.
+	 * Diese Methode zeichnet die einzelnen Elemente des HUD's
+	 * @param full  Die Methode erwartet die Uebergabe eines booleanwerts full
+	 * @param p  Die Methode erwartet die Uebergabe eines Objektes p vom Typ Player
+	 */
 	
 	// Zeichnen des HUD
 	public void draw(boolean full, Player p){		
@@ -367,6 +385,14 @@ class HUD {
 		drawHudElement(Data_Textures.mpotion, 890+fullScreenOffset, 54);
 		font.drawString(920+fullScreenOffset, 68, "x  " + p.getStatInventoryObjectCount(3));
 	}
+	
+	/**
+	 * Die Methode drawHudElement.
+	 * Diese Methode zeichnet die Objekte mit openGL.
+	 * @param tex  Die Methode erwartet die Uebergabe einer Textur
+	 * @param x  Die Methode erwartet die Uebergabe eines int Werts x
+	 * @param y  Die Methode erwartet die Uebergabe eines int Werts y
+	 */
 	
 	public void drawHudElement(Texture tex, int x, int y){
     	glBindTexture(GL_TEXTURE_2D, tex.getTextureID());

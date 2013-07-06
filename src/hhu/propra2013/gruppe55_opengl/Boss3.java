@@ -178,7 +178,6 @@ public class Boss3 extends Creature {
     /**
 	 * Die Methode reset.
 	 * Diese Methode ruft die Methode reset aus der Mutterklasse LivingObject auf um die Werte zu resetten und resettet anschliessend auch noch die Boss3 spezifischen, die zuvor in setResetValues im Boss3 gesetzt wurden.
-	 * @see setResetValues
 	 */
     
     public void reset(){
