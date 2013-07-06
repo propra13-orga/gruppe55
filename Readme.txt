@@ -15,6 +15,22 @@ WICHTIG: Ich habe die X/Y Koordinaten in allen Objekten von int auf double umges
 
 Changelog:
 
+06.07.13 - jdnklau
+DungenObject
+	- besitzt nun eine Variable element, die dem Objekt ein Element zuordnet
+LivingObject
+	- besitzt nun ein Array int resistances[][], das Widerstaende gegen ein bestimmtes Element enthaelt (Elementnummer ist der erste index)
+	  Die zweite Dimension besitzt zwei Eintraege: 0 - der Nummerische Widerstand; 1 - Status der Immunitaet gegen das entsprechende Element
+	- getHit wurde angepasst, so dass es nun die Widerstaende und Typenvorteile beruecksichtigt
+Fireball/Lavapatch/Torch
+	- besitzen nun element=1 (Feuer, wer haette DAS gedacht?)
+FireElemental
+	 - element=1
+	 - immun gegen Feuerschaden
+Hat
+	- nun als abstrakte Klasse definiert, von der man neuen Hüte ableiten kann
+	 
+
 30.06.13 - van Meegen
 /img:
 	- Bilder fuer die Schalter, den Lavahut und das Lavafeld eingefuegt

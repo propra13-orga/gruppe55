@@ -33,6 +33,8 @@ public class FireElemental extends Creature {
 		dy =1;									// Bewegung wird initialisiert y - Richung								
 		speed = 3;								// Startgeschwindigkeit
 		detectionRange = 500;					// Groessere Schussreichweite
+		element=1;								// Feuerkreatur
+		resistances[0][1]=1;					// Immun gegeueber Feuerschaden
 	}
 
 	/**

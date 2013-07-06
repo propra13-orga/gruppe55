@@ -21,6 +21,7 @@ public class Torch extends DungeonObject {
 		state	=	new State[2];
 		state[0]	=	new State(Data_Textures.torch, false, true, true);
 		state[1]	=	new State(Data_Textures.torch_lit, false, true, true);
+		element=1;
 		
 		for(String key:triggerKeys)
 			triggerNames.add(key);

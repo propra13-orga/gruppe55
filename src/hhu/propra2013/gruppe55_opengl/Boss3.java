@@ -134,9 +134,9 @@ public class Boss3 extends Creature {
 		super.setBack();	// Aufrufen der Muttermethode
 	}
       
-    public void getHit(int dmg){
+    public void getHit(int dmg, int e){
     	// Muttermethode aufrufen - wir wollen nur ein Detail ergaenzen
-    	super.getHit(dmg);		
+    	super.getHit(dmg,e);		
     	
     	// bewegungsgeschwindigkeit berechnen
     	// Wenn der Boss weniger als 5 HP hat

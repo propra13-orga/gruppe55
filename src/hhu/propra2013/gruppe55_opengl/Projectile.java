@@ -64,7 +64,7 @@ public class Projectile extends MovingObject {
 	public void onCollision(DungeonObject d){
 		// Gegner/Spieler getroffen?
 		if(d instanceof LivingObject){
-			((LivingObject)d).getHit(dmg);
+			((LivingObject)d).getHit(dmg,element);
 			switchState(0);
 		}
 		else if (d.isMassive() == true)

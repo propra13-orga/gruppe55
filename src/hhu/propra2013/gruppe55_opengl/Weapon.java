@@ -2,15 +2,15 @@ package hhu.propra2013.gruppe55_opengl;
 
 import java.awt.Rectangle;
 
-public class Weapon extends DungeonObject {
+public abstract class Weapon extends DungeonObject {
 // Attribute
 	// Spezifikation der Waffe
 	protected int type	=	0;		// Waffentyp (0=Nahkampf, Haupthand;; 1=Nahkampf, Nebenhand;; 2=Fernkampf)
 	protected String name	=	"Simples Schwert";	// Waffenname
 	// Angriffswerte
 	protected int atkTime	=	250;	// Angriffszeit in Millisekunden
-	protected int minDmg	=	1;		// Mindestschaden
-	protected int maxDmg	=	3;		// Maximalschaden
+	protected int minDmg	=	0;		// Mindestschaden
+	protected int maxDmg	=	0;		// Maximalschaden
 	protected boolean attacking	=	false;	// Waehrend des Angriffs true
 	// Offsetwerte zum zeichnen
 	protected int[][] weapOffsets	=	new int[4][6];	// Die Offsets wie die Waffe in der Spielerhand gehalten wird	
@@ -22,6 +22,7 @@ public class Weapon extends DungeonObject {
 	protected int critBonus;	// erhoeht die Chance auf kritische Treffer
 	protected int healBonus;	// erhoeht die durch Traenke erhaltene Heilung
 	protected int manaBonus;	// wie healBonus nur fuer Mana
+	protected int[][] resistances;	// Widerstaende
 
 	// Konstruktor
 	public Weapon() {
@@ -35,6 +36,14 @@ public class Weapon extends DungeonObject {
 		critBonus=0;	// Extraprozentpunkte fuer die kritische Trefferchance
 		healBonus=0;	// gewaehrte extraheilung bei Traenken zB
 		manaBonus=0;	// gewaehrtes extramana bei Traenken zB
+		// Elementarresistenzen
+		resistances	=	new int[3][2];
+		resistances[0][0]	=	0;	// Widerstand gegen Element 1
+		resistances[0][1]	=	0;	// Wenn >0 ist das Objekt gegen Element 1 Immun
+		resistances[1][0]	=	0;	// Widerstand gegen Element 2
+		resistances[1][1]	=	0;	// Wenn >0 ist das Objekt gegen Element 2 Immun
+		resistances[2][0]	=	0;	// Widerstand gegen Element 3
+		resistances[2][1]	=	0;	// Wenn >0 ist das Objekt gegen Element 3 Immun
 		
 		// States setzen
 		state	=	new State[3];
@@ -130,6 +139,11 @@ public class Weapon extends DungeonObject {
 	// Werte uebergeben
 	public int[] getStats(){
 		return new int[] {atk,def,hpMax,manaMax,critBonus,healBonus,manaBonus};
+	}
+	
+	// Widerstaende uebergeben
+	public int[][]getResistances(){
+		return resistances;
 	}
 
 }

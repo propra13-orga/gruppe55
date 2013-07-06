@@ -31,6 +31,8 @@ public abstract class DungeonObject {
 	protected ArrayList<GameEventListener> evtList	=	new ArrayList<GameEventListener>();
 	protected Map<String, Boolean> trigger	=	new HashMap<String, Boolean>();		// Werte der Trigger
 	protected ArrayList<String> triggerNames	=	new ArrayList<String>();		// TriggerNamen, auf die geachtet werden soll
+	// Element
+	protected int element;		// Element des Objektes (siehe Konstruktor fuer Beschreibung)
 
 	/**
 	 * Der Konstruktor fuer ein DungeonObject.
@@ -54,6 +56,20 @@ public abstract class DungeonObject {
 		switchState(0);
 		// Reset-werte Setzen
 		resetValues	=	new int[4];
+		
+		// Element setzen
+			/*
+			 * 0: normal
+			 * 1: Feuer
+			 * 2: ???
+			 * 3: ???
+			 * 
+			 * Reihenfolge:
+			 * 1>2>3>1, wobei > angibt, welches Element was uebertrumpht
+			 * 0 ist das neutrale Element und gewaehrt keinen Bonus aber auch keinen Malus
+			 */
+		element	=	0;	// Standartelement ist neutral
+		
 	}
 	
 // Methoden
@@ -382,6 +398,15 @@ public abstract class DungeonObject {
 	// aktuellen Status ausgeben
 	public int getCurrState(){
 		return currState;
+	}
+	
+	/**
+	 * Die Methode getElement
+	 * Diese Methode gibt den numerischen Index des Elements wieder, von dem dieses Objekt sein sollte
+	 * @return Das Element des Objekts
+	 */
+	public int getElement(){
+		return element;
 	}
 	
 	/**

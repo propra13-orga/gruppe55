@@ -90,12 +90,13 @@ public class Creature extends LivingObject {
      * Diese Methode ruft die Methode getHit aus der Mutterklasse LivingObject auf um den Schaden den die Creature machen zu errechnen.
      * Die Methode ueberschreibt die Methode der Mutterklasse LivingObject mit dem Event fuer den Loot den die Creature droppen soll.
      * @param dmg  Die Methode erwartet als Uebergabe eines int Werts dmg (aus der Berechnung in der Klasse LivinObject)
+	 * @param e Es wird ein nummerischer Wert erwartet, der den Elementtyp des eintreffenden Schadens beschreibt
      * @see LivingObject
      */
     
-	public void getHit(int dmg){
+	public void getHit(int dmg, int e){
 		// Muttermethode aufrufen - wir wollen nur ein Detail ergaenzen
-		super.getHit(dmg);
+		super.getHit(dmg,e);
 		
 		// Unser Detail:
 		if(hp<=0){

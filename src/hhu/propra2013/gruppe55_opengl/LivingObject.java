@@ -15,6 +15,7 @@ public abstract class LivingObject extends MovingObject {
 	// Schadensberechnungsvariablen (welch ein Wort!)
 	protected int critBase	=	20;	// Basis-Chance auf kritische Treffer
  	protected int critBonus, minDmg, maxDmg;
+ 	protected int[][] resistances;	// Speichert die Widerstaende gegen bestimmte Elemente ab
  	// Heilattribute fuer Leben und Mana
  	protected int healBonus=0,manaBonus=0;		// erhoehen die Werte fuer generiertes Leben/Mana
 	// fermkampfattribute
@@ -59,6 +60,15 @@ public abstract class LivingObject extends MovingObject {
 		minDmg		=	1;
 		maxDmg		=	2;
 		
+		// Elementarresistenzen
+		resistances	=	new int[3][2];
+		resistances[0][0]	=	0;	// Widerstand gegen Element 1
+		resistances[0][1]	=	0;	// Wenn >0 ist das Objekt gegen Element 1 Immun
+		resistances[1][0]	=	0;	// Widerstand gegen Element 2
+		resistances[1][1]	=	0;	// Wenn >0 ist das Objekt gegen Element 2 Immun
+		resistances[2][0]	=	0;	// Widerstand gegen Element 3
+		resistances[2][1]	=	0;	// Wenn >0 ist das Objekt gegen Element 3 Immun
+		
 		// wir brauchen mehr Reset-Werte
 		resetValues	=	new int[6];
 	}
@@ -76,7 +86,7 @@ public abstract class LivingObject extends MovingObject {
 		dmg	+=	(int)( (Math.random()*100<=(critBase+critBonus) ) ? 2*atk : atk);	// Grundschaden (mit Crits)
 		
 		// Schaden setzen
-		l.getHit(dmg);
+		l.getHit(dmg,element);
 	}
 	
 	/**
@@ -130,22 +140,39 @@ public abstract class LivingObject extends MovingObject {
 	 * Die Methode getHit.
 	 * Diese Methode berechnet den Schaden (mit def-Wert) und uebertraegt diesen an das Objekt und setzt ggf. den Status auf "tot".
 	 * @param dmg  Diese Methode erwartet die Uebergabe eines int Werts dmg
+	 * @param e Es wird ein nummerischer Wert erwartet, der den Elementtyp des eintreffenden Schadens beschreibt
 	 */
 
 	
 	// Schaden bei Treffer
-	public void getHit(int dmg){
+	public void getHit(int dmg, int e){
     	// Nichts tun bei Unverwundbarkeit
-    	if(invulnerable)
+    	if(invulnerable || (e>0 && resistances[e-1][1]>0))
     		return;
     	
     	// Setze Unverwundbarkeit
     	invulnerable	=	true;
     	setInvulnerability(invulTime);
+    	
+    	// Einkommenden Schaden berechnen
+    	int iDmg	=	dmg;	// i fuer incomming!
+    	// DEF beruecksichtigen
+    	iDmg-=def;	// DEF
+    	
+    	// Widerstaende beruecksichtigen
+    	if(e>0){	// Beim neutralen Typ gibt es keine Widerstaende/Vor- oder Nachteile
+        	iDmg-=resistances[e-1][0];	// Widerstand vom Gesamtschaden abziehen
+        	
+        	// Vor-/Nachteile
+        	if(e!=element){
+        		// 1>2>3>1
+        		iDmg	=	(e<element%3) ? iDmg*2 : iDmg/2;
+        	}
+    	}
+    	
 	    
 	    // Schaden berechnen
-		if(hp>0)
-			hp-=(dmg-def <=1) ? 1 : dmg-def;	// DEF beruecksichtigen, aber mindestens 1 Schaden machen
+		hp-=	(iDmg>0)	?	iDmg : 1;	// Mindestens muss 1 Schaden gemacht werden
 		if(hp<=0){
 			hp	=	0;	// HP auf 0 setzen - ist sauberer
 			switchState(0); // Wechsel auf tot

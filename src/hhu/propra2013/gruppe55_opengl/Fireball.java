@@ -25,6 +25,7 @@ public class Fireball extends Projectile {
 		state[0].changeTexture(Data_Textures.fireball);
 		state[1] = new State(Data_Textures.fireball,true,false,true);
 		//adjustToCenter();
+		element=1;
 	}
 	
 	/**

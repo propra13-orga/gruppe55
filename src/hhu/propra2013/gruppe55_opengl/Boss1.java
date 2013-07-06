@@ -82,12 +82,13 @@ public class Boss1 extends Creature {
 	 * Diese Methode ruft zum einen die getHit Methode aus der Klasse Creature auf
 	 * Die Methode ueberschreibt die Methode getHit der Mutterklasse Creature mit dem Event, dass der Boss das GoalObject droppt.
 	 * @param dmg  Die Methode erwartet einen Int Wert der aus der Dmg-Berechnung hervorgeht (im LivingObject)
+	 * @param e Es wird ein nummerischer Wert erwartet, der den Elementtyp des eintreffenden Schadens beschreibt
 	 * @see Creature
 	 */
 	
-    public void getHit(int dmg){
+    public void getHit(int dmg, int e){
     	// Muttermethode aufrufen - wir wollen nur ein Detail ergaenzen
-    	super.getHit(dmg);
+    	super.getHit(dmg,e);
     	
     	// Unser Detail:
     	if(hp<=0){

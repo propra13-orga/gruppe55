@@ -24,8 +24,7 @@ public class Player extends LivingObject {
 	private int[] statInventory;		//Inventar fuer statische Objekte (Gold, Traenke, Pfeile)
 	private int[] stats;				// durch Ausruestung erhaltene Attribute
 	private int[] baseStats;			// Basiswerte des Spielers
-	public Lavahat hat = new Lavahat(x,y);	// Der Hut des Spielers
-	private boolean hashat = false;		// Hutabfragevariable
+	public Hat hat;						// Der Hut des Spielers
 	
 	/**
 	 * Der Konstruktor fuer den Player.
@@ -84,12 +83,12 @@ public class Player extends LivingObject {
 		switchState(1);
 		
 		// Waffen initialisieren
-		weapons[0]	=	new Weapon();	// Haupthand
+		weapons[0]	=	new SimpleSword();	// Haupthand
 		weapons[1]	=	new SimpleShield();	// Nebenhand
 		weapons[2]	=	new SimpleBow();	// Fernkampfwaffe
 
 		// Zauber enbenfalls initialisieren
-		spell	=	new SpellFlameBreath(x,y);
+		spell	=	new SpellObject(x,y);
 
 		
 		// Attribute uebernehmen
@@ -186,6 +185,18 @@ public class Player extends LivingObject {
     	}.start();
     }
     
+    /**
+     * Die Methode dealDamage.
+     * Wird vom LivingObject geerbt, berechnet den Schaden aber von dem Waffenelementen abhaengig
+     * @param l Es wird ein zu schaedigendes LivingObject erwartet
+     */
+    public void dealDamage(LivingObject l){
+    	// Wir muessen nur das Waffenelement an die Muttermethode weitergeben, dazu schummeln wir
+    	element	=	weapons[0].getElement();
+    	super.dealDamage(l);
+    	element =	0;	// super.dealDamage nimmt nur das eigene Element, daher dieser kleine Kniff
+    }
+    
     /** 
      * Die Methode shoot.
      * Diese Methode ueberprueft ob Pfeile vorhanden sind und loest den Schuss mit dem Bogen aus (die Pfeile werden gezeichnet). Anschliessend werden Pfeile aus dem Inventar des Spielers entfernt.
@@ -262,20 +273,23 @@ public class Player extends LivingObject {
     private void calcStatsByWeapons(){
     	// alte werte auf 0 setzen
     	stats	=	new int[]{0,0,0,0,0,0,0};
+    	resistances	=	new int[][]{{0,0},{0,0},{0,0}};
     	minDmg	=	0;
     	maxDmg	=	0;
     	// neue Werte initialisieren zwischenspeichern
     	int[] newStats;
+    	int[][] newResis;
     	
     	
     	// entweder Fernkampfwaffe oder beide Nahkampfwaffen
     	for(int i=0; i<2-currEquipped;i++){ // wird 2x ausgefuehrt bei Nah- und 1x bei Fernkampf
     		if(weapons[currEquipped+i]!=null){	// Waffe angelegt
-    			newStats=weapons[currEquipped+i].getStats();
+    			newStats=weapons[2*currEquipped+i].getStats();
+    			newResis=weapons[2*currEquipped+i].getResistances();
     			
     			// Schaden uebernehmen
-    			minDmg+=weapons[currEquipped+i].getMinDmg();
-    			maxDmg+=weapons[currEquipped+i].getMaxDmg();
+    			minDmg+=weapons[2*currEquipped+i].getMinDmg();
+    			maxDmg+=weapons[2*currEquipped+i].getMaxDmg();
     			
     			// Attribute zusammenrechnen
     			stats[0]+=newStats[0];
@@ -285,7 +299,35 @@ public class Player extends LivingObject {
     			stats[4]+=newStats[4];
     			stats[5]+=newStats[5];
     			stats[6]+=newStats[6];
+    			// Widerstaende zusammenrechnen
+    			resistances[0][0]+=newResis[0][0];
+    			resistances[0][1]+=newResis[0][1];
+    			resistances[1][0]+=newResis[1][0];
+    			resistances[1][1]+=newResis[1][1];
+    			resistances[2][0]+=newResis[2][0];
+    			resistances[2][1]+=newResis[2][1];
     		}
+    	}
+    	// Der Hut!
+    	if(hat!=null){
+    		newStats=hat.getStats();
+			newResis=hat.getResistances();
+			
+			// Attribute zusammenrechnen
+			stats[0]+=newStats[0];
+			stats[1]+=newStats[1];
+			stats[2]+=newStats[2];
+			stats[3]+=newStats[3];
+			stats[4]+=newStats[4];
+			stats[5]+=newStats[5];
+			stats[6]+=newStats[6];
+			// Widerstaende zusammenrechnen
+			resistances[0][0]+=newResis[0][0];
+			resistances[0][1]+=newResis[0][1];
+			resistances[1][0]+=newResis[1][0];
+			resistances[1][1]+=newResis[1][1];
+			resistances[2][0]+=newResis[2][0];
+			resistances[2][1]+=newResis[2][1];
     	}
     	
     	// In den Spieler uebernehmen
@@ -417,7 +459,6 @@ public class Player extends LivingObject {
 		// Spezielles
 		hp	=	hpMax;
 		mana	=	manaMax;
-		hashat = false; 			// Hutstatus zuruecksetzen!
 	}
 	
 	/**
@@ -438,7 +479,7 @@ public class Player extends LivingObject {
     		return;
     	}
     	// Wenn man den Hut hat soll er auch gezeichnet werden!
-    	if(hashat==true){
+    	if(hat!=null){
     		hat.draw((int)x,(int)y);	
     	}
     	// Richtungen der Waffen anpassen
@@ -544,7 +585,8 @@ public class Player extends LivingObject {
     
     // Den Hut einsammeln!
     public void collecthat(){
-    	hashat = true;
+    	hat=new Lavahat(x,y);
+    	calcStatsByWeapons();
     }
     
     /**
@@ -555,7 +597,7 @@ public class Player extends LivingObject {
     
     // Abfrage ob man den Hut hat!
     public boolean gethat(){
-    	return hashat;
+    	return (hat!=null);
     }
     
     /**

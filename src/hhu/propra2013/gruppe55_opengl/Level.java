@@ -18,8 +18,9 @@ public class Level implements GameEventListener{
 	private GameInterface iFace;		//GameInterface
 	private int room, currLvl;					// pointer to current room and Level
 	private int roomToRespawn;			// Raum in dem der Spieler nach Niederlage wiedererscheint
+	private int[][][] walls;			// Waende des Levels //TODO implementieren, geht aber nich nicht, wegen dem Testlevel!
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
-	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Waende/Gegenstaende/etc
+	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Gegenstaende/Fallen/etc
 	private ArrayList<Projectile> projectileList;			// liste der Projektile (Pfeile, Feuerbaelle, etc)
 	private ArrayList<ArrayList<Teleporter>> teleportList;		// Liste aller Teleporter 
 	// Spieleventvariablen
