@@ -22,7 +22,8 @@ public class Server{
 	private ServerSocket server;		//ServerSocket
 	private Socket client1, client2;	//Beiden verfuegbaren Clients
 	private PrintWriter out1, out2;		//Outputs
-	private boolean running;			//Statusvariablen
+	private String outLine1, outLine2;	// Output Lines fuer Clients
+	private boolean running, started, send1, send2;			//Statusvariablen
 	
 	//Konstruktor
 	public Server(){
@@ -71,8 +72,12 @@ public class Server{
 			}
 			//Ansonsten Client-Action durchfuehren
 			else{
+				if(send1){
+					out1.println(outLine1);
+					send1 = false;
+				}
 			}
-			//Wenn client1 nicht existiert ...
+			//Wenn client2 nicht existiert ...
 			if(client2 == null){
 				//... Nach neuem Client suchen
 				sf.addToLog("Waiting for Client 2 ...");
@@ -101,7 +106,42 @@ public class Server{
 			}
 			//Ansonsten Client-Action durchfuehren
 			else{
+				if(send2){
+					out2.println(outLine2);
+					send2 = false;
+				}
 			}
+		}
+	}
+
+	//Game starten
+	public void startGame(){
+		send(1, "0");
+		send(2, "0");
+		started = true;
+	}
+	
+	//Line senden
+	public void send(int c, String line){
+		if(c == 1){
+			outLine1 = line;
+			out1.println(outLine1);
+			send1 = true;
+		}
+		else{
+			outLine2 = line;
+			out1.println(outLine2);
+			send2 = true;
+		}
+	}
+	
+	//Abfragen, ob beide Clients da sind
+	public boolean clientsReady(){
+		if(client1 != null && client2 != null){
+			return(true);
+		}
+		else{
+			return(false);
 		}
 	}
 	
@@ -270,6 +310,10 @@ class ServerFrame extends JFrame implements ActionListener, WindowListener{
 	public void actionPerformed(ActionEvent e) {
 		//Start-Button
 		if(e.getActionCommand() == "start"){
+			if(srv.clientsReady()){
+				addToLog("Game started");
+				srv.startGame();
+			}
 		}
 		//Ende-Button
 		else if(e.getActionCommand() == "end"){

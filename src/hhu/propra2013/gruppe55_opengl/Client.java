@@ -31,6 +31,7 @@ public class Client extends Thread{
 					client.setSoTimeout(5000);								//Timeout für reads=5s
 					in = new ClientInput();									//Input-Thread konstruieren
 					in.setInputStream(client.getInputStream());				//Input-Thread mit Input des Sockets starten
+					in.start();												
 					out = new PrintWriter(client.getOutputStream(), true);	//Output öffnen
 				} catch (IOException e) {e.printStackTrace();}
 			}
@@ -98,13 +99,17 @@ class ClientInput extends Thread{
 			try {
 				//Lese eine Line aus dem InputStream
 				if(open && (inLine = in.readLine()) != null){
+					System.out.println(inLine);
+					if(inLine == "0"){
+						System.out.println(0);
+					}
 				}
 				//Schließe Input, wenn Gegenseite closed ist
 				else{
 					open = false;
 					in.close();
 				}
-			} catch (IOException e) {e.printStackTrace();}
+			} catch (IOException e) {}
 		}
 	}
 	

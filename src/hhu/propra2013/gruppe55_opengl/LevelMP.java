@@ -30,6 +30,7 @@ public class LevelMP extends Level implements GameEventListener{
 	private boolean freeze = false;		// friert das Level ein
 	private int openedInterface;			// Welches Interface aufgerufen ist
 	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
+	private boolean waiting;				// Ob auf 2. Spieler gewartet werden soll
 	private boolean fullscreen;				// Ob Fullscreen aktiviert ist
 	private DisplayMode initMode;			//Originalfenstermodus
 	private boolean jsonParser = true;		// Ob der JSON Parser verwendet werden soll
@@ -367,6 +368,11 @@ public class LevelMP extends Level implements GameEventListener{
 		checkPointReached();
 		
 		//NetzwerkClient starten
+		waiting = true;
+		iFace.setDialog("Waiting for 2nd Player ... ");
+		freeze = true;
+		setOpenedInterface(1);
+		setDialog(true);
 		c = new Client();
 		c.start();
 	}
@@ -551,8 +557,10 @@ public class LevelMP extends Level implements GameEventListener{
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 			GL11.glLoadIdentity();
 			
-			input();
-			engine();
+			if(!waiting){
+				input();
+				engine();
+			}
 			render();
 			
 			Display.update();
@@ -604,6 +612,7 @@ public class LevelMP extends Level implements GameEventListener{
 							}
 							break;
 						case Keyboard.KEY_SPACE:
+							c.send("1,1,5");
 							if((lose || clear) && !gameover ){
 								reload();
 							}
@@ -613,6 +622,7 @@ public class LevelMP extends Level implements GameEventListener{
 							}
 							break;
 						case Keyboard.KEY_E:
+							c.send("1,1,2");
 							for(int i=0; i<creatureList.get(room).size(); i++){
 								// Wenn angesprochender NPC ein Shopkeeper ist
 								if(creatureList.get(room).get(i) instanceof Shopkeeper){
@@ -643,6 +653,7 @@ public class LevelMP extends Level implements GameEventListener{
 							else{close = true;}
 							break;
 						case Keyboard.KEY_X:
+							c.send("1,1,a");
 							player1.swapWeapons();
 							break;
 						case Keyboard.KEY_F:
@@ -668,15 +679,18 @@ public class LevelMP extends Level implements GameEventListener{
 							} catch (LWJGLException e) {e.printStackTrace();}
 							break;
 						case Keyboard.KEY_C:
+							c.send("1,1,1");
 							player1.spellCast();
 							break;
 						case Keyboard.KEY_A:
+							c.send("1,1,0");
 							if(player1.getStatInventoryObjectCount(2)>0){
 								player1.getHealed(2);
 								player1.giveStatInventoryObject(2, -1);
 							}
 							break;
 						case Keyboard.KEY_S:
+							c.send("1,1,3");
 							if(player1.getStatInventoryObjectCount(3)>0){
 								player1.fillmana(1);
 								player1.giveStatInventoryObject(3, -1);
@@ -701,12 +715,14 @@ public class LevelMP extends Level implements GameEventListener{
 				if(Keyboard.getEventKeyState()){
 					switch(k){
 						case 28:
+							c.send("1,1,6");
 							//Beenden
 							if(lose || clear || gameover){
 								close = true;
 							}
 							break;
 						case Keyboard.KEY_SPACE:
+							c.send("1,1,5");
 							// Naechstes Level
 							if(clear){
 								currLvl++;
