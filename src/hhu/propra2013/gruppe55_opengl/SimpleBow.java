@@ -6,7 +6,11 @@ package hhu.propra2013.gruppe55_opengl;
  */
 
 public class SimpleBow extends Weapon{
+
 // Attribute
+
+	/** Der Typ des Angriffs mit dieser Waffe (2 = Fernkampf). */
+	
 	protected int type	=	2;		// Fernkampf 
 	
 	/**

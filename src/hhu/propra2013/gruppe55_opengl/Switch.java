@@ -7,6 +7,9 @@ package hhu.propra2013.gruppe55_opengl;
  */
 
 public class Switch extends DungeonObject {
+	
+	/** Das Array mit den zu behandelnden Triggern. */
+	
 	protected String[] triggersToHandle;
 	
 	/**

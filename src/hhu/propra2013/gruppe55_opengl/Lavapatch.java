@@ -8,6 +8,9 @@ package hhu.propra2013.gruppe55_opengl;
 
 public class Lavapatch extends DungeonObject{
 	
+	
+	/** Der Schaden den das Lavapatch anrichtet (spezifiziert als lavaDmg). */
+	
 	public int lavaDmg = 30;		// Lavadmg - Sehr hoch weil sehr heiﬂ!
 	
 	/**

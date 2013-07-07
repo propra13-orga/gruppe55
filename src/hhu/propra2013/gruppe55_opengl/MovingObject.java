@@ -7,9 +7,16 @@ package hhu.propra2013.gruppe55_opengl;
  */
 
 public abstract class MovingObject extends DungeonObject {
+
 // Attribute
 	// Bewegung
+
+	/** Die Richtungskoordinaten (dx: -1 = nach links; 1 = nach rechts; dy: -1 = nach oben; 1 = nach unten). */
+	
 	protected double dx, dy;		// direction coordinates (dx: -1, move left; 1 move right;; dy: -1, move up, 1, move down
+	
+	/** Die Bewegungsgeschwindigkeit (Default: 2 = 2 Pixel / actionPerformed). */
+	
 	protected double speed=3;		// speed of object (2 normal speed -> 2px/actionPerfordmed)
 	
 	/**

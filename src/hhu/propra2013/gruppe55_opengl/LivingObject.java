@@ -7,19 +7,51 @@ package hhu.propra2013.gruppe55_opengl;
  */
 
 public abstract class LivingObject extends MovingObject {
+	
 	// Lebenspunkte Management
-    protected int hp, hpMax,  def, atk, mana, manaMax, energy, energyMax;	// Statuswerte
+   
+	/** Die Statuswertde Lebendigen Objekts. */
+	
+	protected int hp, hpMax,  def, atk, mana, manaMax, energy, energyMax;	// Statuswerte
+	
 	// Variablen fuer Handhabung von Unverwundbarkeit
+	
+	/** Abfrage, ob das Objekt unverwundbar ist. */
+	
 	protected boolean invulnerable	=	false;		// Unverwundbarkeitszustand des Objekts
+	
+	/** Dauer der Unverwundbarkeit in Millisekunden. */
+	
 	protected int invulTime			=	500;		// Dauer der Unverwundbarkeit in Millisekunden
+	
 	// Schadensberechnungsvariablen (welch ein Wort!)
+	
+	/** Die Basis-Chance auf einen kritischen Treffer. */
+	
 	protected int critBase	=	20;	// Basis-Chance auf kritische Treffer
- 	protected int critBonus, minDmg, maxDmg;
- 	protected int[][] resistances;	// Speichert die Widerstaende gegen bestimmte Elemente ab
- 	// Heilattribute fuer Leben und Mana
- 	protected int healBonus=0,manaBonus=0;		// erhoehen die Werte fuer generiertes Leben/Mana
+ 	
+	/** Der Max-/Min-Schaden/Critbonus. */
+	
+	protected int critBonus, minDmg, maxDmg;
+ 	
+	/** Die Widerstaende gegen die Elemente. */
+	
+	protected int[][] resistances;	// Speichert die Widerstaende gegen bestimmte Elemente ab
+ 	
+	// Heilattribute fuer Leben und Mana
+ 	
+	/** Der Bonus auf Heilung/Manarueckgewinnung. */
+	
+	protected int healBonus=0,manaBonus=0;		// erhoehen die Werte fuer generiertes Leben/Mana
+	
 	// fermkampfattribute
+	
+	/** Die Reichweite, in der Gegner anfangen zu schiessen in Pixeln. */
+	
 	protected int detectionRange	=	200;	// Wenn ZielObjekte die gegebene Anzahl an Pixeln oder weniger entfernt sind=feuern
+	
+	/** Wird zur Erzeugung von Schuessen genutzt und gibt somit den Projektiltyp an. */
+	
 	protected Projectile projectile	=	new Projectile(0,0,0,0);	// Wird zur Erzeugung von Schuessen genutzt und gibt somit den Projektiltyp an
 
 	/** 

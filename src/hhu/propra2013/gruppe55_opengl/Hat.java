@@ -9,13 +9,37 @@ package hhu.propra2013.gruppe55_opengl;
 public abstract class Hat extends DungeonObject {
 // Attribute
 	// Statuswerte die durch den Hut erhoeht werden
+	
+	/** Der Bonus auf den atk Wert. */
+	
 	protected int atk;			// Bonus auf die ATK
+	
+	/** Der Bonus auf den def Wert. */
+	
 	protected int def;			// Bonus auf die DEF
+	
+	/** Der Bonus auf den hpMax Wert. */
+	
 	protected int hpMax;		// Maximal-HP wird um die angegebene Zahl Containerweise erhöht
+	
+	/** Der Bonus auf den manaMax Wert. */
+	
 	protected int manaMax;		// Wie maxHP nur fuer Mana
+	
+	/** Der Bonus auf den critBonus Wert. */
+	
 	protected int critBonus;	// erhoeht die Chance auf kritische Treffer
+	
+	/** Der Bonus auf den healBonus Wert.  */
+	
 	protected int healBonus;	// erhoeht die durch Traenke erhaltene Heilung
+	
+	/** Der Bonus auf den manaBonus Wert. */
+	
 	protected int manaBonus;	// wie healBonus nur fuer Mana
+
+	/** Der Bonus auf die Widerstaende. */
+	
 	protected int[][] resistances;	// Widerstaende
 
 	/**

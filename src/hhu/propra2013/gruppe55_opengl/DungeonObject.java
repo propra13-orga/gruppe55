@@ -14,27 +14,78 @@ import java.util.Map;
  */
 
 public abstract class DungeonObject {
+
 // Attribute
 	// Koordinaten
+	
+	/** Die aktuelle X-Position des Objekts. */
+	
 	protected double x;	// aktuelle X-Position des Objekts
+	
+	/** Die aktuelle Y-Position des Objekts. */
+	
 	protected double y;	// aktuelle Y-Position des Objekts
+
 	// Grafik
+	
+	/** Die verschiedenen States. */
+	
 	protected  State[] state;
+	
+	/** Die Nummer des aktuellen States. */
+	
 	protected int currState;
+	
+	/** Die Breite des Objekts. */
+	
 	protected int width;	// breite
+	
+	/** Die Hoehe des Objekts. */
+	
 	protected int height;	// hoehe
+	
+	/** Die aktuelle Blickrichtung des Objekts. */
+	
 	protected int direction	=	0;	// aktuelle Blickrichtung des Objekts
+	
 	// Interaktionsvariablen
+	
+	/** Die Interaktionsreichweite des Spielers. */
+	
 	final protected int  interactionRange = 37; // Gibt die Interaktionsreichweite des Spielers an
+	
 	// Checkpoint-relevantes
+	
+	/** Das Array um die zu resettenden Werte zwischen zu speichern. */
+	
 	protected int[] resetValues;
+	
+	/** Abfrage, ob das Objekt resettet oder aus der Liste geloescht werden soll. */
+	
 	protected boolean hasResetValues = false;	// Wenn false kann dieses Objekt nicht resetet werden und sollte aus den Listen geloescht werden
+	
 	// Schnittstelle fuer GameEvents
+	
+	/** Die Arraylist fuer den Eventlistener. */
+	
 	protected ArrayList<GameEventListener> evtList	=	new ArrayList<GameEventListener>();
+	
+	/** Die Hashmap fuer die Werte der Trigger. */
+	
 	protected Map<String, Boolean> trigger	=	new HashMap<String, Boolean>();		// Werte der Trigger
+	
+	/** Die Hashmap um die Werte der Trigger zurueck setzen zu koennen. */
+	
 	protected Map<String, Boolean> resetTrigger	=	new HashMap<String, Boolean>();		// Werte der Trigger zum Zuruecksetzen
+	
+	/** Die Arraylist fuer die Triggernamen, auf die geachtet werden soll. */
+	
 	protected ArrayList<String> triggerNames	=	new ArrayList<String>();		// TriggerNamen, auf die geachtet werden soll
+	
 	// Element
+	
+	/** Das Element eines Objekts. */
+	
 	protected int element;		// Element des Objektes (siehe Konstruktor fuer Beschreibung)
 
 	/**

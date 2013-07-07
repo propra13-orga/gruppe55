@@ -7,14 +7,37 @@ package hhu.propra2013.gruppe55_opengl;
  */
 
 public class SpellObject extends DungeonObject {
+
 // Attribute
+
+	/** Die Manakosten des Zaubers. */
+	
 	protected int manaCost;		// Manakosten des Zaubers
+	
+	/** Die HP Kosten des Zaubers (falls der Zauber das Opfern von Lebenspunkten erfordert). */
+	
 	protected int healthCost;		// Falls der Zauber mit Blut bezahlt wird
+	
+	/** Der Schaden, den der Zauber anrichtet. */
+	
 	protected int dmg;			// Falls der Zauber Schaden machen soll
+	
+	/** Die Heilung, die der Zauber bewirkt. */
+	
 	protected int heal;			// Falls der Zauber heilen soll
+	
+	/** Die Dauer, wie lange der Zauber gecastet wird in Millisekunden. */
+	
 	protected int castDuration;	// Dauer, wie lange der Zauber wirkend gecastet wird in Millisekunden
+	
+	/** Die Invertvallhafte Dauer, in der der Zauber waehrend seiner zugesprochenen Wirkzeit gewirkt wird. */
+	
 	protected int castDurationInterval;	// Invertvallhafte Dauer, in der der Zauber waehrend seiner zugesprochenen Wirkzeit gewirkt wird
+
 	// Listener
+	
+	/** Die Abfrage, ob der Zauber bereits durch den Spieler mit den Listenern verbunden wurde. */
+	
 	protected boolean listener;	// true, wenn der Zauber durch den Spieler bereits mit Listenern verbunden wurde
 	
 /*

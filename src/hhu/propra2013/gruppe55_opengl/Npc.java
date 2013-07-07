@@ -9,7 +9,13 @@ import java.awt.Rectangle;
  */
 
 public class Npc extends LivingObject {	
+	
+	/** Enthaelt den Dialog, den der NPC zu erzaehlen gewillt ist. */
+	
 	protected String[] storyToTell;		// Enthaelt den Dialog, den der NPC zu erzaehlen gewillt ist
+	
+	/** Gibt an welche Form der Interaktion ausgefuehrt werden soll. (1 = Dialog, 2 = Shop, sonst nichts). */
+	
 	protected int interactionResponse;	// 1=Dialog, 2=Shop, sonst nichts
 	
 	/**

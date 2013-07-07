@@ -10,6 +10,8 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class Boss2 extends Creature {
 	
+	/** Die Erscheinungskoordinaten. */ 
+	
 	protected int sx, sy;					// Erscheinungskoordinaten
 	
 	/**

@@ -11,6 +11,8 @@ public class Data_String {
 	
 // 	Klasse zum statischen Laden der Dialogdateien, damit diese nicht bei jedem Aufruf extra geladen werden müssen	
 	
+	/** Der Story-Dialog */
+	
 	// Story-Dialog
 	static String[] story1 = genDialog("story1");    // 1st one
 	

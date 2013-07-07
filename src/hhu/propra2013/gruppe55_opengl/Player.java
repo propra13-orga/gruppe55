@@ -10,21 +10,58 @@ import static org.lwjgl.opengl.GL11.*;
  */
 
 public class Player extends LivingObject {
+
 // Attribute
 	// Variablen fuer Handhabung von Unverwundbarkeit
+	
+	/** Dauer der Unverwundbarkeit in Millisekunden. */
+	
 	private int invulTime			=	500;		// Dauer der Unverwundbarkeit in Millisekunden
+	
 	// Variablen fuer den Angriff
+	
+	/** Die Waffen, die sich im Besitz des Spielers finden. */
+	
 	public Weapon[] weapons	=	new Weapon[3];	// Waffen in Besitz
-	private int currEquipped	=	0;			// Zeige auf aktuell ausger�stetes Waffenset (0= Nahkampf; 1= Fernkampf)
+	
+	/** Der Zeiger auf das aktuell ausgeruestete Waffenset (0 = Nahkampf, 1 = Fernkampf). */
+	
+	private int currEquipped	=	0;			// Zeige auf aktuell ausgeruestetes Waffenset (0= Nahkampf; 1= Fernkampf)
+	
+	/** Abfrage, ob eine Attacke ausgefuehrt wird. */
+	
 	private boolean attacking	=	false;		// Waehrend einer Attacke true
+	
+	/** Die Offsets fuer die Postion der Spielerhaende. */
+	
 	private int[][][] handOffsets	=	new int[4][2][4];	// Offsets fuer die Positionen der Spielerhaende
+	
 	// Zaubervariablen
+	
+	/** Der ausgeruestete Zauber. */
+	
 	private SpellObject spell;
+	
 	// Besitztuemer des Spielers
+	
+	/** Das Inventar fuer statische Objekte (Gold Traenke Pfeile...). */
+	
 	private int[] statInventory;		//Inventar fuer statische Objekte (Gold, Traenke, Pfeile)
+	
+	/** Die durch die Ausruestung erhaltenen Attribute. */
+	
 	private int[] stats;				// durch Ausruestung erhaltene Attribute
+	
+	/** Die Basiswertde des Spielers. */
+	
 	private int[] baseStats;			// Basiswerte des Spielers
+	
+	/** Der Hut des Spielers. */
+	
 	public Hat hat;						// Der Hut des Spielers
+	
+	/** Die Abfrage, ob der Spieler mit einem Objekt interagieren moechte. */
+	
 	private boolean interaction=false;	// Angabe, ob der Spieler mit Objekten interagieren moechte
 	
 	/**

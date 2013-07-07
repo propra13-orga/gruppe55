@@ -18,12 +18,32 @@ import java.awt.Toolkit;
 
 public class GameInterface {
 	
+	/** Die AWT-Font-Vorlagen. */
+	
 	private Font font1, font2;					//AWT-Font-Vorlagen
+	
+	/** Der TrueTypeFont der Bibliothek Slick. */
+	
 	private UnicodeFont fontDialog, fontShop;	//Slick's TrueTypeFont
+	
+	/** Das HUD. */
+	
 	private HUD hud;				//HUD
+	
+	/** Das aktuelle Level. */
+	
 	private Level currLvl;		//Aktuelles Level
+	
+	/** Der aktuelle (anzuzeigende) Dialog. */
+	
 	private String[] currDialog;	//Anzuzeigender Dialog
+	
+	/** Die aktuelle (anzuzeigende) Dialogzeile. */
+	
 	private int dialogCounter;		//Anzuzeigende Dialogzeile
+	
+	/** Das ausgewaehlte Shopobjekt. */
+	
 	private int selectedObject;		// Ausgewaehltes Shopobjekt
 
 	/**
@@ -270,8 +290,16 @@ public class GameInterface {
 //HUD
 class HUD {
 	
+	/** Das FullscreenOffset. */
+	
 	private int fullScreenOffset;
+	
+	/** Die AWT-Font-Vorlagen. */
+	
 	private Font fontAwt;
+	
+	/** Der TrueTypeFont der Bibliothek Slick. */
+	
 	private UnicodeFont font;
 	
 	/**

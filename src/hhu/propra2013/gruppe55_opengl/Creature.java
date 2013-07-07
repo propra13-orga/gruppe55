@@ -12,9 +12,18 @@ import static org.lwjgl.opengl.GL11.*;
 public class Creature extends LivingObject {
 // Attribute der Monster
     // Deklaration der Koordinaten 
+	
+	/** Die Erscheinungskoordinaten. */
+	
     protected int sx, sy;			// Erscheinungskoordinaten
-	protected int moveAreaX	=	5*32;		// maximale vertikale Bewegung nach rechts
-	protected int moveAreaY	=	3*32;		// ... und nach oben
+	
+    /** Die maximale horizontale Bewegung nach rechts. */
+    
+    protected int moveAreaX	=	5*32;		// maximale horizontale Bewegung nach rechts
+	
+    /** Die maximale vertikale Bewegung nach oben.  */
+    
+    protected int moveAreaY	=	3*32;		// ... und nach oben
 	
 	/**
 	 * Der Konstruktor fuer eine Creature.

@@ -15,6 +15,14 @@ WICHTIG: Ich habe die X/Y Koordinaten in allen Objekten von int auf double umges
 
 Changelog:
 
+
+07.07.13 - van Meegen
+/src
+	- JavadocTags fuer alle Klassen, Methoden und Attribute erstellt. ;...;"
+
+/doc
+	- Javadoc bis zum aktuellen Stand erstellt. 
+
 06.07.13 - jdnklau
 DungenObject
 	- besitzt nun eine Variable element, die dem Objekt ein Element zuordnet

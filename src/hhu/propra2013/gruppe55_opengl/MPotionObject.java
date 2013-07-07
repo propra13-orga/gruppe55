@@ -8,6 +8,8 @@ package hhu.propra2013.gruppe55_opengl;
 
 public class MPotionObject extends DungeonObject {
 	
+	/** Die Menge an wiederhergestelltem Mana. */
+	
 	protected int ma = 1;
 	
 	/**

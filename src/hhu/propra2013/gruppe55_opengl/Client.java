@@ -11,10 +11,24 @@ import java.io.*;
 //Client-Thread
 public class Client extends Thread{
 	
+	/** Socket des Clients. */
+	
 	private Socket client;				//Socket des Clients
+	
+	/** Input des Clients. */
+	
 	private ClientInput in;				//Input
+	
+	/** Output des Clients. */
+	
 	private PrintWriter out;			//Output
+	
+	/** Die ausgegebene Zeile. */
+	
 	private String outLine;				//Auszugebene Zeile
+	
+	/** Statusvariablen. */
+	
 	private boolean running, send;		//Statusvariablen
 	
 	/**
@@ -108,11 +122,19 @@ public class Client extends Thread{
  * Diese Klasse implementiert die Inputfunktionen fuer den Client. 
  */
 
-//Thread für die Inputverarbeitung
+//Thread fuer die Inputverarbeitung
 class ClientInput extends Thread{
 
-	private BufferedReader in;		//Reader fue InputStream
+	/** Reader fuer den InputStream. */
+	
+	private BufferedReader in;		//Reader fuer InputStream
+	
+	/** Die eingelesene Line. */
+	
 	private String inLine;			//Eingelesene Line
+	
+	/** Statusvariablen. */
+	
 	private boolean running, open;	//Statusvariablen
 	
 	/**

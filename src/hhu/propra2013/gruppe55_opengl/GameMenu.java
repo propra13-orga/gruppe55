@@ -13,10 +13,25 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 
 	private static final long serialVersionUID = 1L;
 	//Deklarationen
+	
+	/** Das Jpanel. */
+	
 	private JPanel jp, settings;											// JPanel
+	
+	/** Die JComboBox im Jpanel. */
+	
 	private JComboBox cb;										// Combobox im Jpanel
+	
+	/** Die JButtons im Jpanel. */
+	
 	private JButton start, ende;								
+	
+	/** Die JCheckBox im Jpanel. */
+	
 	private JCheckBox coop;
+	
+	/** Das aktuell zu ladende Level (Single Player oder CoOp. */
+	
 	private Level lvl;
 	
 	/**

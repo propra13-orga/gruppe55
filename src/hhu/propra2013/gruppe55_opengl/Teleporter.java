@@ -6,8 +6,15 @@ package hhu.propra2013.gruppe55_opengl;
  */
 
 public class Teleporter extends DungeonObject {
+
 // Attribute
+
+	/** Die Zielkoordinaten. */
+	
 	private int dx, dy;	// Zielkoordinaten
+	
+	/** Der Zielraum. */
+	
 	private int room;	// Zielraum
 	
 	

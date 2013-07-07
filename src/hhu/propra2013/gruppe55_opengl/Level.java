@@ -19,28 +19,93 @@ import org.lwjgl.opengl.DisplayMode;
 public class Level implements GameEventListener{
 
 	// Levelobjekte
+	
+	/** Das Spielerobjekt. */
+	
 	private Player player;				//Spielerobjekt
+	
+	/** Das GameInterface. */
+	
 	private GameInterface iFace;		//GameInterface
+	
+	/** Der Zeiger auf den aktuellen Raum / das aktuelle Level. */
+	
 	private int room, currLvl;					// pointer to current room and Level
+	
+	/** Der Zeiger auf den Raum, in dem der Spieler nach der Niederlage wieder erscheinen soll. */
+	
 	private int roomToRespawn;			// Raum in dem der Spieler nach Niederlage wiedererscheint
+	
+	/** (BETA!) Waende des Levels. (BETA!)  */
+	
 	private int[][][] walls;			// Waende des Levels //TODO implementieren, geht aber nich nicht, wegen dem Testlevel!
+	
+	/** Die Arralist mit allen Gegnern. */
+	
 	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
+	
+	/** Die Arraylist mit allen statischen Objekten. */
+	
 	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Gegenstaende/Fallen/etc
+	
+	/** Die Arraylist mit allen Projektilen. */
+	
 	private ArrayList<Projectile> projectileList;			// liste der Projektile (Pfeile, Feuerbaelle, etc)
+	
+	/** Die Arraylist mit allen Teleportern. */
+	
 	private ArrayList<ArrayList<Teleporter>> teleportList;		// Liste aller Teleporter 
+	
 	// Spieleventvariablen
+	
+	/** Spielbeendende Variablen. */
+	
 	private boolean lose, clear, gameover, close,alreadyInteracted=false;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
+	
 	// Wichtige variablen fuer das neu Laden eines Levels
+	
+	/** Die Koordinaten, an denen der Spieler erscheint. */
+	
 	private int playerSpawnX, playerSpawnY;		// Koordinaten des ersten Spielererscheinungspunkts
+	
+	/** Eine Variable zum einfrieren des Levels (bspw. im Shop). */
+	
 	private boolean freeze = false;		// friert das Level ein
+	
+	/** Die Nummer des aktuell geoeffneten Interface. */
+	
 	private int openedInterface;			// Welches Interface aufgerufen ist
+	
+	/** Abfrage, ob ein Dialog angezeigt werden soll. */
+	
 	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
+	
+	/** Abfrage ob das Spiel im Fullscreen angezeigt werden soll. */
+	
 	private boolean fullscreen;				// Ob Fullscreen aktiviert ist
+	
+	/** Der Originalfenstermodus. */
+	
 	private DisplayMode initMode;			//Originalfenstermodus
+	
+	/** Abfrage, ob das Level durch den JsonParser generiert werden soll. */
+	
 	private boolean jsonParser = true;		// Ob der JSON Parser verwendet werden soll
+	
+	/** Das Levelobjekt. */
+	
 	private LevelData levelDataObj;
+	
+	/** Die Klasse, aus der die Grafiken geladen werden sollen. */
+	
 	static Data_Textures textures;			// Grafik-Klasse
+	
+	/** Die Timer-Variable. */
+	
 	private long lastAction;	// Timer-Variable
+	
+	/** Das Spielmenue. */
+	
 	protected GameMenu gm;		//Spiele-Menue
 	
 	/**

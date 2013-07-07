@@ -28,11 +28,28 @@ public class Server{
 		Server sv = new Server();
 	}
 
+	/** Die Server GUI. */
+	
 	private ServerFrame sf;				//Server GUI
+
+	/** Die Server Input-Threads. */
+	
 	private ServerInput in1, in2;		//Input-Threads
+	
+	/** Die Server Sockets. */
+	
 	private ServerSocket server;		//ServerSocket
+	
+	/** Die verfuegbaren Clients (derzeit 2). */
+	
 	private Socket client1, client2;	//Beiden verfuegbaren Clients
+	
+	/** Der Output, den der Server generiert. */
+	
 	private PrintWriter out1, out2;		//Outputs
+	
+	/** Abfrage ob der Server laueft. */
+	
 	private boolean running;			//Statusvariablen
 	
 	
@@ -46,7 +63,7 @@ public class Server{
 		sf = new ServerFrame(this);
 		
 		try {
-			server = new ServerSocket(2048);			//Serversocket für localhost an Port 2048 erstellen
+			server = new ServerSocket(2048);			//Serversocket fuer localhost an Port 2048 erstellen
 			server.setSoTimeout(10000);					//Timeout fuer accepts=10s
 			sf.addToLog("Server opened at Port 2048");	//Log aktualisieren
 		} catch (IOException e) {e.printStackTrace();}
@@ -171,9 +188,20 @@ public class Server{
 //InputHandlerThread
 class ServerInput extends Thread{
 	
+	/** Die ID des Parent-Clients. */
+	
 	private int clientID;			//ID des Parent-Clients
+	
+	/** Der InputStreamReader. */
+	
 	private BufferedReader in;		//InputStreamReader
+	
+	/** Die ausgelesene Line. */
+	
 	private String inLine;			//Ausgelesene Line
+	
+	/** Abfrage, ob der Server laueft und verfuegbar ist. */
+	
 	private boolean running, open;	//Statusvariablen
 
 	/**
@@ -261,12 +289,32 @@ class ServerInput extends Thread{
 //Server-GUI
 class ServerFrame extends JFrame implements ActionListener, WindowListener{
 	
+	/** Der Parent-Thread. */
+	
 	private Server srv;					//Parent-Thread
+	
+	/** Die Buttons der Server GUI. */
+	
 	private JButton start, end;			//Buttons
+	
+	/** Das ScrollPane fuer das Log. */
+	
 	private JScrollPane sp;				//ScrollPane fuer Log
+	
+	/** Die TextArea fuer das Server-Log. */
+	
 	private JTextArea log;				//TextArea fuer Server-Log
+	
+	/** Die JList fuer verbundene Clients. */
+	
 	private JList clients;				//JList fuer verbundene Clients
+	
+	/** Die Panels fuer das Layout. */
+	
 	private JPanel toparea, buttons;	//Panels fuer Layout
+	
+	/** Das Dateformat fuer Zeitstempel. */
+	
 	private SimpleDateFormat sdf = new SimpleDateFormat("HH.mm.ss");	//DateFormat fuer Log-Zeitstempel
 	
 	/**

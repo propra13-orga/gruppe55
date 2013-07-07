@@ -10,11 +10,26 @@ import static org.lwjgl.opengl.GL11.*;
 
 public class Boss3 extends Creature {
 	// Attribute
+	
+	/** Das alternative Projectile fuer die verschiedenen Phasen des Bosskampfes (Feuerball). */
+	
 	private Projectile alternativeProjectile	=	new Fireball(0,0,0,0);
+	
 	// Kontrollvariablen fuer Phase 3
+	
+	/** Boolean, ob bereits ein Warnschuss abgegeben wurde. */
+	
 	private boolean warning1	=	false;	// Boolean, ob bereits ein Warnschuss abgegeben wurde
+	
+	/** Boolean, ob bereits ein zweiter Warnschuss abgegeben wurde. */
+	
 	private boolean warning2	=	false;	// Boolean, ob bereits ein zweiter Warnschuss abgegeben wurde
+	
+	/** Winkel, der gewarnt wurde. */
+	
 	private int warnedAngle = 0;		// Winkel, der gewarnt wurde
+	
+	/** Abfrage ob der Boss von einer Wand abgebounced ist. */
 	
 	protected boolean bounce = false;		// Abfrage ob der Boss von einer Wand abgebounced ist
 	

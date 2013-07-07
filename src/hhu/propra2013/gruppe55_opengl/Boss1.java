@@ -7,6 +7,8 @@ package hhu.propra2013.gruppe55_opengl;
  */
 
 public class Boss1 extends Creature {
+	
+	/** Abfrage ob der Boss von einer Wand abgebounced ist. */ 
 		
 	protected boolean bounce = false;		// Abfrage ob der Boss von einer Wand abgebounced ist
  

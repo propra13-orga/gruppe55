@@ -7,7 +7,11 @@ package hhu.propra2013.gruppe55_opengl;
 */
 
 public class PotionObject extends DungeonObject {
+
 // Attribute
+
+	/** Der durch den Heiltrank zu heilende Wert. */
+	
 	protected int heal	=	2;	// zu heilender Wert
 	
 	/**

@@ -7,8 +7,15 @@ package hhu.propra2013.gruppe55_opengl;
  */
 
 public class Projectile extends MovingObject {
+
 // Attribute
+
+	/** Der Flugwinkel des Projektils. */
+	
 	protected int angle;	// Flugwinkel
+
+	/** Der Schadenswert des Projektils. */
+	
 	protected int dmg;		// Schadenswert
 	
 	/**

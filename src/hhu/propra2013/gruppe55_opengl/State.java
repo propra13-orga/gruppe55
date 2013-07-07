@@ -10,14 +10,37 @@ import org.newdawn.slick.opengl.Texture;
 public class State {
 
 	// Bilder
+	
+	/** Das Bild aus der Ressources Klasse, dass beim jeweiligen State gezeigt wird. */
+	
 	public Texture[] texture = new Texture[4];				// Das Bild aus der Ressources Klasse, dass beim jeweiligen State gezeigt wird
+	
 	// Eigenschaften des States
+	
+	/** Die Abfrage, ob das Objekt beweglich ist. */
+	
 	public boolean moveable;		// ist das Objekt beweglich?
+	
+	/** Die Abfrage, ob der Spieler durch das Objekt hindurch gehen kann. */
+	
 	public boolean massive;			// kann der Spieler hindurch gehen?
+	
+	/** Die Abfrage, ob das Objekt sichtbar ist. */
+	
 	public boolean visible;			// ist das Objekt sichtbar?
+	
+	/** Das Array fuer die Offsets. */
+	
 	protected int[][] offset = {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}};
+	
 	// Richtungseigenschaften
+	
+	/** Die Abfrage, ob sich das Objekt in verschiedene Richtungen drehen soll. */
+	
 	protected boolean directionFix	=	false;	// soll das Objekt sich in versch. Richtungen drehen?
+	
+	/** Die aktuelle Richtung (0 = vorne; 1 = links; 2 = rechts, 3 = hinten). */
+	
 	protected int currDirection		=	0;		// 0 vorne, 1 links, 2 rechts, 3 hinten
 	
 	

@@ -7,7 +7,11 @@ package hhu.propra2013.gruppe55_opengl;
  */
 
 public class TrapObject extends DungeonObject {
+
 // Attribute
+
+	/** Der Schaden den die Falle anrichtet (spezifiziert als trapDmg). */
+	
 	protected int trapDmg	=	1;	// Schaden, den diese Falle auslöst
 	
 	/**

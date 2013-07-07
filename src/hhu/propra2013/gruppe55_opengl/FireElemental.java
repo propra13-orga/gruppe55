@@ -8,7 +8,12 @@ package hhu.propra2013.gruppe55_opengl;
 
 public class FireElemental extends Creature {
 	
+	/** Das neue Projektil fuer das Feuerelementar. */
+	
 	private Projectile projectile = new Fireball(0,0,0,0);		// Feuerelementare schiessen Feuerbaelle!
+	
+	/** Der Schusszaehler fuer den Extraschuss nach 3 regulaeren Schuessen. */
+	
 	private int shootorder = 0;		// Schusszaehler fuer den Extraschuss
 	
 	/**
