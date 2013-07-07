@@ -62,6 +62,7 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 				cb.addItem("Level 1");
 				cb.addItem("Level 2");
 				cb.addItem("Level 3");
+				cb.addItem("Level 4");
 				cb.setSelectedIndex(0);
 			settings.add(cb);
 			coop = new JCheckBox();
