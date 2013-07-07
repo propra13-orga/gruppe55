@@ -11,16 +11,47 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.Toolkit;
 
+/**
+ * Die Klasse GameInterface.
+ * Diese Klasse implementiert die Dialogboxen und den Shop.
+ */
+
 public class GameInterface {
 	
+	/** Die AWT-Font-Vorlagen. */
+	
 	private Font font1, font2;					//AWT-Font-Vorlagen
+	
+	/** Der TrueTypeFont der Bibliothek Slick. */
+	
 	private UnicodeFont fontDialog, fontShop;	//Slick's TrueTypeFont
+	
+	/** Das HUD. */
+	
 	private HUD hud;				//HUD
+	
+	/** Das aktuelle Level. */
+	
 	private Level currLvl;		//Aktuelles Level
+	
+	/** Der aktuelle (anzuzeigende) Dialog. */
+	
 	private String[] currDialog;	//Anzuzeigender Dialog
+	
+	/** Die aktuelle (anzuzeigende) Dialogzeile. */
+	
 	private int dialogCounter;		//Anzuzeigende Dialogzeile
+	
+	/** Das ausgewaehlte Shopobjekt. */
+	
 	private int selectedObject;		// Ausgewaehltes Shopobjekt
 
+	/**
+	 * Der Konstruktor fuer das GameInterface.
+	 * Beim Aufruf wird dem Konstruktor das Objekt t vom Typ Level uebergeben. Des Weiteren werden Fonts gesetzt und das HUD konstruiert (siehe HUD).
+	 * @param t  Die Methode erwartet die Uebergabe eines Objekts t vom Typ Level
+	 * @see HUD
+	 */
 
 	//Interface-Konstruktor
 	public GameInterface(Level t){
@@ -45,6 +76,14 @@ public class GameInterface {
 		hud = new HUD();									//HUD konstruieren
 	}
 	
+	/**
+	 * Die Methode paint.
+	 * Diese Methode zeichnet das komplette HUD, fragt ab ob ein Dialog oder ein Shop gezeichnet werden soll und zeichnet diesen dann.
+	 * @param p  Die Methode erwartet die Uebergabe eines Objektes p vom Typ Player
+	 * @param full  Die Methode erwartet die Uebergabe eines boolean Werts full
+	 * @see HUD
+	 */
+	
 	//Interface zeichnen
 	public void paint(Player p, boolean full){		
 		hud.draw(full, p);					//Draw HUD
@@ -59,11 +98,21 @@ public class GameInterface {
 		}
 	}
 	
+	/**
+	 * Die Methode paintDialog.
+	 * Diese Methode zeichnet einen Dialog (z.B. wenn der Player mit einem NPC redet). 
+	 */
+	
 	//Dialog zeichnen
 	public void paintDialog(){
 		hud.drawHudElement(Data_Textures.dialogBox, (Display.getWidth()/2)-250, Display.getHeight()-80);	//DialogBox zeichnen
 		fontDialog.drawString((Display.getWidth()/2)-220f, (Display.getHeight()-55f), currDialog[dialogCounter]);	//Dialogzeile zeichnen
 	}
+	
+	/**
+	 * Die Methode paintShop
+	 * Diese Methode zeichnet den Shop, wenn dieser aufgerufen wird und implementiert die Auswahl von kaufbaren Objekten.
+	 */
 	
 	//Shopfenster zeichnen
 	public void paintShop(){
@@ -93,11 +142,24 @@ public class GameInterface {
 		}
 	}
 	
+	/**
+	 * Die Methode setDialog.
+	 * Diese Methode uebergibt den anzuzeigenden Dialog (str) und die Startzeile (count), wenn dieser Mehrere Zeilen umfasst.
+	 * @param str  Die Methode erwartet die Uebergabe eines String[] str
+	 * @param count  Die Methode erwartet die Uebergabe eines int Werts count
+	 */
+	
 	//Anzuzeigenden Dialog und Startzeile uebergeben (Mehrere Zeilen)
 	public void setDialog(String[] str, int count){
 		currDialog = str;
 		dialogCounter = count;
 	}
+	
+	/**
+	 * Die Methode setDialog.
+	 * Diese Methode uebergibt den anzuzeigenden Dialog (str) und die Startzeile (count), wenn dieser eine einzelne Zeile umfasst. 
+	 * @param str  Die Methode erwartet die Uebergabe eines String[] str
+	 */
 	
 	//Anzuzeigenden Dialog und Startzeile uebergeben (Einzelne Zeilen)
 	public void setDialog(String str){
@@ -105,6 +167,11 @@ public class GameInterface {
 		currDialog[0] = str;
 		dialogCounter = 0;
 	}
+	
+	/** 
+	 * Die Methode next.
+	 * Diese Methode schaltet die Dialogzeilen durch und wenn es sich um die letzte Zeile handelt wird der Dialog beendet.
+	 */
 	
 	//N�chste Dialogzeile anzeigen, wenn letzte Zeile ausgew�hlt, Dialog beenden
 	public void next(){
@@ -126,6 +193,13 @@ public class GameInterface {
 			dialogCounter = 0;
 		}
 	}
+	
+	/**
+	 * Die Methode buttonAction.
+	 * Diese Methode implementiert die Bedienbarkeit des Shops. 
+	 * @param k  Die Methode erwartet die Uebergabe eines int Werts k
+	 * @param p  Die Methode erwartet die Uebergabe eines Obejekts p vom Typ player
+	 */
 	
 	// Keyboard-Events im Interface
 	public void buttonAction(int k, Player p){
@@ -193,6 +267,13 @@ public class GameInterface {
 		}
 	}
 	
+	/**
+	 * Die Methode setSelectedObject.
+	 * Diese Methode aendert das im Shop ausgewaehlte Objekt.
+	 * @param s  Die Methode erwartet die Uebergabe eines int Werts s
+	 */
+	
+	
 	// Ausgewaehltes Objekt aendern
 	public void setSelectedObject(int s){
 		selectedObject = s;
@@ -200,14 +281,31 @@ public class GameInterface {
 
 }
 
+/**
+ * Die Klasse HUD.
+ * Diese Klasse implementiert das HUD.
+ *
+ */
 
 //HUD
-
 class HUD {
 	
+	/** Das FullscreenOffset. */
+	
 	private int fullScreenOffset;
+	
+	/** Die AWT-Font-Vorlagen. */
+	
 	private Font fontAwt;
+	
+	/** Der TrueTypeFont der Bibliothek Slick. */
+	
 	private UnicodeFont font;
+	
+	/**
+	 * Der Konstruktor fuer das HUD.
+	 * Hier werden Eigenschaften wie die Fonts fuer das HUD gesetzt.
+	 */
 	
 	public HUD(){
 		//Fonts fuer das HUD konstruieren
@@ -220,6 +318,13 @@ class HUD {
 			font.loadGlyphs();
 		}catch(SlickException e){e.printStackTrace();}
 	}
+	
+	/**
+	 * Die Methode draw.
+	 * Diese Methode zeichnet die einzelnen Elemente des HUD's
+	 * @param full  Die Methode erwartet die Uebergabe eines booleanwerts full
+	 * @param p  Die Methode erwartet die Uebergabe eines Objektes p vom Typ Player
+	 */
 	
 	// Zeichnen des HUD
 	public void draw(boolean full, Player p){		
@@ -308,6 +413,14 @@ class HUD {
 		drawHudElement(Data_Textures.mpotion, 890+fullScreenOffset, 54);
 		font.drawString(920+fullScreenOffset, 68, "x  " + p.getStatInventoryObjectCount(3));
 	}
+	
+	/**
+	 * Die Methode drawHudElement.
+	 * Diese Methode zeichnet die Objekte mit openGL.
+	 * @param tex  Die Methode erwartet die Uebergabe einer Textur
+	 * @param x  Die Methode erwartet die Uebergabe eines int Werts x
+	 * @param y  Die Methode erwartet die Uebergabe eines int Werts y
+	 */
 	
 	public void drawHudElement(Texture tex, int x, int y){
     	glBindTexture(GL_TEXTURE_2D, tex.getTextureID());

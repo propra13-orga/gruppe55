@@ -5,13 +5,26 @@ import java.io.*;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
+/**
+ * Die Klasse Data_Textures.
+ * Die Klasse Data_Textures dient dazu, alle Bilder einmal statisch zu laden, damit diese nicht bei jedem Objektaufruf erneut geladen werden muessen.
+ */
+
 public class Data_Textures {
+	
+	/** Die jeweilige statisch geladene Bild. */
 	
 	static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, fireelemental, boss1, boss2, boss3, shopkeeper, storyteller,
 	win, youlose, gameover, bks, wall, grass, goal, potion, potionused, healthcontainer, mpotion, treasure, lootarrow, lavahat,
 	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, cp_used, cp_unused, button_off, button_on, torch, torch_lit, door, lavapatch, 
 	basicbow, basicbow_back, basicbow_f_atk, basicbow_l_atk, basicbow_r_atk, basicbow_u_atk, basicbow_icon, basicshield_f, basicshield_b, arrow_f, arrow_l, arrow_r, arrow_b, fireball,
 	hud01, hud02, hud03, hud_Tear_HP_Full, hud_Tear_HP_Half, hud_Tear_HP_Empty,hud_Crystal_Full, hud_Crystal_Empty, dialogBox, shop, shopArrow, currency;
+	
+	
+	/**
+	 * Der Konstruktor fuer die Data_Textuers.
+	 * Hier werden alle Bilder statisch geladen.
+	 */
 	
 	public Data_Textures(){
 		try {

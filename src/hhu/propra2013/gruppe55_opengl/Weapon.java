@@ -2,27 +2,89 @@ package hhu.propra2013.gruppe55_opengl;
 
 import java.awt.Rectangle;
 
-public class Weapon extends DungeonObject {
+/**
+ * Die abstrake Klasse Weapon.
+ * Diese Klasse erbt von der Klasse DungeonObject und implementiert das Grundgeruest fuer die Waffen.
+ * @see DungeonObject
+ */
+
+public abstract class Weapon extends DungeonObject {
+
 // Attribute
 	// Spezifikation der Waffe
+	
+	/** Der Waffentyp (0=Nahkampf, Haupthand;; 1=Nahkampf, Nebenhand;; 2=Fernkampf). */
+	
 	protected int type	=	0;		// Waffentyp (0=Nahkampf, Haupthand;; 1=Nahkampf, Nebenhand;; 2=Fernkampf)
+	
+	/** Der Name der Waffe. */
+	
 	protected String name	=	"Simples Schwert";	// Waffenname
+	
 	// Angriffswerte
+	
+	/** Die Angriffszeit in Millisekunden. */
+	
 	protected int atkTime	=	250;	// Angriffszeit in Millisekunden
-	protected int minDmg	=	1;		// Mindestschaden
-	protected int maxDmg	=	3;		// Maximalschaden
+	
+	/** Der Minimalschaden der Waffe. */
+	
+	protected int minDmg	=	0;		// Mindestschaden
+	
+	/** Der Maximalschaden der Waffe. */
+	
+	protected int maxDmg	=	0;		// Maximalschaden
+	
+	/** Abfrage, ob der Spieler angreift. */
+	
 	protected boolean attacking	=	false;	// Waehrend des Angriffs true
+	
 	// Offsetwerte zum zeichnen
+	
+	/** Die Offsets, wie die Waffe in der Spielerhand gehalten werden soll. */
+	
 	protected int[][] weapOffsets	=	new int[4][6];	// Die Offsets wie die Waffe in der Spielerhand gehalten wird	
+	
 	// Statuswerte die durch die Waffe erhoeht werden
+	
+	/** Der Bonus auf den atk Wert. */
+	
 	protected int atk;			// Bonus auf die ATK
+	
+	/** Der Bonus auf den def Wert. */
+	
 	protected int def;			// Bonus auf die DEF
+	
+	/** Der Bonus auf den hpMax Wert. */
+	
 	protected int hpMax;		// Maximal-HP wird um die angegebene Zahl Containerweise erhöht
+	
+	/** Der Bonus auf den manaMax Wert. */
+	
 	protected int manaMax;		// Wie maxHP nur fuer Mana
+	
+	/** Der Bonus auf den critBonus Wert. */
+	
 	protected int critBonus;	// erhoeht die Chance auf kritische Treffer
+	
+	/** Der Bonus auf den healBonus Wert.  */
+	
 	protected int healBonus;	// erhoeht die durch Traenke erhaltene Heilung
+	
+	/** Der Bonus auf den manaBonus Wert. */
+	
 	protected int manaBonus;	// wie healBonus nur fuer Mana
+	
+	/** Der Bonus auf die Widerstaende. */
+	
+	protected int[][] resistances;	// Widerstaende
 
+	/**
+	 * Der Konstruktor fuer die Weapon.
+	 * Beim Aufruf werden dem Konstruktor die Werte (0,0) uebergeben. Das liegt daran, dass sie im Player angepasst werden.
+	 * Des Weiteren werden alle wichtigen Attribute und Offsets der Waffen hier initialisiert (und in den Unterklassen dann gesetzt), die States gesetzt und die Bilder geladen.
+	 */
+	
 	// Konstruktor
 	public Weapon() {
 		super(0, 0);	// Scheint merkwuerdig, macht aber Sinn (wird dem Spieler angepasst)
@@ -35,6 +97,14 @@ public class Weapon extends DungeonObject {
 		critBonus=0;	// Extraprozentpunkte fuer die kritische Trefferchance
 		healBonus=0;	// gewaehrte extraheilung bei Traenken zB
 		manaBonus=0;	// gewaehrtes extramana bei Traenken zB
+		// Elementarresistenzen
+		resistances	=	new int[3][2];
+		resistances[0][0]	=	0;	// Widerstand gegen Element 1
+		resistances[0][1]	=	0;	// Wenn >0 ist das Objekt gegen Element 1 Immun
+		resistances[1][0]	=	0;	// Widerstand gegen Element 2
+		resistances[1][1]	=	0;	// Wenn >0 ist das Objekt gegen Element 2 Immun
+		resistances[2][0]	=	0;	// Widerstand gegen Element 3
+		resistances[2][1]	=	0;	// Wenn >0 ist das Objekt gegen Element 3 Immun
 		
 		// States setzen
 		state	=	new State[3];
@@ -83,11 +153,23 @@ public class Weapon extends DungeonObject {
 		weapOffsets[3][5]	=	27;	// Y-offset beim Angriff
 	}
 	
+	/**
+	 * Die Methode getAtkTime.
+	 * Diese Methode gibt die Angriffsdauer zurueck.
+	 * @return Der Wert atkTime als int.
+	 */
+	
 	// Rueckgabe der Angriffsdauer
 	public int getAtkTime(){
 		return atkTime;
 	}
 	
+	/**
+	 * Die Methode draw.
+	 * Diese Methode zeichnet die Waffe mit den uebergebenen Offsets.
+	 * @param x  Die Methode erwartet die Uebergabe eines int Werts x
+	 * @param y  Die Methode erwartet die Uebergabe eines int Werts y
+	 */
 	// Zeichenmethode
 	public void draw(int x, int y){
 		//x, y Werte setzen
@@ -96,12 +178,22 @@ public class Weapon extends DungeonObject {
 		super.draw();
 	}
 	
+	/**
+	 * Die Methode attack.
+	 * Diese Methode setzt den Angriffsmodus.
+	 */
+	
 	// Angriffsmodus setzen
 	public void attack(){
 		// auf Angriff setzen
 		this.attacking	=	true;
 		switchState(2);
 	}
+	
+	/**
+	 * Die Methode stopAttack.
+	 * Diese Methode stoppt den Angriff.
+	 */
 	
 	// Angriffsmodus abbrechen
 	public void stopAttack(){
@@ -110,13 +202,33 @@ public class Weapon extends DungeonObject {
 		switchState(1);
 	}
 	
+	
+	/**
+	 * Die Methode getMinDmg.
+	 * Diese Methode gibt den MinDmg zurueck. 
+	 * @return Der Wert minDmg als int.
+	 */
+	
 	public int getMinDmg(){
 		return minDmg;
 	}
 	
+	/**
+	 * Die Methode getMaxDmg.
+	 * Diese Methode gibt den MaxDmg zurueck. 
+	 * @return Der Wert maxDmg als int.
+	 */
+	
 	public int getMaxDmg(){
 		return maxDmg;
 	}
+	
+	/**
+	 * Die Methode getBorder.
+	 * Diese Methode erstellt beim Anriff eine Hitbox. Ansonsten gibt es keine Hitbox. 
+	 * @return Die neue Hitbox, wenn der Player angreift.
+	 * @return Keine Hitbox, wenn der Player nicht angreift.
+	 */
 	
 	// Hitbox
 	public Rectangle getBorder(){
@@ -127,9 +239,26 @@ public class Weapon extends DungeonObject {
 		return new Rectangle(0,0,0,0);
 	}
 	
+	/**
+	 * Die Methode getStats.
+	 * Diese Methode gibt die Stats der Waffe zurueck.
+	 * @return Die Stats der Waffe als int[].
+	 */
+	
 	// Werte uebergeben
 	public int[] getStats(){
 		return new int[] {atk,def,hpMax,manaMax,critBonus,healBonus,manaBonus};
+	}
+	
+	/**
+	 * Die Methode getResistances.
+	 * Diese Methode gibt die Resistances der Waffe zurueck.
+	 * @return Die Resitenzen der Waffe als int.
+	 */
+	
+	// Widerstaende uebergeben
+	public int[][]getResistances(){
+		return resistances;
 	}
 
 }

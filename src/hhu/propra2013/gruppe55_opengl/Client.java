@@ -3,19 +3,47 @@ package hhu.propra2013.gruppe55_opengl;
 import java.net.*;
 import java.io.*;
 
+/**
+ * Die Klasse Client.
+ * Diese Klasse implementiert alle Funktionen des Clients fuer die Coop Version des Spiels.
+ */
+
 //Client-Thread
 public class Client extends Thread{
 	
+	/** Socket des Clients. */
+	
 	private Socket client;				//Socket des Clients
+	
+	/** Input des Clients. */
+	
 	private ClientInput in;				//Input
+	
+	/** Output des Clients. */
+	
 	private PrintWriter out;			//Output
+	
+	/** Die ausgegebene Zeile. */
+	
 	private String outLine;				//Auszugebene Zeile
+	
+	/** Statusvariablen. */
+	
 	private boolean running, send;		//Statusvariablen
+	
+	/**
+	 * Der Konstruktor fuer den Client.
+	 */
 	
 	//Konstruktor
 	public Client(){
 		super();
 	}
+	
+	/**
+	 * Die Methode run.
+	 * Diese Methode implementiert alle Funktionen, die waehrend des laufenden Spiels benoetigt werden. 
+	 */
 	
 	//Thread-Schleife
 	@Override
@@ -63,11 +91,22 @@ public class Client extends Thread{
 		}
 	}
 	
+	/**
+	 * Die Methode send.
+	 * Diese Methode sendet die Clientdaten in Form von Strings an den Server. 
+	 * @param s  Die Methode erwartet die Uebergabe eines Strings s 
+	 */
+	
 	//String senden
 	public void send(String s){
 		outLine = s;
 		send = true;
 	}
+	
+	/**
+	 * Die Methode end.
+	 * Diese Methode beendet das Coop Spiel.
+	 */
 	
 	//Thread beenden
 	public void end(){
@@ -78,17 +117,40 @@ public class Client extends Thread{
 //----------------------------------------------------------------------------------------------
 //----------------------------------------------------------------------------------------------
 
-//Thread für die Inputverarbeitung
+
+/**
+ * Die Klasse ClientInput.
+ * Diese Klasse implementiert die Inputfunktionen fuer den Client. 
+ */
+
+//Thread fuer die Inputverarbeitung
 class ClientInput extends Thread{
 
-	private BufferedReader in;		//Reader fue InputStream
+	/** Reader fuer den InputStream. */
+	
+	private BufferedReader in;		//Reader fuer InputStream
+	
+	/** Die eingelesene Line. */
+	
 	private String inLine;			//Eingelesene Line
+	
+	/** Statusvariablen. */
+	
 	private boolean running, open;	//Statusvariablen
+	
+	/**
+	 * Der Konstruktor fuer die Klasse ClientInput. 
+	 */
 	
 	//Konstruktor
 	public ClientInput(){
 		super();
 	}
+	
+	/**
+	 * Die Methode run.
+	 * Diese Methode implementiert alle Funktionen fuer den Input (Clientseitig), die waehrend des Coop Spiels benoetigt werden. 
+	 */
 	
 	//Thread-Schleife
 	@Override
@@ -119,15 +181,32 @@ class ClientInput extends Thread{
 		open = true;
 	}
 	
+	/**
+	 * Die Methode getInput.
+	 * Diese Methode gibt den aktuellen Input zurueck.
+	 * @return der aktuelle Input als String.
+	 */
+	
 	//Return des aktuellen inputs
 	public String getInput(){
 		return(inLine);
 	}
 	
+	/**
+	 * Die Methode isOpened.
+	 * Diese Methode gibt zurueck ob der Input offen ist.
+	 * @return true, wenn der Input offen ist.
+	 */
+	
 	//Return, ob Input offen ist
 	public boolean isOpened(){
 		return(open);
 	}
+	
+	/**
+	 * Die Methode end.
+	 * Diese Methode beendet das Coop Spiel.
+	 */
 	
 	//Thread beenden
 	public void end(){
