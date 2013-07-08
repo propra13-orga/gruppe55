@@ -14,7 +14,7 @@ public class Data_Textures {
 	
 	/** Die jeweilige statisch geladene Bild. */
 	
-	static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, fireelemental, boss1, boss2, boss3, shopkeeper, storyteller,
+	public static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, fireelemental, boss1, boss2, boss3, shopkeeper, storyteller,
 	win, youlose, gameover, bks, wall, grass, goal, potion, potionused, healthcontainer, mpotion, treasure, lootarrow, lavahat,
 	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, cp_used, cp_unused, button_off, button_on, torch, torch_lit, door, lavapatch, 
 	basicbow, basicbow_back, basicbow_f_atk, basicbow_l_atk, basicbow_r_atk, basicbow_u_atk, basicbow_icon, basicshield_f, basicshield_b, arrow_f, arrow_l, arrow_r, arrow_b, fireball,

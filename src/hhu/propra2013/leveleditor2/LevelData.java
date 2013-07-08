@@ -16,7 +16,7 @@ public class LevelData {
 	// Beispiel:levelRoom index:0->HashMap (Daten für alle Raumobjekte)
 	// ...
 	
-	public ArrayList<HashMap<String, ArrayList<Integer>>> levelRooms = new ArrayList();
+	public ArrayList<HashMap<String, ArrayList<String>>> levelRooms = new ArrayList();
 	//
 	// Beispiel:levelRoom index:0->laenge:40,Breite:40
 	//					  index:1->laenge:50,Breite:60
@@ -31,11 +31,11 @@ public class LevelData {
 		tempList.add(30);
 		tempList.add(30);
 		levelRoomsParameter.add(tempList);
-		HashMap<String, ArrayList<Integer>> tempMap = new HashMap<String, ArrayList<Integer>>();
+		HashMap<String, ArrayList<String>> tempMap = new HashMap<String, ArrayList<String>>();
 		levelRooms.add(tempMap);
 	}
 	
-	public void addlevelRoom(HashMap<String, ArrayList<Integer>> levelRoom,ArrayList<Integer> roomparameter){
+	public void addlevelRoom(HashMap<String, ArrayList<String>> levelRoom,ArrayList<Integer> roomparameter){
 		levelRooms.add(levelRoom);
 		levelRoomsParameter.add(roomparameter);
 	}
@@ -44,24 +44,39 @@ public class LevelData {
 		tempList.add(80);
 		tempList.add(70);
 		levelRoomsParameter.add(tempList);
-		HashMap<String, ArrayList<Integer>> tempMap = new HashMap<String, ArrayList<Integer>>();
+		HashMap<String, ArrayList<String>> tempMap = new HashMap<String, ArrayList<String>>();
 		levelRooms.add(tempMap);
 	}
 	public void deletelevelRoom(int index){
 		levelRooms.remove(index);
 		levelRoomsParameter.remove(index);
 	}
-	public void setlevelRoom(int index,HashMap<String, ArrayList<Integer>> newlevelRoom,ArrayList<Integer> newroomparameter){
+	public void setlevelRoom(int index,HashMap<String, ArrayList<String>> newlevelRoom,ArrayList<Integer> newroomparameter){
 		levelRooms.set(index, newlevelRoom);
 		levelRoomsParameter.set(index, newroomparameter);
 	}
-	public HashMap<String, ArrayList<Integer>> getlevelRoom(int index){
+	public HashMap<String, ArrayList<String>> getlevelRoom(int index){
 		return levelRooms.get(index);
 	}
 	public ArrayList<Integer> getlevelRoomParameter(int index){
 		return levelRoomsParameter.get(index);
 	}
-	public void addRoomObject(int index, int xPos, int yPos, int type) {
+	public void removeRoomObject(int index,int xPos,int yPos){
+		String xyPos = String.valueOf(xPos) + "," + String.valueOf(yPos);
+		levelRooms.get(index).remove(xyPos);
+	}
+	public void addRoomObject(int index, int xPos, int yPos, int type, ArrayList<String> paramStrList) {
+		int xPosGrid, yPosGrid;
+		ArrayList<String> parameterList = new ArrayList<String>();
+		String xyPos = new String();
+		xyPos = String.valueOf(xPos) + "," + String.valueOf(yPos);
+		for(String tempStr : paramStrList){
+			parameterList.add(tempStr);
+		}
+		levelRooms.get(index).put(xyPos,parameterList);
+	}
+/*	
+ 	public void addRoomObject(int index, int xPos, int yPos, int type, String paramStr) {
 		int xPosGrid, yPosGrid;
 		ArrayList<Integer> parameterList = new ArrayList<Integer>();
 		//xPosGrid = xPos / LevelEditor.imgSize;
@@ -108,7 +123,7 @@ public class LevelData {
 		}
 		
 	}
-	
+*/	
 	public int totalRooms(){
 		return levelRooms.size();
 	}

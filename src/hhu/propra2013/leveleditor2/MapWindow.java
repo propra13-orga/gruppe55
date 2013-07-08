@@ -1,7 +1,6 @@
 package hhu.propra2013.leveleditor2;
 
 
-import hhu.propra2013.gruppe55.Data_Img;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -59,8 +58,11 @@ public class MapWindow extends JPanel {
 						* LevelEditor.imgSize;
 				yPosition = (me.getY() / LevelEditor.imgSize)
 						* LevelEditor.imgSize;
-				
-				levelDataObj.addRoomObject(currentRoomIndex, xPosition, yPosition, LevelEditor.toolType);
+				if(LevelEditor.toolType == 0)
+					levelDataObj.removeRoomObject(currentRoomIndex, xPosition, yPosition);
+				else
+					levelDataObj.addRoomObject(currentRoomIndex, xPosition, yPosition, LevelEditor.toolType, mainFrame.currentParameterList);
+
 				repaint();
 			}
 		});
@@ -108,69 +110,82 @@ public class MapWindow extends JPanel {
 //			}
 //		}
 
-		for(Map.Entry<String, ArrayList<Integer>> entry : levelDataObj.getlevelRoom(currentRoomIndex).entrySet()){
-			ArrayList<Integer> tempParameterList = entry.getValue();
+		for(Map.Entry<String, ArrayList<String>> entry : levelDataObj.getlevelRoom(currentRoomIndex).entrySet()){
+			ArrayList<String> tempParameterList = entry.getValue();
 			int xPos,yPos;
 			String[] tempStr = entry.getKey().split(",");
 			xPos = Integer.parseInt(tempStr[0]);
 			yPos = Integer.parseInt(tempStr[1]);
 			//Wall
-			if(tempParameterList.get(0) == 1){
+			if(tempParameterList.get(0).equals("1")){
 				//Texturparameter
-				if(tempParameterList.get(1) == 0)
+				//if(tempParameterList.get(1) == "0")
 					g2.drawImage(Data_Img.wall, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 2){
+			}else if(tempParameterList.get(0).equals("2")){
 				//Creature painten
 				g2.drawImage(Data_Img.creature, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 3){
+			}else if(tempParameterList.get(0).equals("3")){
 				//Creature painten
 				g2.drawImage(Data_Img.player_f, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 4){
+			}else if(tempParameterList.get(0).equals("4")){
 				//Creature painten
 				g2.setColor(Color.BLACK);
 				g2.drawRect(xPos, yPos, 32, 32);
-			}else if(tempParameterList.get(0) == 5){
+			}else if(tempParameterList.get(0).equals("5")){
 				//Creature painten
 				g2.drawImage(Data_Img.trap, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 6){
+			}else if(tempParameterList.get(0).equals("6")){
 				//Creature painten
 				g2.drawImage(Data_Img.goal, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 7){
+			}else if(tempParameterList.get(0).equals("7")){
 				//Creature painten
 				g2.drawImage(Data_Img.potion, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 8){
+			}else if(tempParameterList.get(0).equals("8")){
 				//Creature painten
 				g2.drawImage(Data_Img.mpotion, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 9){
+			}else if(tempParameterList.get(0).equals("9")){
 				//Creature painten
 				g2.drawImage(Data_Img.treasure, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 10){
+			}else if(tempParameterList.get(0).equals("10")){
 				g2.drawImage(Data_Img.shopkeeper, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 11){
+			}else if(tempParameterList.get(0).equals("11")){
 				g2.drawImage(Data_Img.storyteller, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 12){
+			}else if(tempParameterList.get(0).equals("12")){
 				g2.drawImage(Data_Img.healthcontainer, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 13){
+			}else if(tempParameterList.get(0).equals("13")){
 				Image image = new ImageIcon("img/textures/"+tempParameterList.get(1)+".png").getImage();
 				g2.drawImage(image, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 14){
+			}else if(tempParameterList.get(0).equals("14")){
 				//Creature painten
-				g2.drawImage(Data_Img.creature, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 16){
+				g2.drawImage(Data_Img.creature_bow, xPos, yPos, this);
+			}else if(tempParameterList.get(0).equals("16")){
 				//Creature painten
 				g2.drawImage(Data_Img.cp_unused, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 15){
+			}else if(tempParameterList.get(0).equals("15")){
 				//Creature painten
 				g2.drawImage(Data_Img.boss1, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 17){
+			}else if(tempParameterList.get(0).equals("17")){
 				//Creature painten
-				g2.drawImage(Data_Img.boss1, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 18){
+				g2.drawImage(Data_Img.boss2, xPos, yPos, this);
+			}else if(tempParameterList.get(0).equals("18")){
 				//Creature painten
-				g2.drawImage(Data_Img.boss1, xPos, yPos, this);
-			}else if(tempParameterList.get(0) == 19){
+				g2.drawImage(Data_Img.boss3, xPos, yPos, this);
+			}else if(tempParameterList.get(0).equals("19")){
 				//Creature painten
 				g2.drawImage(Data_Img.lootarrow, xPos, yPos, this);
+			}else if(tempParameterList.get(0).equals("20")){
+				//Creature painten
+				g2.drawImage(Data_Img.door, xPos, yPos, this);
+			}else if(tempParameterList.get(0).equals("21")){
+				g2.drawImage(Data_Img.torch, xPos, yPos, this);
+			}else if(tempParameterList.get(0).equals("22")){
+				g2.drawImage(Data_Img.fireelemental, xPos, yPos, this);
+			}else if(tempParameterList.get(0).equals("23")){
+				g2.drawImage(Data_Img.button_off, xPos, yPos, this);
+			}else if(tempParameterList.get(0).equals("24")){
+				g2.drawImage(Data_Img.lavahat, xPos, yPos, this);
+			}else if(tempParameterList.get(0).equals("25")){
+				g2.drawImage(Data_Img.lavapatch, xPos, yPos, this);
 			}
 		}
 	/*	for(int i=0; i<objectList.size(); i++){
