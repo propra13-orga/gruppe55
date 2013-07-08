@@ -3,23 +3,80 @@ package hhu.propra2013.gruppe55_opengl;
 import org.lwjgl.input.Keyboard;
 import static org.lwjgl.opengl.GL11.*;
 
+/** 
+ * Die Klasse Player.
+ * Diese Klasse erbt von der Klasse LivinObject und spezifiziert die Art des Objektes weiter (als Spielerfigur).
+ * @see LivingObject
+ */
+
 public class Player extends LivingObject {
+
 // Attribute
 	// Variablen fuer Handhabung von Unverwundbarkeit
+	
+	/** Dauer der Unverwundbarkeit in Millisekunden. */
+	
 	private int invulTime			=	500;		// Dauer der Unverwundbarkeit in Millisekunden
+	
 	// Variablen fuer den Angriff
+	
+	/** Die Waffen, die sich im Besitz des Spielers finden. */
+	
 	public Weapon[] weapons	=	new Weapon[3];	// Waffen in Besitz
-	private int currEquipped	=	0;			// Zeige auf aktuell ausgerï¿½stetes Waffenset (0= Nahkampf; 1= Fernkampf)
+	
+	/** Der Zeiger auf das aktuell ausgeruestete Waffenset (0 = Nahkampf, 1 = Fernkampf). */
+	
+	private int currEquipped	=	0;			// Zeige auf aktuell ausgeruestetes Waffenset (0= Nahkampf; 1= Fernkampf)
+	
+	/** Abfrage, ob eine Attacke ausgefuehrt wird. */
+	
 	private boolean attacking	=	false;		// Waehrend einer Attacke true
+	
+	/** Die Offsets fuer die Postion der Spielerhaende. */
+	
 	private int[][][] handOffsets	=	new int[4][2][4];	// Offsets fuer die Positionen der Spielerhaende
+	
 	// Zaubervariablen
+	
+	/** Der ausgeruestete Zauber. */
+	
 	private SpellObject spell;
+	
 	// Besitztuemer des Spielers
+	
+	/** Das Inventar fuer statische Objekte (Gold Traenke Pfeile...). */
+	
 	private int[] statInventory;		//Inventar fuer statische Objekte (Gold, Traenke, Pfeile)
+	
+	/** Die durch die Ausruestung erhaltenen Attribute. */
+	
 	private int[] stats;				// durch Ausruestung erhaltene Attribute
+	
+	/** Die Basiswertde des Spielers. */
+	
 	private int[] baseStats;			// Basiswerte des Spielers
-	public Lavahat hat = new Lavahat(x,y);	// Der Hut des Spielers
-	private boolean hashat = false;		// Hutabfragevariable
+	
+	/** Der Hut des Spielers. */
+	
+	public Hat hat;						// Der Hut des Spielers
+	
+	/** Die Abfrage, ob der Spieler mit einem Objekt interagieren moechte. */
+	
+	private boolean interaction=false;	// Angabe, ob der Spieler mit Objekten interagieren moechte
+	
+	/**
+	 * Der Konstruktor fuer den Player.
+	 * Beim Aufruf werden dem Konstruktor die Werte spawnX, spawnY, h, atk, def, energy, mana und l uebergeben.
+	 * Des Weiteren werden die benoetigten States, die Offsetarrays, das Inventory, die Waffen und die Zauber initialisiert.
+	 * @param spawnX  Die x-Koordinate, an der der Player generiert wird
+	 * @param spawnY  Die y-Koordinate, an der der Player generiert wird
+	 * @param h  Der HP-Wert, mit dem der Player generiert wird
+	 * @param atk  Der Angriffswert, mit dem der Player generiert wird
+	 * @param def  Der Verteidigungswert, mit dem der Player generiert wird
+	 * @param energy  Der Energiewert, mit dem der Player generiert wird
+	 * @param mana  Der maximale Manawert, mit dem der Player generiert wird
+	 * @param l  Die Anzahl Leben, mit denen der Player generiert wird
+	 */
 	
 // Konstruktor
     public Player(double spawnX, double spawnY, int h, int atk, int def, int energy, int mana, int l) {
@@ -64,12 +121,12 @@ public class Player extends LivingObject {
 		switchState(1);
 		
 		// Waffen initialisieren
-		weapons[0]	=	new Weapon();	// Haupthand
+		weapons[0]	=	new SimpleSword();	// Haupthand
 		weapons[1]	=	new SimpleShield();	// Nebenhand
 		weapons[2]	=	new SimpleBow();	// Fernkampfwaffe
 
 		// Zauber enbenfalls initialisieren
-		spell	=	new SpellFlameBreath(x,y);
+		spell	=	new SpellObject(x,y);
 
 		
 		// Attribute uebernehmen
@@ -124,6 +181,11 @@ public class Player extends LivingObject {
 
 	}
     
+    /**
+     * Die Methode attack.
+     * Diese Methode fragt den Angriffszustand ab und realisiert den Spielerangriff (Nah- und Fernkampf je nach equipter Waffe)
+     */
+    
     // Methode zum Agriff
     public void attack(){
     	// Wenn bereits im Angriff, kein neuer Angriff
@@ -161,6 +223,23 @@ public class Player extends LivingObject {
     	}.start();
     }
     
+    /**
+     * Die Methode dealDamage.
+     * Wird vom LivingObject geerbt, berechnet den Schaden aber von dem Waffenelementen abhaengig
+     * @param l Es wird ein zu schaedigendes LivingObject erwartet
+     */
+    public void dealDamage(LivingObject l){
+    	// Wir muessen nur das Waffenelement an die Muttermethode weitergeben, dazu schummeln wir
+    	element	=	weapons[0].getElement();
+    	super.dealDamage(l);
+    	element =	0;	// super.dealDamage nimmt nur das eigene Element, daher dieser kleine Kniff
+    }
+    
+    /** 
+     * Die Methode shoot.
+     * Diese Methode ueberprueft ob Pfeile vorhanden sind und loest den Schuss mit dem Bogen aus (die Pfeile werden gezeichnet). Anschliessend werden Pfeile aus dem Inventar des Spielers entfernt.
+     */
+    
     // Methode zum Pfeile Schiessen
 	public void shoot(){
 		// genug Pfeile?
@@ -196,6 +275,12 @@ public class Player extends LivingObject {
     	statInventory[4]--;
     }
 	
+	/**
+	 * Die Methode swapWeapons.
+	 * Diese Methode realisiert den Waffenwechsel (Schwert -> Bogen und Bogen -> Schwert). Es wird abgefragt, ob die Waffen vorhanden sind und wenn ja, dann wird auf die jeweils andere Waffe gewechselt.
+	 * Zudem werden die einzelnen Schadenswerte der neu ausgeruesteten Waffe uebernommen. 
+	 */
+	
     // Waffenset wechseln
     public void swapWeapons(){
     	// Gibt es eine Waffe, auf die gewechselt wird?
@@ -217,24 +302,32 @@ public class Player extends LivingObject {
     	calcStatsByWeapons();
     }
     
+    /**
+     * Die Methode calcStatsByWeapons.
+     * Diese Methode errechnet den Min- und Maxschaden sowie die weiteren Boni der jeweils ausgeruesteten Waffe. Die neuen Werte werden direkt in den Player uebernommen.
+     */
+    
     // Wenn neue Waffen angelegt werden, sollten die Attribute eingelesen werden
     private void calcStatsByWeapons(){
     	// alte werte auf 0 setzen
     	stats	=	new int[]{0,0,0,0,0,0,0};
+    	resistances	=	new int[][]{{0,0},{0,0},{0,0}};
     	minDmg	=	0;
     	maxDmg	=	0;
     	// neue Werte initialisieren zwischenspeichern
     	int[] newStats;
+    	int[][] newResis;
     	
     	
     	// entweder Fernkampfwaffe oder beide Nahkampfwaffen
     	for(int i=0; i<2-currEquipped;i++){ // wird 2x ausgefuehrt bei Nah- und 1x bei Fernkampf
     		if(weapons[currEquipped+i]!=null){	// Waffe angelegt
-    			newStats=weapons[currEquipped+i].getStats();
+    			newStats=weapons[2*currEquipped+i].getStats();
+    			newResis=weapons[2*currEquipped+i].getResistances();
     			
     			// Schaden uebernehmen
-    			minDmg+=weapons[currEquipped+i].getMinDmg();
-    			maxDmg+=weapons[currEquipped+i].getMaxDmg();
+    			minDmg+=weapons[2*currEquipped+i].getMinDmg();
+    			maxDmg+=weapons[2*currEquipped+i].getMaxDmg();
     			
     			// Attribute zusammenrechnen
     			stats[0]+=newStats[0];
@@ -244,7 +337,35 @@ public class Player extends LivingObject {
     			stats[4]+=newStats[4];
     			stats[5]+=newStats[5];
     			stats[6]+=newStats[6];
+    			// Widerstaende zusammenrechnen
+    			resistances[0][0]+=newResis[0][0];
+    			resistances[0][1]+=newResis[0][1];
+    			resistances[1][0]+=newResis[1][0];
+    			resistances[1][1]+=newResis[1][1];
+    			resistances[2][0]+=newResis[2][0];
+    			resistances[2][1]+=newResis[2][1];
     		}
+    	}
+    	// Der Hut!
+    	if(hat!=null){
+    		newStats=hat.getStats();
+			newResis=hat.getResistances();
+			
+			// Attribute zusammenrechnen
+			stats[0]+=newStats[0];
+			stats[1]+=newStats[1];
+			stats[2]+=newStats[2];
+			stats[3]+=newStats[3];
+			stats[4]+=newStats[4];
+			stats[5]+=newStats[5];
+			stats[6]+=newStats[6];
+			// Widerstaende zusammenrechnen
+			resistances[0][0]+=newResis[0][0];
+			resistances[0][1]+=newResis[0][1];
+			resistances[1][0]+=newResis[1][0];
+			resistances[1][1]+=newResis[1][1];
+			resistances[2][0]+=newResis[2][0];
+			resistances[2][1]+=newResis[2][1];
     	}
     	
     	// In den Spieler uebernehmen
@@ -258,6 +379,12 @@ public class Player extends LivingObject {
     	healBonus	=	baseStats[5]+stats[5];
     	manaBonus	=	baseStats[6]+stats[6];
     }
+    
+    /**
+     * Die Methode calcPlayerAngle.
+     * Diese Methode berechnet den Winkel bzw. die Richtung in die der Player schaut (0, 90, 180, 270 Grad) und gibt diesen zurueck.
+     * @return Der Winkel Wert als int.
+     */
     
 	// Methode zur Winkelberechnung des Spielerblickes
 	private int calcPlayerAngle(){
@@ -279,7 +406,12 @@ public class Player extends LivingObject {
 
 		return angle;
 	}
-
+	
+	/**
+	 * Die Methode spellCast.
+	 * Diese Methode fragt ab, was gezaubert werden soll, wie viel es kostet, setzt die Offsets neu, damit der Zauber nicht im Player generiert wird, fuegt das Event hinzu und wirkt schliesslich den Zauber.
+	 */
+	
 	// Methode zum Zaubern
 	public void spellCast(){
 		// was zaubern wir hier eigentlich?
@@ -316,12 +448,23 @@ public class Player extends LivingObject {
 		spell.cast(x+hOffset*32+vOffset*vOffset*state[currState].getTexture().getTextureWidth()/3,y+vOffset*32+hOffset*hOffset*state[currState].getTexture().getTextureHeight()/3,angle,atk);
 	}
 
+	/**
+	 * Die Methode teleport.
+	 * Diese Methode teleportiert den Player an eine bestimmte Stelle (x,y).
+	 * @param x  Die x-Koordinate, an die sich der Player teleportieren soll
+	 * @param y  Die y-Koordinate, an die sich der Player teleportieren soll
+	 */
     
     // Methode um den Spieler an eine bestimmte Stelle zu teleportieren
     public void teleport(int x, int y){
     	this.x	=	x;
     	this.y	=	y;
     }
+    
+    /**
+     * Die Methode setResetValues.
+     * Diese Methode ruft die Methode setResetValues aus der Mutterklasse LivingObject auf um die ResetValues zu setzen und erweitert diese dann noch um weitere Einträge (hpMax, manaMax, ...).
+     */
     
 	// Methode zum Setzen der Reset-Werte
 	public void setResetValues(){
@@ -333,6 +476,11 @@ public class Player extends LivingObject {
 		resetValues[10]	=	statInventory[2];	// 11.Wert: Heiltraenke
 		resetValues[11]	=	statInventory[3];	// 12.Wert: Manatraenke
 	}
+	
+	/**
+	 * Die Methode reset.
+	 * Diese Methode ruft die Methode reset aus der Mutterklasse LivingObject auf um die Werte zu resetten und resettet anschliessend auch noch die Playerspezifischen, die zuvor in setResetValues im Player gesetzt wurden.
+	 */
 
 	// Methode zum zuruecksetzen des Objektes
 	public void reset(){
@@ -348,8 +496,13 @@ public class Player extends LivingObject {
 		// Spezielles
 		hp	=	hpMax;
 		mana	=	manaMax;
-		hashat = false; 			// Hutstatus zuruecksetzen!
 	}
+	
+	/**
+	 * Die Methode draw.
+	 * Diese Methode zeichnet den Player, sofern dieser sichtbar ist und zeichnet auch alle Waffen und Kleidungsstuecke, die der Player derzeit ausgeruestet hat. 
+	 * Zusaetzlich ueberschreibt diese Methode die Methode draw aus der Mutterklasse LivingObject, um einige Anpassungen vorzunehmen. 
+	 */
 
     
     // Methode zum Spieler-Zeichnen
@@ -363,7 +516,7 @@ public class Player extends LivingObject {
     		return;
     	}
     	// Wenn man den Hut hat soll er auch gezeichnet werden!
-    	if(hashat==true){
+    	if(hat!=null){
     		hat.draw((int)x,(int)y);	
     	}
     	// Richtungen der Waffen anpassen
@@ -390,6 +543,11 @@ public class Player extends LivingObject {
     	}
     }
     
+    /**
+     * Die Methode revive.
+     * Diese Methode belebt den Player wieder, wenn er gestorben ist. Dabei wird der State gewechselt und hp, mana und energy werden wieder zurueckgesetzt.
+     */
+    
     // Methode um den Spieler "wiederzubeleben"
     public void revive(){
     	hp	=	hpMax;
@@ -399,47 +557,120 @@ public class Player extends LivingObject {
     	// derzeit wird hier kein weiterer Code benoetigt (das kann sich im Laufe des Projekts aendern)
     }
     
+    /**
+     * Die Methode getAttackState.
+     * Diese Methode gibt den attacking-Zustand zurueck. 
+     * @return true, wenn der Player gerade angreift.
+     */
+    
     // Abfrage des Angriffsstatus
     public boolean getAttackState(){
     	return attacking;
     }
+    
+    /**
+     * Die Methode getAtk.
+     * Diese Methode gibt den aktuellen atk Wert zurueck.
+     * @return Der aktuelle atk Wert als int.
+     */
     
     // Abfrage des aktuellen ATK-Werts des Spielers
     public int getAtk(){
     	return atk;
     }
     
+    /**
+     * Die Methode giveStatInventoryObject.
+     * Diese Methode erhoeht / verringert die Anzahl eines Objektes im Inventar des Players.
+     * @param o  Die Stelle o im Inventararray, an der sich das Objekt befindet
+     * @param a  Die Anzahl a um die das Objekt erhoeht oder verringert werden soll
+     */
+   
     // Spieler etwas in das Grundinventar hinzufuegen
     public void giveStatInventoryObject(int o, int a){
     	statInventory[o]+=a;
 	}
+    
+    /** 
+     * Die Methode getStatInventoryObject.
+     * Diese Methode gibt die Anzahl der sich an der Stelle o befindlichen Objekte im Inventar des Players zurueck. 
+     * @param o  Die Stelle o im Inventararray, an der sich das Objekt befindet
+     * @return Die Menge an der Stelle o im Inventararray. 
+     */
 
     // Anzahl eines Gegenstandes aus dem Grundinventar abfragen
 	public int getStatInventoryObjectCount(int o){
 		return(statInventory[o]);
 	}
 
+	/**
+	 * Die Methode getWeapSet.
+	 * Diese Methode gibt das aktuell equippte Waffenset zurueck.
+	 * @return Das aktuell equippte Waffenset als int.
+	 */
+	
     
     // Abfrage des aktuellen Waffensets
     public int getWeapSet(){
     	return currEquipped;
     }
+    
+    /**
+     * Die Methode collecthat.
+     * Diese Methode setzt die Variable hashat auf true, sobald der Player den Hut einsammelt.
+     */
+    
     // Den Hut einsammeln!
     public void collecthat(){
-    	hashat = true;
+    	hat=new Lavahat(x,y);
+    	calcStatsByWeapons();
     }
+    
+    /**
+     * Die Methode gethat.
+     * Diese Methode gibt zurueck, ob der Player den Hut besitz.
+     * @return true, wenn der Player den Hut besitzt.
+     */
+    
     // Abfrage ob man den Hut hat!
     public boolean gethat(){
-    	return hashat;
+    	return (hat!=null);
     }
+    
+    /**
+     * Diese Methode gibt wieder, ob der Spieler gewillt ist mit naheliegenden Objekten zu interagieren
+     * @return Wahrheitswert des Interaktionsbed&uuml;rfnisses
+     */
+    public boolean wantsToInteract(){
+    	return interaction;
+    }
+    
+    /**
+     * Die Methode getTX.
+     * Diese Methode gibt die x Koordinate der Mitte der Textur zurueck.
+     * @return Die x-Koordinate der Mitte der Textur als int
+     */
     
     // Methoden fuer die X und Y-Koordinaten
     public int getTX(){
     	return (int)x-state[currState].getTexture().getTextureWidth()/2;
     }
+    
+    /**
+     * Die Methode getTY.
+     * Diese Methode gibt die y-Koordinate der Mitte der Textur zurueck.
+     * @return Die y-Koordinate der Mitte der Textur als int
+     */
+    
     public int getTY(){
     	return (int)y-state[currState].getTexture().getTextureHeight()/2;
     }
+    
+    /**
+     * Die Methode keyPressed.
+     * Diese Methode leitet die gedrueckte Taste auf der Tastatur an den Player weiter und bestimmt dadurch seine Bewegung.
+     * @param k  Diese Methode erwartet die Uebergabe eines int Werts k
+     */
 
 // Methoden zur Steuerung des Spielers per Keyboard
 	public void keyPressed(int k) {
@@ -447,11 +678,20 @@ public class Player extends LivingObject {
 		if (k == Keyboard.KEY_RIGHT) {dx = +1;}
 		if (k == Keyboard.KEY_DOWN) {dy = +1;}
 		if (k == Keyboard.KEY_UP) {dy = -1;}
+		if (k == Keyboard.KEY_E) {interaction=true;}
 	}
+	
+	/**
+     * Die Methode keyReleased.
+     * Diese Methode leitet die losgelassene Taste (die zuvor in der KeyPressed Methode gedrueckt wurde) an den Player weiter und bestimmt dadurch seine Bewegung.
+     * @param k  Diese Methode erwartet die Uebergabe eines int Werts k
+     */
+	
 	public void keyReleased(int k) {
 		if (k == Keyboard.KEY_LEFT) {dx = 0;}
 		if (k == Keyboard.KEY_RIGHT) {dx = 0;}
 		if (k == Keyboard.KEY_DOWN) {dy = 0;}
 		if (k == Keyboard.KEY_UP) {dy = 0;}
+		if (k == Keyboard.KEY_E) {interaction=false;}
 	}
 }

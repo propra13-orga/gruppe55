@@ -30,18 +30,19 @@ public class LevelMP extends Level implements GameEventListener{
 	private boolean freeze = false;		// friert das Level ein
 	private int openedInterface;			// Welches Interface aufgerufen ist
 	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
+	private boolean waiting;				// Ob auf 2. Spieler gewartet werden soll
 	private boolean fullscreen;				// Ob Fullscreen aktiviert ist
 	private DisplayMode initMode;			//Originalfenstermodus
 	private boolean jsonParser = true;		// Ob der JSON Parser verwendet werden soll
 	private LevelData levelDataObj;
 	static Data_Textures textures;			// Grafik-Klasse
 	private long lastAction;	// Timer-Variable
-	private GameMenu gm;		//Spiele-Men�
+	private GameMenu gm;		//Spiele-Menue
 	
 	
 // Konstruktor
-	public LevelMP(int x, int y, GameMenu gm, int lvl) {
-		super(x, y, gm, lvl);
+	public LevelMP(int x, int y, GameMenu gm, int lvl, String a) {
+		super(x, y, gm, lvl, a);
 	}
 
 	public void loadLevel(String file){
@@ -365,10 +366,16 @@ public class LevelMP extends Level implements GameEventListener{
 		
 		// Erster CheckPoint ist der LevelEintritt
 		checkPointReached();
-		
-		//NetzwerkClient starten
-		c = new Client();
-		c.start();
+		if(adress != "local"){
+			//NetzwerkClient starten
+			waiting = true;
+			iFace.setDialog("Waiting for 2nd Player ... ");
+			freeze = true;
+			setOpenedInterface(1);
+			setDialog(true);
+			c = new Client(this, adress);
+			c.start();
+		}
 	}
 	
 // Methoden
@@ -551,8 +558,10 @@ public class LevelMP extends Level implements GameEventListener{
 			GL11.glMatrixMode(GL11.GL_MODELVIEW);
 			GL11.glLoadIdentity();
 			
-			input();
-			engine();
+			if(!waiting){
+				input();
+				engine();
+			}
 			render();
 			
 			Display.update();
@@ -567,7 +576,7 @@ public class LevelMP extends Level implements GameEventListener{
 	public void input(){
 		// KeyboardEvents
 		
-		// Tastatur-Events w�hrend des Spiels
+		// Tastatur-Events waehrend des Spiels
 		if(!lose && !clear && !gameover){		
 			while(Keyboard.next()){				
 				int k = Keyboard.getEventKey();
@@ -604,6 +613,7 @@ public class LevelMP extends Level implements GameEventListener{
 							}
 							break;
 						case Keyboard.KEY_SPACE:
+							c.send("1,1,5");
 							if((lose || clear) && !gameover ){
 								reload();
 							}
@@ -613,6 +623,7 @@ public class LevelMP extends Level implements GameEventListener{
 							}
 							break;
 						case Keyboard.KEY_E:
+							c.send("1,1,2");
 							for(int i=0; i<creatureList.get(room).size(); i++){
 								// Wenn angesprochender NPC ein Shopkeeper ist
 								if(creatureList.get(room).get(i) instanceof Shopkeeper){
@@ -643,6 +654,7 @@ public class LevelMP extends Level implements GameEventListener{
 							else{close = true;}
 							break;
 						case Keyboard.KEY_X:
+							c.send("1,1,a");
 							player1.swapWeapons();
 							break;
 						case Keyboard.KEY_F:
@@ -668,15 +680,18 @@ public class LevelMP extends Level implements GameEventListener{
 							} catch (LWJGLException e) {e.printStackTrace();}
 							break;
 						case Keyboard.KEY_C:
+							c.send("1,1,1");
 							player1.spellCast();
 							break;
 						case Keyboard.KEY_A:
+							c.send("1,1,0");
 							if(player1.getStatInventoryObjectCount(2)>0){
 								player1.getHealed(2);
 								player1.giveStatInventoryObject(2, -1);
 							}
 							break;
 						case Keyboard.KEY_S:
+							c.send("1,1,3");
 							if(player1.getStatInventoryObjectCount(3)>0){
 								player1.fillmana(1);
 								player1.giveStatInventoryObject(3, -1);
@@ -701,12 +716,14 @@ public class LevelMP extends Level implements GameEventListener{
 				if(Keyboard.getEventKeyState()){
 					switch(k){
 						case 28:
+							c.send("1,1,6");
 							//Beenden
 							if(lose || clear || gameover){
 								close = true;
 							}
 							break;
 						case Keyboard.KEY_SPACE:
+							c.send("1,1,5");
 							// Naechstes Level
 							if(clear){
 								currLvl++;
@@ -735,8 +752,74 @@ public class LevelMP extends Level implements GameEventListener{
 		}
 	}
 	
-	//Input für Player 2
-	public void input2(){
+	// Eingaben fuer Player2
+	public void input2(double dx,double dy, boolean a, boolean c, boolean e, boolean s, boolean x, boolean space, boolean enter){
+		
+		if(dx == -1){
+			player2.keyPressed(Keyboard.KEY_LEFT);
+		}
+		if(dx == 1){
+			player2.keyPressed(Keyboard.KEY_RIGHT);
+		}
+		if(dy == -1){
+			player2.keyPressed(Keyboard.KEY_UP);
+		}
+		if(dy == 1){
+			player2.keyPressed(Keyboard.KEY_DOWN);
+		}
+		
+		if(!lose && !clear && !gameover){
+			if(space){
+				if(!gameover){
+					player2.attack();
+				}
+			}
+			if(e){
+				player2.keyPressed(Keyboard.KEY_E);
+			}
+			if(x){
+				player2.swapWeapons();
+			}
+			if(c){
+				player2.spellCast();
+			}
+			if(a){
+				if(player2.getStatInventoryObjectCount(2)>0){
+					player2.getHealed(2);
+					player2.giveStatInventoryObject(2, -1);
+				}
+			}
+			if(s){
+				if(player2.getStatInventoryObjectCount(3)>0){
+					player2.fillmana(1);
+					player2.giveStatInventoryObject(3, -1);
+				}
+			}
+		}
+		// Tastatur-Events bei Loose/Clear
+		else{
+			if(enter){
+				//Beenden
+				if(lose || clear || gameover){
+					close = true;
+				}
+			}
+			if(space){
+				// Naechstes Level
+				if(clear){
+					currLvl++;
+					if(currLvl <= 3){
+						loadLevel("Level"+currLvl);
+					}
+				}
+				// Reload
+				else if(!gameover){
+					reload();
+				}
+			}
+			player2.keyReleased(Keyboard.KEY_UP);
+			player2.keyReleased(Keyboard.KEY_LEFT);
+		}
 	}
 	
 	// Game-Logic
@@ -864,6 +947,11 @@ public class LevelMP extends Level implements GameEventListener{
 	//GameFreeze togglen
 	public void toggleFreeze(){
 		freeze	=	!freeze;
+	}
+	
+	//Waiting togglen
+	public void toggleWaiting(){
+		waiting	=	!waiting;
 	}
 	
 	//Dialog anzeigen ja/nein

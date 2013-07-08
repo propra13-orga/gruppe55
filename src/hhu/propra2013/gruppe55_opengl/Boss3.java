@@ -2,15 +2,47 @@ package hhu.propra2013.gruppe55_opengl;
 
 import static org.lwjgl.opengl.GL11.*;
 
+/**
+ * Die Klasse Boss2.
+ * Diese Klasse erbt von der Klasse Creature und implementiert diese weiter als Boss3.
+ * @see Creature
+ */
+
 public class Boss3 extends Creature {
 	// Attribute
+	
+	/** Das alternative Projectile fuer die verschiedenen Phasen des Bosskampfes (Feuerball). */
+	
 	private Projectile alternativeProjectile	=	new Fireball(0,0,0,0);
+	
 	// Kontrollvariablen fuer Phase 3
+	
+	/** Boolean, ob bereits ein Warnschuss abgegeben wurde. */
+	
 	private boolean warning1	=	false;	// Boolean, ob bereits ein Warnschuss abgegeben wurde
+	
+	/** Boolean, ob bereits ein zweiter Warnschuss abgegeben wurde. */
+	
 	private boolean warning2	=	false;	// Boolean, ob bereits ein zweiter Warnschuss abgegeben wurde
+	
+	/** Winkel, der gewarnt wurde. */
+	
 	private int warnedAngle = 0;		// Winkel, der gewarnt wurde
 	
+	/** Abfrage ob der Boss von einer Wand abgebounced ist. */
+	
 	protected boolean bounce = false;		// Abfrage ob der Boss von einer Wand abgebounced ist
+	
+	/**
+	 * Der Konstruktor fuer den dritten Boss. 
+	 * Beim Aufruf werden dem Konstruktor die Werte spawnX, spawnY, h, angr und vert uebergeben.
+	 * Des Weiteren wird an dieser Stelle der State fuer den Boss gesetzt und das Bild geladen, sowie die Bewegungsrichtung, die Geschwindigkeit und die Schussreichweite initialisiert.
+	 * @param spawnX  Die x-Koordinate, an der der Boss gezeichnet wird.
+	 * @param spawnY  Die y-Koordinate, an der der Boss gezeichnet wird.
+	 * @param h  Der HP-Wert, mit dem der Boss generiert wird.
+	 * @param angr  Der Angriffswert, mit dem der Boss generiert wird.
+	 * @param vert  Der Verteidigungswert, mit dem der Boss generiert wird.
+	 */
  
     public Boss3(double spawnX, double spawnY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
@@ -26,6 +58,12 @@ public class Boss3 extends Creature {
 		// Resetrelevante Werte
 		resetValues	=	new int[9];	// atk und detectionRange und speed kommen dazu, sonst wird nach dem Enrage nicht zurueck gesetzt
     }
+    
+    /**
+     * Die Methode fuer die Bewegung.
+     * Diese Methode ueberschreibt Methode move aus der Mutterklasse Creature und definiert das Bewegungsmuster. Ausserdem wird an dieser Stelle das Abprallen von den Wänden realisiert.
+     * @see Creature
+     */
 
     public void move(){    	
     	// Berechnung des Winkels beim abprallen von einer Wand
@@ -41,6 +79,13 @@ public class Boss3 extends Creature {
     		y+=speed*dy;
     	}
     }
+    
+    /**
+     * Die Methode action.
+     * Diese Methode definiert das Kampfverhalten des Bosses. Der Bosskampf unterteilt sich in 3 Phasen, die abhaengig von seiner HP beginnen und die sich in seinem Schussmuster unterscheiden. 
+     * @param pX  Die Methode erwartet die Uebergabe eines int Werts pX
+     * @param pY  Die Methode erwartet die Uebergabe eines int Werts pY
+     */
     
     public void action(int pX, int pY){
 		// Ist der Spieler in Reichweite?
@@ -91,6 +136,12 @@ public class Boss3 extends Creature {
 			}
 		}
 	}
+    
+    /**
+     * Die Methode setBack.
+     * Diese Methode ruft die Methode setBack der Mutterklasse Creature auf und sorgt dafuer, dass der Boss von der Wand abprallt.
+     * @see MovingObject
+     */
 
     // Hier wird auch nur ein kleines Detail ergaenzt (genau wie bei getHit)
 	public void setBack(){
@@ -98,9 +149,9 @@ public class Boss3 extends Creature {
 		super.setBack();	// Aufrufen der Muttermethode
 	}
       
-    public void getHit(int dmg){
+    public void getHit(int dmg, int e){
     	// Muttermethode aufrufen - wir wollen nur ein Detail ergaenzen
-    	super.getHit(dmg);		
+    	super.getHit(dmg,e);		
     	
     	// bewegungsgeschwindigkeit berechnen
     	// Wenn der Boss weniger als 5 HP hat
@@ -126,6 +177,11 @@ public class Boss3 extends Creature {
     	}
     }
     
+    /**
+     * Die Methode setResetValues.
+     * Diese Methode ruft die Methode setResetValues aus der Mutterklasse LivingObject auf um die ResetValues zu setzen und erweitert diese dann noch um weitere Einträge (atk, detectionRange, ...).
+     */
+    
     // Resetmethoden bearbeiten
     public void setResetValues(){
     	super.setResetValues();
@@ -133,6 +189,12 @@ public class Boss3 extends Creature {
     	resetValues[7]	=	detectionRange;
     	resetValues[8]	=	(int) speed;
     }
+    
+    /**
+	 * Die Methode reset.
+	 * Diese Methode ruft die Methode reset aus der Mutterklasse LivingObject auf um die Werte zu resetten und resettet anschliessend auch noch die Boss3 spezifischen, die zuvor in setResetValues im Boss3 gesetzt wurden.
+	 */
+    
     public void reset(){
     	super.reset();
     	atk	=	resetValues[6];

@@ -1,16 +1,41 @@
 package hhu.propra2013.gruppe55_opengl;
 
+/**
+ * Die Klasse MovingObject.
+ * Diese Klasse dient als Mutterklasse fuer alle sich bewegenden Objekte und erbt von der Klasse DungeonObject.
+ * @see DungeonObject
+ */
+
 public abstract class MovingObject extends DungeonObject {
+
 // Attribute
 	// Bewegung
-	protected double dx, dy;		// direction coordinates (dx: -1, move left; 1 move right;; dy: -1, move up, 1, move down
-	protected double speed=3;		// speed of object (2 normal speed -> 2px/actionPerfordmed)
 
+	/** Die Richtungskoordinaten (dx: -1 = nach links; 1 = nach rechts; dy: -1 = nach oben; 1 = nach unten). */
+	
+	protected double dx, dy;		// direction coordinates (dx: -1, move left; 1 move right;; dy: -1, move up, 1, move down
+	
+	/** Die Bewegungsgeschwindigkeit (Default: 2 = 2 Pixel / actionPerformed). */
+	
+	protected double speed=3;		// speed of object (2 normal speed -> 2px/actionPerfordmed)
+	
+	/**
+	 * Der Konstruktor fuer ein MovingObject.
+	 * Beim Aufruf werden die x und y Werte an den Konstruktor uebergeben.
+	 * @param x  die x Koordinate fuer das Movingobject
+	 * @param y  die y Koordinate fuer das Movingobject
+	 */
+	
 // Konstruktor
 	public MovingObject(double x, double y) {
 		super(x, y);
 	}
 
+	/**
+	 * Die Methode move.
+	 * Diese Methode benutzen alle beweglichen Objekte um sich auf dem Spielfeld bewegen zu koennen. Die Bewegung wird dabei durch Beschleunigung in eine Richtung (dx / dy) realisiert.
+	 */
+	
 // Methoden
 	// Methode zur Bewegeung
 	public void move(){
@@ -25,6 +50,11 @@ public abstract class MovingObject extends DungeonObject {
 		// Richtung pruefen
 		checkDirection();
 	}
+	
+	/**
+	 * Die Methode checkDirection.
+	 * Diese Methode benutzen bewegliche Objekte um den Laufweg zu errechnen. 
+	 */
 	
 	// Methode zur Richtungskontrolle (Bewegungsabhaengig)
 	protected void checkDirection(){
@@ -44,6 +74,12 @@ public abstract class MovingObject extends DungeonObject {
 		if(direction!=oldDirection)
 			changeDirection(direction);
 	}
+	
+	/**
+	 * Die Methode setDirectionByAngle.
+	 * Diese Methode errechnet die Richtung auf Basis eines uebergebenen Winkels und aendert diese dann entsprechend.
+	 * @param angle - Die Methode erwartet die Uebergabe eines int Werts angle
+	 */
 	
 	// Methode zur Richtungsberechnung bei gegebenem Winkel
 	protected void setDirectionByAngle(int angle){
@@ -72,6 +108,10 @@ public abstract class MovingObject extends DungeonObject {
 		}
 	}
 
+	/**
+	 * Die Methode setBack.
+	 * Diese Methode setzt ein Objekt um einige Pixel nach zurueck (z.B. wenn der Spieler in eine Wand laeuft, wird er zurueck gesetzt).
+	 */
 	
 	// Waende haben Pushback (man wird einige Pixel zurueckgesetz)
 	public void setBack(){

@@ -1,8 +1,22 @@
 package hhu.propra2013.gruppe55_opengl;
 
+/**
+ * Die Klasse SimpleBow.
+ * Diese Klasse erbt von der Klasse Weapon und spezifiziert diese weiter als SimpleBow (einfacher Bogen).
+ */
+
 public class SimpleBow extends Weapon{
+
 // Attribute
+
+	/** Der Typ des Angriffs mit dieser Waffe (2 = Fernkampf). */
+	
 	protected int type	=	2;		// Fernkampf 
+	
+	/**
+	 * Der Konstruktor fuer den SimpleBow.
+	 * Hier werden Name, Schaden, States und Bilder sowie Offsetwerte fuer das Zeichnen des Bogens gesetzt. 
+	 */
 	
 	public SimpleBow() {
 		super();

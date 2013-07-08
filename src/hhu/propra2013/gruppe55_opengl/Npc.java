@@ -2,25 +2,46 @@ package hhu.propra2013.gruppe55_opengl;
 
 import java.awt.Rectangle;
 
-public class Npc extends LivingObject {	
+/**
+ * Die Klasse Npc.
+ * Diese Klasse erbt von der Klasse LivingObject und implementiert die Grundfunktionen eines Npc.
+ * @see LivingObject
+ */
 
-	// Interaktions-Hitbox-Offsets fuer Npc's 
-	protected int offset2[] = {-15,-15, -15, -15};
+public class Npc extends LivingObject {	
+	
+	/** Enthaelt den Dialog, den der NPC zu erzaehlen gewillt ist. */
+	
+	protected String[] storyToTell;		// Enthaelt den Dialog, den der NPC zu erzaehlen gewillt ist
+	
+	/** Gibt an welche Form der Interaktion ausgefuehrt werden soll. (1 = Dialog, 2 = Shop, sonst nichts). */
+	
+	protected int interactionResponse;	// 1=Dialog, 2=Shop, sonst nichts
+	
+	/**
+	 * Der Konstruktor fuer den Npc.
+	 * Beim Aufruf werden dem Konstruktor die Werte spawnX, spawnY, h, angr und vert uebergeben.
+	 * Des Weiteren wird hier der State fuer den Npc auf massiv geaendert.
+	 * @param spawnX  Die x-Koordinate, an der der Npc gezeichnet wird.
+	 * @param spawnY  Die y-Koordinate, an der der Npc gezeichnet wird.
+	 * @param h  Der HP-Wert, mit dem der Npc generiert wird.
+	 * @param angr  Der Angriffswert, mit dem der Npc generiert wird.
+	 * @param vert  Der Verteidigungswert, mit dem der Npc generiert wird.
+	 */
+	
 	// Kontruktor fuer den Npc
 	public Npc(double spawnX, double spawnY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
 		state[1].massive = true;
+		storyToTell	=	Data_String.story1;
+		detectionRange	=	45;
     }
-	// Neue Hitbox fuer den Npc (Bereich um ihn herum zum Interagieren)
-	public Rectangle getBorder(){
-		// Wenn der Npc da is...
-		if(state[currState].visible){
-			return new Rectangle((int)x + (int)offset2[1], (int)y + (int)offset2[0], state[currState].getTexture().getTextureWidth() -offset2[1]-offset2[3], state[currState].getTexture().getTextureHeight()-offset2[0]-offset2[2]);
-		}		
-		   else
-		// ... und wenn er nicht da ist
-		return new Rectangle(0,0,0,0);
-	}
+	
+	/**
+	 * Die Methode onCollision.
+	 * Diese Methode sorgt dafuer, dass der Player nicht durch den Npc hindurchlaufen kann. 
+	 * Die Methode onCollision ueberschreibt, die aus der Mutterklasse MovingObject stammdene, Methode onCollision. 
+	 */
 	
 	protected void onCollision(DungeonObject d){
 		// standart fuer ungefaehrliche Objekte
@@ -28,7 +49,28 @@ public class Npc extends LivingObject {
 				// solange Kollision wird das Objekt zurückgeschoben
 				((LivingObject)d).setBack();
 			}
-//			System.out.println("blobb"); // Anzeige zum Pruefen der Hitbox - kannst du spaeter loeschen
+	}
+	
+	/**
+	 * Die interaction-Methode von NPC-Objekten kontrolliert die Ausgabe eines Dialoges bzw das Abrufen des Shops
+	 * @param px X-Koordinate des Spielers
+	 * @param py Y-Koordinate des Spielers
+	 * @see LivingObject
+	 */
+	public void interaction(int px, int py){
+		// Abfrage ob der Spieler in Interagtionsreichweite intergieren will! 
+		if(distanceBetween(px, py)<=interactionRange){
+			if(interactionResponse==1){
+				for(GameEventListener gel : evtList){
+					gel.showDialog(storyToTell);
+				}
+			}
+			else if(interactionResponse==2){
+				for(GameEventListener gel : evtList){
+					gel.openShop();
+				}
+			}
+		}
 	}
 
 }

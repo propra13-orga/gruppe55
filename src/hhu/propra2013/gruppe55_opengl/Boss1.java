@@ -1,9 +1,28 @@
 package hhu.propra2013.gruppe55_opengl;
 
+/**
+ * Die Klasse Boss1.
+ * Diese Klasse implementiert den ersten Boss. Sie erbt von der Klasse Creature.
+ * @see Creature
+ */
+
 public class Boss1 extends Creature {
 	
+	/** Abfrage ob der Boss von einer Wand abgebounced ist. */ 
+		
 	protected boolean bounce = false;		// Abfrage ob der Boss von einer Wand abgebounced ist
  
+	/**
+	 * Der Konstruktor fuer den ersten Boss. 
+	 * Beim Aufruf werden dem Konstruktor die Werte spawnX, spawnY, h, angr und vert uebergeben.
+	 * Des Weiteren wird an dieser Stelle der State fuer den Boss gesetzt und das Bild geladen, sowie die Bewegungsrichtung und die Geschwindigkeit initialisiert.
+	 * @param spawnX Die x-Koordinate, an der der Boss gezeichnet wird.
+	 * @param spawnY  Die y-Koordinate, an der der Boss gezeichnet wird.
+	 * @param h  Der HP-Wert, mit dem der Boss generiert wird.
+	 * @param angr  Der Angriffswert, mit dem der Boss generiert wird.
+	 * @param vert  Der Verteidigungswert, mit dem der Boss generiert wird.
+	 */
+	
     public Boss1(double spawnX, double spawnY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
 		
@@ -15,6 +34,13 @@ public class Boss1 extends Creature {
 		speed = 3;								// Startgeschwindigkeit
     }
 
+    /**
+     * Die Methode fuer die Bewegung.
+     * Diese Methode definiert das Bewegungsmuster und die verschiedenen Phasen des Bosskampfes. Je nach HP des Bosses aendert dieser seine Geschwindigkeit und seinen Schaden. Ausserdem wird an dieser Stelle das Abprallen von den Wänden realisiert.
+     * Die Methode move ueberschreibt die aus der Klasse Creature stammende Methode move.
+     * @see Creature
+     */
+    
     public void move(){    	
 		// bewegungsgeschwindigkeit berechnen
     	// Wenn der Boss weniger als 5 HP hat
@@ -41,15 +67,30 @@ public class Boss1 extends Creature {
 		
     }
 
+    /**
+     * Die Methode setBack.
+     * Diese Methode ruft die Methode setBack der Mutterklasse Creature auf und sorgt dafuer, dass der Boss von der Wand abprallt.
+     * @see MovingObject
+     */
+    
     // Hier wird auch nur ein kleines Detail ergaenzt (genau wie bei getHit)
 	public void setBack(){
 		bounce = true;		// bounce wird auf true gesetzt damit das Monster weiss, dass es die Richtung wechseln soll
 		super.setBack();	// Aufrufen der Muttermethode
 	}
       
-    public void getHit(int dmg){
+	/**
+	 * Die Methode getHit.
+	 * Diese Methode ruft zum einen die getHit Methode aus der Klasse Creature auf
+	 * Die Methode ueberschreibt die Methode getHit der Mutterklasse Creature mit dem Event, dass der Boss das GoalObject droppt.
+	 * @param dmg  Die Methode erwartet einen Int Wert der aus der Dmg-Berechnung hervorgeht (im LivingObject)
+	 * @param e Es wird ein nummerischer Wert erwartet, der den Elementtyp des eintreffenden Schadens beschreibt
+	 * @see Creature
+	 */
+	
+    public void getHit(int dmg, int e){
     	// Muttermethode aufrufen - wir wollen nur ein Detail ergaenzen
-    	super.getHit(dmg);
+    	super.getHit(dmg,e);
     	
     	// Unser Detail:
     	if(hp<=0){
