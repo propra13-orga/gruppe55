@@ -60,7 +60,7 @@ public class Level implements GameEventListener{
 	
 	/** Spielbeendende Variablen. */
 	
-	private boolean lose, clear, gameover, close,alreadyInteracted=false;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
+	private boolean lose, clear, gameover, close, alreadyInteracted=false;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
 	
 	// Wichtige variablen fuer das neu Laden eines Levels
 	
@@ -122,6 +122,7 @@ public class Level implements GameEventListener{
 	 * @param y  Die Methode erwartet die Uebergabe eines int Werts y
 	 * @param g  Die Methode erwartet die Uebergabe eines Objektes g vom Typ GameMenu
 	 * @param lvl  Die Methode erwartet die Uebergabe eines int Werts lvl
+	 * @param a  Die Methode erwartet die Uebergabe eines String Werts a
 	 */
 	
 // Konstruktor
@@ -160,7 +161,7 @@ public class Level implements GameEventListener{
 				FileReader fread = new FileReader("lvl/" + file + ".txt");
 				BufferedReader in = new BufferedReader(fread);
 				
-				int k = 0; //F�r 3. Arraydimension wird eigene Variable ben�tigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
+				int k = 0; //Fuer 3. Arraydimension wird eigene Variable benoetigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
 				
 				for(int i=0; (line = in.readLine()) != null; i++){
 					if(i==0){
@@ -362,6 +363,12 @@ public class Level implements GameEventListener{
 			//12: Healthcontainer
 			//13: Checkpoint
 			
+			int torchCounter=0;	// Zaehlt die Position im TriggerArray ab, die uebergeben werden soll
+			String[][] torchTrigger={{"f1"},{"f2"},{"f3"},{"f4"},{"f5"},{"f6"}}; // Array der TriggerKeyArrays fuer die Fackeln
+			int switchCounter=0; // Wie der torchCounter nur fuer Schalter
+			String[][] switchTrigger={{"f1","f4","f6"},{"f2","f4","f5"},{"f1","f2","f6"},{"f2","f4","f5","f6"},{"f2","f3","f4"},{"f2","f5","f6"}};	// Array der TriggerKeyArrays fuer die Schalter
+
+			
 			// Schleife die das Level generiert
 			for(int r=0; r<levelDataObj.totalRooms();r++){
 				// Listen um eine Dimension erweitern
@@ -369,75 +376,98 @@ public class Level implements GameEventListener{
 				creatureList.add(new ArrayList<LivingObject>(0));
 				teleportList.add(new ArrayList<Teleporter>(0));
 				// Sami, y u no comment?
-				for(Map.Entry<String, ArrayList<Integer>> entry : levelDataObj.getlevelRoom(r).entrySet()){
-					ArrayList<Integer> tempParameterList = entry.getValue();
+				for(Map.Entry<String, ArrayList<String>> entry : levelDataObj.getlevelRoom(r).entrySet()){
+					ArrayList<String> tempParameterList = entry.getValue();
 					int xPos,yPos;
 					String[] tempStr = entry.getKey().split(",");
 					xPos = Integer.parseInt(tempStr[0]);
 					yPos = Integer.parseInt(tempStr[1]);
 					//Wall
-					if(tempParameterList.get(0) == 1){
+					if(tempParameterList.get(0).equals("1")){
 						//Texturparameter
-						if(tempParameterList.get(1) == 0){
-							staticList.get(r).add(new WallObject(xPos, yPos));
+						if(tempParameterList.get(1).equals("0") || tempParameterList.get(1).equals("texture1") || tempParameterList.get(1).equals("")){
+								staticList.get(r).add(new WallObject(xPos, yPos));
 						}
 					}
 					//Creature
-					else if(tempParameterList.get(0) == 2){
-						creatureList.get(r).add(new Creature(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));    // bei 2 wird ein Monsterobjekt generiert
-					}else if(tempParameterList.get(0) == 3 ){
+					else if(tempParameterList.get(0).equals("2")){
+						creatureList.get(r).add(new Creature(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3)))); // bei 2 wird ein Monsterobjekt generiert
+					}else if(tempParameterList.get(0).equals("3") ){
 						if(player == null){
-							playerSpawnX = xPos;
-							playerSpawnY = yPos;
-							player  =  new Player(playerSpawnX, playerSpawnY, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3), tempParameterList.get(4), tempParameterList.get(5), tempParameterList.get(6));    
+								playerSpawnX = xPos;
+								playerSpawnY = yPos;
+								player = new Player(playerSpawnX, playerSpawnY, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3)), Integer.parseInt(tempParameterList.get(4)), Integer.parseInt(tempParameterList.get(5)), Integer.parseInt(tempParameterList.get(6)));
 						}
 						else{
 							player.teleport(xPos, yPos);
+						}
+					}else if(tempParameterList.get(0).equals("4")){
+						teleportList.get(r).add(new Teleporter(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+					}else if(tempParameterList.get(0).equals("5")){
+						staticList.get(r).add(new TrapObject(xPos, yPos));
+					}else if(tempParameterList.get(0).equals("6")){
+						staticList.get(r).add(new GoalObject(xPos, yPos));
+					}else if(tempParameterList.get(0).equals("7")){
+						staticList.get(r).add(new PotionObject(xPos, yPos));
+					}else if(tempParameterList.get(0).equals("8")){
+						staticList.get(r).add(new MPotionObject(xPos, yPos));
+					}else if(tempParameterList.get(0).equals("9")){
+						staticList.get(r).add(new TreasureObject(xPos, yPos));
+					}else if(tempParameterList.get(0).equals("10")){
+						creatureList.get(r).add(new Shopkeeper(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
-					}else if(tempParameterList.get(0) == 4){
-						teleportList.get(r).add(new Teleporter(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));    
-					}else if(tempParameterList.get(0) == 5){
-						staticList.get(r).add(new TrapObject(xPos, yPos));    
-					}else if(tempParameterList.get(0) == 6){
-						staticList.get(r).add(new GoalObject(xPos, yPos));    
-					}else if(tempParameterList.get(0) == 7){
-						staticList.get(r).add(new PotionObject(xPos, yPos));    
-					}else if(tempParameterList.get(0) == 8){
-						staticList.get(r).add(new MPotionObject(xPos, yPos));    
-					}else if(tempParameterList.get(0) == 9){
-						staticList.get(r).add(new TreasureObject(xPos, yPos));    
-					}else if(tempParameterList.get(0) == 10){
-						creatureList.get(r).add(new Shopkeeper(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
+					else if(tempParameterList.get(0).equals("11")){
+						creatureList.get(r).add(new Storyteller(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
-					else if(tempParameterList.get(0) == 11){
-						creatureList.get(r).add(new Storyteller(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
-					}
-					else if(tempParameterList.get(0) == 12){
+					else if(tempParameterList.get(0).equals("12")){
 						staticList.get(r).add(new Healthcontainer(xPos, yPos));
 					}
-					else if(tempParameterList.get(0) == 13){
+					else if(tempParameterList.get(0).equals("13")){
 						//tempParameterList.get(1) = texturID mit Texturbild = img/textures/texturID.png
 						//tempParameterList.get(2) = 1 massive ; 0 not massive
 						//staticList.get(r).add(new someObject(xPos, yPos, 1));
 						//Image image = new ImageIcon("img/textures/"+tempParameterList.get(1)+".png").getImage();
 					}
-					else if(tempParameterList.get(0) == 14){
-						creatureList.get(r).add(new Creature_Bow(xPos, yPos, tempParameterList.get(6)*32, tempParameterList.get(7)*32, tempParameterList.get(8), tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
+					else if(tempParameterList.get(0).equals("14")){
+						creatureList.get(r).add(new Creature_Bow(xPos, yPos, Integer.parseInt(tempParameterList.get(6))*32, Integer.parseInt(tempParameterList.get(7))*32, Integer.parseInt(tempParameterList.get(8)),Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
-					else if(tempParameterList.get(0) == 15){
-						creatureList.get(r).add(new Boss1(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
+					else if(tempParameterList.get(0).equals("15")){
+						creatureList.get(r).add(new Boss1(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
-					else if(tempParameterList.get(0) == 16){
-						staticList.get(r).add(new CheckPoint(xPos, yPos));    
+					else if(tempParameterList.get(0).equals("16")){
+						staticList.get(r).add(new CheckPoint(xPos, yPos));
 					}
-					else if(tempParameterList.get(0) == 17){
-						creatureList.get(r).add(new Boss2(xPos, yPos, tempParameterList.get(6)*32, tempParameterList.get(7)*32, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
+					else if(tempParameterList.get(0).equals("17")){
+						creatureList.get(r).add(new Boss2(xPos, yPos, Integer.parseInt(tempParameterList.get(6))*32, Integer.parseInt(tempParameterList.get(7))*32, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
-					else if(tempParameterList.get(0) == 18){
-						creatureList.get(r).add(new Boss3(xPos, yPos, tempParameterList.get(1), tempParameterList.get(2), tempParameterList.get(3)));
+					else if(tempParameterList.get(0).equals("18")){
+						creatureList.get(r).add(new Boss3(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
-					else if(tempParameterList.get(0) == 19){
-						staticList.get(r).add(new ArrowObject(xPos, yPos));    
+					else if(tempParameterList.get(0).equals("19")){
+						staticList.get(r).add(new ArrowObject(xPos, yPos));
+					}
+					else if(tempParameterList.get(0).equals("20")){
+						String[] tempStr2 = tempParameterList.get(1).split(" ");
+						staticList.get(r).add(new WallSecret(xPos, yPos, tempStr2)); // bei 20 wird eine "Geheimwand" generiert (Die Schalter auf die diese Tuer hoert muessen angegeben werden)
+					}
+					else if(tempParameterList.get(0).equals("21")){
+						staticList.get(r).add(new Torch(xPos, yPos, torchTrigger[torchCounter]));	// bei 21 wird eine Fackel generiert
+						torchCounter++;	// erhoehen, wir wollen ja variieren!
+					}
+					else if(tempParameterList.get(0).equals("22")) {
+						creatureList.get(r).add(new FireElemental(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));	// bei 22 wird ein Feuerelementar generiert
+					}
+					else if(tempParameterList.get(0).equals("23")){
+						staticList.get(r).add(new Switch(xPos, yPos, switchTrigger[switchCounter]));	// bei 23 wird ein Schalter generiert
+						switchCounter++;	// erhoehen, wir wollen ja variieren!
+					}
+					else if(tempParameterList.get(0).equals("24")){
+						// staticList.get(r).add(new Grass(i*32, j*32)); // bei 0 wird Grass generiert
+						staticList.get(r).add(new Lavahat(xPos, yPos)); // bei 24 wird ein Lavahut generiert
+					}
+					else if(tempParameterList.get(0).equals("25")){
+						// staticList.get(r).add(new Grass(i*32, j*32)); // bei 0 wird Grass generiert
+						staticList.get(r).add(new Lavapatch(xPos, yPos));	// bei 25 wird ein Lavafeld generiert
 					}
 				}
 			}
@@ -771,8 +801,9 @@ public class Level implements GameEventListener{
 			if(!Keyboard.isKeyDown(Keyboard.KEY_LEFT) && !Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
 				player.keyReleased(Keyboard.KEY_LEFT);
 			}
-			if(!Keyboard.isKeyDown(Keyboard.KEY_E))
+			if(!Keyboard.isKeyDown(Keyboard.KEY_E)){
 				player.keyReleased(Keyboard.KEY_E);
+			}			
 		}
 		// Tastatur-Events bei Loose/Clear
 		else{
