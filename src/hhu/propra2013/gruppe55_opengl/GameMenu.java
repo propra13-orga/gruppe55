@@ -30,9 +30,17 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 	
 	private JCheckBox coop;
 	
+	/** Das JTextField fuer die IP */
+	
+	private JTextField ip;
+	
 	/** Das aktuell zu ladende Level (Single Player oder CoOp. */
 	
 	private Level lvl;
+	
+	/** Netzwerk-Adresse **/
+	
+	private String adress;
 	
 	/**
 	 * Die Methode main.
@@ -56,7 +64,7 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 		this.setLayout(new GridLayout(2,1));					// 1,2 GridLayout
 		
 		settings = new JPanel();
-			settings.setLayout(new GridLayout(1,2));
+			settings.setLayout(new GridLayout(1,3));
 			cb = new JComboBox();
 				cb.addItem("TestLevel");
 				cb.addItem("Level 1");
@@ -66,8 +74,13 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 			settings.add(cb);
 			coop = new JCheckBox();
 				coop.setText("Co-Op");
+				coop.setActionCommand("coop");
+				coop.addActionListener(this);
 				coop.setEnabled(true);
 			settings.add(coop);
+			ip = new JTextField();
+				ip.setEnabled(false);
+			settings.add(ip);
 		
 		jp = new JPanel();										
 			jp.setLayout(new GridLayout(2,1));
@@ -86,10 +99,10 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 		this.setVisible(true);								// sichtbarkeit 
 		this.setLocationRelativeTo(null); 					// im Bildschirm zentriert
 	}
-
+	
 	/**
 	 * Die Methode actionPerformed.
-	 * Diese Methode implementiert die Funktionen, die bei drücken der Buttons aufgerufen werden (z.B. Start des Spiels)
+	 * Diese Methode implementiert die Funktionen, die bei drï¿½cken der Buttons aufgerufen werden (z.B. Start des Spiels)
 	 */
 	
 	@Override
@@ -97,10 +110,19 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 		if(e.getSource() == start){							//Wenn start gedrueckt, Menue unsichtbar machen & Spiel sichtbar machen
 			this.setVisible(false);
 			if(!coop.isSelected()){
-				lvl = new Level(960, 650, this, cb.getSelectedIndex());
+				lvl = new Level(960, 650, this, cb.getSelectedIndex(), ip.getText());
 			}
 			else{
-				lvl = new LevelMP(960, 650, this, cb.getSelectedIndex());
+				adress = ip.getText();
+				lvl = new LevelMP(960, 650, this, cb.getSelectedIndex(), ip.getText());
+			}
+		}
+		else if(e.getActionCommand() == "coop"){
+			if(coop.isSelected()){
+				ip.setEnabled(true);
+			}
+			else{
+				ip.setEnabled(false);
 			}
 		}
 		else{System.exit(1);}								//Wenn ende gedrueckt, Programm beenden

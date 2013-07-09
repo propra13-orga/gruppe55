@@ -13,7 +13,7 @@ import org.lwjgl.opengl.DisplayMode;
 
 /**
  * Die Klasse Level.
- * Die Hauptklasse, in der das ganze Level mit sämtlichen Objekten, Funktionen, etc. generiert wird.
+ * Die Hauptklasse, in der das ganze Level mit saemtlichen Objekten, Funktionen, etc. generiert wird.
  */
 
 public class Level implements GameEventListener{
@@ -60,7 +60,7 @@ public class Level implements GameEventListener{
 	
 	/** Spielbeendende Variablen. */
 	
-	private boolean lose, clear, gameover, close,alreadyInteracted=false;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
+	private boolean lose, clear, gameover, close, alreadyInteracted=false;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
 	
 	// Wichtige variablen fuer das neu Laden eines Levels
 	
@@ -109,6 +109,12 @@ public class Level implements GameEventListener{
 	protected GameMenu gm;		//Spiele-Menue
 	
 	/**
+	 * Die Netzwerkadresse fuer den Co-Op
+	 */
+	
+	protected String adress;
+	
+	/**
 	 * Der Konstruktor fuer das Level.
 	 * Beim Aufruf werden dem Konstruktor die x und y koordinaten, das GameMenu und die Levelnummer uebergeben.
 	 * Diese Methode liest die Level selbst aus einer Textdatei aus und parsed diese entweder mit dem JsonParser oder mit einer eigenen Parserversion, die allerdings nur fuer Testlevel gebraucht werden sollte. Die Richtigen Level entstehen alle mit Hilfe der JsonParserschleife.
@@ -116,11 +122,13 @@ public class Level implements GameEventListener{
 	 * @param y  Die Methode erwartet die Uebergabe eines int Werts y
 	 * @param g  Die Methode erwartet die Uebergabe eines Objektes g vom Typ GameMenu
 	 * @param lvl  Die Methode erwartet die Uebergabe eines int Werts lvl
+	 * @param a  Die Methode erwartet die Uebergabe eines String Werts a
 	 */
 	
 // Konstruktor
-	public Level(int x, int y, GameMenu g, int lvl) {
+	public Level(int x, int y, GameMenu g, int lvl, String a) {
 		gm = g;
+		adress = a;
 		init(x, y);
 		textures = new Data_Textures();
 		
@@ -153,7 +161,7 @@ public class Level implements GameEventListener{
 				FileReader fread = new FileReader("lvl/" + file + ".txt");
 				BufferedReader in = new BufferedReader(fread);
 				
-				int k = 0; //Für 3. Arraydimension wird eigene Variable benï¿½tigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
+				int k = 0; //Fuer 3. Arraydimension wird eigene Variable benoetigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
 				
 				for(int i=0; (line = in.readLine()) != null; i++){
 					if(i==0){
@@ -764,8 +772,9 @@ public class Level implements GameEventListener{
 			if(!Keyboard.isKeyDown(Keyboard.KEY_LEFT) && !Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
 				player.keyReleased(Keyboard.KEY_LEFT);
 			}
-			if(!Keyboard.isKeyDown(Keyboard.KEY_E))
+			if(!Keyboard.isKeyDown(Keyboard.KEY_E)){
 				player.keyReleased(Keyboard.KEY_E);
+			}
 		}
 		// Tastatur-Events bei Loose/Clear
 		else{

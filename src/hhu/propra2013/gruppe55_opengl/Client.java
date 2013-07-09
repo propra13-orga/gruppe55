@@ -31,13 +31,23 @@ public class Client extends Thread{
 	
 	private boolean running, send;		//Statusvariablen
 	
+	/** Adresse des Servers */
+	
+	private String adress;
+	
+	/** Das Level, zu dem der Client gehoert */
+	
+	private LevelMP lvl;
+	
 	/**
 	 * Der Konstruktor fuer den Client.
 	 */
 	
 	//Konstruktor
-	public Client(){
+	public Client(LevelMP l, String a){
 		super();
+		adress = a;
+		lvl = l;
 	}
 	
 	/**
@@ -55,9 +65,9 @@ public class Client extends Thread{
 			if(client == null){
 				//... erstelle einen neuen
 				try {
-					client = new Socket("localhost", 2048);					//Neuen Socket an localhost mit Port 2048
+					client = new Socket(adress, 2048);					//Neuen Socket an localhost mit Port 2048
 					client.setSoTimeout(5000);								//Timeout für reads=5s
-					in = new ClientInput();									//Input-Thread konstruieren
+					in = new ClientInput(lvl);									//Input-Thread konstruieren
 					in.setInputStream(client.getInputStream());				//Input-Thread mit Input des Sockets starten
 					in.start();												
 					out = new PrintWriter(client.getOutputStream(), true);	//Output öffnen
@@ -134,17 +144,26 @@ class ClientInput extends Thread{
 	
 	private String inLine;			//Eingelesene Line
 	
+	/** Der eingelesene, gesplittete Line-Array. */
+	
+	private String[] lineSplit;
+	
 	/** Statusvariablen. */
 	
 	private boolean running, open;	//Statusvariablen
+	
+	/** Level des Clienten. */
+	
+	private LevelMP lvl;
 	
 	/**
 	 * Der Konstruktor fuer die Klasse ClientInput. 
 	 */
 	
 	//Konstruktor
-	public ClientInput(){
+	public ClientInput(LevelMP l){
 		super();
+		lvl = l;
 	}
 	
 	/**
@@ -162,11 +181,24 @@ class ClientInput extends Thread{
 				//Lese eine Line aus dem InputStream
 				if(open && (inLine = in.readLine()) != null){
 					System.out.println(inLine);
-					if(inLine == "0"){
-						System.out.println(0);
+					lineSplit = inLine.split(",");
+					System.out.println(lineSplit[0]);
+					if(lineSplit[0].compareTo("0") == 0){
+						if(lineSplit[1].compareTo("start") == 0){
+								System.out.println("start");
+								lvl.setOpenedInterface(0);
+								lvl.setDialog(false);
+								lvl.toggleFreeze();
+								lvl.toggleWaiting();
+						}
+					}
+					else if(lineSplit[0].compareTo("1") == 0){
+						if(lineSplit[1].compareTo("0") == 0){
+							
+						}
 					}
 				}
-				//Schließe Input, wenn Gegenseite closed ist
+				//Schliesse Input, wenn Gegenseite closed ist
 				else{
 					open = false;
 					in.close();

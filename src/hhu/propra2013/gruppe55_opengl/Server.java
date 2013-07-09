@@ -51,7 +51,7 @@ public class Server{
 					client1 = server.accept();		//Auf Client warten
 					client1.setSoTimeout(5000);		//Client-Read-Timeout=5s
 					sf.addToLog("Client 1 connected at " + client1.getInetAddress() + ":" + client1.getLocalPort());
-					in1 = new ServerInput(1);						//Input-Thread erstellen
+					in1 = new ServerInput(1, this);						//Input-Thread erstellen
 					in1.setInputStream(client1.getInputStream());	//InputStream uebergeben und starten
 					in1.start();
 					out1 = new PrintWriter(client1.getOutputStream(), true);	//Output oeffnen
@@ -85,7 +85,7 @@ public class Server{
 					client2 = server.accept();		//Auf Client warten
 					client2.setSoTimeout(5000);		//Client-Read-Timeout=5s
 					sf.addToLog("Client 2 connected at " + client2.getInetAddress() + ":" + client2.getLocalPort());
-					in2 = new ServerInput(2);						//Input-Thread erstellen
+					in2 = new ServerInput(2, this);						//Input-Thread erstellen
 					in2.setInputStream(client2.getInputStream());	//InputStream uebergeben und starten
 					in2.start();
 					out2 = new PrintWriter(client2.getOutputStream(), true);	//Output oeffnen
@@ -116,8 +116,8 @@ public class Server{
 
 	//Game starten
 	public void startGame(){
-		send(1, "0");
-		send(2, "0");
+		send(1, "0,start");
+		send(2, "0,start");
 		started = true;
 	}
 	
@@ -179,14 +179,15 @@ public class Server{
 class ServerInput extends Thread{
 	
 	private int clientID;			//ID des Parent-Clients
+	private Server srv;				//Server des Inputs
 	private BufferedReader in;		//InputStreamReader
 	private String inLine;			//Ausgelesene Line
 	private boolean running, open;	//Statusvariablen
 	
 	//Konstruktor
-	public ServerInput(int id){
+	public ServerInput(int id, Server s){
 		super();
-		
+		srv = s;
 		clientID = id;
 	}
 	
@@ -199,12 +200,13 @@ class ServerInput extends Thread{
 			try {
 				//Wenn Input offen und kein Abbruchsignal ausgelesen wird ...
 				if(open && (inLine = in.readLine()) != null){
-					//Eingehende Line ausgeben
-					System.out.println("Client " + clientID + ": " + inLine);
+					if(inLine.compareTo("alive") != 0){
+						srv.send(Math.abs(clientID-1), inLine);
+						System.out.println(inLine);
+					}
 				}
 				//Wenn Abbruchsignal gesendet wurde, Thread beenden
 				else{
-					System.out.println("Argh");
 					open = false;
 					running = false;
 					in.close();

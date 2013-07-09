@@ -24,7 +24,7 @@ public class LevelMP extends Level implements GameEventListener{
 	private ArrayList<Projectile> projectileList;			// liste der Projektile (Pfeile, Feuerbaelle, etc)
 	private ArrayList<ArrayList<Teleporter>> teleportList;		// Liste aller Teleporter 
 	// Spieleventvariablen
-	private boolean lose, clear, gameover, close;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
+	private boolean lose, clear, gameover, close, alreadyInteracted2, alreadyInteracted1 = alreadyInteracted2 = false;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
 	// Wichtige variablen fuer das neu Laden eines Levels
 	private int playerSpawnX, playerSpawnY;		// Koordinaten des ersten Spielererscheinungspunkts
 	private boolean freeze = false;		// friert das Level ein
@@ -37,12 +37,12 @@ public class LevelMP extends Level implements GameEventListener{
 	private LevelData levelDataObj;
 	static Data_Textures textures;			// Grafik-Klasse
 	private long lastAction;	// Timer-Variable
-	private GameMenu gm;		//Spiele-Men�
+	private GameMenu gm;		//Spiele-Menue
 	
 	
 // Konstruktor
-	public LevelMP(int x, int y, GameMenu gm, int lvl) {
-		super(x, y, gm, lvl);
+	public LevelMP(int x, int y, GameMenu gm, int lvl, String a) {
+		super(x, y, gm, lvl, a);
 	}
 
 	public void loadLevel(String file){
@@ -60,7 +60,7 @@ public class LevelMP extends Level implements GameEventListener{
 				FileReader fread = new FileReader("lvl/" + file + ".txt");
 				BufferedReader in = new BufferedReader(fread);
 				
-				int k = 0; //F�r 3. Arraydimension wird eigene Variable ben�tigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
+				int k = 0; //Fuer 3. Arraydimension wird eigene Variable benoetigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
 				
 				for(int i=0; (line = in.readLine()) != null; i++){
 					if(i==0){
@@ -103,7 +103,7 @@ public class LevelMP extends Level implements GameEventListener{
 			//10: Shopkeeper
 			//11: Storyteller
 			//12: Healthcontainer
-			//13: Checkpoint
+			//16: Checkpoint
 			//14: Creature_Bow
 			// ...
 			//20: WallSecret
@@ -366,15 +366,16 @@ public class LevelMP extends Level implements GameEventListener{
 		
 		// Erster CheckPoint ist der LevelEintritt
 		checkPointReached();
-		
-		//NetzwerkClient starten
-		waiting = true;
-		iFace.setDialog("Waiting for 2nd Player ... ");
-		freeze = true;
-		setOpenedInterface(1);
-		setDialog(true);
-		c = new Client();
-		c.start();
+		if(adress != "local"){
+			//NetzwerkClient starten
+			waiting = true;
+			iFace.setDialog("Waiting for 2nd Player ... ");
+			freeze = true;
+			setOpenedInterface(1);
+			setDialog(true);
+			c = new Client(this, adress);
+			c.start();
+		}
 	}
 	
 // Methoden
@@ -575,7 +576,7 @@ public class LevelMP extends Level implements GameEventListener{
 	public void input(){
 		// KeyboardEvents
 		
-		// Tastatur-Events w�hrend des Spiels
+		// Tastatur-Events waehrend des Spiels
 		if(!lose && !clear && !gameover){		
 			while(Keyboard.next()){				
 				int k = Keyboard.getEventKey();
@@ -623,26 +624,7 @@ public class LevelMP extends Level implements GameEventListener{
 							break;
 						case Keyboard.KEY_E:
 							c.send("1,1,2");
-							for(int i=0; i<creatureList.get(room).size(); i++){
-								// Wenn angesprochender NPC ein Shopkeeper ist
-								if(creatureList.get(room).get(i) instanceof Shopkeeper){
-									if(player1.getBorder().intersects(creatureList.get(room).get(i).getBorder())){
-										freeze = true;
-										openedInterface = 2;
-										dialog = true;
-										iFace.setSelectedObject(0);
-									}
-								}
-								// Wenn es ein Storyteller ist und kein Shopkeeper - Dialog aus der Textdatei holen und Dialog aufrufen!
-								else if(creatureList.get(room).get(i) instanceof Storyteller){
-									if(player1.getBorder().intersects(creatureList.get(room).get(i).getBorder())){
-										iFace.setDialog(Data_String.story1, 0);
-										freeze = true;
-										openedInterface = 1;
-										dialog = true;
-									}
-								}		
-							}
+							player1.keyPressed(Keyboard.KEY_E);
 							break;
 						case Keyboard.KEY_ESCAPE:
 							if(dialog){
@@ -705,6 +687,9 @@ public class LevelMP extends Level implements GameEventListener{
 			if(!Keyboard.isKeyDown(Keyboard.KEY_LEFT) && !Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
 				player1.keyReleased(Keyboard.KEY_LEFT);
 			}
+			if(!Keyboard.isKeyDown(Keyboard.KEY_E)){
+				player1.keyReleased(Keyboard.KEY_E);
+			}
 		}
 		// Tastatur-Events bei Loose/Clear
 		else{
@@ -751,8 +736,74 @@ public class LevelMP extends Level implements GameEventListener{
 		}
 	}
 	
-	//Input für Player 2
-	public void input2(){
+	// Eingaben fuer Player2
+	public void input2(double dx,double dy, boolean a, boolean c, boolean e, boolean s, boolean x, boolean space, boolean enter){
+		
+		if(dx == -1){
+			player2.keyPressed(Keyboard.KEY_LEFT);
+		}
+		if(dx == 1){
+			player2.keyPressed(Keyboard.KEY_RIGHT);
+		}
+		if(dy == -1){
+			player2.keyPressed(Keyboard.KEY_UP);
+		}
+		if(dy == 1){
+			player2.keyPressed(Keyboard.KEY_DOWN);
+		}
+		
+		if(!lose && !clear && !gameover){
+			if(space){
+				if(!gameover){
+					player2.attack();
+				}
+			}
+			if(e){
+				player2.keyPressed(Keyboard.KEY_E);
+			}
+			if(x){
+				player2.swapWeapons();
+			}
+			if(c){
+				player2.spellCast();
+			}
+			if(a){
+				if(player2.getStatInventoryObjectCount(2)>0){
+					player2.getHealed(2);
+					player2.giveStatInventoryObject(2, -1);
+				}
+			}
+			if(s){
+				if(player2.getStatInventoryObjectCount(3)>0){
+					player2.fillmana(1);
+					player2.giveStatInventoryObject(3, -1);
+				}
+			}
+		}
+		// Tastatur-Events bei Loose/Clear
+		else{
+			if(enter){
+				//Beenden
+				if(lose || clear || gameover){
+					close = true;
+				}
+			}
+			if(space){
+				// Naechstes Level
+				if(clear){
+					currLvl++;
+					if(currLvl <= 3){
+						loadLevel("Level"+currLvl);
+					}
+				}
+				// Reload
+				else if(!gameover){
+					reload();
+				}
+			}
+			player2.keyReleased(Keyboard.KEY_UP);
+			player2.keyReleased(Keyboard.KEY_LEFT);
+		}
 	}
 	
 	// Game-Logic
@@ -780,6 +831,36 @@ public class LevelMP extends Level implements GameEventListener{
 			for(int i=0; i<projectileList.size(); i++)
 				projectileList.get(i).move();
 
+			// Interaktionsabfragen Player 1
+			if(player1.wantsToInteract() && !alreadyInteracted1){
+				int px=(int)player1.getX();
+				int py=(int)player1.getY();
+				
+				for(int i=0; i<staticList.get(room).size(); i++)
+					staticList.get(room).get(i).interaction(px, py);
+				for(int i=0; i<creatureList.get(room).size(); i++)
+					creatureList.get(room).get(i).interaction(px, py);
+				
+				alreadyInteracted1=true;
+			}
+			else if(!player1.wantsToInteract())
+				alreadyInteracted1=false;
+			
+			// Interaktionsabfragen Player 2
+			if(player2.wantsToInteract() && !alreadyInteracted2){
+				int px=(int)player1.getX();
+				int py=(int)player1.getY();
+				
+				for(int i=0; i<staticList.get(room).size(); i++)
+					staticList.get(room).get(i).interaction(px, py);
+				for(int i=0; i<creatureList.get(room).size(); i++)
+					creatureList.get(room).get(i).interaction(px, py);
+				
+				alreadyInteracted2=true;
+			}
+			else if(!player2.wantsToInteract())
+				alreadyInteracted2=false;
+			
 			// Kollisionsabfrage
 			collisionCheck();			
 			
@@ -880,6 +961,11 @@ public class LevelMP extends Level implements GameEventListener{
 	//GameFreeze togglen
 	public void toggleFreeze(){
 		freeze	=	!freeze;
+	}
+	
+	//Waiting togglen
+	public void toggleWaiting(){
+		waiting	=	!waiting;
 	}
 	
 	//Dialog anzeigen ja/nein
