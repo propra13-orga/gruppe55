@@ -10,71 +10,33 @@ import javax.swing.text.*;
 import java.util.Date;
 import java.text.*;
 
-/**
- * Die Klasse Server.
- * Diese Klasse implementiert den Server fuer die Coop Version des Spiels.
- */
-
 public class Server{
 
-	/**
-	 * Die Methode main.
-	 * Diese Methode, die das Objekt Server erzeugt.
-	 * @param args
-	 */
-	
 	//Main-Funktion
 	public static void main(String[] args) {
 		Server sv = new Server();
 	}
 
-	/** Die Server GUI. */
-	
 	private ServerFrame sf;				//Server GUI
-
-	/** Die Server Input-Threads. */
-	
 	private ServerInput in1, in2;		//Input-Threads
-	
-	/** Die Server Sockets. */
-	
 	private ServerSocket server;		//ServerSocket
-	
-	/** Die verfuegbaren Clients (derzeit 2). */
-	
 	private Socket client1, client2;	//Beiden verfuegbaren Clients
-	
-	/** Der Output, den der Server generiert. */
-	
 	private PrintWriter out1, out2;		//Outputs
-	
-	/** Abfrage ob der Server laueft. */
-	
-	private boolean running;			//Statusvariablen
-	
-	
-	/**
-	 * Der Konstruktor fuer den Server.
-	 * Hier werden Grunddaten, wie ServerSocket und Timeout gesetzt.
-	 */
+	private String outLine1, outLine2;	// Output Lines fuer Clients
+	private boolean running, started, send1, send2;			//Statusvariablen
 	
 	//Konstruktor
 	public Server(){
 		sf = new ServerFrame(this);
 		
 		try {
-			server = new ServerSocket(2048);			//Serversocket fuer localhost an Port 2048 erstellen
+			server = new ServerSocket(2048);			//Serversocket für localhost an Port 2048 erstellen
 			server.setSoTimeout(10000);					//Timeout fuer accepts=10s
 			sf.addToLog("Server opened at Port 2048");	//Log aktualisieren
 		} catch (IOException e) {e.printStackTrace();}
 		
 		run();	//Server starten
 	}
-	
-	/**
-	 * Die Methode run.
-	 * Diese Methode implementiert alle Funktionen, die der Server im laufenden Zustand ausfuehrt.
-	 */
 	
 	//Server-Schleife
 	public void run(){
@@ -89,7 +51,7 @@ public class Server{
 					client1 = server.accept();		//Auf Client warten
 					client1.setSoTimeout(5000);		//Client-Read-Timeout=5s
 					sf.addToLog("Client 1 connected at " + client1.getInetAddress() + ":" + client1.getLocalPort());
-					in1 = new ServerInput(1);						//Input-Thread erstellen
+					in1 = new ServerInput(1, this);						//Input-Thread erstellen
 					in1.setInputStream(client1.getInputStream());	//InputStream uebergeben und starten
 					in1.start();
 					out1 = new PrintWriter(client1.getOutputStream(), true);	//Output oeffnen
@@ -110,8 +72,12 @@ public class Server{
 			}
 			//Ansonsten Client-Action durchfuehren
 			else{
+				if(send1){
+					out1.println(outLine1);
+					send1 = false;
+				}
 			}
-			//Wenn client1 nicht existiert ...
+			//Wenn client2 nicht existiert ...
 			if(client2 == null){
 				//... Nach neuem Client suchen
 				sf.addToLog("Waiting for Client 2 ...");
@@ -119,7 +85,7 @@ public class Server{
 					client2 = server.accept();		//Auf Client warten
 					client2.setSoTimeout(5000);		//Client-Read-Timeout=5s
 					sf.addToLog("Client 2 connected at " + client2.getInetAddress() + ":" + client2.getLocalPort());
-					in2 = new ServerInput(2);						//Input-Thread erstellen
+					in2 = new ServerInput(2, this);						//Input-Thread erstellen
 					in2.setInputStream(client2.getInputStream());	//InputStream uebergeben und starten
 					in2.start();
 					out2 = new PrintWriter(client2.getOutputStream(), true);	//Output oeffnen
@@ -140,14 +106,44 @@ public class Server{
 			}
 			//Ansonsten Client-Action durchfuehren
 			else{
+				if(send2){
+					out2.println(outLine2);
+					send2 = false;
+				}
 			}
 		}
 	}
+
+	//Game starten
+	public void startGame(){
+		send(1, "0,start");
+		send(2, "0,start");
+		started = true;
+	}
 	
-	/**
-	 * Die Methode stop.
-	 * Diese Methode stoppt den Server und schliesst alle offenen Verbindungen zu den Clients. 
-	 */
+	//Line senden
+	public void send(int c, String line){
+		if(c == 1){
+			outLine1 = line;
+			out1.println(outLine1);
+			send1 = true;
+		}
+		else{
+			outLine2 = line;
+			out1.println(outLine2);
+			send2 = true;
+		}
+	}
+	
+	//Abfragen, ob beide Clients da sind
+	public boolean clientsReady(){
+		if(client1 != null && client2 != null){
+			return(true);
+		}
+		else{
+			return(false);
+		}
+	}
 	
 	//Server stoppen
 	public void stop(){
@@ -179,47 +175,21 @@ public class Server{
 //-------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
 
-/**
- * Die Klasse ServerInput.
- * Diese Klasse implementiert die Inputfunktionen fuer den Server. 
- */
-
-
 //InputHandlerThread
 class ServerInput extends Thread{
 	
-	/** Die ID des Parent-Clients. */
-	
 	private int clientID;			//ID des Parent-Clients
-	
-	/** Der InputStreamReader. */
-	
+	private Server srv;				//Server des Inputs
 	private BufferedReader in;		//InputStreamReader
-	
-	/** Die ausgelesene Line. */
-	
 	private String inLine;			//Ausgelesene Line
-	
-	/** Abfrage, ob der Server laueft und verfuegbar ist. */
-	
 	private boolean running, open;	//Statusvariablen
-
-	/**
-	 * Der Konstruktor fuer die Klasse ServerInput.
-	 * @param id  Die Methode erwartet die Uebergabe eines int Werts id
-	 */
 	
 	//Konstruktor
-	public ServerInput(int id){
+	public ServerInput(int id, Server s){
 		super();
-		
+		srv = s;
 		clientID = id;
 	}
-	
-	/**
-	 * Die Methode run.
-	 * Diese Methode implementiert alle Funktionen fuer den Input (Serverseitig), die waehrend des Coop Spiels benoetigt werden. 
-	 */
 	
 	//Thread-Schleife
 	@Override
@@ -230,12 +200,13 @@ class ServerInput extends Thread{
 			try {
 				//Wenn Input offen und kein Abbruchsignal ausgelesen wird ...
 				if(open && (inLine = in.readLine()) != null){
-					//Eingehende Line ausgeben
-					System.out.println("Client " + clientID + ": " + inLine);
+					if(inLine.compareTo("alive") != 0){
+						srv.send(Math.abs(clientID-1), inLine);
+						System.out.println(inLine);
+					}
 				}
 				//Wenn Abbruchsignal gesendet wurde, Thread beenden
 				else{
-					System.out.println("Argh");
 					open = false;
 					running = false;
 					in.close();
@@ -244,32 +215,16 @@ class ServerInput extends Thread{
 		}
 	}
 	
-	/**
-	 * Die Methode setInputStream.
-	 * Diese Methode uebergibt den Inputstream an den Server 
-	 */
-	
-	//InputStream uebergeben
+	//InputStrea uebergeben
 	public void setInputStream(InputStream is){
 		in = new BufferedReader(new InputStreamReader(is));
 		open = true;
 	}
 	
-	/**
-	 * Die Methode getOpened.
-	 * Diese Methode gibt zurueck ob eine Verbindung offen ist.
-	 * @return true, wenn eine Verbindung offen ist.
-	 */
-	
 	//Return Status, ob Verbindung offen ist
 	public boolean getOpened(){
 		return(open);
 	}
-	
-	/**
-	 * Die Methode end.
-	 * Diese Methode beendet das Coop Spiel und schliesst alle offenen verbindung.
-	 */
 	
 	//Thread beenden
 	public void end(){
@@ -281,47 +236,16 @@ class ServerInput extends Thread{
 //-------------------------------------------------------------------------------------------------------------------
 //-------------------------------------------------------------------------------------------------------------------
 
-/**
- * Die Klasse ServerFrame.
- * Diese Klasse implementiert das ServerGUI. 
- */
-
 //Server-GUI
 class ServerFrame extends JFrame implements ActionListener, WindowListener{
 	
-	/** Der Parent-Thread. */
-	
 	private Server srv;					//Parent-Thread
-	
-	/** Die Buttons der Server GUI. */
-	
 	private JButton start, end;			//Buttons
-	
-	/** Das ScrollPane fuer das Log. */
-	
 	private JScrollPane sp;				//ScrollPane fuer Log
-	
-	/** Die TextArea fuer das Server-Log. */
-	
 	private JTextArea log;				//TextArea fuer Server-Log
-	
-	/** Die JList fuer verbundene Clients. */
-	
 	private JList clients;				//JList fuer verbundene Clients
-	
-	/** Die Panels fuer das Layout. */
-	
 	private JPanel toparea, buttons;	//Panels fuer Layout
-	
-	/** Das Dateformat fuer Zeitstempel. */
-	
 	private SimpleDateFormat sdf = new SimpleDateFormat("HH.mm.ss");	//DateFormat fuer Log-Zeitstempel
-	
-	/**
-	 * Der Konstruktor fuer die Klasse ServerFrame.
-	 * Hier werden alle Elemente (Buttons,Textfelder, etc.) zum GUI hinzugefuegt.
-	 * @param s  Die Methode erwartet die Uebergabe eines Objekts s vom Typ Server
-	 */
 	
 	//Konstruktor
 	public ServerFrame(Server s){
@@ -374,39 +298,24 @@ class ServerFrame extends JFrame implements ActionListener, WindowListener{
 		setVisible(true);																//Fenster anzeigen
 	}
 
-	/**
-	 * Die Methode addToLog.
-	 * Diese Methode fuegt Zeilen zum Serverlog hinzu.
-	 * @param s  Die Methode erwartet die Uebergabe eines Strings s
-	 */
-	
 	//Zeile zum Log hinzufuegen
 	public void addToLog(String s){
 		log.append("-- " + sdf.format(new Date()) + ": " + s + "\n");
 	}
-	
-	/**
-	 * Die Methode addClient.
-	 * Diese Methode fuegt den Client zur Liste hinzu.
-	 * @param name  Die Methode erwartet die Uebergabe eines Strings name 
-	 * @param ip  Die Methode erwartet die Uebergabe eines Strings ip 
-	 * @param port  Die Methode erwartet die Uebergabe eines int Werts port
-	 */
 
 	//Client zur List hinzufuegen
 	public void addClient(String name, String ip, int port){
 	}
-	
-	/**
-	 * Die Methode actionPerformed.
-	 * Diese Methode fuehrt die Aktionen aus, die durch das Druecken der Buttons ausgefuhert werdern sollen.
-	 */
 	
 	// ActionListener --------------------------------------------
 	@Override
 	public void actionPerformed(ActionEvent e) {
 		//Start-Button
 		if(e.getActionCommand() == "start"){
+			if(srv.clientsReady()){
+				addToLog("Game started");
+				srv.startGame();
+			}
 		}
 		//Ende-Button
 		else if(e.getActionCommand() == "end"){

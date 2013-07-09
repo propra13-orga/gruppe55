@@ -13,7 +13,7 @@ import org.lwjgl.opengl.DisplayMode;
 
 /**
  * Die Klasse Level.
- * Die Hauptklasse, in der das ganze Level mit sämtlichen Objekten, Funktionen, etc. generiert wird.
+ * Die Hauptklasse, in der das ganze Level mit sï¿½mtlichen Objekten, Funktionen, etc. generiert wird.
  */
 
 public class Level implements GameEventListener{
@@ -22,91 +22,97 @@ public class Level implements GameEventListener{
 	
 	/** Das Spielerobjekt. */
 	
-	private Player player;				//Spielerobjekt
+	protected Player player;				//Spielerobjekt
 	
 	/** Das GameInterface. */
 	
-	private GameInterface iFace;		//GameInterface
+	protected GameInterface iFace;		//GameInterface
 	
 	/** Der Zeiger auf den aktuellen Raum / das aktuelle Level. */
 	
-	private int room, currLvl;					// pointer to current room and Level
+	protected int room, currLvl;					// pointer to current room and Level
 	
 	/** Der Zeiger auf den Raum, in dem der Spieler nach der Niederlage wieder erscheinen soll. */
 	
-	private int roomToRespawn;			// Raum in dem der Spieler nach Niederlage wiedererscheint
+	protected int roomToRespawn;			// Raum in dem der Spieler nach Niederlage wiedererscheint
 	
 	/** (BETA!) Waende des Levels. (BETA!)  */
 	
-	private int[][][] walls;			// Waende des Levels //TODO implementieren, geht aber nich nicht, wegen dem Testlevel!
+	protected int[][][] walls;			// Waende des Levels //TODO implementieren, geht aber nich nicht, wegen dem Testlevel!
 	
 	/** Die Arralist mit allen Gegnern. */
 	
-	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
+	protected ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
 	
 	/** Die Arraylist mit allen statischen Objekten. */
 	
-	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Gegenstaende/Fallen/etc
+	protected ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Gegenstaende/Fallen/etc
 	
 	/** Die Arraylist mit allen Projektilen. */
 	
-	private ArrayList<Projectile> projectileList;			// liste der Projektile (Pfeile, Feuerbaelle, etc)
+	protected ArrayList<Projectile> projectileList;			// liste der Projektile (Pfeile, Feuerbaelle, etc)
 	
 	/** Die Arraylist mit allen Teleportern. */
 	
-	private ArrayList<ArrayList<Teleporter>> teleportList;		// Liste aller Teleporter 
+	protected ArrayList<ArrayList<Teleporter>> teleportList;		// Liste aller Teleporter 
 	
 	// Spieleventvariablen
 	
 	/** Spielbeendende Variablen. */
 	
-	private boolean lose, clear, gameover, close,alreadyInteracted=false;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
+	protected boolean lose, clear, gameover, close,alreadyInteracted=false;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
 	
 	// Wichtige variablen fuer das neu Laden eines Levels
 	
 	/** Die Koordinaten, an denen der Spieler erscheint. */
 	
-	private int playerSpawnX, playerSpawnY;		// Koordinaten des ersten Spielererscheinungspunkts
+	protected int playerSpawnX, playerSpawnY;		// Koordinaten des ersten Spielererscheinungspunkts
 	
 	/** Eine Variable zum einfrieren des Levels (bspw. im Shop). */
 	
-	private boolean freeze = false;		// friert das Level ein
+	protected boolean freeze = false;		// friert das Level ein
 	
 	/** Die Nummer des aktuell geoeffneten Interface. */
 	
-	private int openedInterface;			// Welches Interface aufgerufen ist
+	protected int openedInterface;			// Welches Interface aufgerufen ist
 	
 	/** Abfrage, ob ein Dialog angezeigt werden soll. */
 	
-	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
+	protected boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
 	
 	/** Abfrage ob das Spiel im Fullscreen angezeigt werden soll. */
 	
-	private boolean fullscreen;				// Ob Fullscreen aktiviert ist
+	protected boolean fullscreen;				// Ob Fullscreen aktiviert ist
 	
 	/** Der Originalfenstermodus. */
 	
-	private DisplayMode initMode;			//Originalfenstermodus
+	protected DisplayMode initMode;			//Originalfenstermodus
 	
 	/** Abfrage, ob das Level durch den JsonParser generiert werden soll. */
 	
-	private boolean jsonParser = true;		// Ob der JSON Parser verwendet werden soll
+	protected boolean jsonParser = true;		// Ob der JSON Parser verwendet werden soll
 	
 	/** Das Levelobjekt. */
 	
-	private LevelData levelDataObj;
+	protected LevelData levelDataObj;
 	
 	/** Die Klasse, aus der die Grafiken geladen werden sollen. */
 	
-	static Data_Textures textures;			// Grafik-Klasse
+	protected static Data_Textures textures;			// Grafik-Klasse
 	
 	/** Die Timer-Variable. */
 	
-	private long lastAction;	// Timer-Variable
+	protected long lastAction;	// Timer-Variable
 	
 	/** Das Spielmenue. */
 	
 	protected GameMenu gm;		//Spiele-Menue
+	
+	/**
+	 * Die Netzwerkadresse fuer den Co-Op
+	 */
+	
+	protected String adress;
 	
 	/**
 	 * Der Konstruktor fuer das Level.
@@ -119,8 +125,9 @@ public class Level implements GameEventListener{
 	 */
 	
 // Konstruktor
-	public Level(int x, int y, GameMenu g, int lvl) {
+	public Level(int x, int y, GameMenu g, int lvl, String a) {
 		gm = g;
+		adress = a;
 		init(x, y);
 		textures = new Data_Textures();
 		
@@ -153,7 +160,7 @@ public class Level implements GameEventListener{
 				FileReader fread = new FileReader("lvl/" + file + ".txt");
 				BufferedReader in = new BufferedReader(fread);
 				
-				int k = 0; //Für 3. Arraydimension wird eigene Variable benï¿½tigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
+				int k = 0; //Fï¿½r 3. Arraydimension wird eigene Variable benï¿½tigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
 				
 				for(int i=0; (line = in.readLine()) != null; i++){
 					if(i==0){
