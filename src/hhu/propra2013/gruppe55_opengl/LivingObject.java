@@ -192,7 +192,7 @@ public abstract class LivingObject extends MovingObject {
     	iDmg-=def;	// DEF
     	
     	// Widerstaende beruecksichtigen
-    	if(e>0){	// Beim neutralen Typ gibt es keine Widerstaende/Vor- oder Nachteile
+    	if(e>0 && element>0){	// Beim neutralen Typ gibt es keine Widerstaende/Vor- oder Nachteile
         	iDmg-=resistances[e-1][0];	// Widerstand vom Gesamtschaden abziehen
         	
         	// Vor-/Nachteile
@@ -209,6 +209,8 @@ public abstract class LivingObject extends MovingObject {
 			hp	=	0;	// HP auf 0 setzen - ist sauberer
 			switchState(0); // Wechsel auf tot
 		}
+		
+		System.out.println(dmg+" "+iDmg+" "+resistances[0][0]);
 	}
 	
 	/**
