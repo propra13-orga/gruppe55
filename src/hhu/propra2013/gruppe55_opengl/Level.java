@@ -13,7 +13,7 @@ import org.lwjgl.opengl.DisplayMode;
 
 /**
  * Die Klasse Level.
- * Die Hauptklasse, in der das ganze Level mit saemtlichen Objekten, Funktionen, etc. generiert wird.
+ * Die Hauptklasse, in der das ganze Level mit s�mtlichen Objekten, Funktionen, etc. generiert wird.
  */
 
 public class Level implements GameEventListener{
@@ -22,87 +22,87 @@ public class Level implements GameEventListener{
 	
 	/** Das Spielerobjekt. */
 	
-	private Player player;				//Spielerobjekt
+	protected Player player;				//Spielerobjekt
 	
 	/** Das GameInterface. */
 	
-	private GameInterface iFace;		//GameInterface
+	protected GameInterface iFace;		//GameInterface
 	
 	/** Der Zeiger auf den aktuellen Raum / das aktuelle Level. */
 	
-	private int room, currLvl;					// pointer to current room and Level
+	protected int room, currLvl;					// pointer to current room and Level
 	
 	/** Der Zeiger auf den Raum, in dem der Spieler nach der Niederlage wieder erscheinen soll. */
 	
-	private int roomToRespawn;			// Raum in dem der Spieler nach Niederlage wiedererscheint
+	protected int roomToRespawn;			// Raum in dem der Spieler nach Niederlage wiedererscheint
 	
 	/** (BETA!) Waende des Levels. (BETA!)  */
 	
-	private int[][][] walls;			// Waende des Levels //TODO implementieren, geht aber nich nicht, wegen dem Testlevel!
+	protected int[][][] walls;			// Waende des Levels //TODO implementieren, geht aber nich nicht, wegen dem Testlevel!
 	
 	/** Die Arralist mit allen Gegnern. */
 	
-	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
+	protected ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
 	
 	/** Die Arraylist mit allen statischen Objekten. */
 	
-	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Gegenstaende/Fallen/etc
+	protected ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Gegenstaende/Fallen/etc
 	
 	/** Die Arraylist mit allen Projektilen. */
 	
-	private ArrayList<Projectile> projectileList;			// liste der Projektile (Pfeile, Feuerbaelle, etc)
+	protected ArrayList<Projectile> projectileList;			// liste der Projektile (Pfeile, Feuerbaelle, etc)
 	
 	/** Die Arraylist mit allen Teleportern. */
 	
-	private ArrayList<ArrayList<Teleporter>> teleportList;		// Liste aller Teleporter 
+	protected ArrayList<ArrayList<Teleporter>> teleportList;		// Liste aller Teleporter 
 	
 	// Spieleventvariablen
 	
 	/** Spielbeendende Variablen. */
 	
-	private boolean lose, clear, gameover, close, alreadyInteracted=false;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
+	protected boolean lose, clear, gameover, close,alreadyInteracted=false;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
 	
 	// Wichtige variablen fuer das neu Laden eines Levels
 	
 	/** Die Koordinaten, an denen der Spieler erscheint. */
 	
-	private int playerSpawnX, playerSpawnY;		// Koordinaten des ersten Spielererscheinungspunkts
+	protected int playerSpawnX, playerSpawnY;		// Koordinaten des ersten Spielererscheinungspunkts
 	
 	/** Eine Variable zum einfrieren des Levels (bspw. im Shop). */
 	
-	private boolean freeze = false;		// friert das Level ein
+	protected boolean freeze = false;		// friert das Level ein
 	
 	/** Die Nummer des aktuell geoeffneten Interface. */
 	
-	private int openedInterface;			// Welches Interface aufgerufen ist
+	protected int openedInterface;			// Welches Interface aufgerufen ist
 	
 	/** Abfrage, ob ein Dialog angezeigt werden soll. */
 	
-	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
+	protected boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
 	
 	/** Abfrage ob das Spiel im Fullscreen angezeigt werden soll. */
 	
-	private boolean fullscreen;				// Ob Fullscreen aktiviert ist
+	protected boolean fullscreen;				// Ob Fullscreen aktiviert ist
 	
 	/** Der Originalfenstermodus. */
 	
-	private DisplayMode initMode;			//Originalfenstermodus
+	protected DisplayMode initMode;			//Originalfenstermodus
 	
 	/** Abfrage, ob das Level durch den JsonParser generiert werden soll. */
 	
-	private boolean jsonParser = true;		// Ob der JSON Parser verwendet werden soll
+	protected boolean jsonParser = true;		// Ob der JSON Parser verwendet werden soll
 	
 	/** Das Levelobjekt. */
 	
-	private LevelData levelDataObj;
+	protected LevelData levelDataObj;
 	
 	/** Die Klasse, aus der die Grafiken geladen werden sollen. */
 	
-	static Data_Textures textures;			// Grafik-Klasse
+	protected static Data_Textures textures;			// Grafik-Klasse
 	
 	/** Die Timer-Variable. */
 	
-	private long lastAction;	// Timer-Variable
+	protected long lastAction;	// Timer-Variable
 	
 	/** Das Spielmenue. */
 	
@@ -122,7 +122,6 @@ public class Level implements GameEventListener{
 	 * @param y  Die Methode erwartet die Uebergabe eines int Werts y
 	 * @param g  Die Methode erwartet die Uebergabe eines Objektes g vom Typ GameMenu
 	 * @param lvl  Die Methode erwartet die Uebergabe eines int Werts lvl
-	 * @param a  Die Methode erwartet die Uebergabe eines String Werts a
 	 */
 	
 // Konstruktor
@@ -161,7 +160,7 @@ public class Level implements GameEventListener{
 				FileReader fread = new FileReader("lvl/" + file + ".txt");
 				BufferedReader in = new BufferedReader(fread);
 				
-				int k = 0; //Fuer 3. Arraydimension wird eigene Variable benoetigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
+				int k = 0; //F�r 3. Arraydimension wird eigene Variable ben�tigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
 				
 				for(int i=0; (line = in.readLine()) != null; i++){
 					if(i==0){
@@ -363,12 +362,13 @@ public class Level implements GameEventListener{
 			//12: Healthcontainer
 			//13: Checkpoint
 			
+			
 			int torchCounter=0;	// Zaehlt die Position im TriggerArray ab, die uebergeben werden soll
 			String[][] torchTrigger={{"f1"},{"f2"},{"f3"},{"f4"},{"f5"},{"f6"}}; // Array der TriggerKeyArrays fuer die Fackeln
 			int switchCounter=0; // Wie der torchCounter nur fuer Schalter
-			String[][] switchTrigger={{"f1","f4","f6"},{"f2","f4","f5"},{"f1","f2","f6"},{"f2","f4","f5","f6"},{"f2","f3","f4"},{"f2","f5","f6"}};	// Array der TriggerKeyArrays fuer die Schalter
-
+			String[][] switchTrigger={{"r1"},{"r2"},{"f1","f4","f6"},{"f2","f4","f5"},{"f1","f2","f6"},{"f2","f4","f5","f6"},{"f2","f3","f4"},{"f2","f5","f6"}};	// Array der TriggerKeyArrays fuer die Schalter
 			
+		
 			// Schleife die das Level generiert
 			for(int r=0; r<levelDataObj.totalRooms();r++){
 				// Listen um eine Dimension erweitern
@@ -386,38 +386,38 @@ public class Level implements GameEventListener{
 					if(tempParameterList.get(0).equals("1")){
 						//Texturparameter
 						if(tempParameterList.get(1).equals("0") || tempParameterList.get(1).equals("texture1") || tempParameterList.get(1).equals("")){
-								staticList.get(r).add(new WallObject(xPos, yPos));
+							staticList.get(r).add(new WallObject(xPos, yPos));
 						}
 					}
 					//Creature
 					else if(tempParameterList.get(0).equals("2")){
-						creatureList.get(r).add(new Creature(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3)))); // bei 2 wird ein Monsterobjekt generiert
+						creatureList.get(r).add(new Creature(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));    // bei 2 wird ein Monsterobjekt generiert
 					}else if(tempParameterList.get(0).equals("3") ){
 						if(player == null){
-								playerSpawnX = xPos;
-								playerSpawnY = yPos;
-								player = new Player(playerSpawnX, playerSpawnY, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3)), Integer.parseInt(tempParameterList.get(4)), Integer.parseInt(tempParameterList.get(5)), Integer.parseInt(tempParameterList.get(6)));
+							playerSpawnX = xPos;
+							playerSpawnY = yPos;
+							player  =  new Player(playerSpawnX, playerSpawnY, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3)),  Integer.parseInt(tempParameterList.get(4)), Integer.parseInt(tempParameterList.get(5)), Integer.parseInt(tempParameterList.get(6)));    
 						}
 						else{
 							player.teleport(xPos, yPos);
-						}
+					}
 					}else if(tempParameterList.get(0).equals("4")){
-						teleportList.get(r).add(new Teleporter(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+						teleportList.get(r).add(new Teleporter(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));    
 					}else if(tempParameterList.get(0).equals("5")){
-						staticList.get(r).add(new TrapObject(xPos, yPos));
+						staticList.get(r).add(new TrapObject(xPos, yPos));    
 					}else if(tempParameterList.get(0).equals("6")){
-						staticList.get(r).add(new GoalObject(xPos, yPos));
+						staticList.get(r).add(new GoalObject(xPos, yPos));    
 					}else if(tempParameterList.get(0).equals("7")){
-						staticList.get(r).add(new PotionObject(xPos, yPos));
+						staticList.get(r).add(new PotionObject(xPos, yPos));    
 					}else if(tempParameterList.get(0).equals("8")){
-						staticList.get(r).add(new MPotionObject(xPos, yPos));
+						staticList.get(r).add(new MPotionObject(xPos, yPos));    
 					}else if(tempParameterList.get(0).equals("9")){
-						staticList.get(r).add(new TreasureObject(xPos, yPos));
+						staticList.get(r).add(new TreasureObject(xPos, yPos));    
 					}else if(tempParameterList.get(0).equals("10")){
-						creatureList.get(r).add(new Shopkeeper(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+						creatureList.get(r).add(new Shopkeeper(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("11")){
-						creatureList.get(r).add(new Storyteller(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+						creatureList.get(r).add(new Storyteller(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("12")){
 						staticList.get(r).add(new Healthcontainer(xPos, yPos));
@@ -435,7 +435,7 @@ public class Level implements GameEventListener{
 						creatureList.get(r).add(new Boss1(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("16")){
-						staticList.get(r).add(new CheckPoint(xPos, yPos));
+						staticList.get(r).add(new CheckPoint(xPos, yPos));    
 					}
 					else if(tempParameterList.get(0).equals("17")){
 						creatureList.get(r).add(new Boss2(xPos, yPos, Integer.parseInt(tempParameterList.get(6))*32, Integer.parseInt(tempParameterList.get(7))*32, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
@@ -444,30 +444,30 @@ public class Level implements GameEventListener{
 						creatureList.get(r).add(new Boss3(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("19")){
-						staticList.get(r).add(new ArrowObject(xPos, yPos));
+						staticList.get(r).add(new ArrowObject(xPos, yPos));    
 					}
 					else if(tempParameterList.get(0).equals("20")){
 						String[] tempStr2 = tempParameterList.get(1).split(" ");
 						staticList.get(r).add(new WallSecret(xPos, yPos, tempStr2)); // bei 20 wird eine "Geheimwand" generiert (Die Schalter auf die diese Tuer hoert muessen angegeben werden)
 					}
 					else if(tempParameterList.get(0).equals("21")){
-						staticList.get(r).add(new Torch(xPos, yPos, torchTrigger[torchCounter]));	// bei 21 wird eine Fackel generiert
+						staticList.get(r).add(new Torch(xPos, yPos, torchTrigger[torchCounter]));		// bei 21 wird eine Fackel generiert
 						torchCounter++;	// erhoehen, wir wollen ja variieren!
 					}
 					else if(tempParameterList.get(0).equals("22")) {
-						creatureList.get(r).add(new FireElemental(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));	// bei 22 wird ein Feuerelementar generiert
+						creatureList.get(r).add(new FireElemental(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));		// bei 22 wird ein Feuerelementar generiert
 					}
 					else if(tempParameterList.get(0).equals("23")){
-						staticList.get(r).add(new Switch(xPos, yPos, switchTrigger[switchCounter]));	// bei 23 wird ein Schalter generiert
+						staticList.get(r).add(new Switch(xPos, yPos, switchTrigger[switchCounter]));		// bei 23 wird ein Schalter generiert
 						switchCounter++;	// erhoehen, wir wollen ja variieren!
 					}
 					else if(tempParameterList.get(0).equals("24")){
-						// staticList.get(r).add(new Grass(i*32, j*32)); // bei 0 wird Grass generiert
-						staticList.get(r).add(new Lavahat(xPos, yPos)); // bei 24 wird ein Lavahut generiert
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						staticList.get(r).add(new Lavahat(xPos, yPos)); 	// bei 24 wird ein Lavahut generiert
 					}
 					else if(tempParameterList.get(0).equals("25")){
-						// staticList.get(r).add(new Grass(i*32, j*32)); // bei 0 wird Grass generiert
-						staticList.get(r).add(new Lavapatch(xPos, yPos));	// bei 25 wird ein Lavafeld generiert
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						staticList.get(r).add(new Lavapatch(xPos, yPos));		// bei 25 wird ein Lavafeld generiert
 					}
 				}
 			}
@@ -801,9 +801,8 @@ public class Level implements GameEventListener{
 			if(!Keyboard.isKeyDown(Keyboard.KEY_LEFT) && !Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
 				player.keyReleased(Keyboard.KEY_LEFT);
 			}
-			if(!Keyboard.isKeyDown(Keyboard.KEY_E)){
+			if(!Keyboard.isKeyDown(Keyboard.KEY_E))
 				player.keyReleased(Keyboard.KEY_E);
-			}			
 		}
 		// Tastatur-Events bei Loose/Clear
 		else{

@@ -34,13 +34,13 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 	
 	private JTextField ip;
 	
-	/** Das aktuell zu ladende Level (Single Player oder CoOp. */
-	
-	private Level lvl;
-	
 	/** Netzwerk-Adresse **/
 	
 	private String adress;
+	
+	/** Das aktuell zu ladende Level (Single Player oder CoOp. */
+	
+	private Level lvl;
 	
 	/**
 	 * Die Methode main.
@@ -70,6 +70,7 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 				cb.addItem("Level 1");
 				cb.addItem("Level 2");
 				cb.addItem("Level 3");
+				cb.addItem("Level 4");
 				cb.setSelectedIndex(0);
 			settings.add(cb);
 			coop = new JCheckBox();
@@ -79,8 +80,8 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 				coop.setEnabled(true);
 			settings.add(coop);
 			ip = new JTextField();
-				ip.setEnabled(false);
-			settings.add(ip);
+			ip.setEnabled(false);
+		settings.add(ip);
 		
 		jp = new JPanel();										
 			jp.setLayout(new GridLayout(2,1));
@@ -99,7 +100,7 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 		this.setVisible(true);								// sichtbarkeit 
 		this.setLocationRelativeTo(null); 					// im Bildschirm zentriert
 	}
-	
+
 	/**
 	 * Die Methode actionPerformed.
 	 * Diese Methode implementiert die Funktionen, die bei dr�cken der Buttons aufgerufen werden (z.B. Start des Spiels)

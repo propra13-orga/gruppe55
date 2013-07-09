@@ -2,7 +2,6 @@ package hhu.propra2013.gruppe55_opengl;
 
 import java.util.*;
 import java.io.*;
-
 import hhu.propra2013.leveleditor2.LevelData;
 import hhu.propra2013.leveleditor2.LevelReader;
 import java.util.Map;
@@ -12,40 +11,47 @@ import org.lwjgl.opengl.*;
 import static org.lwjgl.opengl.GL11.*;
 import org.lwjgl.opengl.DisplayMode;
 
+/**
+ * Die Klasse LevelMP.
+ * Die Hauptklasse, in der das ganze Level mit s�mtlichen Objekten, Funktionen, etc. generiert wird.
+ */
+
 public class LevelMP extends Level implements GameEventListener{
 
 	// Levelobjekte
-	private Client c;					//Network-Client
-	protected Player player1, player2;				//Spielerobjekt
-	private GameInterface iFace;		//GameInterface
-	private int room, currLvl;					// pointer to current room and Level
-	private int roomToRespawn;			// Raum in dem der Spieler nach Niederlage wiedererscheint
-	private ArrayList<ArrayList<LivingObject>> creatureList;	// liste der Gegner
-	private ArrayList<ArrayList<DungeonObject>> staticList;		// liste der Waende/Gegenstaende/etc
-	private ArrayList<Projectile> projectileList;			// liste der Projektile (Pfeile, Feuerbaelle, etc)
-	private ArrayList<ArrayList<Teleporter>> teleportList;		// Liste aller Teleporter 
-	// Spieleventvariablen
-	private boolean lose, clear, gameover, close, alreadyInteracted2, alreadyInteracted1 = alreadyInteracted2 = false;	// wird auf wahr gesetzt, wenn der Spieler stirbt oder das Level erfolgreich abschliesst
-	// Wichtige variablen fuer das neu Laden eines Levels
-	private int playerSpawnX, playerSpawnY;		// Koordinaten des ersten Spielererscheinungspunkts
-	private boolean freeze = false;		// friert das Level ein
-	private int openedInterface;			// Welches Interface aufgerufen ist
-	private boolean dialog;					// Ob Dialog angezeigt werden soll oder nicht
-	private boolean waiting;				// Ob auf 2. Spieler gewartet werden soll
-	private boolean fullscreen;				// Ob Fullscreen aktiviert ist
-	private DisplayMode initMode;			//Originalfenstermodus
-	private boolean jsonParser = true;		// Ob der JSON Parser verwendet werden soll
-	private LevelData levelDataObj;
-	static Data_Textures textures;			// Grafik-Klasse
-	private long lastAction;	// Timer-Variable
-	private GameMenu gm;		//Spiele-Menue
 	
+	/** Der Netzwerkclient. */
+	
+	private Client c;					//Network-Client
+	
+	/** Das Spielerobjekt, fuer Spieler1 und Spieler2. */
+	
+	protected Player player1, player2;				//Spielerobjekt
+	
+	/** Ob beim Start auf den 2. Spieler gewartet wird. */
+	
+	private boolean waiting;	// Ob beim Start auf den 2. Spieler gewartet wird
+	
+	/** Die Booleans fuer das Interagieren */
+	
+	protected boolean alreadyInteracted1, alreadyInteracted2 = alreadyInteracted1 = false;
+	
+	/**
+	 * Der Konstruktor fuer das LevelMP.
+	 * Beim Aufruf werden dem Konstruktor die x und y koordinaten, das GameMenu und die Levelnummer uebergeben.
+	 * Diese Methode liest die Level selbst aus einer Textdatei aus und parsed diese entweder mit dem JsonParser oder mit einer eigenen Parserversion, die allerdings nur fuer Testlevel gebraucht werden sollte. Die Richtigen Level entstehen alle mit Hilfe der JsonParserschleife.
+	 * @param x  Die Methode erwartet die Uebergabe eines int Werts x
+	 * @param y  Die Methode erwartet die Uebergabe eines int Werts y
+	 * @param gm  Die Methode erwartet die Uebergabe eines Objektes gm vom Typ GameMenu
+	 * @param lvl  Die Methode erwartet die Uebergabe eines int Werts lvl
+	 */
 	
 // Konstruktor
 	public LevelMP(int x, int y, GameMenu gm, int lvl, String a) {
 		super(x, y, gm, lvl, a);
 	}
 
+	@Override
 	public void loadLevel(String file){
 		String line;
 		String lineints[];
@@ -61,7 +67,7 @@ public class LevelMP extends Level implements GameEventListener{
 				FileReader fread = new FileReader("lvl/" + file + ".txt");
 				BufferedReader in = new BufferedReader(fread);
 				
-				int k = 0; //Fuer 3. Arraydimension wird eigene Variable benoetigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
+				int k = 0; //F�r 3. Arraydimension wird eigene Variable ben�tigt, da i immer bei 1 beginnt durch die deklarierende Zeile, die nicht im Arry landet
 				
 				for(int i=0; (line = in.readLine()) != null; i++){
 					if(i==0){
@@ -104,7 +110,7 @@ public class LevelMP extends Level implements GameEventListener{
 			//10: Shopkeeper
 			//11: Storyteller
 			//12: Healthcontainer
-			//16: Checkpoint
+			//13: Checkpoint
 			//14: Creature_Bow
 			// ...
 			//20: WallSecret
@@ -144,9 +150,9 @@ public class LevelMP extends Level implements GameEventListener{
 							if(player1 == null){
 								playerSpawnX	=	i*32-5;
 								playerSpawnY	=	j*32-5;
-								player1	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1, 3);	// bei 3 wird ein Spielerobjekt generiert
-								player2	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1, 3);	// Player 2 konstruieren
-								// staticList.get(r).add(new Grass(i*32, j*32)); // bei 0 wird Grass generiert
+								player1	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1, 3);		// bei 3 wird ein Spielerobjekt generiert
+								player2	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1, 3);		// Player 2 konstruieren
+								// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							}
 							else{
 								player1.teleport(i*32-5, j*32-5);
@@ -270,7 +276,7 @@ public class LevelMP extends Level implements GameEventListener{
 			String[][] torchTrigger={{"f1"},{"f2"},{"f3"},{"f4"},{"f5"},{"f6"}}; // Array der TriggerKeyArrays fuer die Fackeln
 			int switchCounter=0; // Wie der torchCounter nur fuer Schalter
 			String[][] switchTrigger={{"f1","f4","f6"},{"f2","f4","f5"},{"f1","f2","f6"},{"f2","f4","f5","f6"},{"f2","f3","f4"},{"f2","f5","f6"}};	// Array der TriggerKeyArrays fuer die Schalter
-
+	
 			
 			// Schleife die das Level generiert
 			for(int r=0; r<levelDataObj.totalRooms();r++){
@@ -289,40 +295,40 @@ public class LevelMP extends Level implements GameEventListener{
 					if(tempParameterList.get(0).equals("1")){
 						//Texturparameter
 						if(tempParameterList.get(1).equals("0") || tempParameterList.get(1).equals("texture1") || tempParameterList.get(1).equals("")){
-								staticList.get(r).add(new WallObject(xPos, yPos));
+							staticList.get(r).add(new WallObject(xPos, yPos));
 						}
 					}
 					//Creature
 					else if(tempParameterList.get(0).equals("2")){
-						creatureList.get(r).add(new Creature(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3)))); // bei 2 wird ein Monsterobjekt generiert
+						creatureList.get(r).add(new Creature(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));    // bei 2 wird ein Monsterobjekt generiert
 					}else if(tempParameterList.get(0).equals("3") ){
 						if(player1 == null){
 							playerSpawnX = xPos;
 							playerSpawnY = yPos;
-							player1 = new Player(playerSpawnX, playerSpawnY, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3)), Integer.parseInt(tempParameterList.get(4)), Integer.parseInt(tempParameterList.get(5)), Integer.parseInt(tempParameterList.get(6)));
-							player2 = new Player(playerSpawnX, playerSpawnY, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3)), Integer.parseInt(tempParameterList.get(4)), Integer.parseInt(tempParameterList.get(5)), Integer.parseInt(tempParameterList.get(6)));
+							player1  =  new Player(playerSpawnX, playerSpawnY, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3)),  Integer.parseInt(tempParameterList.get(4)), Integer.parseInt(tempParameterList.get(5)), Integer.parseInt(tempParameterList.get(6)));    
+							player2  =  new Player(playerSpawnX, playerSpawnY, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3)),  Integer.parseInt(tempParameterList.get(4)), Integer.parseInt(tempParameterList.get(5)), Integer.parseInt(tempParameterList.get(6)));    
 						}
 						else{
 							player1.teleport(xPos, yPos);
 							player2.teleport(xPos, yPos);
-						}
+					}
 					}else if(tempParameterList.get(0).equals("4")){
-						teleportList.get(r).add(new Teleporter(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+						teleportList.get(r).add(new Teleporter(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));    
 					}else if(tempParameterList.get(0).equals("5")){
-						staticList.get(r).add(new TrapObject(xPos, yPos));
+						staticList.get(r).add(new TrapObject(xPos, yPos));    
 					}else if(tempParameterList.get(0).equals("6")){
-						staticList.get(r).add(new GoalObject(xPos, yPos));
+						staticList.get(r).add(new GoalObject(xPos, yPos));    
 					}else if(tempParameterList.get(0).equals("7")){
-						staticList.get(r).add(new PotionObject(xPos, yPos));
+						staticList.get(r).add(new PotionObject(xPos, yPos));    
 					}else if(tempParameterList.get(0).equals("8")){
-						staticList.get(r).add(new MPotionObject(xPos, yPos));
+						staticList.get(r).add(new MPotionObject(xPos, yPos));    
 					}else if(tempParameterList.get(0).equals("9")){
-						staticList.get(r).add(new TreasureObject(xPos, yPos));
+						staticList.get(r).add(new TreasureObject(xPos, yPos));    
 					}else if(tempParameterList.get(0).equals("10")){
-						creatureList.get(r).add(new Shopkeeper(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+						creatureList.get(r).add(new Shopkeeper(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("11")){
-						creatureList.get(r).add(new Storyteller(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+						creatureList.get(r).add(new Storyteller(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("12")){
 						staticList.get(r).add(new Healthcontainer(xPos, yPos));
@@ -340,7 +346,7 @@ public class LevelMP extends Level implements GameEventListener{
 						creatureList.get(r).add(new Boss1(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("16")){
-						staticList.get(r).add(new CheckPoint(xPos, yPos));
+						staticList.get(r).add(new CheckPoint(xPos, yPos));    
 					}
 					else if(tempParameterList.get(0).equals("17")){
 						creatureList.get(r).add(new Boss2(xPos, yPos, Integer.parseInt(tempParameterList.get(6))*32, Integer.parseInt(tempParameterList.get(7))*32, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
@@ -349,30 +355,30 @@ public class LevelMP extends Level implements GameEventListener{
 						creatureList.get(r).add(new Boss3(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("19")){
-						staticList.get(r).add(new ArrowObject(xPos, yPos));
+						staticList.get(r).add(new ArrowObject(xPos, yPos));    
 					}
 					else if(tempParameterList.get(0).equals("20")){
 						String[] tempStr2 = tempParameterList.get(1).split(" ");
 						staticList.get(r).add(new WallSecret(xPos, yPos, tempStr2)); // bei 20 wird eine "Geheimwand" generiert (Die Schalter auf die diese Tuer hoert muessen angegeben werden)
 					}
 					else if(tempParameterList.get(0).equals("21")){
-						staticList.get(r).add(new Torch(xPos, yPos, torchTrigger[torchCounter]));	// bei 21 wird eine Fackel generiert
+						staticList.get(r).add(new Torch(xPos, yPos, torchTrigger[torchCounter]));		// bei 21 wird eine Fackel generiert
 						torchCounter++;	// erhoehen, wir wollen ja variieren!
 					}
 					else if(tempParameterList.get(0).equals("22")) {
-						creatureList.get(r).add(new FireElemental(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));	// bei 22 wird ein Feuerelementar generiert
+						creatureList.get(r).add(new FireElemental(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));		// bei 22 wird ein Feuerelementar generiert
 					}
 					else if(tempParameterList.get(0).equals("23")){
-						staticList.get(r).add(new Switch(xPos, yPos, switchTrigger[switchCounter]));	// bei 23 wird ein Schalter generiert
+						staticList.get(r).add(new Switch(xPos, yPos, switchTrigger[switchCounter]));		// bei 23 wird ein Schalter generiert
 						switchCounter++;	// erhoehen, wir wollen ja variieren!
 					}
 					else if(tempParameterList.get(0).equals("24")){
-						// staticList.get(r).add(new Grass(i*32, j*32)); // bei 0 wird Grass generiert
-						staticList.get(r).add(new Lavahat(xPos, yPos)); // bei 24 wird ein Lavahut generiert
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						staticList.get(r).add(new Lavahat(xPos, yPos)); 	// bei 24 wird ein Lavahut generiert
 					}
 					else if(tempParameterList.get(0).equals("25")){
-						// staticList.get(r).add(new Grass(i*32, j*32)); // bei 0 wird Grass generiert
-						staticList.get(r).add(new Lavapatch(xPos, yPos));	// bei 25 wird ein Lavafeld generiert
+						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
+						staticList.get(r).add(new Lavapatch(xPos, yPos));		// bei 25 wird ein Lavafeld generiert
 					}
 				}
 			}
@@ -397,6 +403,8 @@ public class LevelMP extends Level implements GameEventListener{
 		
 		// Erster CheckPoint ist der LevelEintritt
 		checkPointReached();
+		
+		//NetzwerkClient starten
 		if(adress != "local"){
 			//NetzwerkClient starten
 			waiting = true;
@@ -410,10 +418,17 @@ public class LevelMP extends Level implements GameEventListener{
 	}
 	
 // Methoden
+	
+	/**
+	 * Die Methode CollisionCheck.
+	 * Diese Methode fragt die Kollision zwischen Objekten aus der static- und creatureList ab. Bei der Kollision zwischen Spieler und einem Objekt wird .onCollision(player) des jeweiligen Listenelements aufgerufen fuer eine spezielle Kollisionsbehandlung.
+	 */
+	
 	/*
 	 * Kollisionsabfrage zwischen den Dungeonobjekten aus staticList und creatureList
 	 * bei Spielerkollision wird .onCollision(player) des jeweiligen Listenelements aufgerufen fuer spezielle Kollisionsbehandlung
 	 */
+
 	private void collisionCheck(){
 		// Ueberpruefen ob der Spieler in einen anderen Raum teleportiert werden soll
 		for(int i=0; i<teleportList.get(room).size(); i++){
@@ -511,6 +526,11 @@ public class LevelMP extends Level implements GameEventListener{
 
 	}
 	
+	/**
+	 * Die Methode reload.
+	 * Diese Methode laedt das Level neu (ggf. vom letzten CheckPoint, den der Player vor seinem Tod erreicht hat).
+	 */
+	
 	//Methode um das Level neu zu laden und das Spiel von vorne zu beginnen
 	public void reload(){
 		// Spieler zuruecksetzen
@@ -555,29 +575,11 @@ public class LevelMP extends Level implements GameEventListener{
 		clear = false;
 		gameover = false;
 	}
-
-	//Display und OpenGL initialisieren/einstellen
-	public void init(int x, int y){
-		try {
-			initMode = new DisplayMode(x, y);
-			Display.setDisplayMode(initMode);
-			Display.setTitle("Game");
-			Display.setResizable(false);
-			Display.setInitialBackground(255/255f, 211/255f, 155/255f);
-			Display.create();
-		}catch (LWJGLException e) {e.printStackTrace();}
-		
-		GL11.glEnable(GL11.GL_TEXTURE_2D);
-		glEnable(GL_BLEND);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-		glMatrixMode(GL_PROJECTION);
-		glLoadIdentity();
-		glOrtho(0, x, y, 0, -1, 1);
-		glMatrixMode(GL_MODELVIEW);
-		
-		//Keyboard.enableRepeatEvents(true);
-		//Mouse.setGrabbed(true);
-	}
+	
+	/**
+	 * Die Methode play.
+	 * Diese Methode ist der Gameloop, der die Funktionen input, engine und render aufruft, die das Spielen ermoeglichen.
+	 */
 
 	// Game-Schleife
 	public void play(){
@@ -603,11 +605,16 @@ public class LevelMP extends Level implements GameEventListener{
 		super.gm.setVisible(true);
 	}
 	
+	/**
+	 * Die Methode input.
+	 * Diese Methode implementiert die Steuerung und mapped die verschiedenen Tasten und Funktionen im Spiel zusammen.
+	 */
+	
 	// Eingaben abfragen
 	public void input(){
 		// KeyboardEvents
 		
-		// Tastatur-Events waehrend des Spiels
+		// Tastatur-Events w�hrend des Spiels
 		if(!lose && !clear && !gameover){		
 			while(Keyboard.next()){				
 				int k = Keyboard.getEventKey();
@@ -644,7 +651,6 @@ public class LevelMP extends Level implements GameEventListener{
 							}
 							break;
 						case Keyboard.KEY_SPACE:
-							c.send("1,1,5");
 							if((lose || clear) && !gameover ){
 								reload();
 							}
@@ -654,7 +660,6 @@ public class LevelMP extends Level implements GameEventListener{
 							}
 							break;
 						case Keyboard.KEY_E:
-							c.send("1,1,2");
 							player1.keyPressed(Keyboard.KEY_E);
 							break;
 						case Keyboard.KEY_ESCAPE:
@@ -666,7 +671,6 @@ public class LevelMP extends Level implements GameEventListener{
 							else{close = true;}
 							break;
 						case Keyboard.KEY_X:
-							c.send("1,1,a");
 							player1.swapWeapons();
 							break;
 						case Keyboard.KEY_F:
@@ -692,18 +696,15 @@ public class LevelMP extends Level implements GameEventListener{
 							} catch (LWJGLException e) {e.printStackTrace();}
 							break;
 						case Keyboard.KEY_C:
-							c.send("1,1,1");
 							player1.spellCast();
 							break;
 						case Keyboard.KEY_A:
-							c.send("1,1,0");
 							if(player1.getStatInventoryObjectCount(2)>0){
 								player1.getHealed(2);
 								player1.giveStatInventoryObject(2, -1);
 							}
 							break;
 						case Keyboard.KEY_S:
-							c.send("1,1,3");
 							if(player1.getStatInventoryObjectCount(3)>0){
 								player1.fillmana(1);
 								player1.giveStatInventoryObject(3, -1);
@@ -731,14 +732,12 @@ public class LevelMP extends Level implements GameEventListener{
 				if(Keyboard.getEventKeyState()){
 					switch(k){
 						case 28:
-							c.send("1,1,6");
 							//Beenden
 							if(lose || clear || gameover){
 								close = true;
 							}
 							break;
 						case Keyboard.KEY_SPACE:
-							c.send("1,1,5");
 							// Naechstes Level
 							if(clear){
 								currLvl++;
@@ -766,6 +765,11 @@ public class LevelMP extends Level implements GameEventListener{
 			}
 		}
 	}
+	
+	/**
+	 * Die Methode input2.
+	 * Diese Methode implementiert die Steuerung und mapped die verschiedenen Tasten und Funktionen im Spiel zusammen (Fuer Spieler2).
+	 */
 	
 	// Eingaben fuer Player2
 	public void input2(double dx,double dy, boolean a, boolean c, boolean e, boolean s, boolean x, boolean space, boolean enter){
@@ -837,6 +841,11 @@ public class LevelMP extends Level implements GameEventListener{
 		}
 	}
 	
+	/**
+	 * Die Methode engine.
+	 * Diese Methode bearbeitet die Spielmechaniken und Ereignisse, wie die Spieler- und Kreaturenbewegung, die Kollisionsabfrage, Projektile, etc.
+	 */
+	
 	// Game-Logic
 	public void engine(){
 		// Level gefroren?
@@ -862,7 +871,7 @@ public class LevelMP extends Level implements GameEventListener{
 			for(int i=0; i<projectileList.size(); i++)
 				projectileList.get(i).move();
 
-			// Interaktionsabfragen Player 1
+			// Interaktionsabfragen Player1
 			if(player1.wantsToInteract() && !alreadyInteracted1){
 				int px=(int)player1.getX();
 				int py=(int)player1.getY();
@@ -874,13 +883,14 @@ public class LevelMP extends Level implements GameEventListener{
 				
 				alreadyInteracted1=true;
 			}
-			else if(!player1.wantsToInteract())
+			else if(!player1.wantsToInteract()){
 				alreadyInteracted1=false;
+			}
 			
-			// Interaktionsabfragen Player 2
+			// Interaktionsabfragen Player2
 			if(player2.wantsToInteract() && !alreadyInteracted2){
-				int px=(int)player1.getX();
-				int py=(int)player1.getY();
+				int px=(int)player2.getX();
+				int py=(int)player2.getY();
 				
 				for(int i=0; i<staticList.get(room).size(); i++)
 					staticList.get(room).get(i).interaction(px, py);
@@ -889,9 +899,10 @@ public class LevelMP extends Level implements GameEventListener{
 				
 				alreadyInteracted2=true;
 			}
-			else if(!player2.wantsToInteract())
+			else if(!player2.wantsToInteract()){
 				alreadyInteracted2=false;
-			
+			}	
+				
 			// Kollisionsabfrage
 			collisionCheck();			
 			
@@ -919,6 +930,11 @@ public class LevelMP extends Level implements GameEventListener{
 			}
 		}
 	}
+	
+	/**
+	 * Die Methode render.
+	 * Diese Methode zeichnet das Level, also alle Objekte sowie das Interface und Win/lose/Gameoverscreen.
+	 */
 	
 	// Zeichen/Render-Funktion
 	public void render(){
@@ -989,66 +1005,15 @@ public class LevelMP extends Level implements GameEventListener{
 		}
 	}
 	
-	//GameFreeze togglen
-	public void toggleFreeze(){
-		freeze	=	!freeze;
-	}
-	
 	//Waiting togglen
 	public void toggleWaiting(){
 		waiting	=	!waiting;
 	}
-	
-	//Dialog anzeigen ja/nein
-	public void setDialog(boolean d){
-		dialog = d;
-	}
-	
-	//OpenedInterface aendern
-	public void setOpenedInterface(int o){
-		openedInterface = o;
-	}
 
-	
-	//Dialogstatus abfragen
-	public boolean getDialog(){
-		return(dialog);
-	}
-	
-	//Dialog ausgeben (Testfunktion f�r Netzwerk)
-	public void printDialog(String line){
-		if(openedInterface == 0){
-			setDialog(true);
-			toggleFreeze();
-			iFace.setDialog(line);
-			openedInterface = 1;
-		}
-	}
-	
-	//Zu zeichnendes Interface ausgeben
-	public int getOpenedInterface(){
-		return(openedInterface);
-	}
-
-	// SPIELEREIGNISSE ABFANGEN
-	@Override
-	public void newTreasure(double x, double y) {
-		staticList.get(room).add(new TreasureObject(x, y));
-	}
-
-	// Der Boss droppt das Zielobjekt 
-	@Override
-	public void newGoal(double x, double y) {
-		GoalObject goal = new GoalObject(x, y);
-		goal.addGameListener(this);
-		staticList.get(room).add(goal);
-	}
-
-	
-	@Override
-	public void shootProjectile(Projectile p){
-		projectileList.add(p);
-	}
+	/**
+	 * Die Methode checkPointReached.
+	 * Diese Methode speichert alle Zustaende, die beim erreichen eines CheckPoints gesichert werden muessen, damit der Player dort neu anfangen kann.
+	 */
 	
 	@Override
 	public void checkPointReached(){
@@ -1068,36 +1033,6 @@ public class LevelMP extends Level implements GameEventListener{
 					// CreatureList
 					for(int i=0;i<creatureList.get(r).size();i++){
 						creatureList.get(r).get(i).setResetValues();
-					}
-				}
-			}
-		}.start();
-	}
-
-
-	@Override
-	public void levelCleared() {
-		clear=true;
-	}
-	
-	@Override
-	public void triggerFired(final String key){
-		new Thread(){	// neuen Thread starten
-			public void run(){
-				for(int r=0;r<staticList.size();r++){	// fuer alle Raeume setzen wir unseren Trigger
-					// StaticList
-					for(int i=0;i<staticList.get(r).size();i++){
-						staticList.get(r).get(i).toggleTrigger(key);	// Trigger togglen
-						if(staticList.get(r).get(i).isTriggerListened(key)){		// ... und  eventuell ausfuehren
-							staticList.get(r).get(i).triggerAction(key);
-						}
-					}
-					// CreatureList
-					for(int i=0;i<creatureList.get(r).size();i++){
-						creatureList.get(r).get(i).toggleTrigger(key);	// trigger togglen
-						if(creatureList.get(r).get(i).isTriggerListened(key)){		// ... und  eventuell ausfuehren
-							creatureList.get(r).get(i).triggerAction(key);
-						}
 					}
 				}
 			}
