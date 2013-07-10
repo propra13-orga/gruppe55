@@ -51,7 +51,7 @@ public class Server{
 					client1 = server.accept();		//Auf Client warten
 					client1.setSoTimeout(5000);		//Client-Read-Timeout=5s
 					sf.addToLog("Client 1 connected at " + client1.getInetAddress() + ":" + client1.getLocalPort());
-					in1 = new ServerInput(1, this);						//Input-Thread erstellen
+					in1 = new ServerInput(0, this);						//Input-Thread erstellen
 					in1.setInputStream(client1.getInputStream());	//InputStream uebergeben und starten
 					in1.start();
 					out1 = new PrintWriter(client1.getOutputStream(), true);	//Output oeffnen
@@ -60,7 +60,7 @@ public class Server{
 			}
 			//Wenn Verbindung unterbrochen ...
 			else if(!in1.getOpened()){
-				//Client1 schließen und loeschen
+				//Client1 schliessen und loeschen
 				try {
 					System.out.println("end1");
 					in1.end();
@@ -85,7 +85,7 @@ public class Server{
 					client2 = server.accept();		//Auf Client warten
 					client2.setSoTimeout(5000);		//Client-Read-Timeout=5s
 					sf.addToLog("Client 2 connected at " + client2.getInetAddress() + ":" + client2.getLocalPort());
-					in2 = new ServerInput(2, this);						//Input-Thread erstellen
+					in2 = new ServerInput(1, this);						//Input-Thread erstellen
 					in2.setInputStream(client2.getInputStream());	//InputStream uebergeben und starten
 					in2.start();
 					out2 = new PrintWriter(client2.getOutputStream(), true);	//Output oeffnen
@@ -116,21 +116,21 @@ public class Server{
 
 	//Game starten
 	public void startGame(){
+		send(0, "0,start");
 		send(1, "0,start");
-		send(2, "0,start");
 		started = true;
 	}
 	
 	//Line senden
 	public void send(int c, String line){
-		if(c == 1){
+		if(c == 0){
 			outLine1 = line;
 			out1.println(outLine1);
 			send1 = true;
 		}
-		else{
+		else if(c == 1){
 			outLine2 = line;
-			out1.println(outLine2);
+			out2.println(outLine2);
 			send2 = true;
 		}
 	}
@@ -202,7 +202,6 @@ class ServerInput extends Thread{
 				if(open && (inLine = in.readLine()) != null){
 					if(inLine.compareTo("alive") != 0){
 						srv.send(Math.abs(clientID-1), inLine);
-						System.out.println(inLine);
 					}
 				}
 				//Wenn Abbruchsignal gesendet wurde, Thread beenden

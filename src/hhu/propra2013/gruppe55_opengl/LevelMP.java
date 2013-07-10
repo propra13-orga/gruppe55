@@ -448,7 +448,7 @@ public class LevelMP extends Level implements GameEventListener{
 			}
 		}
 		
-		// staticlist Kollisionen �berpr�fen
+		// staticlist Kollisionen ueberpruefen
 		for(int i=0; i<staticList.get(room).size(); i++){
 			// static mit Spieler
 			if(staticList.get(room).get(i).getBorder().intersects(player1.getBorder())){
@@ -626,24 +626,28 @@ public class LevelMP extends Level implements GameEventListener{
 							if(dialog){
 								iFace.buttonAction(Keyboard.KEY_UP, player1);
 							}
+							c.send("1,0,"+(int)player1.dx+","+(int)player1.dy);
 							break;
 						case Keyboard.KEY_DOWN:
 							player1.keyPressed(Keyboard.KEY_DOWN);
 							if(dialog){
 								iFace.buttonAction(Keyboard.KEY_DOWN, player1);
 							}
+							c.send("1,0,"+(int)player1.dx+","+(int)player1.dy);
 							break;
 						case Keyboard.KEY_RIGHT:
 							player1.keyPressed(Keyboard.KEY_RIGHT);
 							if(dialog){
 								iFace.buttonAction(Keyboard.KEY_LEFT, player1);
 							}
+							c.send("1,0,"+(int)player1.dx+","+(int)player1.dy);
 							break;
 						case Keyboard.KEY_LEFT:
 							player1.keyPressed(Keyboard.KEY_LEFT);
 							if(dialog){
 								iFace.buttonAction(Keyboard.KEY_LEFT, player1);
 							}
+							c.send("1,0,"+(int)player1.dx+","+(int)player1.dy);
 							break;
 						case 28:
 							if(dialog){
@@ -652,14 +656,17 @@ public class LevelMP extends Level implements GameEventListener{
 							break;
 						case Keyboard.KEY_SPACE:
 							if((lose || clear) && !gameover ){
+								c.send("1,2,5");
 								reload();
 							}
 							else if(!gameover){
 								// Spieler Angreifen lassen
+								c.send("1,2,5");
 								player1.attack();
 							}
 							break;
 						case Keyboard.KEY_E:
+							c.send("1,2,2");
 							player1.keyPressed(Keyboard.KEY_E);
 							break;
 						case Keyboard.KEY_ESCAPE:
@@ -671,6 +678,7 @@ public class LevelMP extends Level implements GameEventListener{
 							else{close = true;}
 							break;
 						case Keyboard.KEY_X:
+							c.send("1,2,4");
 							player1.swapWeapons();
 							break;
 						case Keyboard.KEY_F:
@@ -696,15 +704,18 @@ public class LevelMP extends Level implements GameEventListener{
 							} catch (LWJGLException e) {e.printStackTrace();}
 							break;
 						case Keyboard.KEY_C:
+							c.send("1,2,1");
 							player1.spellCast();
 							break;
 						case Keyboard.KEY_A:
+							c.send("1,2,0");
 							if(player1.getStatInventoryObjectCount(2)>0){
 								player1.getHealed(2);
 								player1.giveStatInventoryObject(2, -1);
 							}
 							break;
 						case Keyboard.KEY_S:
+							c.send("1,2,3");
 							if(player1.getStatInventoryObjectCount(3)>0){
 								player1.fillmana(1);
 								player1.giveStatInventoryObject(3, -1);
@@ -715,9 +726,11 @@ public class LevelMP extends Level implements GameEventListener{
 			}
 			if(!Keyboard.isKeyDown(Keyboard.KEY_UP) && !Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
 				player1.keyReleased(Keyboard.KEY_UP);
+				c.send("1,0,"+(int)player1.dx+","+(int)player1.dy);
 			}
 			if(!Keyboard.isKeyDown(Keyboard.KEY_LEFT) && !Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
 				player1.keyReleased(Keyboard.KEY_LEFT);
+				c.send("1,0,"+(int)player1.dx+","+(int)player1.dy);
 			}
 			if(!Keyboard.isKeyDown(Keyboard.KEY_E)){
 				player1.keyReleased(Keyboard.KEY_E);
@@ -734,11 +747,13 @@ public class LevelMP extends Level implements GameEventListener{
 						case 28:
 							//Beenden
 							if(lose || clear || gameover){
+								c.send("1,6");
 								close = true;
 							}
 							break;
 						case Keyboard.KEY_SPACE:
 							// Naechstes Level
+							c.send("1,5");
 							if(clear){
 								currLvl++;
 								if(currLvl <= 3){
@@ -767,48 +782,48 @@ public class LevelMP extends Level implements GameEventListener{
 	}
 	
 	/**
+	 * Die Methode setPalyerDirection
+	 * Diese Methode benutzt der Netzwerk-Client, um dem 2. Spieler die Directions zu uebergeben.
+	 * @param x Die Methode erwartet den Integer x fuer die x-Direction
+	 * @param y Die Methode erwartet den Integer y fuer die y-Direction.
+	 */
+	
+	public void setPlayerDirection(int x, int y){
+		player2.setDX(x);
+		player2.setDY(y);
+	}
+	
+	/**
 	 * Die Methode input2.
 	 * Diese Methode implementiert die Steuerung und mapped die verschiedenen Tasten und Funktionen im Spiel zusammen (Fuer Spieler2).
 	 */
 	
 	// Eingaben fuer Player2
-	public void input2(double dx,double dy, boolean a, boolean c, boolean e, boolean s, boolean x, boolean space, boolean enter){
+	public void input2(int key){
 		
-		if(dx == -1){
-			player2.keyPressed(Keyboard.KEY_LEFT);
-		}
-		if(dx == 1){
-			player2.keyPressed(Keyboard.KEY_RIGHT);
-		}
-		if(dy == -1){
-			player2.keyPressed(Keyboard.KEY_UP);
-		}
-		if(dy == 1){
-			player2.keyPressed(Keyboard.KEY_DOWN);
-		}
-		
+		//Direction
 		if(!lose && !clear && !gameover){
-			if(space){
+			if(key == 5){
 				if(!gameover){
 					player2.attack();
 				}
 			}
-			if(e){
+			else if(key == 2){
 				player2.keyPressed(Keyboard.KEY_E);
 			}
-			if(x){
+			else if(key == 4){
 				player2.swapWeapons();
 			}
-			if(c){
+			else if(key == 1){
 				player2.spellCast();
 			}
-			if(a){
+			else if(key == 0){
 				if(player2.getStatInventoryObjectCount(2)>0){
 					player2.getHealed(2);
 					player2.giveStatInventoryObject(2, -1);
 				}
 			}
-			if(s){
+			else if(key == 3){
 				if(player2.getStatInventoryObjectCount(3)>0){
 					player2.fillmana(1);
 					player2.giveStatInventoryObject(3, -1);
@@ -817,13 +832,13 @@ public class LevelMP extends Level implements GameEventListener{
 		}
 		// Tastatur-Events bei Loose/Clear
 		else{
-			if(enter){
+			if(key == 6){
 				//Beenden
 				if(lose || clear || gameover){
 					close = true;
 				}
 			}
-			if(space){
+			if(key == 5){
 				// Naechstes Level
 				if(clear){
 					currLvl++;
@@ -861,6 +876,7 @@ public class LevelMP extends Level implements GameEventListener{
 
 			// Spielerbewegung
 			player1.move();
+			c.send("1,1,"+(int)player1.x+","+(int)player1.y);
 			player2.move();
 			
 			// kreaturenbewegung
@@ -1005,9 +1021,9 @@ public class LevelMP extends Level implements GameEventListener{
 		}
 	}
 	
-	//Waiting togglen
-	public void toggleWaiting(){
-		waiting	=	!waiting;
+	//Waiting setzen
+	public void setWaiting(boolean w){
+		waiting	=	w;
 	}
 
 	/**

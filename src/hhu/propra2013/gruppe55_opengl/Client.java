@@ -180,21 +180,24 @@ class ClientInput extends Thread{
 			try {
 				//Lese eine Line aus dem InputStream
 				if(open && (inLine = in.readLine()) != null){
-					System.out.println(inLine);
 					lineSplit = inLine.split(",");
-					System.out.println(lineSplit[0]);
 					if(lineSplit[0].compareTo("0") == 0){
 						if(lineSplit[1].compareTo("start") == 0){
-								System.out.println("start");
 								lvl.setOpenedInterface(0);
 								lvl.setDialog(false);
-								lvl.toggleFreeze();
-								lvl.toggleWaiting();
+								lvl.freeze = false;
+								lvl.setWaiting(false);
 						}
 					}
 					else if(lineSplit[0].compareTo("1") == 0){
 						if(lineSplit[1].compareTo("0") == 0){
-							
+							lvl.setPlayerDirection(Integer.parseInt(lineSplit[2]), Integer.parseInt(lineSplit[3]));
+						}
+						else if(lineSplit[1].compareTo("1") == 0){
+							lvl.player2.teleport(Integer.parseInt(lineSplit[2]), Integer.parseInt(lineSplit[3]));
+						}
+						else if(lineSplit[1].compareTo("2") == 0){
+							lvl.input2(Integer.parseInt(lineSplit[1]));
 						}
 					}
 				}

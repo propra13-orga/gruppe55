@@ -667,6 +667,26 @@ public class Player extends LivingObject {
     }
     
     /**
+     * Die Methode setDX.
+     * Diese Methode uebergibt dem Spieler die x-Direction.
+     * @param x Diese Methode erwartet die Uebergabe eines Integers x fuer die Direction.
+     */
+    
+    public void setDX(int x){
+    	dx = x;
+    }
+    
+    /**
+     * Die Methode setDY.
+     * Diese Methode uebergibt dem Spieler die y-Direction.
+     * @param y Diese Methode erwartet die Uebergabe eines Integers y fuer die Direction.
+     */
+    
+    public void setDY(int y){
+    	dy = y;
+    }
+    
+    /**
      * Die Methode keyPressed.
      * Diese Methode leitet die gedrueckte Taste auf der Tastatur an den Player weiter und bestimmt dadurch seine Bewegung.
      * @param k  Diese Methode erwartet die Uebergabe eines int Werts k
