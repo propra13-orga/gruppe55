@@ -25,7 +25,7 @@ public class Spell_SnowFlake extends Projectile {
 		state[0].changeTexture(Data_Textures.snowflake);
 		state[1] = new State(Data_Textures.snowflake,true,false,true);
 		//adjustToCenter();
-		element=1;
+		element=2;
 	}
 	
 	/**
