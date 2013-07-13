@@ -18,6 +18,15 @@ public interface GameEventListener {
 	public void newTreasure(double x, double y);
 	
 	/**
+	 * Die Methode newStatic.
+	 * Diese Methode implementiert die Funktion, mit der der StaticList des Levels Objekte hinzugefuegt werden koennen.
+	 * @param o Die Methode erwartet das hinzuzufuegende DungeonObject
+	 */
+	
+	// Boss droppt Ziel
+	public void newStatic(DungeonObject d);
+	
+	/**
 	 * Die Methode newGoal.
 	 * Diese Methode implementiert die Funktion, mit der besiegte Bosse das GoalObject droppen.
 	 * @param x  Die Methode erwartet die Uebergabe eines int Werts x
