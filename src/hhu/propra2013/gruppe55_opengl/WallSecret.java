@@ -6,7 +6,7 @@ package hhu.propra2013.gruppe55_opengl;
  * @see DungeonObject
  */
 
-public class WallSecret extends WallObject {
+public class WallSecret extends DungeonObject {
 
 	/**
 	 * Der Konstruktor fuer WallSecret.

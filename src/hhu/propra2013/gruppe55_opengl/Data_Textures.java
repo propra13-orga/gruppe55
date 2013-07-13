@@ -15,10 +15,11 @@ public class Data_Textures {
 	/** Die jeweilige statisch geladene Bild. */
 	
 	public static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, fireelemental, boss1, boss2, boss3, shopkeeper, storyteller,
-	win, youlose, gameover, bks, wall, grass, goal, potion, potionused, healthcontainer, mpotion, treasure, lootarrow, lavahat,
+	win, youlose, gameover, bks, wall, goal, potion, potionused, healthcontainer, mpotion, treasure, lootarrow, lavahat,
 	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, cp_used, cp_unused, button_off, button_on, torch, torch_lit, door, lavapatch, 
 	basicbow, basicbow_back, basicbow_f_atk, basicbow_l_atk, basicbow_r_atk, basicbow_u_atk, basicbow_icon, basicshield_f, basicshield_b, arrow_f, arrow_l, arrow_r, arrow_b, fireball,
-	hud01, hud02, hud03, hud_Tear_HP_Full, hud_Tear_HP_Half, hud_Tear_HP_Empty,hud_Crystal_Full, hud_Crystal_Empty, dialogBox, shop, shopArrow, currency;
+	hud01, hud02, hud03, hud_Tear_HP_Full, hud_Tear_HP_Half, hud_Tear_HP_Empty,hud_Crystal_Full, hud_Crystal_Empty, dialogBox, shop, shopArrow, currency,
+	t00, t01, t02, t03, t04;
 	
 	
 	/**
@@ -59,7 +60,6 @@ public class Data_Textures {
 				gameover = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/gameover.png")));	// Game Over
 			// Umgebung des Levels
 				wall = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/wall.png")));			// Wand
-				grass = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/textures/1.png")));		//Grass
 				goal = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/goal.png")));			// Zielobjekt
 				cp_unused = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/CP_unused.png")));			// Checkpoint unbenutzt
 				cp_used = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/CP_used.png")));			// Checkpoint benutzt
@@ -69,7 +69,11 @@ public class Data_Textures {
 				lavapatch = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/lavapatch.png"))); // Lavafelder
 				button_off = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/button_off.png")));
 				button_on = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/button_on.png")));
-				
+				t00 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/textures/00.png")));
+				t01 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/textures/01.png")));
+				t02 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/textures/02.png")));
+				t03 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/textures/03.png")));
+				t04 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/textures/04.png")));
 			// Nutzbare Items
 				potion = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/potion.png")));		// Trank
 				potionused = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/potionused.png")));	// (Platzhalter)
@@ -120,5 +124,22 @@ public class Data_Textures {
 					arrow_b = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/weapons/Projectiles/arrow_back.png")));	//Pfeil hinten
 					fireball = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/spells/fireball.png")));
 		} catch (IOException e) {e.printStackTrace();}
+	}
+	
+	static Texture getEnvTexture(int t){
+		switch(t){
+			case 0:
+				return(t00);
+			case 1:
+				return(t01);
+			case 2:
+				return(t02);
+			case 3:
+				return(t03);
+			case 4:
+				return(t04);
+			default:
+				return(t00);
+		}
 	}
 }

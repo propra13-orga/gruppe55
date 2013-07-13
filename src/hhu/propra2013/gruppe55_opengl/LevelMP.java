@@ -140,7 +140,7 @@ public class LevelMP extends Level implements GameEventListener{
 							staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert (derzeit auskommentiert, da zu Speicherintensiv)
 						}
 						else */if(lvlData[r][i][j] == 1){
-							staticList.get(r).add(new WallObject(i*32, j*32));		// bei 1 wird ein Wandobjekt generiert
+							staticList.get(r).add(new SimpleStaticObject(i*32, j*32, true, 0));		// bei 1 wird ein Wandobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 2){
 							creatureList.get(r).add(new Creature(i*32+5, j*32-5, 3, 1, 0));		// bei 2 wird ein Monsterobjekt generiert
@@ -295,7 +295,7 @@ public class LevelMP extends Level implements GameEventListener{
 					if(tempParameterList.get(0).equals("1")){
 						//Texturparameter
 						if(tempParameterList.get(1).equals("0") || tempParameterList.get(1).equals("texture1") || tempParameterList.get(1).equals("")){
-							staticList.get(r).add(new WallObject(xPos, yPos));
+							staticList.get(r).add(new SimpleStaticObject(xPos, yPos, true, 0));
 						}
 					}
 					//Creature

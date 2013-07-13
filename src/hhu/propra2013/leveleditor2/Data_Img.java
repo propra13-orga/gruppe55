@@ -48,6 +48,11 @@ public class Data_Img {
 	public static Image torch = genImg("torch.png");		// Torch
 	public static Image button_off = genImg("button_off.png");		// Switch
 	public static Image lavapatch = genImg("lavapatch.png");		// Lavapatch
+	public static Image t00 = genImg("textures/00.png");		// Lavapatch
+	public static Image t01 = genImg("textures/01.png");		// Lavapatch
+	public static Image t02 = genImg("textures/02.png");		// Lavapatch
+	public static Image t03 = genImg("textures/03.png");		// Lavapatch
+	public static Image t04 = genImg("textures/04.png");		// Lavapatch
 	
 
 	// Nutzbare Items

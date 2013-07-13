@@ -153,8 +153,21 @@ public class MapWindow extends JPanel {
 			}else if(tempParameterList.get(0).equals("12")){
 				g2.drawImage(Data_Img.healthcontainer, xPos, yPos, this);
 			}else if(tempParameterList.get(0).equals("13")){
-				Image image = new ImageIcon("img/textures/"+tempParameterList.get(1)+".png").getImage();
-				g2.drawImage(image, xPos, yPos, this);
+				if(Integer.parseInt(tempParameterList.get(2)) == 0){
+					g2.drawImage(Data_Img.t00, xPos, yPos, this);
+				}
+				if(Integer.parseInt(tempParameterList.get(2)) == 1){
+					g2.drawImage(Data_Img.t01, xPos, yPos, this);
+				}
+				if(Integer.parseInt(tempParameterList.get(2)) == 2){
+					g2.drawImage(Data_Img.t02, xPos, yPos, this);
+				}
+				if(Integer.parseInt(tempParameterList.get(2)) == 3){
+					g2.drawImage(Data_Img.t03, xPos, yPos, this);
+				}
+				if(Integer.parseInt(tempParameterList.get(2)) == 4){
+					g2.drawImage(Data_Img.t04, xPos, yPos, this);
+				}
 			}else if(tempParameterList.get(0).equals("14")){
 				//Creature painten
 				g2.drawImage(Data_Img.creature_bow, xPos, yPos, this);
