@@ -2,8 +2,8 @@ package hhu.propra2013.gruppe55_opengl;
 
 import java.util.*;
 import java.io.*;
-import hhu.propra2013.leveleditor2.LevelData;
-import hhu.propra2013.leveleditor2.LevelReader;
+import hhu.propra2013.leveleditor.LevelData;
+import hhu.propra2013.leveleditor.LevelReader;
 import java.util.Map;
 import org.lwjgl.*;
 import org.lwjgl.input.*;
@@ -362,15 +362,15 @@ public class LevelMP extends Level implements GameEventListener{
 						staticList.get(r).add(new WallSecret(xPos, yPos, tempStr2)); // bei 20 wird eine "Geheimwand" generiert (Die Schalter auf die diese Tuer hoert muessen angegeben werden)
 					}
 					else if(tempParameterList.get(0).equals("21")){
-						staticList.get(r).add(new Torch(xPos, yPos, torchTrigger[torchCounter]));		// bei 21 wird eine Fackel generiert
-						torchCounter++;	// erhoehen, wir wollen ja variieren!
+						String[] tempStr2 = tempParameterList.get(1).split(" ");
+						staticList.get(r).add(new Torch(xPos, yPos, tempStr2));    // bei 21 wird eine Fackel generiert
 					}
 					else if(tempParameterList.get(0).equals("22")) {
 						creatureList.get(r).add(new FireElemental(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));		// bei 22 wird ein Feuerelementar generiert
 					}
 					else if(tempParameterList.get(0).equals("23")){
-						staticList.get(r).add(new Switch(xPos, yPos, switchTrigger[switchCounter]));		// bei 23 wird ein Schalter generiert
-						switchCounter++;	// erhoehen, wir wollen ja variieren!
+						String[] tempStr2 = tempParameterList.get(1).split(" ");
+						staticList.get(r).add(new Switch(xPos, yPos,tempStr2));    // bei 23 wird ein Schalter generiert  
 					}
 					else if(tempParameterList.get(0).equals("24")){
 						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
@@ -876,7 +876,7 @@ public class LevelMP extends Level implements GameEventListener{
 
 			// Spielerbewegung
 			player1.move();
-			c.send("1,1,"+(int)player1.x+","+(int)player1.y);
+			c.send("1,1,"+player1.x+","+player1.y);
 			player2.move();
 			
 			// kreaturenbewegung
@@ -889,8 +889,9 @@ public class LevelMP extends Level implements GameEventListener{
 
 			// Interaktionsabfragen Player1
 			if(player1.wantsToInteract() && !alreadyInteracted1){
-				int px=(int)player1.getX();
-				int py=(int)player1.getY();
+				int[] coords=player1.getCenter();
+				int px=coords[0];
+				int py=coords[1]; 
 				
 				for(int i=0; i<staticList.get(room).size(); i++)
 					staticList.get(room).get(i).interaction(px, py);
@@ -905,15 +906,15 @@ public class LevelMP extends Level implements GameEventListener{
 			
 			// Interaktionsabfragen Player2
 			if(player2.wantsToInteract() && !alreadyInteracted2){
-				int px=(int)player2.getX();
-				int py=(int)player2.getY();
+				int[] coords=player2.getCenter();
+				int px=coords[0];
+				int py=coords[1]; 
 				
 				for(int i=0; i<staticList.get(room).size(); i++)
 					staticList.get(room).get(i).interaction(px, py);
-				for(int i=0; i<creatureList.get(room).size(); i++)
-					creatureList.get(room).get(i).interaction(px, py);
 				
 				alreadyInteracted2=true;
+				player2.keyReleased(Keyboard.KEY_E);
 			}
 			else if(!player2.wantsToInteract()){
 				alreadyInteracted2=false;

@@ -1,4 +1,4 @@
-package hhu.propra2013.leveleditor2;
+package hhu.propra2013.leveleditor;
 
 
 import java.awt.List;

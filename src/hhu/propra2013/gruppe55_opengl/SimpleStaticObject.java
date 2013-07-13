@@ -1,8 +1,8 @@
 package hhu.propra2013.gruppe55_opengl;
 
 /**
- * Die Klasse WallObject.
- * Diese Klasse erbt von der Klasse DungeonObject und implementiert eine Wand.
+ * Die Klasse SimpleStaticObject.
+ * Diese Klasse erbt von der Klasse DungeonObject und implementiert alle simplen, statischen Objekte.
  * @see DungeonObject
  */
 

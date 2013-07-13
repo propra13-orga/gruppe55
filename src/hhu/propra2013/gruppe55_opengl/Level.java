@@ -2,8 +2,8 @@ package hhu.propra2013.gruppe55_opengl;
 
 import java.util.*;
 import java.io.*;
-import hhu.propra2013.leveleditor2.LevelData;
-import hhu.propra2013.leveleditor2.LevelReader;
+import hhu.propra2013.leveleditor.LevelData;
+import hhu.propra2013.leveleditor.LevelReader;
 import java.util.Map;
 import org.lwjgl.*;
 import org.lwjgl.input.*;

@@ -1,20 +1,15 @@
-﻿Geplante Aspekte
- - Boden als eine große Grafik, Objekte überlagern diese
- - Animation
-
-IMPORTANT KNOWN ISSUE:
-
-- Die Schalter für die Fackeln sind zu Sensibel!
-
-- Der Shopkeeper kann nicht an einer Wand stehen, da bei jetziger Implementieren dann die Wand die ganze zeit den Shopkeeper wegen der Actionhitbox wegschieben moechte und das nicht geht!
-
-Known Issues:
-- Pfeile und Projektile generell muessten schoener an der Position des Schiessenden orientiert abgefeuert werden (zB nach allen Seiten gleicher Abstand, schoen zentriert, etc)
-
-WICHTIG: Ich habe die X/Y Koordinaten in allen Objekten von int auf double umgestellt, um geregeltere bewegung zu ermöglichen!
+﻿WICHTIG: Ich habe die X/Y Koordinaten in allen Objekten von int auf double umgestellt, um geregeltere bewegung zu ermöglichen!
 
 Changelog:
 
+13.07.13 - ajurk
+- WallObject nun SimpleStaticbject
+- WallSecret erbt nun von DungeonObject
+- SimpleStaticObject in Editor eingefuegt
+- Funktionierendes Netzwerk
+- Altes Level geloescht
+- Alten Leveleditor geloescht
+- Alte Bilder geloescht
 
 07.07.13 - van Meegen
 /src

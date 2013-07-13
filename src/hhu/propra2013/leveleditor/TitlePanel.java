@@ -1,10 +1,13 @@
-package hhu.propra2013.leveleditor;
+package hhu.propra2013.leveleditor2;
+
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
 import javax.swing.border.TitledBorder;
 
-public class TitlePanel extends JPanel {
+public class TitlePanel extends JPanel implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 
@@ -18,5 +21,11 @@ public class TitlePanel extends JPanel {
 		// this.setPreferredSize(new Dimension(50,50));
 		// this.setBounds(0, 0, 22, 55);
 		this.setBorder(titleBorder);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub
+		
 	}
 }

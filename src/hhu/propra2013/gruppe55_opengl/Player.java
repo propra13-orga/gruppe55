@@ -456,7 +456,7 @@ public class Player extends LivingObject {
 	 */
     
     // Methode um den Spieler an eine bestimmte Stelle zu teleportieren
-    public void teleport(int x, int y){
+    public void teleport(double x, double y){
     	this.x	=	x;
     	this.y	=	y;
     }

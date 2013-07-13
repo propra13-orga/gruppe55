@@ -2,16 +2,17 @@ Format: Object,Variable,Value,...
 
 Object:
 	0: Game
+		start: Startet das Spiel
 	1: Player
+		0: dx, dy
+		1: posX, posY
+		2: Key
+			0: A
+			1: C
+			2: E
+			3: S
+			4: X
+			5: Space
+			6: Enter
+		3: InventoryChange
 
-Variable:
-	0: dx, dy
-	1: Key
-		0: A
-		1: C
-		2: E
-		3: S
-		4: X
-		5: Space
-		6: Enter
-	2: InventoryChange

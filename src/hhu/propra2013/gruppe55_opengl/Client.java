@@ -142,7 +142,7 @@ class ClientInput extends Thread{
 	
 	/** Die eingelesene Line. */
 	
-	private String inLine;			//Eingelesene Line
+	private String inLine, inLine1 = "0";			//Eingelesene Line
 	
 	/** Der eingelesene, gesplittete Line-Array. */
 	
@@ -180,24 +180,27 @@ class ClientInput extends Thread{
 			try {
 				//Lese eine Line aus dem InputStream
 				if(open && (inLine = in.readLine()) != null){
-					lineSplit = inLine.split(",");
-					if(lineSplit[0].compareTo("0") == 0){
-						if(lineSplit[1].compareTo("start") == 0){
-								lvl.setOpenedInterface(0);
-								lvl.setDialog(false);
-								lvl.freeze = false;
-								lvl.setWaiting(false);
+					if(inLine.compareTo(inLine1) != 0){
+						inLine1 = inLine;
+						lineSplit = inLine.split(",");
+						if(lineSplit[0].compareTo("0") == 0){
+							if(lineSplit[1].compareTo("start") == 0){
+									lvl.setOpenedInterface(0);
+									lvl.setDialog(false);
+									lvl.freeze = false;
+									lvl.setWaiting(false);
+							}
 						}
-					}
-					else if(lineSplit[0].compareTo("1") == 0){
-						if(lineSplit[1].compareTo("0") == 0){
-							lvl.setPlayerDirection(Integer.parseInt(lineSplit[2]), Integer.parseInt(lineSplit[3]));
-						}
-						else if(lineSplit[1].compareTo("1") == 0){
-							lvl.player2.teleport(Integer.parseInt(lineSplit[2]), Integer.parseInt(lineSplit[3]));
-						}
-						else if(lineSplit[1].compareTo("2") == 0){
-							lvl.input2(Integer.parseInt(lineSplit[1]));
+						else if(lineSplit[0].compareTo("1") == 0){
+							if(lineSplit[1].compareTo("0") == 0){
+								lvl.setPlayerDirection(Integer.parseInt(lineSplit[2]), Integer.parseInt(lineSplit[3]));
+							}
+							else if(lineSplit[1].compareTo("1") == 0){
+								lvl.player2.teleport(Double.parseDouble(lineSplit[2]), Double.parseDouble(lineSplit[3]));
+							}
+							else if(lineSplit[1].compareTo("2") == 0){
+								lvl.input2(Integer.parseInt(lineSplit[2]));
+							}
 						}
 					}
 				}

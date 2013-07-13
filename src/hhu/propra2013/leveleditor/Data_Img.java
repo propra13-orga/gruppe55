@@ -1,4 +1,4 @@
-package hhu.propra2013.gruppe55;
+package hhu.propra2013.leveleditor;
 
 import java.awt.*;
 
@@ -23,6 +23,8 @@ public class Data_Img {
 // Monster
 	public static Image creature = genImg("enemies/creature.png");	// Standart-Kreatur
 	public static Image creature_bow = genImg("enemies/creature_bow.png");					// Bogen-Monster
+	public static Image fireelemental = genImg("enemies/fireelemental.png");					// FireElemental
+
 // Bosse
 	public static Image boss1 = genImg("enemies/boss1.png");
 	public static Image boss2 = genImg("enemies/boss2.png");
@@ -42,6 +44,17 @@ public class Data_Img {
 	public static Image goal = genImg("goal.png");			// Zielobjekt
 	public static Image cp_unused = genImg("CP_unused.png");			// Checkpoint unbenutzt
 	public static Image cp_used = genImg("CP_used.png");			// Checkpoint benutzt
+	public static Image door = genImg("door.png");		// Door
+	public static Image torch = genImg("torch.png");		// Torch
+	public static Image button_off = genImg("button_off.png");		// Switch
+	public static Image lavapatch = genImg("lavapatch.png");		// Lavapatch
+	public static Image t00 = genImg("textures/00.png");		// Lavapatch
+	public static Image t01 = genImg("textures/01.png");		// Lavapatch
+	public static Image t02 = genImg("textures/02.png");		// Lavapatch
+	public static Image t03 = genImg("textures/03.png");		// Lavapatch
+	public static Image t04 = genImg("textures/04.png");		// Lavapatch
+	
+
 	// Nutzbare Items
 	public static Image potion = genImg("potion.png");		// Trank
 	static Image potionused = genImg("potionused.png");	// (Platzhalter)
@@ -49,6 +62,10 @@ public class Data_Img {
 	public static Image mpotion = genImg("mpotion.png");		// Manatrank
 	public static Image treasure = genImg("treasure.png");		// Schaetze 
 	public static Image lootarrow = genImg("weapons/basicbow/lootarrow.png");
+	//armor
+	public static Image lavahat = genImg("armor/lavahat.png");
+
+	
 	// Fallen
 	public static Image trap = genImg("trap.png");			// Speerfalle
 	static Image trapact = genImg("trapActivated.png");	// aktivierte Speerfalle
@@ -97,6 +114,6 @@ public class Data_Img {
 	
 	// Methode zum Bilder generieren (nicht nötig, spart aber Tipparbeit oben)
 	private static Image genImg(String image){
-		return (new ImageIcon("img/"+image)).getImage();
+		return (new ImageIcon("img/openGL/"+image)).getImage();
 	}
 }
