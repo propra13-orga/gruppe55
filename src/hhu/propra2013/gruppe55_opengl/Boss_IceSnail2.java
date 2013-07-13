@@ -37,7 +37,7 @@ public class Boss_IceSnail2 extends Creature {
 		speed = 1;								// Startgeschwindigkeit
 		detectionRange = 300;					// Groessere Schussreichweite
 		element=1;								// Feuerkreatur
-		resistances[0][1]=1;					// Immun gegeueber Feuerschaden
+		resistances[1][0]=6;					// Resistent gegen Eis
 		
 		projectile	=	new Spell_SnowFlake(0,0,0,0);
 		
