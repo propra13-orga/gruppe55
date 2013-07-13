@@ -828,7 +828,7 @@ public class Level implements GameEventListener{
 							// Naechstes Level
 							if(clear){
 								currLvl++;
-								if(currLvl <= 3){
+								if(currLvl <= 5){
 									loadLevel("Level"+currLvl);
 								}
 							}

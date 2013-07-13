@@ -756,7 +756,7 @@ public class LevelMP extends Level implements GameEventListener{
 							c.send("1,5");
 							if(clear){
 								currLvl++;
-								if(currLvl <= 3){
+								if(currLvl <= 5){
 									loadLevel("Level"+currLvl);
 								}
 							}
@@ -842,7 +842,7 @@ public class LevelMP extends Level implements GameEventListener{
 				// Naechstes Level
 				if(clear){
 					currLvl++;
-					if(currLvl <= 3){
+					if(currLvl <= 5){
 						loadLevel("Level"+currLvl);
 					}
 				}
