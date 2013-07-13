@@ -209,8 +209,6 @@ public abstract class LivingObject extends MovingObject {
 			hp	=	0;	// HP auf 0 setzen - ist sauberer
 			switchState(0); // Wechsel auf tot
 		}
-		
-		System.out.println(dmg+" "+iDmg+" "+resistances[0][0]);
 	}
 	
 	/**

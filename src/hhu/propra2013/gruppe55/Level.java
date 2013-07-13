@@ -255,7 +255,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 				creatureList.add(new ArrayList<LivingObject>(0));
 				teleportList.add(new ArrayList<Teleporter>(0));
 				// Sami, y u no comment?
-				for(Map.Entry<String, ArrayList<Integer>> entry : levelDataObj.getlevelRoom(r).entrySet()){
+				/*for(Map.Entry<String, ArrayList<Integer>> entry : levelDataObj.getlevelRoom(r).entrySet()){
 					ArrayList<Integer> tempParameterList = entry.getValue();
 					int xPos,yPos;
 					String[] tempStr = entry.getKey().split(",");
@@ -326,7 +326,7 @@ public class Level extends JPanel implements ActionListener, GameEventListener {
 						staticList.get(r).add(new ArrowObject(xPos, yPos));    
 					}
 					
-				}
+				}*/
 			}
 			// Aktionstimer wird gesetzt und gestartet
 			timer	=	new Timer(1000/60, this);
