@@ -753,7 +753,7 @@ public class LevelMP extends Level implements GameEventListener{
 							break;
 						case Keyboard.KEY_SPACE:
 							// Naechstes Level
-							c.send("1,5");
+							c.send("1,2,5");
 							if(clear){
 								currLvl++;
 								if(currLvl <= 5){
@@ -877,7 +877,8 @@ public class LevelMP extends Level implements GameEventListener{
 			// Spielerbewegung
 			player1.move();
 			c.send("1,1,"+player1.x+","+player1.y);
-			player2.move();
+			player2.checkDirection();
+//			player2.move();
 			
 			// kreaturenbewegung
 			for(int i=0; i<creatureList.get(room).size(); i++)

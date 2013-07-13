@@ -371,8 +371,8 @@ public class Player extends LivingObject {
     	// In den Spieler uebernehmen
     	atk	=	baseStats[0]+stats[0];
     	def	=	baseStats[1]+stats[1];
-    	hpMax	=	baseStats[2]+2*stats[2];
-    		if(hpMax>20) hpMax=20;
+    //	hpMax	=	baseStats[2]+2*stats[2];
+    //		if(hpMax>20) hpMax=20;
     	manaMax	=	baseStats[3]+stats[3];
     		if(manaMax>10) manaMax=10;
     	critBonus	=	baseStats[4]+stats[4];
