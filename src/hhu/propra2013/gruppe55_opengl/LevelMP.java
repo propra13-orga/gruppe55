@@ -234,6 +234,9 @@ public class LevelMP extends Level implements GameEventListener{
 							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							staticList.get(r).add(new Lavapatch(i*32, j*32));		// bei 25 wird ein Lavafeld generiert
 						}
+						else if(lvlData[r][i][j] == 26){  // Feuerschnecke (Boss)
+							creatureList.get(r).add(new Boss_FireSnail(i*32, j*32, 15, 1, 0));  
+						}
 					}
 				}
 			}
@@ -270,12 +273,6 @@ public class LevelMP extends Level implements GameEventListener{
 			//11: Storyteller
 			//12: Healthcontainer
 			//13: Checkpoint
-			
-			
-			int torchCounter=0;	// Zaehlt die Position im TriggerArray ab, die uebergeben werden soll
-			String[][] torchTrigger={{"f1"},{"f2"},{"f3"},{"f4"},{"f5"},{"f6"}}; // Array der TriggerKeyArrays fuer die Fackeln
-			int switchCounter=0; // Wie der torchCounter nur fuer Schalter
-			String[][] switchTrigger={{"f1","f4","f6"},{"f2","f4","f5"},{"f1","f2","f6"},{"f2","f4","f5","f6"},{"f2","f3","f4"},{"f2","f5","f6"}};	// Array der TriggerKeyArrays fuer die Schalter
 	
 			
 			// Schleife die das Level generiert
@@ -380,6 +377,9 @@ public class LevelMP extends Level implements GameEventListener{
 						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new Lavapatch(xPos, yPos));		// bei 25 wird ein Lavafeld generiert
 					}
+					else if(tempParameterList.get(0).equals("26")){ // Feuerschnecke (BOSS)
+						creatureList.get(r).add(new Boss_FireSnail(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+					} 
 				}
 			}
 		}
@@ -942,6 +942,9 @@ public class LevelMP extends Level implements GameEventListener{
 					else if(creatureList.get(room).get(i) instanceof FireElemental && creatureList.get(room).get(i).getCurrState() == 1){
 						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
 					}
+					else if(creatureList.get(room).get(i) instanceof Boss_FireSnail && creatureList.get(room).get(i).getCurrState() == 1){
+						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
+					} 
 				}
 				lastAction = Sys.getTime();
 			}

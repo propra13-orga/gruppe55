@@ -115,6 +115,6 @@ public class Data_Img {
 	
 	// Methode zum Bilder generieren (nicht nötig, spart aber Tipparbeit oben)
 	private static Image genImg(String image){
-		return (new ImageIcon("img/openGL/"+image)).getImage();
+		return (new ImageIcon("img/"+image)).getImage();
 	}
 }
