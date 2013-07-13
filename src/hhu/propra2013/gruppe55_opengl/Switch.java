@@ -29,6 +29,9 @@ public class Switch extends DungeonObject {
 		// Bilder der Schalter
 		state[0]	=	new State(Data_Textures.button_off,false,true,true);  	// Schalter steht auf "Off"
 		state[1]	=	new State(Data_Textures.button_on,false,true,true);		// Schalter steht auf "On"
+		// Offsets
+		state[0].defineOffset(8, 4, 8, 4);
+		state[1].defineOffset(8, 4, 8, 4);
 		
 		// Namen zum abhoeren
 		this.triggersToHandle	=	triggersToHandle;

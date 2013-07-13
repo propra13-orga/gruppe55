@@ -35,6 +35,7 @@ public class Npc extends LivingObject {
 		state[1].massive = true;
 		storyToTell	=	Data_String.story1;
 		detectionRange	=	45;
+		interactionResponse=1;	// Textausgabe als Default Task
     }
 	
 	/**

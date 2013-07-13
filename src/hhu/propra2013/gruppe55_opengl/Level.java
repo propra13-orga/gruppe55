@@ -451,15 +451,15 @@ public class Level implements GameEventListener{
 						staticList.get(r).add(new WallSecret(xPos, yPos, tempStr2)); // bei 20 wird eine "Geheimwand" generiert (Die Schalter auf die diese Tuer hoert muessen angegeben werden)
 					}
 					else if(tempParameterList.get(0).equals("21")){
-						staticList.get(r).add(new Torch(xPos, yPos, torchTrigger[torchCounter]));		// bei 21 wird eine Fackel generiert
-						torchCounter++;	// erhoehen, wir wollen ja variieren!
+						String[] tempStr2 = tempParameterList.get(1).split(" ");
+						staticList.get(r).add(new Torch(xPos, yPos, tempStr2));		// bei 21 wird eine Fackel generiert
 					}
 					else if(tempParameterList.get(0).equals("22")) {
 						creatureList.get(r).add(new FireElemental(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));		// bei 22 wird ein Feuerelementar generiert
 					}
 					else if(tempParameterList.get(0).equals("23")){
-						staticList.get(r).add(new Switch(xPos, yPos, switchTrigger[switchCounter]));		// bei 23 wird ein Schalter generiert
-						switchCounter++;	// erhoehen, wir wollen ja variieren!
+						String[] tempStr2 = tempParameterList.get(1).split(" ");
+						staticList.get(r).add(new Switch(xPos, yPos,tempStr2));		// bei 23 wird ein Schalter generiert
 					}
 					else if(tempParameterList.get(0).equals("24")){
 						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
@@ -878,8 +878,9 @@ public class Level implements GameEventListener{
 			
 			// Interaktionsabfragen
 			if(player.wantsToInteract() && !alreadyInteracted){
-				int px=(int)player.getX();
-				int py=(int)player.getY();
+				int[] coords=player.getCenter();
+				int px=coords[0];
+				int py=coords[1];
 				
 				for(int i=0; i<staticList.get(room).size(); i++)
 					staticList.get(room).get(i).interaction(px, py);

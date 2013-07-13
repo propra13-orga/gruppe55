@@ -163,12 +163,30 @@ public class State {
 	
 	/**
 	 * Die Methode defineOffset.
-	 * Diese Methode definiert die einzelnen Offsets in einem 2-Dimensionalem Array.
-	 * @param t  Die Methode erwartet die Uebergabe eines int Werts t
-	 * @param l  Die Methode erwartet die Uebergabe eines int Werts l
-	 * @param b  Die Methode erwartet die Uebergabe eines int Werts b
-	 * @param r  Die Methode erwartet die Uebergabe eines int Werts r
-	 * @param direction  Die Methode erwartet die Uebergabe eines int Werts direction
+	 * Diese Methode definiert die einzelnen Offsets in einem 2-Dimensionalem Array fuer alle Richtungen
+	 * @param t  Der offset von oben.
+	 * @param l  Der Offset von links
+	 * @param b  Der Offset von unten.
+	 * @param r  Der Offset von rechts.
+	 */
+	
+	public void defineOffset(int t, int l, int b, int r){
+		for(int i=0; i<4; i++){
+		    offset[i][0] = t; // Top - oberes Offset
+		    offset[i][1] = l; // left - linkes Offset
+		    offset[i][2] = b; // bottom - unteres Offset
+		    offset[i][3] = r; // right - rechtes Offset
+		}
+	}
+	
+	/**
+	 * Die Methode defineOffset.
+	 * Diese Methode definiert die einzelnen Offsets in einem 2-Dimensionalem Array fuer eine angegebene Richtung
+	 * @param t  Der offset von oben.
+	 * @param l  Der Offset von links
+	 * @param b  Der Offset von unten.
+	 * @param r  Der Offset von rechts.
+	 * @param direction  Die Richtung, fuer die der Offset definiert wird
 	 */
 	
 	public void defineOffset(int t, int l, int b, int r, int direction){

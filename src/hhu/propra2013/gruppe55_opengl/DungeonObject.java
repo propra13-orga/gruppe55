@@ -52,7 +52,7 @@ public abstract class DungeonObject {
 	
 	/** Die Interaktionsreichweite des Spielers. */
 	
-	final protected int  interactionRange = 37; // Gibt die Interaktionsreichweite des Spielers an
+	final protected int  interactionRange = 32; // Gibt die Interaktionsreichweite des Spielers an
 	
 	// Checkpoint-relevantes
 	
@@ -408,14 +408,13 @@ public abstract class DungeonObject {
 	/**
 	 * Die Methode getCenter.
 	 * Diese Methode gibt die genaue Mitte des Objektes aus.
-	 * @return Die x und y Werte der Mitte des Objektes als int.
+	 * @return Die x und y Werte der Mitte des Objektes als int[].
 	 */
 	
 	// Objekt Mitte ausgeben
 	public int[] getCenter(){
 		// Werte zwischenlagern vor der Ausgabe
 		int[] ret	=	new int[2];
-		int[] offsets	=	state[currState].getOffset();
 		
 		// X-Posi
 		ret[0]	=	(int)x+state[currState].getTexture().getTextureWidth()/2;
