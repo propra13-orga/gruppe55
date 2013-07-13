@@ -19,7 +19,7 @@ public class Data_Textures {
 	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, icesworddrop, icesword,  icesword_f_atk, icesword_l_atk, icesword_r_atk, icesword_u_atk, icesword_icon, cp_used, cp_unused, button_off, button_on, torch, torch_lit, door, lavapatch, 
 	basicbow, basicbow_back, basicbow_f_atk, basicbow_l_atk, basicbow_r_atk, basicbow_u_atk, basicbow_icon, basicshield_f, basicshield_b, arrow_f, arrow_l, arrow_r, arrow_b, fireball,
 	hud01, hud02, hud03, hud_Tear_HP_Full, hud_Tear_HP_Half, hud_Tear_HP_Empty,hud_Crystal_Full, hud_Crystal_Empty, dialogBox, shop, shopArrow, currency,
-	t00, t01, t02, t03, t04, creature_ice, snowflake;
+	t00, t01, t02, t03, t04, creature_ice, snowflake, boss_icesnail;
 	
 	
 	/**
@@ -51,6 +51,7 @@ public class Data_Textures {
 				boss2 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/boss2.png")));
 				boss3 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/boss3.png")));
 				boss_snail = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/bossfiresnail.png")));
+				boss_icesnail = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/bossicesnail.png")));
 			// Npc's
 				// Shopkeeper
 				shopkeeper = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/Npc/shopkeeper.png")));

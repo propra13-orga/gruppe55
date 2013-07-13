@@ -150,8 +150,10 @@ public class LevelEditor extends JFrame implements ActionListener
 		guiObjectList.add("23:Switch:1:Trigger ,String,Bezeichner");
 		guiObjectList.add("24:LavaHat:3");
 		guiObjectList.add("25:LavaPatch:1");
-		guiObjectList.add("26:Bossschnecke:2:Health ,String,25:Angriff ,String,15:Verteidigung 3,String,0");
+		guiObjectList.add("26:Feuerbossschnecke:2:Health ,String,25:Angriff ,String,15:Verteidigung 3,String,0");
 		guiObjectList.add("27:Eismonster:2:Health ,String,10:Angriff ,String,1:Verteidigung ,String,0");
+		guiObjectList.add("28:Eisbossschnecke 1:2:Health ,String,17:Angriff ,String,15:Verteidigung 3,String,0");
+		guiObjectList.add("29:Eisbossschnecke 2:2:Health ,String,17:Angriff ,String,15:Verteidigung 3,String,0");
 
 
 		

@@ -8,23 +8,17 @@ import static org.lwjgl.opengl.GL11.*;
  * @see Creature
  */
 
-public class Boss_FireSnail extends Creature {
+public class Boss_IceSnail1 extends Creature {
 	// Attribute
 	
 	/** Abfrage ob der Boss von einer Wand abgebounced ist. */
 	
 	protected boolean bounce = false;		// Abfrage ob der Boss von einer Wand abgebounced ist
 
-	/** Zaehler fuer den Angriffstakt, da einige Takte uebersprungen werden sollen */
-	private int actionCounter1=0;
+	/** Zaehler fuer den Angriffstakt, da pro Takt anders interagiert werden soll */
+	private int actionCounter=0;
 	
-	/** Zaehler fuer den Lavaspurtakt, da einige Takte uebersprungen werden sollen */
-	private int actionCounter2=0;
-	
-	/** Bewegungswinkel */
-	private int moveAngle=180;
-	
-	/** Zustand ob der Boss am Feuerspeien ist */
+	/** Zustand ob der Boss am Eisspeien ist */
 	private boolean isAttacking=false;
 	
 	/**
@@ -38,45 +32,24 @@ public class Boss_FireSnail extends Creature {
 	 * @param vert  Der Verteidigungswert, mit dem der Boss generiert wird.
 	 */
  
-    public Boss_FireSnail(double spawnX, double spawnY, int h, int angr, int vert) {
+    public Boss_IceSnail1(double spawnX, double spawnY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
 		
-		state[1].changeTexture(Data_Textures.boss_snail); 	// Bild der Lebendigen Kreatur laden
+		state[1].changeTexture(Data_Textures.boss_icesnail); 	// Bild der Lebendigen Kreatur laden
+		state[1].moveable=false;				// Diese Schnecke bewegt sich nicht
 		sx	=	(int)spawnX;					// Erscheinungskoordinaten
 		sy	=	(int)spawnY;					
 		dx =-1;									// Bewegung wird initialisiert x - Richung
 		dy =0;									// Bewegung wird initialisiert y - Richung								
 		speed = 1;								// Startgeschwindigkeit
-		detectionRange = 300;					// Groessere Schussreichweite
+		detectionRange = 500;					// Groessere Schussreichweite
 		element=1;								// Feuerkreatur
 		resistances[0][1]=1;					// Immun gegeueber Feuerschaden
 		
-		projectile	=	new Fireball(0,0,0,0);
+		projectile	=	new Spell_SnowFlake(0,0,0,0);
 		
 		// Resetrelevante Werte
 		//resetValues	=	new int[9];	// atk und detectionRange und speed kommen dazu, sonst wird nach dem Enrage nicht zurueck gesetzt
-    }
-    
-    /**
-     * Die Methode fuer die Bewegung.
-     * Diese Methode ueberschreibt Methode move aus der Mutterklasse Creature und definiert das Bewegungsmuster. Ausserdem wird an dieser Stelle das Abprallen von den W‰nden realisiert.
-     * @see Creature
-     */
-
-    public void move(){
-    	if(isAttacking) return;
-    	// Berechnung der neuen Bewegung
-    	if(bounce==true){
-    		moveAngle=(moveAngle-95)%360;
-    		dx=Math.cos(Math.toDegrees(moveAngle)); // Beschleunigung in x Richtung
-    		dy=Math.sin(Math.toDegrees(moveAngle));	// Beschleunigung in y Richtung
-    		bounce=false;	// Bounce wird wieder auf false gesetzt
-    	}
-		// bewegung ausfuehren
-    	if(state[currState].moveable){
-    		x+=speed*dx;
-    		y+=speed*dy;
-    	}
     }
     
     /**
@@ -88,40 +61,48 @@ public class Boss_FireSnail extends Creature {
     
     public void action(int pX, int pY){
     	// Zaehler erhoehen
-    	actionCounter1++;
+    	actionCounter++;
     	
 		// Ist der Spieler in Reichweite?
 		if(distanceBetween(pX,pY)<=detectionRange){
 			// Es soll nicht immer auf den Spieler geschossen werden
-			if(actionCounter1 >= 8){
-				// Angriff einleiten
-				isAttacking=true;
-				// Zurueck setzen
-				actionCounter1=0;
-				// Winkel berechnen
-				int[] center	=	getCenter();
-				final double angle	=	Math.toDegrees(Math.atan2((pY-center[1]),(pX-center[0])));
-				// Schieﬂen - oder besser gesagt Feuer speien! 
+			if(actionCounter >= 6 && !isAttacking){
+				// Schieﬂen - oder besser gesagt Eis "speien"! 
 				new Thread(){
 					public void run(){
 						int maxShots=20;
 						for(int i=1;i<maxShots;i++){
-							shoot((int)angle, projectile);
+							shoot(0+45, projectile);
+							shoot(5+45, projectile);
+							shoot(-5+45, projectile);
+							
+							shoot(90+45, projectile);
+							shoot(95+45, projectile);
+							shoot(85+45, projectile);
+
+							shoot(180+45, projectile);
+							shoot(185+45, projectile);
+							shoot(175+45, projectile);
+							
+							shoot(270+45, projectile);
+							shoot(275+45, projectile);
+							shoot(265+45, projectile);
 							// Sleep-Timer setzen
 			    			try {
 								Thread.sleep(1000/maxShots);
 							}catch (InterruptedException e) {e.printStackTrace();}
 						}
 						isAttacking=false;
+						// Zurueck setzen
+						actionCounter=0;
 					}
 				}.start();
 			}
 		}
-		
-		/// Schleimspur? Pah! LAVASPUR
-		for(GameEventListener gel : evtList){
-    		gel.newStatic(new Lavapatch(x, y));
-    	}
+		shoot(0, projectile);
+		shoot(90, projectile);
+		shoot(180, projectile);
+		shoot(270, projectile);
 	}
     
     /**
@@ -144,7 +125,7 @@ public class Boss_FireSnail extends Creature {
     	// Unser Detail:
     	if(hp<=0){
     		for(GameEventListener gel : evtList){
-    			gel.triggerFired("FireSnailDown");		// Der Boss feuert das Event seines Todes
+    			gel.triggerFired("IceSnail1Down");		// Der Boss feuert das Event seines Todes
     		}
     	}
     }

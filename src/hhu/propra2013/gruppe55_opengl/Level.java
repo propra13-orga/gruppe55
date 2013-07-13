@@ -481,6 +481,12 @@ public class Level implements GameEventListener{
 					else if(tempParameterList.get(0).equals("27")) {	// Eisgegner
 						creatureList.get(r).add(new Creature_Ice(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));		// bei 22 wird ein Feuerelementar generiert
 					}
+					else if(tempParameterList.get(0).equals("28")){ // Eisschnecke #1 (BOSS)
+						creatureList.get(r).add(new Boss_IceSnail1(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+					}
+					else if(tempParameterList.get(0).equals("29")){ // Eisschnecke #2 (BOSS)
+						creatureList.get(r).add(new Boss_IceSnail2(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+					}
 				}
 			}
 		}
@@ -927,6 +933,15 @@ public class Level implements GameEventListener{
 					else if(creatureList.get(room).get(i) instanceof Boss_FireSnail && creatureList.get(room).get(i).getCurrState() == 1){
 						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
 					}
+					else if(creatureList.get(room).get(i) instanceof Boss_IceSnail1 && creatureList.get(room).get(i).getCurrState() == 1){
+						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
+					}
+					else if(creatureList.get(room).get(i) instanceof Boss_IceSnail2 && creatureList.get(room).get(i).getCurrState() == 1){
+						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
+					}
+					/*else if(creatureList.get(room).get(i) instanceof Creature_Ice && creatureList.get(room).get(i).getCurrState() == 1){
+						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
+					}*/
 				}
 				lastAction = Sys.getTime();
 			}

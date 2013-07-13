@@ -8,8 +8,22 @@ import static org.lwjgl.opengl.GL11.*;
  * @see Creature
  */
 
-public class Boss_FireSnail extends Creature {
+public class CopyOfBoss_FireSnail extends Creature {
 	// Attribute
+	
+	// Kontrollvariablen fuer Phase 3
+	
+	/** Boolean, ob bereits ein Warnschuss abgegeben wurde. */
+	
+	private boolean warning1	=	false;	// Boolean, ob bereits ein Warnschuss abgegeben wurde
+	
+	/** Boolean, ob bereits ein zweiter Warnschuss abgegeben wurde. */
+	
+	private boolean warning2	=	false;	// Boolean, ob bereits ein zweiter Warnschuss abgegeben wurde
+	
+	/** Winkel, der gewarnt wurde. */
+	
+	private int warnedAngle = 0;		// Winkel, der gewarnt wurde
 	
 	/** Abfrage ob der Boss von einer Wand abgebounced ist. */
 	
@@ -38,7 +52,7 @@ public class Boss_FireSnail extends Creature {
 	 * @param vert  Der Verteidigungswert, mit dem der Boss generiert wird.
 	 */
  
-    public Boss_FireSnail(double spawnX, double spawnY, int h, int angr, int vert) {
+    public CopyOfBoss_FireSnail(double spawnX, double spawnY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
 		
 		state[1].changeTexture(Data_Textures.boss_snail); 	// Bild der Lebendigen Kreatur laden

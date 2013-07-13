@@ -31,6 +31,7 @@ public class Data_Img {
 	public static Image boss2 = genImg("enemies/boss2.png");
 	public static Image boss3 = genImg("enemies/boss3.png");
 	public static Image boss_firesnail = genImg("enemies/bossfiresnail.png");
+	public static Image boss_icesnail = genImg("enemies/bossicesnail.png");
 // Npc's
 	// Shopkeeper
 	public static Image shopkeeper = genImg("Npc/shopkeeper.png");

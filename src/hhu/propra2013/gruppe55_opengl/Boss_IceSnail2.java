@@ -8,24 +8,12 @@ import static org.lwjgl.opengl.GL11.*;
  * @see Creature
  */
 
-public class Boss_FireSnail extends Creature {
+public class Boss_IceSnail2 extends Creature {
 	// Attribute
 	
 	/** Abfrage ob der Boss von einer Wand abgebounced ist. */
 	
 	protected boolean bounce = false;		// Abfrage ob der Boss von einer Wand abgebounced ist
-
-	/** Zaehler fuer den Angriffstakt, da einige Takte uebersprungen werden sollen */
-	private int actionCounter1=0;
-	
-	/** Zaehler fuer den Lavaspurtakt, da einige Takte uebersprungen werden sollen */
-	private int actionCounter2=0;
-	
-	/** Bewegungswinkel */
-	private int moveAngle=180;
-	
-	/** Zustand ob der Boss am Feuerspeien ist */
-	private boolean isAttacking=false;
 	
 	/**
 	 * Der Konstruktor fuer den dritten Boss. 
@@ -38,10 +26,10 @@ public class Boss_FireSnail extends Creature {
 	 * @param vert  Der Verteidigungswert, mit dem der Boss generiert wird.
 	 */
  
-    public Boss_FireSnail(double spawnX, double spawnY, int h, int angr, int vert) {
+    public Boss_IceSnail2(double spawnX, double spawnY, int h, int angr, int vert) {
 		super(spawnX, spawnY, h, angr, vert);
 		
-		state[1].changeTexture(Data_Textures.boss_snail); 	// Bild der Lebendigen Kreatur laden
+		state[1].changeTexture(Data_Textures.boss_icesnail); 	// Bild der Lebendigen Kreatur laden
 		sx	=	(int)spawnX;					// Erscheinungskoordinaten
 		sy	=	(int)spawnY;					
 		dx =-1;									// Bewegung wird initialisiert x - Richung
@@ -51,7 +39,7 @@ public class Boss_FireSnail extends Creature {
 		element=1;								// Feuerkreatur
 		resistances[0][1]=1;					// Immun gegeueber Feuerschaden
 		
-		projectile	=	new Fireball(0,0,0,0);
+		projectile	=	new Spell_SnowFlake(0,0,0,0);
 		
 		// Resetrelevante Werte
 		//resetValues	=	new int[9];	// atk und detectionRange und speed kommen dazu, sonst wird nach dem Enrage nicht zurueck gesetzt
@@ -64,12 +52,30 @@ public class Boss_FireSnail extends Creature {
      */
 
     public void move(){
-    	if(isAttacking) return;
     	// Berechnung der neuen Bewegung
     	if(bounce==true){
-    		moveAngle=(moveAngle-95)%360;
-    		dx=Math.cos(Math.toDegrees(moveAngle)); // Beschleunigung in x Richtung
-    		dy=Math.sin(Math.toDegrees(moveAngle));	// Beschleunigung in y Richtung
+    		// Bewegung umsetzen
+    		double tmp=dx;
+    		dx=dy;
+    		dy=-1*tmp;
+    		
+    		/*if(dx==1 && dy==0){
+    			dx=0;
+    			dy=-1;
+    		}
+    		else if(dx==0 && dy==-1){
+    			dx=-1;
+    			dy=0;
+    		} 
+    		else if(dx==-1 && dy==0){
+    			dx=0;
+    			dy=1;
+    		} 
+    		else if(dx==0 && dy==1){
+    			dx=1;
+    			dy=0;
+    		}*/ 
+    		
     		bounce=false;	// Bounce wird wieder auf false gesetzt
     	}
 		// bewegung ausfuehren
@@ -87,41 +93,14 @@ public class Boss_FireSnail extends Creature {
      */
     
     public void action(int pX, int pY){
-    	// Zaehler erhoehen
-    	actionCounter1++;
-    	
-		// Ist der Spieler in Reichweite?
+    	// Ist der Spieler in Reichweite?
 		if(distanceBetween(pX,pY)<=detectionRange){
-			// Es soll nicht immer auf den Spieler geschossen werden
-			if(actionCounter1 >= 8){
-				// Angriff einleiten
-				isAttacking=true;
-				// Zurueck setzen
-				actionCounter1=0;
-				// Winkel berechnen
-				int[] center	=	getCenter();
-				final double angle	=	Math.toDegrees(Math.atan2((pY-center[1]),(pX-center[0])));
-				// Schieﬂen - oder besser gesagt Feuer speien! 
-				new Thread(){
-					public void run(){
-						int maxShots=20;
-						for(int i=1;i<maxShots;i++){
-							shoot((int)angle, projectile);
-							// Sleep-Timer setzen
-			    			try {
-								Thread.sleep(1000/maxShots);
-							}catch (InterruptedException e) {e.printStackTrace();}
-						}
-						isAttacking=false;
-					}
-				}.start();
-			}
+			// Winkel berechnen
+			int[] center	=	getCenter();
+			double angle	=	Math.toDegrees(Math.atan2((pY-center[1]),(pX-center[0])));
+			
+			shoot((int)angle,projectile);
 		}
-		
-		/// Schleimspur? Pah! LAVASPUR
-		for(GameEventListener gel : evtList){
-    		gel.newStatic(new Lavapatch(x, y));
-    	}
 	}
     
     /**
