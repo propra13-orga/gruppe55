@@ -14,9 +14,9 @@ public class Data_Textures {
 	
 	/** Das jeweilige statisch geladene Bild. */
 	
-	public static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, fireelemental, boss1, boss2, boss3, boss_snail, shopkeeper, storyteller,
+	public static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, fireelemental, boss1, boss2, boss3, boss_snail, shopkeeper, wizard, storyteller,
 	win, youlose, gameover, bks, wall, goal, potion, potionused, healthcontainer, mpotion, treasure, lootarrow, lavahat,
-	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, cp_used, cp_unused, button_off, button_on, torch, torch_lit, door, lavapatch, 
+	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, icesworddrop, icesword,  icesword_f_atk, icesword_l_atk, icesword_r_atk, icesword_u_atk, icesword_icon, cp_used, cp_unused, button_off, button_on, torch, torch_lit, door, lavapatch, 
 	basicbow, basicbow_back, basicbow_f_atk, basicbow_l_atk, basicbow_r_atk, basicbow_u_atk, basicbow_icon, basicshield_f, basicshield_b, arrow_f, arrow_l, arrow_r, arrow_b, fireball,
 	hud01, hud02, hud03, hud_Tear_HP_Full, hud_Tear_HP_Half, hud_Tear_HP_Empty,hud_Crystal_Full, hud_Crystal_Empty, dialogBox, shop, shopArrow, currency,
 	t00, t01, t02, t03, t04, creature_ice, snowflake;
@@ -56,6 +56,8 @@ public class Data_Textures {
 				shopkeeper = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/Npc/shopkeeper.png")));
 				// Storyteller
 				storyteller = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/Npc/storyteller.png")));
+				// Wizard
+				wizard = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/evilwizard.png")));
 			// Levelrelevantes
 				win = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/youwin.png")));		// Siegbild
 				youlose = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/youlose.png")));	// Todesbild
@@ -108,6 +110,14 @@ public class Data_Textures {
 					basicsword_r_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/basicsword/right_atk.png")));	// Schwertansicht beim Angriff nach rechts
 					basicsword_u_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/basicsword/up_atk.png")));	// Schwertansicht beim Angriff nach oben
 					basicsword_icon = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/basicsword/icon.png")));	// Icon fuer das HUD
+				// eis Schwert
+					icesword = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/icesword/front.png")));	// Frontansicht
+					icesword_f_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/icesword/front_atk.png")));	// Schwertansicht beim Angriff nach vorn
+					icesword_l_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/icesword/left_atk.png")));	// Schwertansicht beim Angriff nach links
+					icesword_r_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/icesword/right_atk.png")));	// Schwertansicht beim Angriff nach rechts
+					icesword_u_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/icesword/up_atk.png")));	// Schwertansicht beim Angriff nach oben
+					icesword_icon = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/icesword/icon.png")));	// Icon fuer das HUD
+					icesworddrop = icesword_icon = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/icesword/drop.png")));	// Icon fuer das HUD
 				// simpler Bogen
 					basicbow = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/basicbow/front.png"))); // Frontansicht
 					basicbow_back = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/basicbow/back.png"))); // R�ckansicht

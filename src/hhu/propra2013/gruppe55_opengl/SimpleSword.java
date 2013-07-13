@@ -13,8 +13,8 @@ public class SimpleSword extends Weapon {
 	 * Hier werden die Attribute der Mutterklasse Weapon aufgerufen und dann der Schaden ueberschrieben.
 	 */
 	
-	public SimpleSword() {
-		super();
+	public SimpleSword(double x, double y) {
+		super(x,y);
 		
 		// Schadenswerte setzen
 		minDmg	=	1;

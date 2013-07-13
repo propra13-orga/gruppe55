@@ -86,7 +86,7 @@ public abstract class Weapon extends DungeonObject {
 	 */
 	
 	// Konstruktor
-	public Weapon() {
+	public Weapon(double x, double y) {
 		super(0, 0);	// Scheint merkwuerdig, macht aber Sinn (wird dem Spieler angepasst)
 		
 		// Wertzuweisungen

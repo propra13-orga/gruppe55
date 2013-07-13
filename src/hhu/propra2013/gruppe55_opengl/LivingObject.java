@@ -204,6 +204,7 @@ public abstract class LivingObject extends MovingObject {
     	
 	    
 	    // Schaden berechnen
+    	System.out.print(iDmg);
 		hp-=	(iDmg>0)	?	iDmg : 1;	// Mindestens muss 1 Schaden gemacht werden
 		if(hp<=0){
 			hp	=	0;	// HP auf 0 setzen - ist sauberer

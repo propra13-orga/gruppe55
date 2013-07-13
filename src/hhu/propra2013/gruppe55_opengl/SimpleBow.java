@@ -18,8 +18,8 @@ public class SimpleBow extends Weapon{
 	 * Hier werden Name, Schaden, States und Bilder sowie Offsetwerte fuer das Zeichnen des Bogens gesetzt. 
 	 */
 	
-	public SimpleBow() {
-		super();
+	public SimpleBow(double x, double y) {
+		super(x,y);
 		
 		// Werteanpassungen
 		minDmg = 1;

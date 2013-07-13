@@ -121,9 +121,9 @@ public class Player extends LivingObject {
 		switchState(1);
 		
 		// Waffen initialisieren
-		weapons[0]	=	new SimpleSword();	// Haupthand
-		weapons[1]	=	new SimpleShield();	// Nebenhand
-		weapons[2]	=	new SimpleBow();	// Fernkampfwaffe
+		weapons[0]	=	new SimpleSword(x,y);	// Haupthand
+		weapons[1]	=	new SimpleShield(x,y);	// Nebenhand
+		weapons[2]	=	new SimpleBow(x,y);	// Fernkampfwaffe
 
 		// Zauber enbenfalls initialisieren
 		spell	=	new SpellObject(x,y);
@@ -623,6 +623,11 @@ public class Player extends LivingObject {
     // Den Hut einsammeln!
     public void collecthat(){
     	hat=new Lavahat(x,y);
+    	calcStatsByWeapons();
+    }
+    
+    public void collectsword(){
+    	weapons[0]	=	new IceSword(x,y);
     	calcStatsByWeapons();
     }
     

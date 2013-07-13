@@ -328,6 +328,9 @@ public class Level implements GameEventListener{
 						else if(lvlData[r][i][j] == 26){	// Feuerschnecke (Boss)
 							creatureList.get(r).add(new Boss_FireSnail(i*32, j*32, 15, 1, 0));	
 						}
+						else if(lvlData[r][i][j] == 30){
+							staticList.get(r).add(new Wizard(32*i, 32*j, 3, 1, 0));
+						}
 					}
 				}
 			}
@@ -1194,6 +1197,11 @@ public class Level implements GameEventListener{
 		openedInterface = 2;
 		dialog = true;
 		iFace.setSelectedObject(0);
+	}
+	
+	@Override
+	public void giveWeaponToPlayer(){
+		player.collectsword();
 	}
 
 	@Override

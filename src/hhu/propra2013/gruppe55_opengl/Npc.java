@@ -1,6 +1,9 @@
 package hhu.propra2013.gruppe55_opengl;
 
 import java.awt.Rectangle;
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
 
 /**
  * Die Klasse Npc.
@@ -73,5 +76,5 @@ public class Npc extends LivingObject {
 			}
 		}
 	}
-
+	
 }

@@ -15,6 +15,8 @@ public class Data_String {
 	
 	// Story-Dialog
 	static String[] story1 = genDialog("story1");    // 1st one
+	static String[] story2 = genDialog("story2");
+	static String[] wizard = genDialog("weapon");	// Wizard
 	
 	/**
 	 * Die Methode genDialog.

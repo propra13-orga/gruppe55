@@ -81,4 +81,6 @@ public interface GameEventListener {
 	 * Diese Methode laesst den Ingame-Shop aufrufen
 	 */
 	public void openShop();
+	
+	public void giveWeaponToPlayer();
 }

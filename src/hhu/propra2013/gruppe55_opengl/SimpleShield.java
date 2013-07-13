@@ -14,8 +14,8 @@ public class SimpleShield extends Weapon{
 	 */
 	
 	// KONSTRUKTOR
-	public SimpleShield(){
-		super();
+	public SimpleShield(double x, double y){
+		super(x,y);
 		
 		// Spezifizieren
 		type=1;	// Nebenhand
