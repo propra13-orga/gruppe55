@@ -39,7 +39,7 @@ public class Boss_IceSnail1 extends Creature {
 		state[1].moveable=false;				// Diese Schnecke bewegt sich nicht
 		sx	=	(int)spawnX;					// Erscheinungskoordinaten
 		sy	=	(int)spawnY;					
-		dx =-1;									// Bewegung wird initialisiert x - Richung
+		dx =0;									// Bewegung wird initialisiert x - Richung
 		dy =0;									// Bewegung wird initialisiert y - Richung								
 		speed = 1;								// Startgeschwindigkeit
 		detectionRange = 500;					// Groessere Schussreichweite

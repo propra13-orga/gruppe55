@@ -123,7 +123,7 @@ public class Boss_IceSnail2 extends Creature {
     	// Unser Detail:
     	if(hp<=0){
     		for(GameEventListener gel : evtList){
-    			gel.triggerFired("FireSnailDown");		// Der Boss feuert das Event seines Todes
+    			gel.triggerFired("IceSnail2Down");		// Der Boss feuert das Event seines Todes
     		}
     	}
     }
