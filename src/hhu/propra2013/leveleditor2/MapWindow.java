@@ -186,6 +186,8 @@ public class MapWindow extends JPanel {
 				g2.drawImage(Data_Img.lavahat, xPos, yPos, this);
 			}else if(tempParameterList.get(0).equals("25")){
 				g2.drawImage(Data_Img.lavapatch, xPos, yPos, this);
+			}else if(tempParameterList.get(0).equals("26")){
+				g2.drawImage(Data_Img.boss_firesnail, xPos, yPos, this);
 			}
 		}
 	/*	for(int i=0; i<objectList.size(); i++){

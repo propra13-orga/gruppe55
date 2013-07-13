@@ -12,9 +12,9 @@ import org.newdawn.slick.opengl.TextureLoader;
 
 public class Data_Textures {
 	
-	/** Die jeweilige statisch geladene Bild. */
+	/** Das jeweilige statisch geladene Bild. */
 	
-	public static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, fireelemental, boss1, boss2, boss3, shopkeeper, storyteller,
+	public static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, fireelemental, boss1, boss2, boss3, boss_snail, shopkeeper, storyteller,
 	win, youlose, gameover, bks, wall, grass, goal, potion, potionused, healthcontainer, mpotion, treasure, lootarrow, lavahat,
 	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, cp_used, cp_unused, button_off, button_on, torch, torch_lit, door, lavapatch, 
 	basicbow, basicbow_back, basicbow_f_atk, basicbow_l_atk, basicbow_r_atk, basicbow_u_atk, basicbow_icon, basicshield_f, basicshield_b, arrow_f, arrow_l, arrow_r, arrow_b, fireball,
@@ -48,6 +48,7 @@ public class Data_Textures {
 				boss1 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/enemies/boss1.png")));
 				boss2 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/enemies/boss2.png")));
 				boss3 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/enemies/boss3.png")));
+				boss_snail = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/enemies/bossfiresnail.png")));
 			// Npc's
 				// Shopkeeper
 				shopkeeper = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/Npc/shopkeeper.png")));
@@ -66,7 +67,7 @@ public class Data_Textures {
 				torch = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/torch.png")));			// Fackel - aus
 				torch_lit = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/torch_lit.png")));			// Fackel - aus
 				door = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/door.png")));		// Tuere
-				lavapatch = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/lavapatch.png"))); // Lavafelder
+				lavapatch = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/lavapatch2.png"))); // Lavafelder
 				button_off = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/button_off.png")));
 				button_on = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/openGL/button_on.png")));
 				
