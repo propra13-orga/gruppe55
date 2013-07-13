@@ -19,7 +19,7 @@ public class Data_Textures {
 	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, cp_used, cp_unused, button_off, button_on, torch, torch_lit, door, lavapatch, 
 	basicbow, basicbow_back, basicbow_f_atk, basicbow_l_atk, basicbow_r_atk, basicbow_u_atk, basicbow_icon, basicshield_f, basicshield_b, arrow_f, arrow_l, arrow_r, arrow_b, fireball,
 	hud01, hud02, hud03, hud_Tear_HP_Full, hud_Tear_HP_Half, hud_Tear_HP_Empty,hud_Crystal_Full, hud_Crystal_Empty, dialogBox, shop, shopArrow, currency,
-	t00, t01, t02, t03, t04;
+	t00, t01, t02, t03, t04, creature_ice, snowflake;
 	
 	
 	/**
@@ -44,6 +44,7 @@ public class Data_Textures {
 			// Monster
 				creature = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/creature.png")));	// Standart-Kreatur
 				creature_bow = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/creature_bow.png")));	// Bogen-Monster
+				creature_ice = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/creature_ice.png")));	// Eis-Monster
 				fireelemental = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/fireelemental.png")));	// Feuerelementar
 			// Bosse
 				boss1 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/boss1.png")));
@@ -62,8 +63,8 @@ public class Data_Textures {
 			// Umgebung des Levels
 				wall = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/wall.png")));			// Wand
 				goal = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/goal.png")));			// Zielobjekt
-				cp_unused = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/CP_unused.png")));			// Checkpoint unbenutzt
-				cp_used = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/CP_used.png")));			// Checkpoint benutzt
+				cp_unused = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/CP_unused2.png")));			// Checkpoint unbenutzt
+				cp_used = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/CP_used2.png")));			// Checkpoint benutzt
 				torch = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/torch.png")));			// Fackel - aus
 				torch_lit = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/torch_lit.png")));			// Fackel - aus
 				door = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/door.png")));		// Tuere
@@ -124,6 +125,7 @@ public class Data_Textures {
 					arrow_r = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/Projectiles/arrow_right.png")));	//Pfeil rechts
 					arrow_b = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/Projectiles/arrow_back.png")));	//Pfeil hinten
 					fireball = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/spells/fireball.png")));
+					snowflake = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/spells/snowflake.png")));
 		} catch (IOException e) {e.printStackTrace();}
 	}
 	

@@ -24,6 +24,7 @@ public class Data_Img {
 	public static Image creature = genImg("enemies/creature.png");	// Standart-Kreatur
 	public static Image creature_bow = genImg("enemies/creature_bow.png");					// Bogen-Monster
 	public static Image fireelemental = genImg("enemies/fireelemental.png");					// FireElemental
+	public static Image creature_ice = genImg("enemies/creature_ice.png");					// Eismonster
 
 // Bosse
 	public static Image boss1 = genImg("enemies/boss1.png");
@@ -112,6 +113,7 @@ public class Data_Img {
 	
 // zauber
 	public static Image fireball = genImg("spells/fireball.png");
+	public static Image snowflake = genImg("spells/snowflake.png");
 	
 	// Methode zum Bilder generieren (nicht nötig, spart aber Tipparbeit oben)
 	private static Image genImg(String image){

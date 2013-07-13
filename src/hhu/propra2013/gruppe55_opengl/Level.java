@@ -475,6 +475,9 @@ public class Level implements GameEventListener{
 					else if(tempParameterList.get(0).equals("26")){ // Feuerschnecke (BOSS)
 						creatureList.get(r).add(new Boss_FireSnail(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
+					else if(tempParameterList.get(0).equals("27")) {	// Eisgegner
+						creatureList.get(r).add(new Creature_Ice(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));		// bei 22 wird ein Feuerelementar generiert
+					}
 				}
 			}
 		}

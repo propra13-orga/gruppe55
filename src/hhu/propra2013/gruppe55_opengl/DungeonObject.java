@@ -115,7 +115,7 @@ public abstract class DungeonObject {
 			/*
 			 * 0: normal
 			 * 1: Feuer
-			 * 2: ???
+			 * 2: Eis
 			 * 3: ???
 			 * 
 			 * Reihenfolge:
