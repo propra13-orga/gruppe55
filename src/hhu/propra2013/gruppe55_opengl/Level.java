@@ -278,7 +278,7 @@ public class Level implements GameEventListener{
 							creatureList.get(r).add(new Shopkeeper(32*i, 32*j, 3, 1, 0)); // Bei 10 wird ein Shopkeeper generiert
 						}
 						else if(lvlData[r][i][j] == 11){
-							creatureList.get(r).add(new Storyteller(32*i, 32*j, 3, 1, 0));	// Bei 11 wird ein Storyteller generiert
+							creatureList.get(r).add(new Storyteller(32*i, 32*j, 3, 1, 0, 1));	// Bei 11 wird ein Storyteller generiert
 						}
 						else if(lvlData[r][i][j] == 12){
 							staticList.get(r).add(new Healthcontainer(i*32, j*32));		// Bei 12 wird ein Healthcontainer generiert
@@ -417,7 +417,7 @@ public class Level implements GameEventListener{
 						creatureList.get(r).add(new Shopkeeper(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("11")){
-						creatureList.get(r).add(new Storyteller(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+						creatureList.get(r).add(new Storyteller(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3)), Integer.parseInt(tempParameterList.get(4))));
 					}
 					else if(tempParameterList.get(0).equals("12")){
 						staticList.get(r).add(new Healthcontainer(xPos, yPos));
@@ -486,6 +486,9 @@ public class Level implements GameEventListener{
 					}
 					else if(tempParameterList.get(0).equals("29")){ // Eisschnecke #2 (BOSS)
 						creatureList.get(r).add(new Boss_IceSnail2(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+					}
+					else if(tempParameterList.get(0).equals("30")){
+					creatureList.get(r).add(new Wizard(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 				}
 			}

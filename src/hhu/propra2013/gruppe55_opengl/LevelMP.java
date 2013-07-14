@@ -125,7 +125,6 @@ public class LevelMP extends Level implements GameEventListener{
 			String[][] torchTrigger={{"f1"},{"f2"},{"f3"},{"f4"},{"f5"},{"f6"}}; // Array der TriggerKeyArrays fuer die Fackeln
 			int switchCounter=0; // Wie der torchCounter nur fuer Schalter
 			String[][] switchTrigger={{"f1","f4","f6"},{"f2","f4","f5"},{"f1","f2","f6"},{"f2","f4","f5","f6"},{"f2","f3","f4"},{"f2","f5","f6"}};	// Array der TriggerKeyArrays fuer die Schalter
-			int story=1;
 			
 			
 			// Schleife die das Level generiert
@@ -188,8 +187,7 @@ public class LevelMP extends Level implements GameEventListener{
 							creatureList.get(r).add(new Shopkeeper(32*i, 32*j, 3, 1, 0)); // Bei 10 wird ein Shopkeeper generiert
 						}
 						else if(lvlData[r][i][j] == 11){
-							creatureList.get(r).add(new Storyteller(32*i, 32*j, 3, 1, 0));	// Bei 11 wird ein Storyteller generiert
-							story++;
+							creatureList.get(r).add(new Storyteller(32*i, 32*j, 3, 1, 0, 1));	// Bei 11 wird ein Storyteller generiert
 						}
 						else if(lvlData[r][i][j] == 12){
 							staticList.get(r).add(new Healthcontainer(i*32, j*32));		// Bei 12 wird ein Healthcontainer generiert
@@ -331,7 +329,7 @@ public class LevelMP extends Level implements GameEventListener{
 						creatureList.get(r).add(new Shopkeeper(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("11")){
-						creatureList.get(r).add(new Storyteller(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+						creatureList.get(r).add(new Storyteller(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3)), Integer.parseInt(tempParameterList.get(4))));
 					}
 					else if(tempParameterList.get(0).equals("12")){
 						staticList.get(r).add(new Healthcontainer(xPos, yPos));
@@ -388,6 +386,9 @@ public class LevelMP extends Level implements GameEventListener{
 					}
 					else if(tempParameterList.get(0).equals("27")) {	// Eisgegner
 						creatureList.get(r).add(new Creature_Ice(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));		// bei 22 wird ein Feuerelementar generiert
+					}
+					else if(tempParameterList.get(0).equals("30")){
+					creatureList.get(r).add(new Wizard(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 				}
 			}

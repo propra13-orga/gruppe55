@@ -135,7 +135,7 @@ public class LevelEditor extends JFrame implements ActionListener
 		guiObjectList.add("8:Mana Potion:3");
 		guiObjectList.add("9:Schatz:3");
 		guiObjectList.add("10:Shopkeeper:2:Health ,String,3:Angriff ,String,1:Verteidigung ,String,0");
-		guiObjectList.add("11:Storyteller:2:Health ,String,3:Angriff ,String,1:Verteidigung ,String,0");
+		guiObjectList.add("11:Storyteller:2:Health ,String,3:Angriff ,String,1:Verteidigung ,String,0:Story ,String,0");
 		guiObjectList.add("12:Healthcontainer:3");
 		guiObjectList.add("13:SimpleStaticObject:1:Massiv,ComboBox,0 1:Textur,ComboBox,0 1 2 3 4");
 		guiObjectList.add("14:Bow Creature:2:Health ,String,3:Angriff ,String,1:Verteidigung ,String,0:Ausdauer ,String,100:Mana ,String,0:moveAreaX ,String,0:moveAreaY ,String,0:schussAchse ,String,0");
@@ -154,6 +154,7 @@ public class LevelEditor extends JFrame implements ActionListener
 		guiObjectList.add("27:Eismonster:2:Health ,String,10:Angriff ,String,1:Verteidigung ,String,0");
 		guiObjectList.add("28:Eisbossschnecke 1:2:Health ,String,17:Angriff ,String,15:Verteidigung 3,String,0");
 		guiObjectList.add("29:Eisbossschnecke 2:2:Health ,String,17:Angriff ,String,15:Verteidigung 3,String,0");
+		guiObjectList.add("30:Wizard:2:Health ,String,3:Angriff ,String,1:Verteidigung ,String,0");
 
 
 		

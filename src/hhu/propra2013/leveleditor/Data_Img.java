@@ -37,6 +37,8 @@ public class Data_Img {
 	public static Image shopkeeper = genImg("Npc/shopkeeper.png");
 	// Storyteller
 	public static Image storyteller = genImg("Npc/storyteller.png");
+	// Wizard
+	public static Image wizard = genImg("enemies/evilwizard.png");
 	// Levelrelevantes
 	static Image win = genImg("youwin.png");		// Siegbild
 	static Image youlose = genImg("youlose.png");	// Todesbild

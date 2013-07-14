@@ -1,5 +1,9 @@
 package hhu.propra2013.gruppe55_opengl;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  * Die Klasse Storyteller.
  * Diese Klasse erbt von der Klasse Npc und spezifiert diese weiter als Storyteller.
@@ -20,11 +24,37 @@ public class Storyteller extends Npc {
 	 */
 	
 	// Konstruktor fuer den Shopkeeper
-    public Storyteller(double spawnX, double spawnY, int h, int angr, int vert) {
+    public Storyteller(double spawnX, double spawnY, int h, int angr, int vert, int story) {
 		super(spawnX, spawnY, h, angr, vert);
 		// States setzen
 		state[1].defineOffset(0, 0, 1, 5, 0);
 		state[1].changeTexture(Data_Textures.storyteller); 	// Platzhalterbild fuer den Shopkeeper
+		storyToTell	=	genDialog("story" + story);
 		super.getBorder();
     }
+    
+    
+	private static String[] genDialog(String file){
+		String[] placeholder = {};
+		String line;
+		int i = 0;
+		
+		try{
+			FileReader fReader = new FileReader("dialogs/"+file+".txt");
+			BufferedReader bReader = new BufferedReader(fReader);
+			
+			for(i=0; (line = bReader.readLine()) != null; i++){
+				if(i == 0){
+					placeholder = new String[Integer.parseInt(line)];
+				}
+				else{
+					placeholder[i-1] = line;
+				}
+			}
+			bReader.close();
+		}catch (IOException e){e.printStackTrace();}
+		
+		return(placeholder);
+	}
+    
 }

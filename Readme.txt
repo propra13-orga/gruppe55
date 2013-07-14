@@ -2,6 +2,21 @@
 
 Changelog:
 
+
+14.07.13 - van Meegen
+/src
+	- Eisschwert und Wizard hinzugefuegt (der Wizard uebergibt das Eissschwert)
+	- Json Parser angepasst
+	- Der Storyteller bekommt nun eine Variable übergeben, die angibt welche Story er erzählen soll (derzeit 1-7)
+/dialogs
+	- Story 1 - 7 erstellt
+/img
+	- Eisschwertmodel hinzugefuegt
+/lvl
+	- Die Level 1-4 ueberarbeitet, damit die Storyteller die richtigen Dialoge wiedergeben
+
+
+
 13.07.13 - ajurk
 - WallObject nun SimpleStaticbject
 - WallSecret erbt nun von DungeonObject

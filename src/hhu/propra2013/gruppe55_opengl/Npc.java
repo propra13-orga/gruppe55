@@ -75,6 +75,6 @@ public class Npc extends LivingObject {
 				}
 			}
 		}
-	}
+	}	
 	
 }
