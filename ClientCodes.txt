@@ -3,6 +3,8 @@ Format: Object,Variable,Value,...
 Object:
 	0: Game
 		start: Startet das Spiel
+		boss: Uebergibt Boss Bounces
+			dx, dy
 	1: Player
 		0: dx, dy
 		1: posX, posY

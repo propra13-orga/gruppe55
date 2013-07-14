@@ -11,7 +11,15 @@ public class Boss1 extends Creature {
 	/** Abfrage ob der Boss von einer Wand abgebounced ist. */ 
 		
 	protected boolean bounce = false;		// Abfrage ob der Boss von einer Wand abgebounced ist
+	
+	/** Abfrage, ob die Bounce-Richtung bereits vom Netzwerkpartner gesetzt wurde. */
+	
+	protected boolean nbounced = false;
+	
+	/** Vom Netzwerk uebergebene Bounce-Richtungen */
  
+	protected double ndx, ndy;
+	
 	/**
 	 * Der Konstruktor fuer den ersten Boss. 
 	 * Beim Aufruf werden dem Konstruktor die Werte spawnX, spawnY, h, angr und vert uebergeben.
@@ -56,10 +64,19 @@ public class Boss1 extends Creature {
     		speed = 3;
     	// Berechnung des Winkels beim abprallen von einer Wand
     	if(bounce==true){
-    		double angle=Math.random()*360; // [0,360[
-    		dx=Math.cos(Math.toDegrees(angle)); // Beschleunigung in x Richtung
-    		dy=Math.sin(Math.toDegrees(angle));	// Beschleunigung in y Richtung
-    		bounce=false;	// Bounce wird wieder auf false gesetzt
+    		//Ob der Netzwerkpartner vorher schon gebounced ist
+    		if(!nbounced){
+	    		double angle=Math.random()*360; // [0,360[
+	    		dx=Math.cos(Math.toDegrees(angle)); // Beschleunigung in x Richtung
+	    		dy=Math.sin(Math.toDegrees(angle));	// Beschleunigung in y Richtung
+	    		bounce=false;	// Bounce wird wieder auf false gesetzt
+    		}
+    		//Wenn ja, dessen Werte uebernehmen
+    		else{
+    			dx = ndx;
+    			dy = ndy;
+    			bounce = nbounced = false;
+    		}
     	}
 		// bewegung ausfuehren
 		x+=speed*dx;
@@ -67,6 +84,19 @@ public class Boss1 extends Creature {
 		
     }
 
+    /**
+     * Die Methode setNetworkBounce.
+     * Diese Methode nutzt das MP-Level, um die Bouncewerte des anderen Bosses zu synchronisieren.
+     * @param ndx Die Methode erwartet eine Double Wert fuer die dx-Richtung des Bounces.
+     * @param ndy Die Methode erwartet eine Double Wert fuer die dy-Richtung des Bounces.
+     */
+    
+    public void setNetworkBounce(double ndx, double ndy){
+    	nbounced = true;
+    	this.ndx = ndx;
+    	this.ndy = ndy;
+    }
+    
     /**
      * Die Methode setBack.
      * Diese Methode ruft die Methode setBack der Mutterklasse Creature auf und sorgt dafuer, dass der Boss von der Wand abprallt.
