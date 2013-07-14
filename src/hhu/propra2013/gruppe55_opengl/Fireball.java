@@ -42,5 +42,4 @@ public class Fireball extends Projectile {
 	public Fireball launch(double x, double y, int angle, int dmg){
 		return new Fireball(x,y,angle,dmg);
 	}
-
 }

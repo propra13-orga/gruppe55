@@ -36,14 +36,6 @@ public class LevelMP extends Level implements GameEventListener{
 	
 	protected boolean alreadyInteracted1, alreadyInteracted2 = alreadyInteracted1 = false;
 	
-	/** Die Int Variable, welcher Random-Boss gerade im Level ist. */
-	
-	private int bossNr;
-	
-	/** Enthält die Referenz auf den aktuellen Boss. */
-	
-	private LivingObject boss;
-	
 	/**
 	 * Der Konstruktor fuer das LevelMP.
 	 * Beim Aufruf werden dem Konstruktor die x und y koordinaten, das GameMenu und die Levelnummer uebergeben.
@@ -352,22 +344,16 @@ public class LevelMP extends Level implements GameEventListener{
 						creatureList.get(r).add(new Creature_Bow(xPos, yPos, Integer.parseInt(tempParameterList.get(6))*32, Integer.parseInt(tempParameterList.get(7))*32, Integer.parseInt(tempParameterList.get(8)),Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("15")){
-						bossNr = 1;
 						creatureList.get(r).add(new Boss1(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
-						boss = creatureList.get(r).get(creatureList.get(r).size());
 					}
 					else if(tempParameterList.get(0).equals("16")){
 						staticList.get(r).add(new CheckPoint(xPos, yPos));    
 					}
 					else if(tempParameterList.get(0).equals("17")){
-						bossNr = 2;
 						creatureList.get(r).add(new Boss2(xPos, yPos, Integer.parseInt(tempParameterList.get(6))*32, Integer.parseInt(tempParameterList.get(7))*32, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
-						boss = creatureList.get(r).get(creatureList.get(r).size());
 					}
 					else if(tempParameterList.get(0).equals("18")){
-						bossNr = 3;
 						creatureList.get(r).add(new Boss3(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
-						boss = creatureList.get(r).get(creatureList.get(r).size());
 					}
 					else if(tempParameterList.get(0).equals("19")){
 						staticList.get(r).add(new ArrowObject(xPos, yPos));    
@@ -820,10 +806,6 @@ public class LevelMP extends Level implements GameEventListener{
 		player2.setDY(y);
 	}
 	
-	public void setBossBounceDirection(double dx, double dy){
-		boss.setNetworkBounce(dx, dy);
-	}
-	
 	/**
 	 * Die Methode input2.
 	 * Diese Methode implementiert die Steuerung und mapped die verschiedenen Tasten und Funktionen im Spiel zusammen (Fuer Spieler2).
@@ -907,9 +889,10 @@ public class LevelMP extends Level implements GameEventListener{
 
 			// Spielerbewegung
 			player1.move();
-			c.send("1,1,"+player1.x+","+player1.y);
+			if(((Sys.getTime()-lastAction)/Sys.getTimerResolution()) >= 0.03){
+				c.send("1,1,"+player1.x+","+player1.y);
+			}
 			player2.checkDirection();
-//			player2.move();
 			
 			// kreaturenbewegung
 			for(int i=0; i<creatureList.get(room).size(); i++)

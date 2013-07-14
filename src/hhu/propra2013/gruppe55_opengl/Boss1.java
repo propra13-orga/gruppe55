@@ -73,6 +73,7 @@ public class Boss1 extends Creature {
     		}
     		//Wenn ja, dessen Werte uebernehmen
     		else{
+    			System.out.println(ndx + " - " + ndy);
     			dx = ndx;
     			dy = ndy;
     			bounce = nbounced = false;
@@ -81,7 +82,6 @@ public class Boss1 extends Creature {
 		// bewegung ausfuehren
 		x+=speed*dx;
 		y+=speed*dy;
-		
     }
 
     /**

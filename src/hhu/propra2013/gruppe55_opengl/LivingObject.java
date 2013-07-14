@@ -53,14 +53,6 @@ public abstract class LivingObject extends MovingObject {
 	/** Wird zur Erzeugung von Schuessen genutzt und gibt somit den Projektiltyp an. */
 	
 	protected Projectile projectile	=	new Projectile(0,0,0,0);	// Wird zur Erzeugung von Schuessen genutzt und gibt somit den Projektiltyp an
-
-	/** Abfrage, ob die Bounce-Richtung bereits vom Netzwerkpartner gesetzt wurde. */
-	
-	protected boolean nbounced = false;
-	
-	/** Vom Netzwerk uebergebene Bounce-Richtungen */
- 
-	protected double ndx, ndy;
 	
 	/** 
 	 * Der Konstruktor fuer ein LivingObject.
@@ -212,7 +204,6 @@ public abstract class LivingObject extends MovingObject {
     	
 	    
 	    // Schaden berechnen
-    	System.out.print(iDmg);
 		hp-=	(iDmg>0)	?	iDmg : 1;	// Mindestens muss 1 Schaden gemacht werden
 		if(hp<=0){
 			hp	=	0;	// HP auf 0 setzen - ist sauberer
@@ -282,19 +273,6 @@ public abstract class LivingObject extends MovingObject {
 				invulnerable = false;
 			}
 		}.start();
-    }
-    
-    /**
-     * Die Methode setNetworkBounce.
-     * Diese Methode nutzt das MP-Level, um die Bouncewerte des anderen Bosses zu synchronisieren.
-     * @param ndx Die Methode erwartet eine Double Wert fuer die dx-Richtung des Bounces.
-     * @param ndy Die Methode erwartet eine Double Wert fuer die dy-Richtung des Bounces.
-     */
-    
-    public void setNetworkBounce(double ndx, double ndy){
-    	nbounced = true;
-    	this.ndx = ndx;
-    	this.ndy = ndy;
     }
     
     // Methode zum Setzen der Reset-Werte

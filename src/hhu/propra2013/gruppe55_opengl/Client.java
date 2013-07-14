@@ -190,15 +190,13 @@ class ClientInput extends Thread{
 									lvl.freeze = false;
 									lvl.setWaiting(false);
 							}
-							else if(lineSplit[1].compareTo("boss") == 0){
-								lvl.setBossBounceDirection(Double.parseDouble(lineSplit[2]), Double.parseDouble(lineSplit[3]));
-							}
 						}
 						else if(lineSplit[0].compareTo("1") == 0){
 							if(lineSplit[1].compareTo("0") == 0){
 								lvl.setPlayerDirection(Integer.parseInt(lineSplit[2]), Integer.parseInt(lineSplit[3]));
 							}
 							else if(lineSplit[1].compareTo("1") == 0){
+								System.out.println(Double.parseDouble(lineSplit[2]) + " - " + Double.parseDouble(lineSplit[3]));
 								lvl.player2.teleport(Double.parseDouble(lineSplit[2]), Double.parseDouble(lineSplit[3]));
 							}
 							else if(lineSplit[1].compareTo("2") == 0){
