@@ -82,5 +82,15 @@ public interface GameEventListener {
 	 */
 	public void openShop();
 	
+	/**
+	 * Diese Methode uebergibt dem Spieler das neue Schwert.
+	 */
+	
 	public void giveWeaponToPlayer();
+	
+	/**
+	 * Diese Methode uebergibt dem Spieler das neue Projektil.
+	 */
+	
+	public void giveProjectileToPlayer();
 }

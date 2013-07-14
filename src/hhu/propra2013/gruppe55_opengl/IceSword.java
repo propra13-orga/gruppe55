@@ -2,7 +2,7 @@ package hhu.propra2013.gruppe55_opengl;
 
 /**
  * Die Klasse IceSword.
- * Diese Klasse erbt von der Klasse Weapon und spezifiziert diese weiter als SimpleSword (einfaches Schwert).
+ * Diese Klasse erbt von der Klasse Weapon und spezifiziert diese weiter als IceSword (Eis Schwert).
  * @see Weapon
  */
 

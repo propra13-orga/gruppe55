@@ -631,6 +631,12 @@ public class Player extends LivingObject {
     	calcStatsByWeapons();
     }
     
+    public void collectbow(){
+       	projectile = new Waterbubble(0,0,0,0);
+       	weapons[2] = new WaterBow(x,y);
+       	calcStatsByWeapons();
+    }
+    
     /**
      * Die Methode gethat.
      * Diese Methode gibt zurueck, ob der Player den Hut besitz.

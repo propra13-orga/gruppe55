@@ -238,7 +238,7 @@ public class LevelMP extends Level implements GameEventListener{
 							creatureList.get(r).add(new Boss_FireSnail(i*32, j*32, 15, 1, 0));  
 						}
 						else if(lvlData[r][i][j] == 30){
-							staticList.get(r).add(new Wizard(32*i, 32*j, 3, 1, 0));
+							staticList.get(r).add(new Wizard(32*i, 32*j, 3, 1, 0, 1));
 						}
 						
 					}
@@ -388,7 +388,7 @@ public class LevelMP extends Level implements GameEventListener{
 						creatureList.get(r).add(new Creature_Ice(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));		// bei 22 wird ein Feuerelementar generiert
 					}
 					else if(tempParameterList.get(0).equals("30")){
-					creatureList.get(r).add(new Wizard(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+					creatureList.get(r).add(new Wizard(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3)), Integer.parseInt(tempParameterList.get(3))));
 					}
 				}
 			}

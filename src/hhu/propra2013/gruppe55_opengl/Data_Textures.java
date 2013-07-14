@@ -16,8 +16,8 @@ public class Data_Textures {
 	
 	public static Texture player_f, player_l, player_r, player_b, dead, player_f_atk, player_l_atk, player_r_atk, player_b_atk, creature, creature_bow, fireelemental, boss1, boss2, boss3, boss_snail, shopkeeper, wizard, storyteller,
 	win, youlose, gameover, bks, wall, goal, potion, potionused, healthcontainer, mpotion, treasure, lootarrow, lavahat,
-	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, icesworddrop, icesword,  icesword_f_atk, icesword_l_atk, icesword_r_atk, icesword_u_atk, icesword_icon, cp_used, cp_unused, button_off, button_on, torch, torch_lit, door, lavapatch, 
-	basicbow, basicbow_back, basicbow_f_atk, basicbow_l_atk, basicbow_r_atk, basicbow_u_atk, basicbow_icon, basicshield_f, basicshield_b, arrow_f, arrow_l, arrow_r, arrow_b, fireball,
+	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, waterbow, waterbow_f_atk, waterbow_r_atk, waterbow_l_atk, waterbow_u_atk, waterbow_icon, waterbow_back, icesworddrop, icesword,  icesword_f_atk, icesword_l_atk, icesword_r_atk, icesword_u_atk, icesword_icon, cp_used, cp_unused, button_off, button_on, torch, torch_lit, door, lavapatch, 
+	basicbow, basicbow_back, basicbow_f_atk, basicbow_l_atk, basicbow_r_atk, basicbow_u_atk, basicbow_icon, basicshield_f, basicshield_b, arrow_f, arrow_l, arrow_r, arrow_b, fireball,bubble_f, bubble,
 	hud01, hud02, hud03, hud_Tear_HP_Full, hud_Tear_HP_Half, hud_Tear_HP_Empty,hud_Crystal_Full, hud_Crystal_Empty, dialogBox, shop, shopArrow, currency,
 	t00, t01, t02, t03, t04, creature_ice, snowflake, boss_icesnail;
 	
@@ -127,6 +127,14 @@ public class Data_Textures {
 					basicbow_r_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/basicbow/right_atk.png"))); // Bogenansicht beim Angriff nach rechts
 					basicbow_u_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/basicbow/up_atk.png"))); // Bogenansicht beim Angriff nach unten
 					basicbow_icon = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/basicbow/icon.png"))); // Icon fuer das HUD
+				// Wasser Bogen
+					waterbow = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/waterbow/front.png"))); // Frontansicht
+					waterbow_back = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/waterbow/back.png"))); // R�ckansicht
+					waterbow_f_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/waterbow/front_atk.png"))); // Bogenansicht beim Angriff nach vorn
+					waterbow_l_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/waterbow/left_atk.png"))); // Bogenansicht beim Angriff nach links
+					waterbow_r_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/waterbow/right_atk.png"))); // Bogenansicht beim Angriff nach rechts
+					waterbow_u_atk = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/waterbow/up_atk.png"))); // Bogenansicht beim Angriff nach unten
+					waterbow_icon = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/waterbow/icon.png"))); // Icon fuer das HUD
 				// simples Schild
 					basicshield_f = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/basicshield/front.png"))); // Frontsansicht
 					basicshield_b = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/basicshield/back.png"))); // Ruecksansicht
@@ -135,6 +143,7 @@ public class Data_Textures {
 					arrow_l = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/Projectiles/arrow_left.png")));	//Pfeil links
 					arrow_r = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/Projectiles/arrow_right.png")));	//Pfeil rechts
 					arrow_b = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/Projectiles/arrow_back.png")));	//Pfeil hinten
+					bubble = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/Projectiles/waterbubble.png")));	//Pfeil front
 					fireball = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/spells/fireball.png")));
 					snowflake = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/spells/snowflake.png")));
 		} catch (IOException e) {e.printStackTrace();}

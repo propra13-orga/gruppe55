@@ -1,5 +1,9 @@
 package hhu.propra2013.gruppe55_opengl;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 /**
  * Die Klasse Wizard.
  * Diese Klasse erbt von der Klasse Npc und spezifiert diese weiter als Wizard.
@@ -7,7 +11,12 @@ package hhu.propra2013.gruppe55_opengl;
  */
 
 public class Wizard extends Npc {
-
+	
+	/** Die Waffe, die der jeweilige Wizard uebergibt. */
+		
+	private int weapon;
+	
+	
 	/**
 	 * Der Konstruktor fuer den Wizard.
 	 * Beim Aufruf werden dem Wizard die Werte spawnX, spawnY, h, angr und vert uebergeben.
@@ -20,13 +29,14 @@ public class Wizard extends Npc {
 	 */
 	
 	// Konstruktor fuer den Wizard
-    public Wizard(double spawnX, double spawnY, int h, int angr, int vert) {
+    public Wizard(double spawnX, double spawnY, int h, int angr, int vert, int story) {
 		super(spawnX, spawnY, h, angr, vert);
 		// States setzen
 		state[1].defineOffset(0, 0, 1, 5, 0);
 		state[1].changeTexture(Data_Textures.wizard); 	// Platzhalterbild fuer den Wizard
-		storyToTell	=	Data_String.wizard;
+		storyToTell	=		genDialog("wizard" + story);
 		super.getBorder();
+		weapon = story;
 		
     }
     
@@ -41,10 +51,41 @@ public class Wizard extends Npc {
     public void interaction(int px, int py){
     	super.interaction(px, py);
     	if(distanceBetween(px, py) <= interactionRange){
-    		for(GameEventListener gel : evtList){
-				gel.giveWeaponToPlayer();
-			}
+    		if(weapon==1){
+    			for(GameEventListener gel : evtList){
+    				gel.giveWeaponToPlayer();
+    			}
+    		}
+    		else if(weapon==2){
+    			for(GameEventListener gel : evtList){
+    				gel.giveProjectileToPlayer();
+    			}
+    		}
+    		
     	}
     }
+    
+	private static String[] genDialog(String file){
+		String[] placeholder = {};
+		String line;
+		int i = 0;
+		
+		try{
+			FileReader fReader = new FileReader("dialogs/"+file+".txt");
+			BufferedReader bReader = new BufferedReader(fReader);
+			
+			for(i=0; (line = bReader.readLine()) != null; i++){
+				if(i == 0){
+					placeholder = new String[Integer.parseInt(line)];
+				}
+				else{
+					placeholder[i-1] = line;
+				}
+			}
+			bReader.close();
+		}catch (IOException e){e.printStackTrace();}
+		
+		return(placeholder);
+	}
     
 }
