@@ -143,7 +143,7 @@ public class Data_Textures {
 					arrow_l = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/Projectiles/arrow_left.png")));	//Pfeil links
 					arrow_r = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/Projectiles/arrow_right.png")));	//Pfeil rechts
 					arrow_b = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/Projectiles/arrow_back.png")));	//Pfeil hinten
-					bubble = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/Projectiles/waterbubble.png")));	//Pfeil front
+					bubble = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/weapons/projectiles/waterbubble.png")));	//Pfeil front
 					fireball = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/spells/fireball.png")));
 					snowflake = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/spells/snowflake.png")));
 		} catch (IOException e) {e.printStackTrace();}

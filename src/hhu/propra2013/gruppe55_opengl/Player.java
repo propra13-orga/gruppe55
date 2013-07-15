@@ -222,8 +222,8 @@ public class Player extends LivingObject {
     		}
     	}.start();
     }
-    
-    /**
+
+	/**
      * Die Methode dealDamage.
      * Wird vom LivingObject geerbt, berechnet den Schaden aber von dem Waffenelementen abhaengig
      * @param l Es wird ein zu schaedigendes LivingObject erwartet

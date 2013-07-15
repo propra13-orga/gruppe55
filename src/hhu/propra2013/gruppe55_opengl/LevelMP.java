@@ -36,6 +36,10 @@ public class LevelMP extends Level implements GameEventListener{
 	
 	protected boolean alreadyInteracted1, alreadyInteracted2 = alreadyInteracted1 = false;
 	
+	/** Die send-Timer Variable */
+	
+	protected long lastPositionSent;
+	
 	/**
 	 * Der Konstruktor fuer das LevelMP.
 	 * Beim Aufruf werden dem Konstruktor die x und y koordinaten, das GameMenu und die Levelnummer uebergeben.
@@ -344,7 +348,7 @@ public class LevelMP extends Level implements GameEventListener{
 						creatureList.get(r).add(new Creature_Bow(xPos, yPos, Integer.parseInt(tempParameterList.get(6))*32, Integer.parseInt(tempParameterList.get(7))*32, Integer.parseInt(tempParameterList.get(8)),Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("15")){
-						creatureList.get(r).add(new Boss1(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+						creatureList.get(r).add(new Boss1MP(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("16")){
 						staticList.get(r).add(new CheckPoint(xPos, yPos));    
@@ -353,7 +357,7 @@ public class LevelMP extends Level implements GameEventListener{
 						creatureList.get(r).add(new Boss2(xPos, yPos, Integer.parseInt(tempParameterList.get(6))*32, Integer.parseInt(tempParameterList.get(7))*32, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("18")){
-						creatureList.get(r).add(new Boss3(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+						creatureList.get(r).add(new Boss3MP(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 					else if(tempParameterList.get(0).equals("19")){
 						staticList.get(r).add(new ArrowObject(xPos, yPos));    
@@ -889,8 +893,11 @@ public class LevelMP extends Level implements GameEventListener{
 
 			// Spielerbewegung
 			player1.move();
-			if(((Sys.getTime()-lastAction)/Sys.getTimerResolution()) >= 0.03){
+			System.out.println((Sys.getTime()-lastPositionSent));
+			if(((Sys.getTime()-lastPositionSent)) >= 30){
+				System.out.println("sent");
 				c.send("1,1,"+player1.x+","+player1.y);
+				lastPositionSent = Sys.getTime();
 			}
 			player2.checkDirection();
 			
