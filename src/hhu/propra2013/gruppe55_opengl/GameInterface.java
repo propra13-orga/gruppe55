@@ -56,8 +56,8 @@ public class GameInterface {
 	//Interface-Konstruktor
 	public GameInterface(Level t){
 		//Fonts fue das Interface konstruieren
-		font1 = new Font("Viner Hand ITC", Font.BOLD, 20);
-		font2 = new Font("Viner Hand ITC", Font.BOLD, 15);
+		font1 = new Font("fonts/VINERITC.TTF", Font.BOLD, 20);
+		font2 = new Font("fonts/VINERITC.TTF", Font.BOLD, 15);
 		fontDialog = new UnicodeFont(font1);
 		fontShop = new UnicodeFont(font2);
 		
@@ -309,7 +309,7 @@ class HUD {
 	
 	public HUD(){
 		//Fonts fuer das HUD konstruieren
-		fontAwt = new Font("Viner Hand ITC", Font.BOLD, 13);
+		fontAwt = new Font("fonts/VINERITC.TTF", Font.BOLD, 13);
 		font = new UnicodeFont(fontAwt);
 		font.addAsciiGlyphs();
 		font.addGlyphs(400, 600);
@@ -396,6 +396,7 @@ class HUD {
 		// Weaponicons zeichnen
 		drawHudElement(Data_Textures.basicsword_icon, 430+fullScreenOffset, 20);
 		drawHudElement(Data_Textures.basicbow_icon, 530+fullScreenOffset, 20);
+		drawHudElement(Data_Textures.fireball_icon, 625+fullScreenOffset, 20);
 		
 		// Geld-Wert schreiben
 		font.drawString(745+fullScreenOffset, 60, "" + p.getStatInventoryObjectCount(1));
