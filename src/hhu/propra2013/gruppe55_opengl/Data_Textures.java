@@ -19,7 +19,7 @@ public class Data_Textures {
 	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, waterbow, waterbow_f_atk, waterbow_r_atk, waterbow_l_atk, waterbow_u_atk, waterbow_icon, waterbow_back, icesworddrop, icesword,  icesword_f_atk, icesword_l_atk, icesword_r_atk, icesword_u_atk, icesword_icon, cp_used, cp_unused, button_off, button_on, torch, torch_lit, door, lavapatch, waterpatch, 
 	basicbow, basicbow_back, basicbow_f_atk, basicbow_l_atk, basicbow_r_atk, basicbow_u_atk, basicbow_icon, basicshield_f, basicshield_b, arrow_f, arrow_l, arrow_r, arrow_b, fireball,bubble_f, bubble,
 	hud01, hud02, hud03, hud_Tear_HP_Full, hud_Tear_HP_Half, hud_Tear_HP_Empty,hud_Crystal_Full, hud_Crystal_Empty, dialogBox, shop, shopArrow, currency,
-	t00, t01, t02, t03, t04, creature_ice, creature_water, snowflake, boss_icesnail, boss_water1, boss_water2, boss_water3;
+	t00, t01, t02, t03, t04, creature_ice, creature_water, snowflake, boss_icesnail, boss_water1, boss_water2, boss_water3, boss_bigeye, floorplate_active, floorplate_inactive;
 	
 	
 	/**
@@ -56,6 +56,7 @@ public class Data_Textures {
 				boss_water3 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/bosswater_p3.png")));
 				boss_snail = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/bossfiresnail.png")));
 				boss_icesnail = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/bossicesnail.png")));
+				boss_bigeye = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/bossbigeye.png")));
 			// Npc's
 				// Shopkeeper
 				shopkeeper = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/Npc/shopkeeper.png")));
@@ -84,6 +85,8 @@ public class Data_Textures {
 				t02 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/textures/02.png")));
 				t03 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/textures/03.png")));
 				t04 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/textures/04.png")));
+				floorplate_active = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/floorplateactive.png")));
+				floorplate_inactive = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/floorplateinactive.png")));
 			// Nutzbare Items
 				potion = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/potion.png")));		// Trank
 				potionused = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/potionused.png")));	// (Platzhalter)

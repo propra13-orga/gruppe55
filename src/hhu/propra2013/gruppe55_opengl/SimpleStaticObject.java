@@ -23,7 +23,7 @@ public class SimpleStaticObject extends DungeonObject {
 		// Status-Array deklarieren
 		state	=	new State[1];
 		// Status definieren
-		state[0]	=	new State(Data_Textures.getEnvTexture(texture), false, m, true);
+		state[0]	=	new State(Data_Textures./*getEnvTexture(texture)*/wall, false, m, true);
 		// pointer setzen
 		switchState(0);
 	}

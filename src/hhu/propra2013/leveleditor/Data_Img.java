@@ -34,6 +34,7 @@ public class Data_Img {
 	public static Image boss_firesnail = genImg("enemies/bossfiresnail.png");
 	public static Image boss_icesnail = genImg("enemies/bossicesnail.png");
 	public static Image boss_water = genImg("enemies/bosswater.png");
+	public static Image boss_bigeye = genImg("enemies/bossbigeye.png");
 // Npc's
 	// Shopkeeper
 	public static Image shopkeeper = genImg("Npc/shopkeeper.png");
@@ -47,7 +48,7 @@ public class Data_Img {
 	static Image gameover = genImg("gameover.png"); // Gameover!
 	// Umgebung des Levels
 	public static Image wall = genImg("wall.png");			// Wand
-	static Image grass = genImg("grass.png");		//Grass
+	static Image grass = genImg("grass.png");		//Gras
 	public static Image goal = genImg("goal.png");			// Zielobjekt
 	public static Image cp_unused = genImg("CP_unused.png");			// Checkpoint unbenutzt
 	public static Image cp_used = genImg("CP_used.png");			// Checkpoint benutzt
@@ -56,6 +57,7 @@ public class Data_Img {
 	public static Image button_off = genImg("button_off.png");		// Switch
 	public static Image waterpatch = genImg("waterpatch.png"); // Waterpatch
 	public static Image lavapatch = genImg("lavapatch.png");		// Lavapatch
+	public static Image floorplate_active = genImg("floorplateactive.png");		// Bodenplatte
 	public static Image t00 = genImg("textures/00.png");		// Lavapatch
 	public static Image t01 = genImg("textures/01.png");		// Lavapatch
 	public static Image t02 = genImg("textures/02.png");		// Lavapatch
