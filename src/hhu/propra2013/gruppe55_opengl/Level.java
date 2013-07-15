@@ -495,7 +495,7 @@ public class Level implements GameEventListener{
 					}
 					else if(tempParameterList.get(0).equals("34")){ // Bodenplatte
 						String[] tempStr2 = tempParameterList.get(1).split(" ");
-						staticList.get(r).add(new FloorPlate(xPos, yPos, tempStr2));
+						staticList.get(r).add(new FloorPlate(xPos, yPos, tempStr2, Integer.parseInt(tempParameterList.get(2))));
 					}
 					else if(tempParameterList.get(0).equals("35")){ // Eisschnecke #1 (BOSS)
 						creatureList.get(r).add(new Boss_BigEye(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));

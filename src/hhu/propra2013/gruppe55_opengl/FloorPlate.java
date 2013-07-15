@@ -11,12 +11,15 @@ public class FloorPlate extends DungeonObject {
 	 * Des Weiteren werden hier die verschiedenen States fuer die Torch gesetzt, der Trigger zur Triggerliste hinzugefuegt und die Bilder geladen.
 	 * @param x  Die x-Koordinate an der die Torch gezeichnet wird.
 	 * @param y  Die y-Koordinate an der die Torch gezeichnet wird.
+	 * @param invert Gibt an, ob die Aktivitaet invertiert werden soll (modulo 2)
 	 */
-	public FloorPlate(double x, double y, String[] triggerKeys) {
+	public FloorPlate(double x, double y, String[] triggerKeys, int invert) {
 		super(x, y);
 		state	=	new State[2];
 		state[0]	=	new State(Data_Textures.floorplate_active, false, true, true);
 		state[1]	=	new State(Data_Textures.floorplate_inactive, false, true, true);
+		
+		switchState(invert%2);
 		
 		for(String key:triggerKeys)
 			triggerNames.add(key);
@@ -33,7 +36,7 @@ public class FloorPlate extends DungeonObject {
 		// der Entsprechende Trigger wurde geaendert, also muessen wir reagieren
 		int newState	=	(isTriggerSet(key)) ? 1 : 0;	// Wenn Trigger auf true steht Fackel an, sonst Fackel aus
 		// Status wechseln nicht vergessen
-		switchState(newState);
+		switchState( (currState+newState)%2 );
 	}
 	
 	/**
