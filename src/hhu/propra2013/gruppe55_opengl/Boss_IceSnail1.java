@@ -130,32 +130,6 @@ public class Boss_IceSnail1 extends Creature {
     	}
     }
     
-    /**
-     * Die Methode setResetValues.
-     * Diese Methode ruft die Methode setResetValues aus der Mutterklasse LivingObject auf um die ResetValues zu setzen und erweitert diese dann noch um weitere Einträge (atk, detectionRange, ...).
-     */
-    
-    // Resetmethoden bearbeiten
-    public void setResetValues(){
-    	super.setResetValues();
-    	//resetValues[6]	=	atk;
-    	//resetValues[7]	=	detectionRange;
-    	//resetValues[8]	=	(int) speed;
-    }
-    
-    /**
-	 * Die Methode reset.
-	 * Diese Methode ruft die Methode reset aus der Mutterklasse LivingObject auf um die Werte zu resetten und resettet anschliessend auch noch die Boss3 spezifischen, die zuvor in setResetValues im Boss3 gesetzt wurden.
-	 */
-    
-    public void reset(){
-    	super.reset();
-    	//atk	=	resetValues[6];
-    	//detectionRange	=	resetValues[7];
-    	//speed	=	resetValues[8];
-		state[1].changeMoveable(true);
-    }
-    
     public void onCollision(DungeonObject d){
 		// Dem Spieler Schaden zufuegen
 		if(d instanceof	Player){

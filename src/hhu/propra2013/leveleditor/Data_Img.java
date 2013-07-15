@@ -25,6 +25,7 @@ public class Data_Img {
 	public static Image creature_bow = genImg("enemies/creature_bow.png");					// Bogen-Monster
 	public static Image fireelemental = genImg("enemies/fireelemental.png");					// FireElemental
 	public static Image creature_ice = genImg("enemies/creature_ice.png");					// Eismonster
+	public static Image creature_water = genImg("enemies/creature_water.png");
 
 // Bosse
 	public static Image boss1 = genImg("enemies/boss1.png");
@@ -32,6 +33,8 @@ public class Data_Img {
 	public static Image boss3 = genImg("enemies/boss3.png");
 	public static Image boss_firesnail = genImg("enemies/bossfiresnail.png");
 	public static Image boss_icesnail = genImg("enemies/bossicesnail.png");
+	public static Image boss_water = genImg("enemies/bosswater.png");
+	public static Image boss_bigeye = genImg("enemies/bossbigeye.png");
 // Npc's
 	// Shopkeeper
 	public static Image shopkeeper = genImg("Npc/shopkeeper.png");
@@ -45,14 +48,16 @@ public class Data_Img {
 	static Image gameover = genImg("gameover.png"); // Gameover!
 	// Umgebung des Levels
 	public static Image wall = genImg("wall.png");			// Wand
-	static Image grass = genImg("grass.png");		//Grass
+	static Image grass = genImg("grass.png");		//Gras
 	public static Image goal = genImg("goal.png");			// Zielobjekt
 	public static Image cp_unused = genImg("CP_unused.png");			// Checkpoint unbenutzt
 	public static Image cp_used = genImg("CP_used.png");			// Checkpoint benutzt
 	public static Image door = genImg("door.png");		// Door
 	public static Image torch = genImg("torch.png");		// Torch
 	public static Image button_off = genImg("button_off.png");		// Switch
+	public static Image waterpatch = genImg("waterpatch.png"); // Waterpatch
 	public static Image lavapatch = genImg("lavapatch.png");		// Lavapatch
+	public static Image floorplate_active = genImg("floorplateactive.png");		// Bodenplatte
 	public static Image t00 = genImg("textures/00.png");		// Lavapatch
 	public static Image t01 = genImg("textures/01.png");		// Lavapatch
 	public static Image t02 = genImg("textures/02.png");		// Lavapatch

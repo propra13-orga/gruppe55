@@ -229,49 +229,38 @@ public class Level implements GameEventListener{
 				// Objekte generieren
 				for(int i=0;i<=lvlData[0].length-1;i++){
 					for(int j=0;j<=lvlData[0][0].length-1;j++){
-						/*if(lvlData[r][i][j] == 0){
-							staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert (derzeit auskommentiert, da zu Speicherintensiv)
-						}
-						else */if(lvlData[r][i][j] == 1){
+						if(lvlData[r][i][j] == 1){
 							staticList.get(r).add(new SimpleStaticObject(i*32, j*32, true, 0));		// bei 1 wird ein Wandobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 2){
 							creatureList.get(r).add(new Creature(i*32+5, j*32-5, 3, 1, 0));		// bei 2 wird ein Monsterobjekt generiert
-							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						}
 						else if(lvlData[r][i][j] == 3){
 							if(player == null){
 								playerSpawnX	=	i*32-5;
 								playerSpawnY	=	j*32-5;
 								player	=	new Player(playerSpawnX, playerSpawnY, 6, 0, 0, 100, 1, 3);		// bei 3 wird ein Spielerobjekt generiert
-								// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							}
 							else{
 								player.teleport(i*32-5, j*32-5);
 							}
 						}
 						else if(lvlData[r][i][j] == 5){
-							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							staticList.get(r).add(new TrapObject(i*32, j*32));		// bei 5 wird ein Fallenobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 4){
-							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							teleportList.get(r).add(new Teleporter(i*32, j*32, 1, 2*32, 0*32));
 						}
 						else if(lvlData[r][i][j] == 6){
-							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							staticList.get(r).add(new GoalObject(i*32, j*32));		// bei 6 wird ein Zielobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 7){
-							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							staticList.get(r).add(new PotionObject(i*32, j*32)); 	// bei 7 wird ein Potionobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 8){
-							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							staticList.get(r).add(new MPotionObject(i*32, j*32)); 	// bei 8 wird ein Manapotionobject generiert
 						}
 						else if(lvlData[r][i][j] == 9){
-							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							staticList.get(r).add(new TreasureObject(i*32, j*32)); 	// bei 9 wird ein Schatzobjekt generiert
 						}
 						else if(lvlData[r][i][j] == 10){
@@ -318,11 +307,9 @@ public class Level implements GameEventListener{
 							switchCounter++;	// erhoehen, wir wollen ja variieren!
 						}
 						else if(lvlData[r][i][j] == 24){
-							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							staticList.get(r).add(new Lavahat(i*32, j*32)); 	// bei 24 wird ein Lavahut generiert
 						}
 						else if(lvlData[r][i][j] == 25){
-							// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 							staticList.get(r).add(new Lavapatch(i*32, j*32));		// bei 25 wird ein Lavafeld generiert
 						}
 						else if(lvlData[r][i][j] == 26){	// Feuerschnecke (Boss)
@@ -330,6 +317,15 @@ public class Level implements GameEventListener{
 						}
 						else if(lvlData[r][i][j] == 30){
 							staticList.get(r).add(new Wizard(32*i, 32*j, 3, 1, 0, 1));
+						}
+						else if(lvlData[r][i][j] == 31){
+							staticList.get(r).add(new Waterpatch(i*32, j*32));
+						}
+						else if(lvlData[r][i][j] == 32){
+							creatureList.get(r).add(new Boss_Water(32*i, 32*j, 15,1,0));
+						}
+						else if(lvlData[r][i][j] == 14){
+							creatureList.get(r).add(new Creature_Water(32*i, 32*j, 0, 5*32, 1, 3, 1, 0));	
 						}
 					}
 				}
@@ -468,11 +464,9 @@ public class Level implements GameEventListener{
 						staticList.get(r).add(new Switch(xPos, yPos,tempStr2));		// bei 23 wird ein Schalter generiert
 					}
 					else if(tempParameterList.get(0).equals("24")){
-						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new Lavahat(xPos, yPos)); 	// bei 24 wird ein Lavahut generiert
 					}
 					else if(tempParameterList.get(0).equals("25")){
-						// staticList.get(r).add(new Grass(i*32, j*32));		// bei 0 wird Grass generiert
 						staticList.get(r).add(new Lavapatch(xPos, yPos));		// bei 25 wird ein Lavafeld generiert
 					}
 					else if(tempParameterList.get(0).equals("26")){ // Feuerschnecke (BOSS)
@@ -489,6 +483,22 @@ public class Level implements GameEventListener{
 					}
 					else if(tempParameterList.get(0).equals("30")){
 					creatureList.get(r).add(new Wizard(xPos, yPos,  Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3)),Integer.parseInt(tempParameterList.get(4))));
+					}
+					else if(tempParameterList.get(0).equals("31")){
+						staticList.get(r).add(new Waterpatch(xPos, yPos));		// bei 25 wird ein Lavafeld generiert
+					}
+					else if(tempParameterList.get(0).equals("32")){
+						creatureList.get(r).add(new Creature_Water(xPos, yPos, Integer.parseInt(tempParameterList.get(6))*32, Integer.parseInt(tempParameterList.get(7))*32, Integer.parseInt(tempParameterList.get(8)),Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+					}
+					else if(tempParameterList.get(0).equals("33")){
+						creatureList.get(r).add(new Boss_Water(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+					}
+					else if(tempParameterList.get(0).equals("34")){ // Bodenplatte
+						String[] tempStr2 = tempParameterList.get(1).split(" ");
+						staticList.get(r).add(new FloorPlate(xPos, yPos, tempStr2, Integer.parseInt(tempParameterList.get(2))));
+					}
+					else if(tempParameterList.get(0).equals("35")){ // Eisschnecke #1 (BOSS)
+						creatureList.get(r).add(new Boss_BigEye(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 				}
 			}
@@ -945,6 +955,9 @@ public class Level implements GameEventListener{
 					else if(creatureList.get(room).get(i) instanceof Creature_Ice && creatureList.get(room).get(i).getCurrState() == 1){
 						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
 					}
+					else if(creatureList.get(room).get(i) instanceof Boss_BigEye && creatureList.get(room).get(i).getCurrState() == 1){
+						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
+					}
 				}
 				lastAction = Sys.getTime();
 			}
@@ -1231,4 +1244,6 @@ public class Level implements GameEventListener{
 	public void newStatic(DungeonObject d) {
 		staticList.get(room).add(d);
 	}
+	
+	
 }
