@@ -955,6 +955,9 @@ public class Level implements GameEventListener{
 					else if(creatureList.get(room).get(i) instanceof Creature_Ice && creatureList.get(room).get(i).getCurrState() == 1){
 						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
 					}
+					else if(creatureList.get(room).get(i) instanceof Boss_BigEye && creatureList.get(room).get(i).getCurrState() == 1){
+						creatureList.get(room).get(i).action(playerCenter[0], playerCenter[1]);
+					}
 				}
 				lastAction = Sys.getTime();
 			}

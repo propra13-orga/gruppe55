@@ -4,6 +4,8 @@ public class FloorPlate extends DungeonObject {
 // Attrbute
 	/** Der Schaden, den die aktive Platte ausloest */
 	private int plateDmg=18;	// Es sollte toedlich sein koennen
+	/** Angabe, ob der Status invertiert werden sollte*/
+	private boolean invert;
 	
 	/**
 	 * Der Konstruktor fuer die FloorPlate.
@@ -16,8 +18,10 @@ public class FloorPlate extends DungeonObject {
 	public FloorPlate(double x, double y, String[] triggerKeys, int invert) {
 		super(x, y);
 		state	=	new State[2];
-		state[0]	=	new State(Data_Textures.floorplate_active, false, true, true);
-		state[1]	=	new State(Data_Textures.floorplate_inactive, false, true, true);
+		state[0]	=	new State(Data_Textures.floorplate_active, false, false, true);
+		state[1]	=	new State(Data_Textures.floorplate_inactive, false, false, true);
+		
+		this.invert=(invert%2==0) ? false : true;
 		
 		switchState(invert%2);
 		
@@ -35,8 +39,13 @@ public class FloorPlate extends DungeonObject {
 	public void triggerAction(String key){
 		// der Entsprechende Trigger wurde geaendert, also muessen wir reagieren
 		int newState	=	(isTriggerSet(key)) ? 1 : 0;	// Wenn Trigger auf true steht Fackel an, sonst Fackel aus
+		
+		// wird invertiert?
+		if(invert)
+			newState=1-newState;
+		
 		// Status wechseln nicht vergessen
-		switchState( (currState+newState)%2 );
+		switchState(newState);
 	}
 	
 	/**

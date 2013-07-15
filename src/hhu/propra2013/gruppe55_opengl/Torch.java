@@ -21,6 +21,10 @@ public class Torch extends DungeonObject {
 		state	=	new State[2];
 		state[0]	=	new State(Data_Textures.torch, false, true, true);
 		state[1]	=	new State(Data_Textures.torch_lit, false, true, true);
+
+		state[0].defineOffset(0,5,0,5);
+		state[1].defineOffset(0,5,0,5);
+		
 		element=1;
 		
 		for(String key:triggerKeys)
