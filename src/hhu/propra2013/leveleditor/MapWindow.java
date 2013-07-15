@@ -209,6 +209,10 @@ public class MapWindow extends JPanel {
 				g2.drawImage(Data_Img.boss_icesnail, xPos, yPos, this);
 			}else if(tempParameterList.get(0).equals("30")){
 				g2.drawImage(Data_Img.wizard, xPos, yPos, this);
+			}else if(tempParameterList.get(0).equals("31")){
+				g2.drawImage(Data_Img.waterpatch, xPos, yPos, this);
+			}else if(tempParameterList.get(0).equals("32")){
+				g2.drawImage(Data_Img.creature_water, xPos, yPos, this);
 			}
 		}
 	/*	for(int i=0; i<objectList.size(); i++){

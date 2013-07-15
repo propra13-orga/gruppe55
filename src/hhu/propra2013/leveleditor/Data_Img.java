@@ -25,6 +25,7 @@ public class Data_Img {
 	public static Image creature_bow = genImg("enemies/creature_bow.png");					// Bogen-Monster
 	public static Image fireelemental = genImg("enemies/fireelemental.png");					// FireElemental
 	public static Image creature_ice = genImg("enemies/creature_ice.png");					// Eismonster
+	public static Image creature_water = genImg("enemies/creature_water.png");
 
 // Bosse
 	public static Image boss1 = genImg("enemies/boss1.png");
@@ -52,6 +53,7 @@ public class Data_Img {
 	public static Image door = genImg("door.png");		// Door
 	public static Image torch = genImg("torch.png");		// Torch
 	public static Image button_off = genImg("button_off.png");		// Switch
+	public static Image waterpatch = genImg("waterpatch.png"); // Waterpatch
 	public static Image lavapatch = genImg("lavapatch.png");		// Lavapatch
 	public static Image t00 = genImg("textures/00.png");		// Lavapatch
 	public static Image t01 = genImg("textures/01.png");		// Lavapatch
