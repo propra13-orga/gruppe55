@@ -19,7 +19,7 @@ public class Data_Textures {
 	trap, trapact, basicsword, basicsword_f_atk, basicsword_l_atk, basicsword_r_atk, basicsword_u_atk, basicsword_icon, waterbow, waterbow_f_atk, waterbow_r_atk, waterbow_l_atk, waterbow_u_atk, waterbow_icon, waterbow_back, icesworddrop, icesword,  icesword_f_atk, icesword_l_atk, icesword_r_atk, icesword_u_atk, icesword_icon, cp_used, cp_unused, button_off, button_on, torch, torch_lit, door, lavapatch, waterpatch, 
 	basicbow, basicbow_back, basicbow_f_atk, basicbow_l_atk, basicbow_r_atk, basicbow_u_atk, basicbow_icon, basicshield_f, basicshield_b, arrow_f, arrow_l, arrow_r, arrow_b, fireball,bubble_f, bubble,
 	hud01, hud02, hud03, hud_Tear_HP_Full, hud_Tear_HP_Half, hud_Tear_HP_Empty,hud_Crystal_Full, hud_Crystal_Empty, dialogBox, shop, shopArrow, currency,
-	t00, t01, t02, t03, t04, creature_ice, creature_water, snowflake, boss_icesnail;
+	t00, t01, t02, t03, t04, creature_ice, creature_water, snowflake, boss_icesnail, boss_water1, boss_water2, boss_water3;
 	
 	
 	/**
@@ -51,6 +51,9 @@ public class Data_Textures {
 				boss1 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/boss1.png")));
 				boss2 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/boss2.png")));
 				boss3 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/boss3.png")));
+				boss_water1 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/bosswater.png")));
+				boss_water2 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/bosswater_p2.png")));
+				boss_water3 = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/bosswater_p3.png")));
 				boss_snail = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/bossfiresnail.png")));
 				boss_icesnail = TextureLoader.getTexture("PNG", new FileInputStream(new File("img/enemies/bossicesnail.png")));
 			// Npc's

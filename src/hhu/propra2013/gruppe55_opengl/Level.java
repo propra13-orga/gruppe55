@@ -321,6 +321,12 @@ public class Level implements GameEventListener{
 						else if(lvlData[r][i][j] == 31){
 							staticList.get(r).add(new Waterpatch(i*32, j*32));
 						}
+						else if(lvlData[r][i][j] == 32){
+							creatureList.get(r).add(new Boss_Water(32*i, 32*j, 15,1,0));
+						}
+						else if(lvlData[r][i][j] == 14){
+							creatureList.get(r).add(new Creature_Water(32*i, 32*j, 0, 5*32, 1, 3, 1, 0));	
+						}
 					}
 				}
 			}
@@ -483,6 +489,9 @@ public class Level implements GameEventListener{
 					}
 					else if(tempParameterList.get(0).equals("32")){
 						creatureList.get(r).add(new Creature_Water(xPos, yPos, Integer.parseInt(tempParameterList.get(6))*32, Integer.parseInt(tempParameterList.get(7))*32, Integer.parseInt(tempParameterList.get(8)),Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+					}
+					else if(tempParameterList.get(0).equals("33")){
+						creatureList.get(r).add(new Boss_Water(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
 				}
 			}
@@ -1225,4 +1234,6 @@ public class Level implements GameEventListener{
 	public void newStatic(DungeonObject d) {
 		staticList.get(room).add(d);
 	}
+	
+	
 }

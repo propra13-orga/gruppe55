@@ -385,6 +385,9 @@ public class LevelMP extends Level implements GameEventListener{
 					else if(tempParameterList.get(0).equals("32")){
 						creatureList.get(r).add(new Creature_Water(xPos, yPos, Integer.parseInt(tempParameterList.get(6))*32, Integer.parseInt(tempParameterList.get(7))*32, Integer.parseInt(tempParameterList.get(8)),Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
 					}
+					else if(tempParameterList.get(0).equals("33")){
+						creatureList.get(r).add(new Boss_Water(xPos, yPos, Integer.parseInt(tempParameterList.get(1)), Integer.parseInt(tempParameterList.get(2)), Integer.parseInt(tempParameterList.get(3))));
+					}
 				}
 			}
 		}
