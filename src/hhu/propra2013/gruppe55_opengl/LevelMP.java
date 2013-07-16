@@ -48,11 +48,12 @@ public class LevelMP extends Level implements GameEventListener{
 	 * @param y  Die Methode erwartet die Uebergabe eines int Werts y
 	 * @param gm  Die Methode erwartet die Uebergabe eines Objektes gm vom Typ GameMenu
 	 * @param lvl  Die Methode erwartet die Uebergabe eines int Werts lvl
+	 * @param ControllerID  Die Methode erwartet die Uebergabe eines int Werts ControllerID
 	 */
 	
 // Konstruktor
-	public LevelMP(int x, int y, GameMenu gm, int lvl, String a) {
-		super(x, y, gm, lvl, a);
+	public LevelMP(int x, int y, GameMenu gm, int lvl, String a, int ControllerID) {
+		super(x, y, gm, lvl, a, ControllerID);
 	}
 
 	@Override

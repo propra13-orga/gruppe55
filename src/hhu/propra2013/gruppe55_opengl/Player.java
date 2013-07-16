@@ -725,4 +725,17 @@ public class Player extends LivingObject {
 		if (k == Keyboard.KEY_UP) {dy = 0;}
 		if (k == Keyboard.KEY_E) {interaction=false;}
 	}
+	
+	public void controllerXAxisPressed(int k){
+		if(k > 0)
+			dx = +1;			
+		if(k < 0)
+			dx = -1;
+	}
+	public void controllerYAxisPressed(int k){
+		if(k > 0)
+			dy = +1;			
+		if(k < 0)
+			dy = -1;
+	}
 }

@@ -1,6 +1,10 @@
 package hhu.propra2013.gruppe55_opengl;
 
 import javax.swing.*;	//Imports
+
+import org.lwjgl.LWJGLException;
+import org.lwjgl.input.Controllers;
+
 import java.awt.*;
 import java.awt.event.*;
 
@@ -29,6 +33,10 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 	/** Die JCheckBox im Jpanel. */
 	
 	private JCheckBox coop;
+	
+	/** Die ControllerComboBox im JPanel */
+	
+	private JComboBox controllerBox = new JComboBox();
 	
 	/** Das JTextField fuer die IP */
 	
@@ -84,22 +92,43 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 		settings.add(ip);
 		
 		jp = new JPanel();										
-			jp.setLayout(new GridLayout(2,1));
+			jp.setLayout(new GridLayout(3,1));
 			start = new JButton("Spiel starten");				// Jbuttons konstruieren
 				start.addActionListener(this);
-			jp.add(settings);
-			jp.add(start);
-		ende = new JButton("Spiel beenden");
-			ende.addActionListener(this);
+				jp.add(settings);
+				controllerBox = controllersBox();
+				jp.add(controllerBox);
+				jp.add(start);
+			ende = new JButton("Spiel beenden");
+				ende.addActionListener(this);
+				
+			this.getContentPane().add(jp);						// JButtons adden
+			this.getContentPane().add(ende);
+			this.pack();										// Fenstereigenschaften setzen
+			this.setSize(400,200);								// Groesse gesetzt
+			this.setResizable(false);							// Groesse nicht veraenderbar
+			this.setVisible(true);								// sichtbarkeit 
+			this.setLocationRelativeTo(null); 					// im Bildschirm zentriert
+		}
+		
+		//listet die verschiedenen Controller in einer ComboBox
+		private JComboBox controllersBox(){
 			
-		this.getContentPane().add(jp);						// JButtons adden
-		this.getContentPane().add(ende);
-		this.pack();										// Fenstereigenschaften setzen
-		this.setSize(400,200);								// Groesse gesetzt
-		this.setResizable(false);							// Groesse nicht veraenderbar
-		this.setVisible(true);								// sichtbarkeit 
-		this.setLocationRelativeTo(null); 					// im Bildschirm zentriert
-	}
+			Controllers controllers = new Controllers();
+			JComboBox selectControllerBox = new JComboBox();
+			try {
+				controllers.create();
+				for(int i=0;i<controllers.getControllerCount();i++){
+					selectControllerBox.addItem(controllers.getController(i).getName());				
+				}
+				
+			} catch (LWJGLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			return selectControllerBox;
+			
+		}
 
 	/**
 	 * Die Methode actionPerformed.
@@ -111,11 +140,11 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 		if(e.getSource() == start){							//Wenn start gedrueckt, Menue unsichtbar machen & Spiel sichtbar machen
 			this.setVisible(false);
 			if(!coop.isSelected()){
-				lvl = new Level(960, 650, this, cb.getSelectedIndex(), ip.getText());
+				lvl = new Level(960, 650, this, cb.getSelectedIndex(), ip.getText(), controllerBox.getSelectedIndex());
 			}
 			else{
 				adress = ip.getText();
-				lvl = new LevelMP(960, 650, this, cb.getSelectedIndex(), ip.getText());
+				lvl = new LevelMP(960, 650, this, cb.getSelectedIndex(), ip.getText(), controllerBox.getSelectedIndex());
 			}
 		}
 		else if(e.getActionCommand() == "coop"){

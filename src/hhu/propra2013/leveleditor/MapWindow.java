@@ -66,6 +66,21 @@ public class MapWindow extends JPanel {
 				repaint();
 			}
 		});
+		//wenn der MouseButton gedrückt bleibt
+		addMouseMotionListener(new MouseAdapter() {
+			public void mouseDragged(MouseEvent me) {
+				//x,y Rasterposition in Pixel
+				xPosition = (me.getX() / LevelEditor.imgSize)
+						* LevelEditor.imgSize;
+				yPosition = (me.getY() / LevelEditor.imgSize)
+						* LevelEditor.imgSize;
+				if(LevelEditor.toolType == 0)
+					levelDataObj.removeRoomObject(currentRoomIndex, xPosition, yPosition);
+				else
+					levelDataObj.addRoomObject(currentRoomIndex, xPosition, yPosition, LevelEditor.toolType, mainFrame.currentParameterList);
+				repaint();
+			}
+		});		
 
 	}
 
