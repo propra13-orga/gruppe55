@@ -5,6 +5,9 @@ import java.io.*;
 import hhu.propra2013.leveleditor.LevelData;
 import hhu.propra2013.leveleditor.LevelReader;
 import java.util.Map;
+
+import net.java.games.input.ControllerEnvironment;
+
 import org.lwjgl.*;
 import org.lwjgl.input.*;
 import org.lwjgl.opengl.*;
@@ -117,6 +120,7 @@ public class Level implements GameEventListener{
 	/** Der ausgewählte Controller */
 	
 	protected Controller controller;
+	protected int controllerID = -1;
 	
 	/**
 	 * Der Konstruktor fuer das Level.
@@ -130,7 +134,7 @@ public class Level implements GameEventListener{
 	 */
 	
 // Konstruktor
-	public Level(int x, int y, GameMenu g, int lvl, String a, int controllerID) {
+	public Level(int x, int y, GameMenu g, int lvl, String a, String controllerName) {
 		gm = g;
 		adress = a;
 		init(x, y);
@@ -148,7 +152,23 @@ public class Level implements GameEventListener{
 		}
 		
 		Controllers controllers = new Controllers();
-		controller = controllers.getController(controllerID);
+		try {
+			controllers.create();
+			for(int i=0;i<controllers.getControllerCount();i++){
+				
+				if(controllers.getController(i).getName().equals(controllerName)){
+					
+					controllerID = i;
+					
+				}
+			}
+			if(controllerID >= 0)
+				controller = controllers.getController(controllerID);
+		} catch (LWJGLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
 		
 		this.play();
 	}
@@ -737,53 +757,55 @@ public class Level implements GameEventListener{
 		
 		// Tastatur-Events wï¿½hrend des Spiels
 		if(!lose && !clear && !gameover){
-			//button 9->10
-			player.controllerXAxisPressed((int)controller.getPovX());
-			player.controllerYAxisPressed((int)controller.getPovY());
-			//System.out.println(controller.isButtonPressed(9));
-			if(controller.getButtonCount() > 1){
-				if(dialog){
-					if(controller.getPovY() > 0)
-						iFace.buttonAction(Keyboard.KEY_UP, player);
-					if(controller.getPovY() < 0)
-						iFace.buttonAction(Keyboard.KEY_DOWN, player);
-					if(controller.getPovX() > 0 || controller.getPovX() < 0)
-						iFace.buttonAction(Keyboard.KEY_LEFT, player);
-				}
-				if(controller.isButtonPressed(1)){
-					if((lose || clear) && !gameover ){
-						reload();
-					}
-					else if(!gameover){
-						// Spieler Angreifen lassen
-						player.attack();
-					}
-				}else if(controller.isButtonPressed(0)){
-					player.keyPressed(Keyboard.KEY_E);
-				}else if(controller.isButtonPressed(9)){
+			if(controllerID >= 0){
+				//button 9->10
+				player.controllerXAxisPressed((int)controller.getPovX());
+				player.controllerYAxisPressed((int)controller.getPovY());
+				//System.out.println(controller.isButtonPressed(9));
+				//System.out.println(Controller.Type);
+				if(controller.getButtonCount() > 1){
 					if(dialog){
-						freeze = false;
-						dialog = false;
-						openedInterface = 0;
+						if(controller.getPovY() > 0)
+							iFace.buttonAction(Keyboard.KEY_UP, player);
+						if(controller.getPovY() < 0)
+							iFace.buttonAction(Keyboard.KEY_DOWN, player);
+						if(controller.getPovX() > 0 || controller.getPovX() < 0)
+							iFace.buttonAction(Keyboard.KEY_LEFT, player);
 					}
-					else{close = true;}
-				}else if(controller.isButtonPressed(3)){
-					player.swapWeapons();
-				}else if(controller.isButtonPressed(2)){
-					player.spellCast();
-				}else if(controller.isButtonPressed(4)){
-					if(player.getStatInventoryObjectCount(2)>0){
-						player.getHealed(2);
-						player.giveStatInventoryObject(2, -1);
-					}
-				}else if(controller.isButtonPressed(5)){
-					if(player.getStatInventoryObjectCount(3)>0){
-						player.fillmana(1);
-						player.giveStatInventoryObject(3, -1);
+					if(controller.isButtonPressed(1)){
+						if((lose || clear) && !gameover ){
+							reload();
+						}
+						else if(!gameover){
+							// Spieler Angreifen lassen
+							player.attack();
+						}
+					}else if(controller.isButtonPressed(0)){
+						player.keyPressed(Keyboard.KEY_E);
+					}else if(controller.isButtonPressed(9)){
+						if(dialog){
+							freeze = false;
+							dialog = false;
+							openedInterface = 0;
+						}
+						else{close = true;}
+					}else if(controller.isButtonPressed(3)){
+						player.swapWeapons();
+					}else if(controller.isButtonPressed(2)){
+						player.spellCast();
+					}else if(controller.isButtonPressed(4)){
+						if(player.getStatInventoryObjectCount(2)>0){
+							player.getHealed(2);
+							player.giveStatInventoryObject(2, -1);
+						}
+					}else if(controller.isButtonPressed(5)){
+						if(player.getStatInventoryObjectCount(3)>0){
+							player.fillmana(1);
+							player.giveStatInventoryObject(3, -1);
+						}
 					}
 				}
 			}
-
 			
 			while(Keyboard.next()){				
 				int k = Keyboard.getEventKey();
@@ -882,14 +904,25 @@ public class Level implements GameEventListener{
 					}
 				}
 			}
-			if(!Keyboard.isKeyDown(Keyboard.KEY_UP) && !Keyboard.isKeyDown(Keyboard.KEY_DOWN) && controller.getPovY() == 0.0){
-				player.keyReleased(Keyboard.KEY_UP);
+			if(controllerID >= 0){
+				if(!Keyboard.isKeyDown(Keyboard.KEY_UP) && !Keyboard.isKeyDown(Keyboard.KEY_DOWN) && controller.getPovY() == 0.0){
+					player.keyReleased(Keyboard.KEY_UP);
+				}
+				if(!Keyboard.isKeyDown(Keyboard.KEY_LEFT) && !Keyboard.isKeyDown(Keyboard.KEY_RIGHT) && controller.getPovX() == 0.0){
+					player.keyReleased(Keyboard.KEY_LEFT);
+				}
+				if(!Keyboard.isKeyDown(Keyboard.KEY_E) && !controller.isButtonPressed(0))
+					player.keyReleased(Keyboard.KEY_E);
+			}else{
+				if(!Keyboard.isKeyDown(Keyboard.KEY_UP) && !Keyboard.isKeyDown(Keyboard.KEY_DOWN)){
+					player.keyReleased(Keyboard.KEY_UP);
+				}
+				if(!Keyboard.isKeyDown(Keyboard.KEY_LEFT) && !Keyboard.isKeyDown(Keyboard.KEY_RIGHT)){
+					player.keyReleased(Keyboard.KEY_LEFT);
+				}
+				if(!Keyboard.isKeyDown(Keyboard.KEY_E))
+					player.keyReleased(Keyboard.KEY_E);
 			}
-			if(!Keyboard.isKeyDown(Keyboard.KEY_LEFT) && !Keyboard.isKeyDown(Keyboard.KEY_RIGHT) && controller.getPovX() == 0.0){
-				player.keyReleased(Keyboard.KEY_LEFT);
-			}
-			if(!Keyboard.isKeyDown(Keyboard.KEY_E) && !controller.isButtonPressed(0))
-				player.keyReleased(Keyboard.KEY_E);
 		}
 		// Tastatur-Events bei Loose/Clear
 		else{

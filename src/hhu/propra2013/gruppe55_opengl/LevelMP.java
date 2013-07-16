@@ -52,8 +52,8 @@ public class LevelMP extends Level implements GameEventListener{
 	 */
 	
 // Konstruktor
-	public LevelMP(int x, int y, GameMenu gm, int lvl, String a, int ControllerID) {
-		super(x, y, gm, lvl, a, ControllerID);
+	public LevelMP(int x, int y, GameMenu gm, int lvl, String a, String controllerName) {
+		super(x, y, gm, lvl, a, controllerName);
 	}
 
 	@Override

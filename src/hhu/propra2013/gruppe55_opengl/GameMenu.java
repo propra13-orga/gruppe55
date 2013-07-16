@@ -2,8 +2,10 @@ package hhu.propra2013.gruppe55_opengl;
 
 import javax.swing.*;	//Imports
 
+import net.java.games.input.Controller;
+import net.java.games.input.ControllerEnvironment;
+
 import org.lwjgl.LWJGLException;
-import org.lwjgl.input.Controllers;
 
 import java.awt.*;
 import java.awt.event.*;
@@ -113,19 +115,19 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 		
 		//listet die verschiedenen Controller in einer ComboBox
 		private JComboBox controllersBox(){
+			Controller[] controller = ControllerEnvironment.getDefaultEnvironment().getControllers();
 			
-			Controllers controllers = new Controllers();
+			//Controller controllers = new Controllers();
 			JComboBox selectControllerBox = new JComboBox();
-			try {
-				controllers.create();
-				for(int i=0;i<controllers.getControllerCount();i++){
-					selectControllerBox.addItem(controllers.getController(i).getName());				
+
+				for(int i=0;i<controller.length;i++){
+					net.java.games.input.Component[] controllerComponents = controller[i].getComponents();
+					if(controller[i].getType() == Controller.Type.GAMEPAD || controller[i].getType() == Controller.Type.STICK ){
+						selectControllerBox.addItem(controller[i].getName());	
+					}
 				}
-				
-			} catch (LWJGLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+				selectControllerBox.addItem("Keyboard!");
+
 			return selectControllerBox;
 			
 		}
@@ -140,11 +142,11 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 		if(e.getSource() == start){							//Wenn start gedrueckt, Menue unsichtbar machen & Spiel sichtbar machen
 			this.setVisible(false);
 			if(!coop.isSelected()){
-				lvl = new Level(960, 650, this, cb.getSelectedIndex()+1, ip.getText(), controllerBox.getSelectedIndex());
+				lvl = new Level(960, 650, this, cb.getSelectedIndex()+1, ip.getText(), controllerBox.getSelectedItem().toString());
 			}
 			else{
 				adress = ip.getText();
-				lvl = new LevelMP(960, 650, this, cb.getSelectedIndex()+1, ip.getText(), controllerBox.getSelectedIndex());
+				lvl = new LevelMP(960, 650, this, cb.getSelectedIndex()+1, ip.getText(), controllerBox.getSelectedItem().toString());
 			}
 		}
 		else if(e.getActionCommand() == "coop"){
