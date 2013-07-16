@@ -67,7 +67,7 @@ public class Boss_BigEye extends Creature {
 			
 			new Thread(){
 				public void run(){
-					int maxShots=21;
+					int maxShots=21*2;
 					Projectile p=projectile;
 					for(int i=1;i<maxShots;i++){
 						
@@ -82,7 +82,7 @@ public class Boss_BigEye extends Creature {
 						shoot((int)angle, p);
 						// Sleep-Timer setzen
 		    			try {
-							Thread.sleep(1000/maxShots);
+							Thread.sleep(2000/maxShots);
 						}catch (InterruptedException e) {e.printStackTrace();}
 					}
 					attacking=false;

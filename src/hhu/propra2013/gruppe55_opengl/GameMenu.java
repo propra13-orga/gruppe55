@@ -74,7 +74,7 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 		settings = new JPanel();
 			settings.setLayout(new GridLayout(1,3));
 			cb = new JComboBox();
-				cb.addItem("TestLevel");
+//				cb.addItem("TestLevel");
 				cb.addItem("Level 1");
 				cb.addItem("Level 2");
 				cb.addItem("Level 3");
@@ -140,11 +140,11 @@ public class GameMenu extends JFrame implements ActionListener{	// ActionListene
 		if(e.getSource() == start){							//Wenn start gedrueckt, Menue unsichtbar machen & Spiel sichtbar machen
 			this.setVisible(false);
 			if(!coop.isSelected()){
-				lvl = new Level(960, 650, this, cb.getSelectedIndex(), ip.getText(), controllerBox.getSelectedIndex());
+				lvl = new Level(960, 650, this, cb.getSelectedIndex()+1, ip.getText(), controllerBox.getSelectedIndex());
 			}
 			else{
 				adress = ip.getText();
-				lvl = new LevelMP(960, 650, this, cb.getSelectedIndex(), ip.getText(), controllerBox.getSelectedIndex());
+				lvl = new LevelMP(960, 650, this, cb.getSelectedIndex()+1, ip.getText(), controllerBox.getSelectedIndex());
 			}
 		}
 		else if(e.getActionCommand() == "coop"){

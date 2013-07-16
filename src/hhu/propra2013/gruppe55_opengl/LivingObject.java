@@ -201,8 +201,6 @@ public abstract class LivingObject extends MovingObject {
         		iDmg	=	(e<element%3) ? iDmg*2 : iDmg/2;
         	}
     	}
-    	
-	    
 	    // Schaden berechnen
 		hp-=	(iDmg>0)	?	iDmg : 1;	// Mindestens muss 1 Schaden gemacht werden
 		if(hp<=0){

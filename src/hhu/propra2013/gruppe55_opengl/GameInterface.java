@@ -18,10 +18,6 @@ import java.awt.Toolkit;
 
 public class GameInterface {
 	
-	/** Die AWT-Font-Vorlagen. */
-	
-	private Font font1, font2;					//AWT-Font-Vorlagen
-	
 	/** Der TrueTypeFont der Bibliothek Slick. */
 	
 	private UnicodeFont fontDialog, fontShop;	//Slick's TrueTypeFont
@@ -55,11 +51,11 @@ public class GameInterface {
 
 	//Interface-Konstruktor
 	public GameInterface(Level t){
-		//Fonts fue das Interface konstruieren
-		font1 = new Font("fonts/VINERITC.TTF", Font.BOLD, 20);
-		font2 = new Font("fonts/VINERITC.TTF", Font.BOLD, 15);
-		fontDialog = new UnicodeFont(font1);
-		fontShop = new UnicodeFont(font2);
+		//Fonts fuer das Interface konstruieren
+		try {
+			fontDialog = new UnicodeFont("fonts/VINERITC.TTF", 20, true, false);
+			fontShop = new UnicodeFont("fonts/VINERITC.TTF", 15, true, false);
+		} catch (SlickException e1) {e1.printStackTrace();}
 		
 		fontDialog.addAsciiGlyphs();
 		fontDialog.addGlyphs(400, 600);
@@ -106,7 +102,7 @@ public class GameInterface {
 	//Dialog zeichnen
 	public void paintDialog(){
 		hud.drawHudElement(Data_Textures.dialogBox, (Display.getWidth()/2)-250, Display.getHeight()-80);	//DialogBox zeichnen
-		fontDialog.drawString((Display.getWidth()/2)-220f, (Display.getHeight()-55f), currDialog[dialogCounter]);	//Dialogzeile zeichnen
+		fontDialog.drawString((Display.getWidth()/2)-220f, (Display.getHeight()-60f), currDialog[dialogCounter]);	//Dialogzeile zeichnen
 	}
 	
 	/**
@@ -294,10 +290,6 @@ class HUD {
 	
 	private int fullScreenOffset;
 	
-	/** Die AWT-Font-Vorlagen. */
-	
-	private Font fontAwt;
-	
 	/** Der TrueTypeFont der Bibliothek Slick. */
 	
 	private UnicodeFont font;
@@ -309,8 +301,9 @@ class HUD {
 	
 	public HUD(){
 		//Fonts fuer das HUD konstruieren
-		fontAwt = new Font("fonts/VINERITC.TTF", Font.BOLD, 13);
-		font = new UnicodeFont(fontAwt);
+		try {
+			font = new UnicodeFont("fonts/VINERITC.TTF", 13, true, false);
+		} catch (SlickException e1) {e1.printStackTrace();}
 		font.addAsciiGlyphs();
 		font.addGlyphs(400, 600);
 		font.getEffects().add(new ColorEffect(Color.WHITE));
